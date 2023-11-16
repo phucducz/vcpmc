@@ -1,0 +1,87 @@
+@import 'normalize.css';
+
+:root {
+
+    --black: #000;
+    --white: #ffffff;
+    --primary: #47a0ff;
+    --color-body: #f6f6f6;
+    --color-word: #333;
+    --color-word-2: #8f9197;
+    --color-sub: #4baeef;
+    --color-sub-two: #033352;
+    --color-red: #FF4747;
+    --color-orange: rgb(255, 117, 6);
+    --color-yellow: #ffcd47;
+    --color-green: #26cd5f;
+    --bg-input: rgb(43, 43, 63);
+    --bg-page: rgb(30, 30, 46);
+
+    --height-thead: 4rem;
+    --height-tr: 7rem;
+
+    --max-width-page: 114rem;
+    --width-nav: 40rem;
+}
+
+* {
+    box-sizing: border-box;
+    font-size: 62.5%;
+}
+
+body {
+    position: relative;
+    height: 1080px;
+    font-family: 'Montserrat', sans-serif;
+    background: var(--bg-page);
+    margin: 0;
+}
+
+html *::-webkit-scrollbar {
+    width: 10px;
+}
+
+html *::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+html *::-webkit-scrollbar-thumb {
+    background: #a9a9a9;
+    border: 4px solid transparent;
+    border-radius: 8px;
+}
+
+html *::-webkit-scrollbar-thumb:hover {
+    background: #707070;
+}
+
+p,
+a,
+label,
+i,
+svg,
+option,
+select,
+h3,
+input,
+li,
+textarea {
+    font-size: 1.6rem;
+    color: var(--white);
+    margin: 0;
+    padding: 0;
+    font-family: Montserrat;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 24px;
+    letter-spacing: -0.032px;
+}
+
+h3 {
+    font-size: 3.6rem;
+    line-height: 48px;
+}
+
+textarea {
+    font-size: 1.5rem;
+}

@@ -1,0 +1,22 @@
+.language-item {
+    min-width: 13rem;
+    width: max-content;
+    height: auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px;
+    border-radius: 4px;
+    border: 1px solid rgba(200, 200, 219, 1);
+    gap: 8px;
+}
+
+.language-item__title {
+    font-size: 14px;
+}
+
+.language-item__icon {
+    width: 22px;
+    height: 22px;
+    object-fit: cover;
+}

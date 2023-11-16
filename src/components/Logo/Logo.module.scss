@@ -1,0 +1,10 @@
+.logo {
+    width: 287.5px;
+    height: auto;
+    border-radius: 100%;
+    margin: 0 auto;
+
+    &>.logo__img {
+        object-fit: cover;
+    }
+}

@@ -1,5 +1,8 @@
+@import './GlobalStyle.scss';
+
 .App {
   text-align: center;
+  background-color: var(--bg-page);
 }
 
 .App-logo {

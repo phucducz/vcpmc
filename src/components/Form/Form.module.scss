@@ -1,0 +1,19 @@
+.form {
+    display: none;
+
+    &.active {
+        display: block;
+    }
+}
+
+.form__title {
+    font-weight: 700;
+    padding: 3rem;
+    user-select: none;
+}
+
+.form__input {
+    &>div+div {
+        margin-top: 1.5rem;
+    }
+}

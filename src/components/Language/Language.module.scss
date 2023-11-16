@@ -1,0 +1,29 @@
+.language-container {
+    width: 100%;
+    height: auto;
+
+    &>.language-item {
+        position: relative;
+
+        &>div:nth-child(1) {
+            cursor: pointer;
+        }
+    }
+}
+
+.active-dropdown-true {
+    &>div:nth-child(1) {
+        border-bottom-left-radius: 0;
+        border-bottom-right-radius: 0;
+    }
+
+    &>.language-item__drop-down {
+        // display: block;
+        min-width: 13rem;
+    }
+}
+
+.top-right {
+    display: flex;
+    justify-content: flex-end;
+}
