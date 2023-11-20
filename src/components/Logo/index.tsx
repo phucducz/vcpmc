@@ -1,7 +1,7 @@
 import classNames from "classnames/bind";
 
 import style from './Logo.module.scss';
-import logo from '../../images/logo.png';
+import logo from '~/images/logo.png';
 
 const cx = classNames.bind(style);
 

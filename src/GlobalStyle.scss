@@ -12,11 +12,16 @@
     --color-sub-two: #033352;
     --color-red: #FF4747;
     --color-orange: rgb(255, 117, 6);
+    --color-orange-5: rgba(182, 81, 0, 1);
     --color-yellow: #ffcd47;
     --color-green: #26cd5f;
+    --color-gray: rgba(135, 136, 144, 1);
+
     --bg-input: rgb(43, 43, 63);
     --bg-page: rgb(30, 30, 46);
-
+    --bg-lightest: rgba(62, 62, 91, 1);
+    --bg-dark: rgba(2, 2, 32, 1);
+    --text-stroke-3: rgba(200, 200, 219, 1);
     --height-thead: 4rem;
     --height-tr: 7rem;
 
@@ -35,6 +40,14 @@ body {
     font-family: 'Montserrat', sans-serif;
     background: var(--bg-page);
     margin: 0;
+
+    &>div {
+        height: 100%;
+
+        &>div {
+            height: 100%;
+        }
+    }
 }
 
 html *::-webkit-scrollbar {
@@ -56,6 +69,7 @@ html *::-webkit-scrollbar-thumb:hover {
 }
 
 p,
+span,
 a,
 label,
 i,

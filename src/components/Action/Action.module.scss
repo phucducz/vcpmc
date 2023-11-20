@@ -1,0 +1,22 @@
+.action-container {
+    width: 11rem;
+    height: max-content;
+    display: flex;
+    position: absolute;
+    flex-direction: column;
+    align-items: center;
+    background-color: #2F2F41;
+    border-top-left-radius: 16px;
+    border-bottom-left-radius: 16px;
+}
+
+.action-container {
+    &.top-right {
+        top: 0;
+        right: 0;
+    }
+    
+    &>div+div {
+        border-top: 1px solid var(--bg-page);
+    }
+}

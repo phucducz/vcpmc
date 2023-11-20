@@ -1,0 +1,26 @@
+.account {
+    width: 132px;
+    height: 40px;
+    gap: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+}
+
+.account__info {
+    display: flex;
+    align-items: flex-start;
+    flex-direction: column;
+
+    &>.account__info__display-name>p,
+    &>.account__info__role-name>p {
+        user-select: none;
+        white-space: nowrap;
+        text-transform: capitalize;
+    }
+
+    &>.account__info__role-name>p {
+        color: var(--color-orange-5);
+    }
+}

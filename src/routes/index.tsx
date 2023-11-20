@@ -1,12 +1,17 @@
-import { routes } from "../config/routes";
-import { InfoPage } from "../pages/InfoPage";
-import { LoginPage } from "../pages/LoginPage";
-import { ResetPassPage } from "../pages/ResetPassPage";
-import { NoFoundPage } from "../pages/ResetPassPage/NoFound";
+import { routes } from "~/config/routes";
+import { LoginLayout } from "~/layouts/LoginLayout";
+import { LoginPage } from "~/pages/LoginPage";
+import { ProfilePage } from "~/pages/ProfilePage";
+import { RecordPage } from "~/pages/RecordPage";
+import { RecoverPage } from "~/pages/RecoverPage";
+import { ResetPassPage } from "~/pages/ResetPassPage";
+import { NoFoundPage } from "~/pages/ResetPassPage/NoFound";
 
 export const publicRoutes = [
-    { path: routes.Info, Component: InfoPage },
-    { path: routes.Login, Component: LoginPage },
-    { path: routes.Reset, Component: ResetPassPage },
-    { path: routes.ResetNoFound, Component: NoFoundPage }
+    { path: routes.ProfilePage, Component: ProfilePage },
+    { path: routes.LoginPage, Component: LoginPage, layout: LoginLayout },
+    { path: routes.ResetPage, Component: ResetPassPage, layout: LoginLayout },
+    { path: routes.ResetNoFoundPage, Component: NoFoundPage, layout: LoginLayout },
+    { path: routes.RecoverPage, Component: RecoverPage, layout: LoginLayout },
+    { path: routes.RecordPage, Component: RecordPage }
 ];

@@ -3,6 +3,7 @@ import { Route, Routes } from 'react-router';
 import { BrowserRouter } from 'react-router-dom';
 
 import { publicRoutes } from './routes';
+import { DefaultLayout } from './layouts/DefaultLayout';
 
 function App() {
   return (
@@ -10,9 +11,23 @@ function App() {
       <BrowserRouter>
         <Routes>
           {publicRoutes.map((route, index) => {
-            let { path, Component } = route;
+            const { path, Component: Page, layout } = route;
+            let Layout = DefaultLayout;
 
-            return <Route key={index} path={path} element={<Component />} />
+            if (layout)
+              Layout = layout;
+
+            return (
+              <Route
+                key={index}
+                path={path}
+                element={
+                  <Layout>
+                    <Page />
+                  </Layout>
+                }
+              />
+            )
           })}
         </Routes>
       </BrowserRouter>

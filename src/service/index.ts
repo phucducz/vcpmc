@@ -1,5 +1,6 @@
-import { collection, deleteDoc, doc, getDocs, query, setDoc, updateDoc, where } from "firebase/firestore";
-import { firestoreDatabase } from "../config/firebase";
+import { collection, deleteDoc, doc, getDocs, setDoc, updateDoc } from "firebase/firestore";
+
+import { firestoreDatabase } from "~/config/firebase";
 
 export const getService = async (table: string, id?: string) => {
     let resultSnapshot;
@@ -9,7 +10,7 @@ export const getService = async (table: string, id?: string) => {
     else
         resultSnapshot = await getDocs(collection(firestoreDatabase, `${table}`));
 
-    return resultSnapshot;
+    return resultSnapshot.docs.map(doc => doc.data());
 }
 
 export const saveService = async (table: string, data: any) => {

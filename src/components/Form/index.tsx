@@ -7,17 +7,18 @@ const cx = classNames.bind(style);
 
 type FormProps = {
     visible: boolean;
-    title: string;
+    title?: string;
     subTitle?: string;
     children: ReactNode;
     className?: string;
+    formRef?: any;
     onSubmit?: () => void
 }
 
-export const Form = ({ className, visible, title, subTitle, children, onSubmit }: FormProps) => {
+export const Form = ({ className, visible, title, subTitle, children, formRef, onSubmit }: FormProps) => {
     return (
-        <form className={cx('form', visible && 'active', className)} onSubmit={onSubmit}>
-            <h3 className={cx('form__title')}>{title}</h3>
+        <form ref={formRef} className={cx('form', visible && 'active', className)} onSubmit={onSubmit}>
+            {title && <h3 className={cx('form__title')}>{title}</h3>}
             {subTitle && <p className={cx('form__sub-title')}>{subTitle}</p>}
             <div className={cx('form__input')}>{children}</div>
         </form>

@@ -18,10 +18,14 @@ export type InputProps = {
     small?: boolean,
     large?: boolean,
     medium?: boolean,
-    rightIconClick?: () => void,
+    style?: Object;
+    readOnly?: boolean;
+    accept?: string;
     leftIcon?: IconProp,
-    leftIconClick?: () => void,
-    onFocus?: () => void,
+    inputRef?: any;
+    onRightIconClick?: any,
+    onLeftIconClick?: any,
+    onFocus?: any,
     onBlur?: any,
     onChange: (event: React.ChangeEvent<HTMLInputElement>) => void,
 }
@@ -38,38 +42,40 @@ function Input({
     medium,
     touched,
     errorMessage,
+    inputRef,
     onChange,
     onFocus,
     onBlur,
-    rightIconClick,
-    leftIconClick,
+    onRightIconClick,
+    onLeftIconClick,
     ...passProps
 }: InputProps) {
-    const [isInValid, setIsInValid] = useState(false);
+    const [isInvalid, setIsInvalid] = useState(false);
 
     useEffect(() => {
         if (typeof errorMessage === 'undefined')
-            setIsInValid(false);
+            setIsInvalid(false);
         else if (value === '' && touched)
-            setIsInValid(true);
+            setIsInvalid(true);
     }, [errorMessage]);
-
+    
     const handleBlur = () => {
         if (typeof errorMessage !== 'undefined')
-            setIsInValid(true);
+            setIsInvalid(true);
         else
-            setIsInValid(false);
+            setIsInvalid(false);
         onBlur && onBlur();
     }
 
     return (
-        <div className={cx('form-group', isInValid && 'invalid')}>
+        <div className={cx('form-group', isInvalid && 'invalid')}>
             {fieldName && <p className={cx('form-group__field')}>{fieldName}</p>}
             {leftIcon && <FontAwesomeIcon
                 className={cx('form-group__icon-left')}
                 icon={leftIcon}
             />}
             <input
+                ref={inputRef}
                 value={value}
                 name={name}
                 className={cx('form-group__input', { small, large, medium })}
@@ -82,7 +88,7 @@ function Input({
             {rightIcon && <FontAwesomeIcon
                 className={cx('form-group__icon-right')}
                 icon={rightIcon}
-                onClick={rightIconClick}
+                onClick={onRightIconClick}
             />}
         </div>
     );

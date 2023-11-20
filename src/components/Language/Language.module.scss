@@ -18,8 +18,8 @@
     }
 
     &>.language-item__drop-down {
-        // display: block;
         min-width: 13rem;
+        background-color: var(--bg-page);
     }
 }
 

@@ -1,6 +1,6 @@
 import * as yup from 'yup';
 
-import { languageIcon } from "../images";
+import { languageIcon } from '../images';
 
 const languages = [
     {
@@ -15,6 +15,16 @@ const languages = [
     }
 ];
 
+const ROLES = [
+    {
+        id: 1,
+        roleName: 'user'
+    }, {
+        id: 2,
+        roleName: 'admin'
+    }
+]
+
 const Yup = yup;
 
-export { languages, Yup }
+export { languages, Yup, ROLES }

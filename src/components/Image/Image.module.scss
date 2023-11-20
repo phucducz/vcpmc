@@ -1,0 +1,29 @@
+.cn-image {
+    position: relative;
+    
+    &>img {
+        border-radius: 50%;
+        object-fit: cover;
+    }
+}
+
+.profile__avatar__upload {
+    position: absolute;
+    bottom: 0;
+    right: 19%;
+    user-select: none;
+    pointer-events: none;
+    display: none;
+    
+    & svg {
+        font-size: 3rem;
+        cursor: pointer;
+        pointer-events: none;
+    }
+    
+    &.active {
+        display: block;
+        pointer-events: all;
+        cursor: pointer;
+    }
+}

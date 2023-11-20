@@ -3,18 +3,20 @@ import { useFormik } from "formik";
 import { faEye } from "@fortawesome/free-solid-svg-icons";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router";
+import { useSelector } from "react-redux";
 
 import style from './ResetPass.module.scss';
-import { Language } from "../../components/Language";
-import { Yup, languages } from "../../contants";
-import { Logo } from "../../components/Logo";
-import { Form } from "../../components/Form";
-import Input from "../../components/Input";
-import { Button } from "../../components/Button";
-import { changePassword } from "../../thunk/userThunk";
-import { useAppDispatch } from "../../store";
-import { getUserById } from "../../api/user";
-import { setDataUser } from "../../reducers/user";
+import { useAppDispatch } from "~/store";
+import { Yup } from "~/contants";
+import { changePassword } from "~/thunk/userThunk";
+import { getUserById } from "~/api/userAPI";
+import { setDataUser } from "~/reducers/user";
+import { Logo } from "~/components/Logo";
+import { Form } from "~/components/Form";
+import Input from "~/components/Input";
+import { Button } from "~/components/Button";
+import Loading from "~/components/Loading";
+import { useQuery } from "~/context";
 
 const cx = classNames.bind(style);
 
@@ -29,9 +31,10 @@ const initialPassword: ResetPasswordType = {
 }
 
 export const ResetPassPage = () => {
-    const { id } = useParams();
+    const params = useQuery();
     const navigate = useNavigate();
     const dispatch = useAppDispatch();
+    const user = useSelector((state: any) => state.user);
 
     const [inputType, setInputType] = useState<ResetPasswordType>({
         password: 'password',
@@ -41,18 +44,22 @@ export const ResetPassPage = () => {
     const resetPassFormik = useFormik({
         initialValues: initialPassword,
         validationSchema: Yup.object({
-            password: Yup.string().required(),
-            confirmPassword: Yup.string().required()
+            password: Yup
+                .string()
+                .required()
+                .matches(/^[a-zA-Z0-9]{8,}$/, 'Mật khẩu phải chứa ít nhất 8 ký tự'),
+            confirmPassword: Yup.string().required().oneOf([Yup.ref('password')], 'Mật khẩu không khớp')
         }),
         onSubmit: async (values) => {
             await dispatch(changePassword({
-                id: id || '1',
+                email: params.get('emailAddress') || '',
                 password: values.password,
                 navigate: () => navigate('/login')
             }));
         }
     });
-
+    console.log(resetPassFormik.errors);
+    
     const RESETPASS_INPUTS = [
         {
             name: "password",
@@ -65,7 +72,7 @@ export const ResetPassPage = () => {
             onChange: resetPassFormik.handleChange,
             onBlur: () => resetPassFormik.setFieldTouched('password', false),
             onFocus: () => resetPassFormik.setFieldTouched('password', true),
-            rightIconClick: () => setInputType(prev => ({
+            onRightIconClick: () => setInputType(prev => ({
                 ...prev,
                 password: prev.password === 'password' ? 'text' : 'password'
             }))
@@ -80,7 +87,7 @@ export const ResetPassPage = () => {
             onChange: resetPassFormik.handleChange,
             onBlur: () => resetPassFormik.setFieldTouched('confirmPassword', false),
             onFocus: () => resetPassFormik.setFieldTouched('confirmPassword', true),
-            rightIconClick: () => setInputType(prev => ({
+            onRightIconClick: () => setInputType(prev => ({
                 ...prev,
                 confirmPassword: prev.confirmPassword === 'password' ? 'text' : 'password'
             }))
@@ -94,31 +101,33 @@ export const ResetPassPage = () => {
             dispatch(setDataUser(result));
         }
 
-        id && fetchUserById(id);
+        // id && fetchUserById(id);
     }, []);
 
     return (
         <div className={cx('reset-container')}>
-            <Language languages={languages} placement='top-right' />
-            <div className={cx('content')}>
-                <Logo />
-                <Form
-                    visible={true}
-                    title="Đặt lại mật khẩu"
-                    onSubmit={resetPassFormik.handleSubmit}
+            <Logo />
+            <Form
+                visible={true}
+                title="Đặt lại mật khẩu"
+                onSubmit={resetPassFormik.handleSubmit}
+            >
+                {RESETPASS_INPUTS.map((input, index) => (
+                    <Input
+                        key={index}
+                        medium
+                        {...input}
+                    />
+                ))}
+                <Button
+                    as='button'
+                    type="submit"
+                    onClick={() => { }}
                 >
-                    {RESETPASS_INPUTS.map((input, index) => (
-                        <Input key={index} medium {...input} />
-                    ))}
-                    <Button
-                        as='button'
-                        type="submit"
-                        onClick={() => { }}
-                    >
-                        Lưu mật khẩu
-                    </Button>
-                </Form>
-            </div>
+                    Lưu mật khẩu
+                </Button>
+            </Form>
+            <Loading visible={user.loading} />
         </div>
     );
 }

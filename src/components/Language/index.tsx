@@ -1,8 +1,8 @@
 import classNames from "classnames/bind";
+import { useState } from "react";
 
 import style from './Language.module.scss';
 import { Item } from "./Item";
-import { useState } from "react";
 import { DropDown } from "./DropDown";
 
 const cx = classNames.bind(style);

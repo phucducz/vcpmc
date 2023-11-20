@@ -2,7 +2,7 @@ import classNames from "classnames/bind";
 import { ReactNode } from "react";
 
 import style from './Button.module.scss';
-import { Position } from "../../types";
+import { Position } from "~/types";
 
 const cx = classNames.bind(style);
 

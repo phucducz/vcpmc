@@ -1,0 +1,7 @@
+.container-layout {
+    padding: 2rem 5rem;
+
+    &>div+div {
+        margin-top: 6rem;
+    }
+}
