@@ -15,9 +15,10 @@ export type ImageProps = {
     height?: number;
     className?: string;
     edit?: boolean;
+    type?: 'img' | 'upload'
 }
 
-function Image({ src, alt, width, height, className, edit = false }: ImageProps) {
+function Image({ src, alt, width, height, className, type = 'img', edit = false }: ImageProps) {
     const imgRef = useRef<HTMLImageElement>(null);
 
     useEffect(() => {
@@ -30,7 +31,7 @@ function Image({ src, alt, width, height, className, edit = false }: ImageProps)
     return (
         <div className={cx('cn-image', className)}>
             <img ref={imgRef} src={src} alt={alt} />
-            <div className={cx('profile__avatar__upload', edit && 'active')}>
+            {type === 'upload' && <div className={cx('profile__avatar__upload', edit && 'active')}>
                 <label>
                     <FontAwesomeIcon className={cx('')} icon={faCamera} />
                     <Input
@@ -43,7 +44,7 @@ function Image({ src, alt, width, height, className, edit = false }: ImageProps)
                     // onChange={e => handleUploadClick(e.target.files[0])}
                     />
                 </label>
-            </div>
+            </div>}
         </div>
     );
 }

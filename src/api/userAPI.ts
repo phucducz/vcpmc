@@ -70,3 +70,16 @@ export const changePasswordUserById = async (data: Pick<User, 'email' | 'passwor
 
     await updateService('users', { id: id, password: password });
 }
+
+export const updateUserById = async (data: Pick<
+    User,
+    'lastName' | 'firstName' | 'dateOfBirth' | 'phoneNumber' | 'id'>
+) => {
+    try {
+        await updateService('users', data);
+        return data;
+    }
+    catch (error) {
+        return null;
+    }
+}

@@ -22,9 +22,9 @@ type ActionProps = {
     placement?: Exclude<`${HorizontalPosition}-${VerticalPosition}`, 'center-center'> | 'center'
 }
 
-export const Action = memo(({ data, className, href, placement = 'center' }: ActionProps) => {
+export const Action = memo(({ data, className, placement = 'center' }: ActionProps) => {
     if (!className) className = '';
-
+    
     const classes = cx('action-container', {
         [className]: className,
         [placement]: placement

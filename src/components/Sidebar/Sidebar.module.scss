@@ -1,7 +1,18 @@
-.navbar-container {
+.sidebar-container {
     width: 17rem;
     height: 100%;
     background-color: var(--bg-dark);
     border-top-right-radius: 24px;
     border-bottom-right-radius: 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 110px;
+}
+
+.sidebar-container__logo {
+    width: 115px;
+    height: 87px;
+    object-fit: cover;
 }

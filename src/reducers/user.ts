@@ -1,9 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-import { changePassword, login } from "../thunk/userThunk";
+import { changeInfoUserById, changePassword, login } from "../thunk/userThunk";
 import { User } from "~/api/userAPI";
 
-type Status = '' | 'Sai tên tài khoản hoặc mật khẩu' | 'loggedIn' | 'Đổi mật khẩu thất bại';
+type Status = '' | 'Sai tên tài khoản hoặc mật khẩu' | 'Đăng nhập thành công'
+    | 'Đổi mật khẩu thất bại' | 'Đổi mật khẩu thành công';
 
 type InitialStateType = {
     currentUser: User;
@@ -31,21 +32,21 @@ const userSlice = createSlice({
     extraReducers: (builder) => {
         builder
             .addCase(changePassword.pending, (state) => {
+                state.status = '';
                 state.loading = true;
             })
             .addCase(changePassword.fulfilled, (state, action) => {
                 console.log(action);
-                
+
                 if (action.payload) {
                     state.currentUser = {
                         ...state.currentUser,
                         ...action.payload
                     }
-                    // state.currentUser.password = action.payload.password;
-                    // state.currentUser.userName = action.payload.email;
                     state.loading = false;
-                    
-                    action.payload.navigate();
+                    state.status = 'Đổi mật khẩu thành công';
+
+                    action.payload.navigate && action.payload.navigate();
                 } else {
                     state.loading = false;
                     state.status = 'Đổi mật khẩu thất bại';
@@ -78,7 +79,7 @@ const userSlice = createSlice({
                         role: role || { id: '', role: '' },
                         userName: userName
                     };
-                    state.status = 'loggedIn';
+                    state.status = 'Đăng nhập thành công';
 
                     action.payload.navigate();
                 }
@@ -88,6 +89,23 @@ const userSlice = createSlice({
                 }
             })
             .addCase(login.rejected, (state, action) => {
+                state.loading = false;
+                console.log(new Error(`${action.error.name}: ${action.error.message}`));
+            })
+            .addCase(changeInfoUserById.pending, (state) => {
+                state.status = '';
+                state.loading = true;
+            })
+            .addCase(changeInfoUserById.fulfilled, (state, action) => {
+                if (action.payload) {
+                    state.currentUser = {
+                        ...state.currentUser,
+                        ...action.payload
+                    }
+                    state.loading = false;
+                }
+            })
+            .addCase(changeInfoUserById.rejected, (state, action) => {
                 state.loading = false;
                 console.log(new Error(`${action.error.name}: ${action.error.message}`));
             })

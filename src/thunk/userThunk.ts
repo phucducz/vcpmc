@@ -1,17 +1,17 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 
-import { User, changePasswordUserById, getUserById } from "../api/userAPI";
+import { User, changePasswordUserById, getUserById, updateUserById } from "../api/userAPI";
 import { Role } from "~/reducers/role";
-import { checkLogin } from "~/api/login";
+import { checkLogin } from "~/api/loginAPI";
 
 export const changePassword = createAsyncThunk(
     'user/changePassword',
-    async ({ email, password, navigate }: Pick<User, 'email' | 'password'> & {
-        navigate: () => void
-    }) => {
+    async ({ email, password, navigate }
+        : Pick<User, 'email' | 'password'> & { navigate?: () => void }
+    ) => {
         if (email !== '') {
             await changePasswordUserById({ email: email, password: password });
-            navigate();
+            navigate && navigate();
 
             return {
                 password: password,
@@ -34,7 +34,6 @@ export const login = createAsyncThunk(
 
         if (id) {
             const result = await getUserById(id, role);
-            console.log(result);
 
             return {
                 user: result,
@@ -43,5 +42,12 @@ export const login = createAsyncThunk(
         }
 
         return null;
+    }
+)
+
+export const changeInfoUserById = createAsyncThunk(
+    'user/changeInfo',
+    async (data: Pick<User, 'lastName' | 'firstName' | 'dateOfBirth' | 'phoneNumber' | 'id'>) => {
+        return await updateUserById(data);
     }
 )

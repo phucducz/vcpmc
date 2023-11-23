@@ -1,8 +1,15 @@
 .form {
     display: none;
+    transition: all .3s linear;
 
     &.active {
         display: block;
+    }
+
+    &.form-dialog {
+        top: 45%;
+        z-index: 3;
+        opacity: 0;
     }
 }
 

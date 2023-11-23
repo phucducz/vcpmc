@@ -2,12 +2,12 @@ import classNames from "classnames/bind";
 import { useFormik } from "formik";
 import { faEye } from "@fortawesome/free-solid-svg-icons";
 import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router";
+import { useNavigate } from "react-router";
 import { useSelector } from "react-redux";
 
 import style from './ResetPass.module.scss';
 import { useAppDispatch } from "~/store";
-import { Yup } from "~/contants";
+import { Yup } from "~/constants";
 import { changePassword } from "~/thunk/userThunk";
 import { getUserById } from "~/api/userAPI";
 import { setDataUser } from "~/reducers/user";
@@ -17,6 +17,7 @@ import Input from "~/components/Input";
 import { Button } from "~/components/Button";
 import Loading from "~/components/Loading";
 import { useQuery } from "~/context";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const cx = classNames.bind(style);
 
@@ -59,7 +60,7 @@ export const ResetPassPage = () => {
         }
     });
     console.log(resetPassFormik.errors);
-    
+
     const RESETPASS_INPUTS = [
         {
             name: "password",
@@ -67,7 +68,7 @@ export const ResetPassPage = () => {
             value: resetPassFormik.values.password,
             touched: resetPassFormik.touched.password,
             errorMessage: resetPassFormik.errors.password,
-            rightIcon: faEye,
+            rightIcon: <FontAwesomeIcon icon={faEye} />,
             type: inputType.password,
             onChange: resetPassFormik.handleChange,
             onBlur: () => resetPassFormik.setFieldTouched('password', false),
@@ -82,7 +83,7 @@ export const ResetPassPage = () => {
             value: resetPassFormik.values.confirmPassword,
             touched: resetPassFormik.touched.confirmPassword,
             errorMessage: resetPassFormik.errors.confirmPassword,
-            rightIcon: faEye,
+            rightIcon: <FontAwesomeIcon icon={faEye} />,
             type: inputType.confirmPassword,
             onChange: resetPassFormik.handleChange,
             onBlur: () => resetPassFormik.setFieldTouched('confirmPassword', false),

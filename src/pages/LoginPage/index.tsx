@@ -1,5 +1,6 @@
 import classNames from "classnames/bind";
 import { useFormik } from "formik";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye } from "@fortawesome/free-solid-svg-icons";
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
@@ -8,7 +9,7 @@ import { useSelector } from "react-redux";
 import style from './Login.module.scss';
 import Input, { InputProps } from "~/components/Input";
 import { RootState, useAppDispatch } from "~/store";
-import { Yup } from "~/contants";
+import { Yup } from "~/constants";
 import { login } from "~/thunk/userThunk";
 import logo from '~/images/logo.png';
 import { Form } from "~/components/Form";
@@ -28,8 +29,6 @@ export const LoginPage = () => {
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
 
-    console.log(user);
-    
     const [saveLogin, setSaveLogin] = useState(false);
     const [passwordType, setPasswordType] = useState('password');
     const [errorMessage, setErrorMessage] = useState('');
@@ -40,8 +39,8 @@ export const LoginPage = () => {
         initialValues: {
             // userName: '',
             // password: '',
-            userName: user.currentUser.userName || '',
-            password: user.currentUser.password || '',
+            userName: user.currentUser.userName || 'phucducduongvinh05102003@gmail.com',
+            password: user.currentUser.password || 'duc05102003',
             status: user.status
         },
         validationSchema: Yup.object({
@@ -77,7 +76,7 @@ export const LoginPage = () => {
             name: 'password',
             value: loginFormik.values.password,
             errorMessage: loginFormik.errors.password,
-            rightIcon: faEye,
+            rightIcon: <FontAwesomeIcon icon={faEye} />,
             type: passwordType,
             touched: loginFormik.touched.password,
             onChange: loginFormik.handleChange,

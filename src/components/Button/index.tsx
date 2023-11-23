@@ -1,5 +1,5 @@
 import classNames from "classnames/bind";
-import { ReactNode } from "react";
+import { ReactNode, memo } from "react";
 
 import style from './Button.module.scss';
 import { Position } from "~/types";
@@ -20,7 +20,7 @@ type PropsOwnButton<E extends React.ElementType> = {
 type ButtonProps<E extends React.ElementType> =
     PropsOwnButton<E> & Omit<React.ComponentProps<E>, keyof PropsOwnButton<E>>;
 
-export const Button = <E extends React.ElementType>({
+export const Button = memo(<E extends React.ElementType>({
     to,
     type,
     children,
@@ -44,7 +44,7 @@ export const Button = <E extends React.ElementType>({
     ...passProps
 }: ButtonProps<E>): any => {
     const Component = as || 'button';
-
+    
     const props = {
         onClick,
         ...passProps
@@ -78,4 +78,4 @@ export const Button = <E extends React.ElementType>({
             {rightIcon && <span className={cx('button_icon')}>{rightIcon}</span>}
         </Component>
     )
-}
+});

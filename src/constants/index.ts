@@ -1,17 +1,19 @@
 import * as yup from 'yup';
 
-import { languageIcon } from '../images';
+import { LANGUAGE_ICONS } from '../images';
 
-const languages = [
+const Yup = yup;
+
+const LANGUAGE_ITEMS = [
     {
         title: 'Tiếng Việt',
-        icon: languageIcon.vn
+        icon: LANGUAGE_ICONS.VN
     }, {
         title: 'English',
-        icon: languageIcon.en
+        icon: LANGUAGE_ICONS.EN
     }, {
         title: 'France',
-        icon: languageIcon.fn
+        icon: LANGUAGE_ICONS.FN
     }
 ];
 
@@ -23,8 +25,10 @@ const ROLES = [
         id: 2,
         roleName: 'admin'
     }
-]
+];
 
-const Yup = yup;
-
-export { languages, Yup, ROLES }
+export {
+    LANGUAGE_ITEMS,
+    Yup,
+    ROLES
+}

@@ -1,0 +1,90 @@
+.record-store-container {
+    position: relative;
+
+    &>header>h3 {
+        width: max-content;
+    }
+
+    &>.record-store {
+        width: 100%;
+        margin-top: 24px;
+
+        &>div>input {
+            padding: 12px 24px;
+        }
+    }
+}
+
+.content {
+    width: 100%;
+    position: relative;
+
+    &>.record-store__action,
+    &>.record-store__table-data {
+        width: 1541px;
+    }
+}
+
+.record-store__action {
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 24px;
+
+    &>.action__type-load {
+        &>svg {
+            cursor: pointer;
+            opacity: 1;
+            
+            &:hover {
+                opacity: .8;
+            }
+
+            &+svg {
+                margin-left: 16px;
+            }
+        }
+    }
+}
+
+.combobox-data {
+    display: flex;
+    align-items: center;
+
+    &>.combo-data {
+        display: flex;
+        align-items: center;
+
+        &>li {
+            padding-top: 0;
+            margin-left: 16px;
+            cursor: pointer;
+
+            &>ul {
+                min-width: 111px;
+                z-index: 1;
+            }
+
+            &>div {
+                z-index: 2;
+            }
+        }
+    }
+
+    &>div+div {
+        margin-left: 64px;
+    }
+}
+
+.record-store__table-data {
+    margin-top: 24px;
+
+    & .action {
+        width: max-content;
+        color: var(--color-orange-4);
+        padding: 5px 16px;
+        text-decoration: underline;
+        cursor: pointer;
+    }
+}

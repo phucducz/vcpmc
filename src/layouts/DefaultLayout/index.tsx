@@ -1,15 +1,17 @@
 import classNames from "classnames/bind";
 import { ReactNode, useEffect } from "react";
 import { useSelector } from "react-redux";
-import { RootState } from "~/store";
+import { RootState, useAppDispatch } from "~/store";
+import { useNavigate } from "react-router";
 
 import style from './DefaultLayout.module.scss';
 import { Language } from "~/components/Language";
-import { languages } from "~/contants";
+import { LANGUAGE_ITEMS } from "~/constants";
 import { Account } from "~/components/Account";
 import avtNoFound from '~/images/no-found-avt.jpg';
-import { useNavigate } from "react-router";
-import Sidebar from "~/components/Sidebar";
+import { MenuProvider } from "~/context/Menu/MenuProvider";
+import { Sidebar } from "~/components/Sidebar";
+import { getTypes } from "~/thunk/typeThunk";
 
 const cx = classNames.bind(style);
 
@@ -19,6 +21,9 @@ type DefaultLayoutProps = {
 
 export const DefaultLayout = ({ children }: DefaultLayoutProps) => {
     const user = useSelector((state: RootState) => state.user);
+
+    const dispatch = useAppDispatch();
+
     const navigate = useNavigate();
 
     const { lastName, firstName, avatar, role, id } = user.currentUser;
@@ -27,6 +32,7 @@ export const DefaultLayout = ({ children }: DefaultLayoutProps) => {
     useEffect(() => {
         try {
             if (!id) navigate('/login');
+            dispatch(getTypes());
         }
         catch {
             navigate('/login');
@@ -34,27 +40,31 @@ export const DefaultLayout = ({ children }: DefaultLayoutProps) => {
     }, []);
 
     return (
-        <div className={cx('container-layout')}>
-            <div className={cx('container-layout__left')}>
-                <Sidebar />
-            </div>
-            <div className={cx('container-layout__right')}>
-                <div className={cx('cn-header')}>
-                    <header className={cx('header')}>
-                        <Language languages={languages} placement='top-right' />
-                        <Account
-                            displayName={displayName}
-                            role={role && role.role}
-                            image={{
-                                src: typeof avatar !== 'undefined' ? `../../images/${avatar}` : avtNoFound,
-                                alt: 'avt-acc'
-                            }}
-                            onClick={() => navigate(`/profile/id/${id}`)}
-                        />
-                    </header>
+        <MenuProvider>
+            <div className={cx('container-layout')}>
+                <div className={cx('container-layout__left')}>
+                    <Sidebar />
                 </div>
-                <div className={cx('container-layout__body')}>{children}</div>
+                <div className={cx('container-layout__right')}>
+                    <div className={cx('cn-header')}>
+                        <header className={cx('header')}>
+                            <Language languages={LANGUAGE_ITEMS} placement='top-right' />
+                            <Account
+                                displayName={displayName}
+                                role={role && role.role}
+                                image={{
+                                    src: typeof avatar !== 'undefined' ? `../../images/${avatar}` : avtNoFound,
+                                    alt: 'avt-acc'
+                                }}
+                                onClick={() => navigate(`/profile/id/${id}`)}
+                            />
+                        </header>
+                    </div>
+                    <div className={cx('container-layout__body')}>
+                        {children}
+                    </div>
+                </div>
             </div>
-        </div>
+        </MenuProvider>
     );
 }

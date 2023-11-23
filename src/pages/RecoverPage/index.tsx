@@ -5,12 +5,12 @@ import { Link } from "react-router-dom";
 
 import style from './Recover.module.scss';
 import { Form } from "~/components/Form";
-import { Yup } from "~/contants";
+import { Yup } from "~/constants";
 import Input from "~/components/Input";
 import { Button } from "~/components/Button";
 import Image from "~/components/Image";
 import logo from '~/images/logo.png';
-import { sendPasswordToResetEmail } from "~/api/login";
+import { sendPasswordToResetEmail } from "~/api/loginAPI";
 import Loading from "~/components/Loading";
 import { useAppDispatch } from "~/store";
 import { setNewData } from "~/reducers/user";

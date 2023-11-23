@@ -2,24 +2,30 @@ import classNames from "classnames/bind";
 import { useSelector } from "react-redux";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit, faEye, faLock, faSignOut } from "@fortawesome/free-solid-svg-icons";
+import { faCheckCircle } from "@fortawesome/free-regular-svg-icons";
 import { useNavigate } from "react-router";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useFormik } from "formik";
 
 import style from './Profile.module.scss';
 import Image from "~/components/Image";
-import { RootState } from "~/store";
+import { RootState, useAppDispatch } from "~/store";
 import { Form } from "~/components/Form";
 import Input from "~/components/Input";
 import { Action } from "~/components/Action";
 import { Button } from "~/components/Button";
-import { Yup } from "~/contants";
+import { Yup } from "~/constants";
+import { changeInfoUserById, changePassword } from "~/thunk/userThunk";
+import Loading from "~/components/Loading";
+import { Toast } from "~/components/Toast";
 
 const cx = classNames.bind(style);
 
 export const ProfilePage = () => {
-    const user = useSelector((state: RootState) => state.user);
     const navigate = useNavigate();
+    const dispatch = useAppDispatch();
+
+    const user = useSelector((state: RootState) => state.user);
 
     const changePasswordInputRef = useRef<HTMLInputElement>(null);
     const profileInputRef = useRef<HTMLInputElement>(null);
@@ -28,8 +34,8 @@ export const ProfilePage = () => {
         isEditProfile: false,
         isEditPassword: false
     });
-
-    const ACTION_DATA = [
+    const [toastActive, setToastActive] = useState<boolean>(false);
+    const [actionData, setActionData] = useState([
         {
             icon: <FontAwesomeIcon icon={faEdit} />,
             title: 'Sửa thông tin',
@@ -43,10 +49,10 @@ export const ProfilePage = () => {
             title: 'Đăng xuất',
             onClick: () => handleActiveChangePassword()
         }
-    ];
+    ]);
 
     const { avatar, userName, lastName, firstName,
-        dateOfBirth, phoneNumber, email, role } = user.currentUser;
+        dateOfBirth, phoneNumber, email, role, id } = user.currentUser;
 
     useEffect(() => {
         try {
@@ -65,21 +71,29 @@ export const ProfilePage = () => {
             firstName: firstName,
             lastName: lastName,
             phoneNumber: phoneNumber,
-            role: '',
+            role: (role && role.role) || '',
             userName: userName
         },
         validationSchema: Yup.object({
             avatar: Yup.string().required(),
-            dateOfBirth: Yup.string().required(),
+            dateOfBirth: Yup.string().required().matches(/^(0[1-9]|[12][0-9]|3[01])[- /.](0[1-9]|1[012])[- /.](19|20)\d\d$/),
             email: Yup.string().required(),
-            firstName: Yup.string().required(),
-            lastName: Yup.string().required(),
-            phoneNumber: Yup.string().required(),
+            firstName: Yup.string().required().matches(/^[a-zA-ZÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂẾưăạảấầẩẫậắằẳẵặẹẻẽềềểếỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\s\W|_]+$/),
+            lastName: Yup.string().required().matches(/^[a-zA-ZÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂẾưăạảấầẩẫậắằẳẵặẹẻẽềềểếỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\s\W|_]+$/),
+            phoneNumber: Yup.string().required().matches(/(84|0[3|5|7|8|9])+([0-9]{8})\b/g),
             role: Yup.string().required(),
             userName: Yup.string().required()
         }),
-        onSubmit: profile => {
+        onSubmit: async (profile) => {
+            await dispatch(changeInfoUserById({
+                id: id,
+                lastName: profile.lastName,
+                firstName: profile.firstName,
+                phoneNumber: profile.phoneNumber,
+                dateOfBirth: profile.dateOfBirth
+            }));
 
+            handleCancelEditProfile();
         }
     });
 
@@ -170,12 +184,17 @@ export const ProfilePage = () => {
             confirmPasswordType: 'password'
         },
         validationSchema: Yup.object({
-            currentPassword: Yup.string().required(),
-            newPassword: Yup.string().required(),
-            confirmPassword: Yup.string().required(),
+            currentPassword: Yup.string().required().oneOf([user.currentUser.password, 'Mật khẩu hiện tại không chính xác']),
+            newPassword: Yup.string().required().matches(/^[a-zA-Z0-9]{8,}$/, 'Mật khẩu phải chứa ít nhất 8 ký tự'),
+            confirmPassword: Yup.string().required().oneOf([Yup.ref('newPassword'), 'Mật khẩu không khớp']),
         }),
-        onSubmit: values => {
+        onSubmit: async (values) => {
+            await dispatch(changePassword({
+                email: email,
+                password: values.newPassword
+            }));
 
+            handleCancelEditPassword();
         }
     });
 
@@ -184,7 +203,7 @@ export const ProfilePage = () => {
             fieldName: 'Mật khẩu hiện tại:',
             name: 'currentPassword',
             inputRef: changePasswordInputRef,
-            rightIcon: faEye,
+            rightIcon: <FontAwesomeIcon icon={faEye} />,
             value: editPassowrdFormik.values.currentPassword,
             errorMessage: editPassowrdFormik.errors.currentPassword,
             touched: editPassowrdFormik.touched.currentPassword,
@@ -196,7 +215,7 @@ export const ProfilePage = () => {
             fieldName: 'Mật khẩu mới:',
             name: 'newPassword',
             value: editPassowrdFormik.values.newPassword,
-            rightIcon: faEye,
+            rightIcon: <FontAwesomeIcon icon={faEye} />,
             errorMessage: editPassowrdFormik.errors.newPassword,
             touched: editPassowrdFormik.touched.newPassword,
             type: editPassowrdFormik.values.newPasswordType,
@@ -207,7 +226,7 @@ export const ProfilePage = () => {
             fieldName: 'Nhập lại mật khẩu mới:',
             name: 'confirmPassword',
             value: editPassowrdFormik.values.confirmPassword,
-            rightIcon: faEye,
+            rightIcon: <FontAwesomeIcon icon={faEye} />,
             errorMessage: editPassowrdFormik.errors.confirmPassword,
             touched: editPassowrdFormik.touched.confirmPassword,
             type: editPassowrdFormik.values.confirmPasswordType,
@@ -217,18 +236,43 @@ export const ProfilePage = () => {
         }
     ];
 
-    const handleActiveEditProfile = () => {
+    const handleActiveEditProfile = useCallback(() => {
         setEdit({ ...edit, isEditProfile: true });
         profileInputRef.current?.focus();
-    }
+    }, []);
 
-    const handleActiveChangePassword = () => {
+    const handleActiveChangePassword = useCallback(() => {
+        setToastActive(false);
         setEdit({ ...edit, isEditPassword: true });
-    }
+    }, []);
+
+    useEffect(() => {
+        console.log(user.status);
+
+        if (user.status === 'Đổi mật khẩu thành công') {
+            setToastActive(true);
+            return;
+        }
+
+        setToastActive(false);
+    }, [user.status]);
 
     useEffect(() => {
         edit.isEditPassword && changePasswordInputRef.current?.focus();
     }, [edit.isEditPassword]);
+
+    const handleCancelEditPassword = useCallback(() => {
+        editPassowrdFormik.setValues(editPassowrdFormik.initialValues);
+        editPassowrdFormik.setErrors(editPassowrdFormik.initialErrors);
+        editPassowrdFormik.setTouched(editPassowrdFormik.initialTouched);
+        setEdit({ ...edit, isEditPassword: false });
+    }, []);
+
+    const handleCancelEditProfile = useCallback(() => {
+        profileFormik.setErrors(profileFormik.initialErrors);
+        profileFormik.setTouched(profileFormik.initialTouched);
+        setEdit({ ...edit, isEditProfile: false });
+    }, []);
 
     return (
         <div className={cx('profile-container')}>
@@ -241,6 +285,7 @@ export const ProfilePage = () => {
                         alt='avt-admin'
                         width={273}
                         height={280}
+                        type={edit.isEditProfile ? 'upload' : 'img'}
                     />
                     <p>{firstName} {lastName}</p>
                 </div>
@@ -266,7 +311,10 @@ export const ProfilePage = () => {
                                     small
                                     outline
                                     type="button"
-                                    onClick={() => setEdit({ ...edit, isEditProfile: false })}
+                                    onClick={() => {
+                                        profileFormik.setValues(profileFormik.initialValues);
+                                        handleCancelEditProfile();
+                                    }}
                                 >
                                     Hủy
                                 </Button>
@@ -282,9 +330,10 @@ export const ProfilePage = () => {
                     </Form>
                 </div>
                 <Form
-                    className={cx('form_edit-password',)}
+                    className={cx('form_edit-password')}
                     visible={edit.isEditPassword}
                     title='Thay đổi mật khẩu'
+                    type='dialog'
                     onSubmit={editPassowrdFormik.handleSubmit}
                 >
                     {EDIT_PASSWORD_INPUTS.map(input => (
@@ -299,7 +348,7 @@ export const ProfilePage = () => {
                         small
                         outline
                         type="button"
-                        onClick={() => setEdit({ ...edit, isEditPassword: false })}
+                        onClick={handleCancelEditPassword}
                     >
                         Hủy
                     </Button>
@@ -311,8 +360,16 @@ export const ProfilePage = () => {
                         Lưu
                     </Button>
                 </Form>
-                <Action placement="top-right" data={ACTION_DATA} />
+                <Action placement="top-right" data={actionData} />
             </div>
+            <Loading visible={user.loading} />
+            <Toast
+                duration={800}
+                visible={toastActive}
+                type='success'
+                message='Đổi mật khẩu thành công!'
+                icon={<FontAwesomeIcon icon={faCheckCircle} />}
+            />
         </div>
     );
 }

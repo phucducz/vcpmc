@@ -3,7 +3,7 @@ import { ReactNode, useEffect } from "react";
 
 import style from './LayoutStyle.module.scss';
 import { Language } from "~/components/Language";
-import { languages } from "~/contants";
+import { LANGUAGE_ITEMS } from "~/constants";
 import { useAppDispatch } from "~/store";
 import { getRoles } from "~/thunk/roleThunk";
 
@@ -23,7 +23,7 @@ export const LoginLayout = ({ children }: LoginLayoutProps) => {
     return (
         <div className={cx('container-layout')}>
             <div className={cx('header')}>
-                <Language languages={languages} placement='top-right' />
+                <Language languages={LANGUAGE_ITEMS} placement='top-right' />
             </div>
             <div className={cx('container-layout__body')}>{children}</div>
         </div>

@@ -9,8 +9,8 @@ type ItemOwnProps = ItemProps
 
 export const Item = ({ title, onClick }: ItemOwnProps) => {
     return (
-        <div className={cx('item')} onClick={onClick}>
+        <li className={cx('item')} onClick={onClick}>
             <p>{title}</p>
-        </div>
+        </li>
     );
 }
