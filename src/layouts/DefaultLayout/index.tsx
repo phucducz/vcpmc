@@ -11,7 +11,7 @@ import { Account } from "~/components/Account";
 import avtNoFound from '~/images/no-found-avt.jpg';
 import { MenuProvider } from "~/context/Menu/MenuProvider";
 import { Sidebar } from "~/components/Sidebar";
-import { getTypes } from "~/thunk/typeThunk";
+import { getCategories } from "~/thunk/categoryThunk";
 
 const cx = classNames.bind(style);
 
@@ -32,7 +32,7 @@ export const DefaultLayout = ({ children }: DefaultLayoutProps) => {
     useEffect(() => {
         try {
             if (!id) navigate('/login');
-            dispatch(getTypes());
+            dispatch(getCategories());
         }
         catch {
             navigate('/login');

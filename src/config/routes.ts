@@ -4,5 +4,7 @@ export const routes = {
     RecoverPage: '/recover-password',
     ResetPage: '/reset-password',
     ResetNoFoundPage: '/reset-password/*',
-    RecordPage: '/record-management'
+    RecordPage: '/record-management',
+    EditRecord: '/record/edit/:id',
+    ApproveRecord: '/approve-record'
 }

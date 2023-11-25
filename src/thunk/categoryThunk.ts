@@ -1,11 +1,11 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { getTypeList } from "~/api/typeAPI";
+import { getCategoryList } from "~/api/categoryAPI";
 
 
-export const getTypes = createAsyncThunk(
-    'type/getTypes',
+export const getCategories = createAsyncThunk(
+    'type/getCategories',
     async () => {
-        const result = await getTypeList();
+        const result = await getCategoryList();
 
         return result.map(item => ({
             id: item.id,

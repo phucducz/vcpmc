@@ -36,7 +36,7 @@ export const login = createAsyncThunk(
             const result = await getUserById(id, role);
 
             return {
-                user: result,
+                user: { ...result, id: id },
                 navigate: () => navigate()
             }
         }

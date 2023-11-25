@@ -22,6 +22,7 @@ export type InputProps = {
     style?: Object;
     readOnly?: boolean;
     accept?: string;
+    isRequired?: boolean,
     placeholder?: string;
     leftIcon?: ReactNode,
     inputRef?: any;
@@ -45,6 +46,7 @@ function Input({
     medium,
     touched,
     errorMessage,
+    isRequired = false,
     inputRef,
     onChange,
     onFocus,
@@ -87,7 +89,10 @@ function Input({
 
     return (
         <div ref={formGroupRef} className={cx('form-group', isInvalid && 'invalid')}>
-            {fieldName && <p ref={fieldRef} className={cx('form-group__field')}>{fieldName}</p>}
+            {fieldName && <p ref={fieldRef} className={cx('form-group__field')}>
+                {fieldName}
+                {isRequired && <span className={cx(isRequired && 'require')}>*</span>}
+            </p>}
             {leftIcon && <div ref={divSvgRef} className={cx('form-group__icon-left')}>{leftIcon}</div>}
             <input
                 ref={inputRef}

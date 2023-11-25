@@ -1,7 +1,7 @@
-import { collection, doc, getDoc, getDocs, query, updateDoc, where } from "firebase/firestore";
+import { collection, doc, getDoc, getDocs, query, where } from "firebase/firestore";
 
 import { firestoreDatabase } from "../config/firebase";
-import { getService, updateService } from "../service";
+import { updateService } from "../service";
 
 type Role = {
     id: string;

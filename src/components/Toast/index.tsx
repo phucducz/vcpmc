@@ -19,7 +19,6 @@ type ToastProps = {
 
 export const Toast = memo(({ duration, icon, message, type, visible }: ToastProps) => {
     const toastRef = useRef<HTMLDivElement>(null);
-    console.log(visible);
     
     useEffect(() => {
         if (visible) {

@@ -1,5 +1,5 @@
 import classNames from "classnames/bind";
-import { memo, useEffect, useMemo, useRef, useState } from "react";
+import { memo, useMemo, useRef } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronDown } from "@fortawesome/free-solid-svg-icons";
 
@@ -21,30 +21,37 @@ type ComboBoxProps = {
     className?: string;
     active: string;
     visible?: boolean;
-    onItemClick?: (category: ComboData, ...passParams: any) => void
-    onClick: () => void
+    comboBoxRef?: any;
+    onItemClick?: (category: any, ...passParams: any) => void;
+    onBlur?: () => void;
+    onClick: () => void;
 }
 
-export const ComboBox = memo(({ title, data, className, active, visible, onClick, onItemClick }: ComboBoxProps) => {
-    const ref = useRef<HTMLUListElement>(null);
+export const ComboBox = memo(({ comboBoxRef, title, data, className, active, visible, onClick, onBlur, onItemClick }: ComboBoxProps) => {
+    const ownRef = useRef<HTMLUListElement>(null);
 
     const width = useMemo(() => {
-        if (ref.current)
-            return ref.current.offsetWidth + 20;
-    }, [ref.current]);
+        if (ownRef.current)
+            return ownRef.current.offsetWidth + 20;
+    }, [ownRef.current]);
 
     return (
         <div className={cx('combo-box-container', className)}>
             <div className={cx('combo-box__title')}>
                 <p>{title}</p>
             </div>
-            <li className={cx('combo-box__content', visible && 'active')} onClick={onClick}>
+            <li
+                className={cx('combo-box__content', visible && 'active')}
+                onClick={onClick}
+                onBlur={onBlur}
+            >
                 <div className={cx('content__active')} style={{ width: `${width}px` }}>
                     <p>{active}</p>
                     <FontAwesomeIcon icon={faChevronDown} />
+                    {/* <input style={{ display: 'block', height: `${ref.current?.offsetHeight}px` }} onBlur={() => { }} /> */}
                 </div>
                 <DropDown
-                    dropDownRef={ref}
+                    dropDownRef={comboBoxRef || ownRef}
                     title={title}
                     data={data}
                     placement="bottom-left"

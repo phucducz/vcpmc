@@ -1,0 +1,90 @@
+.common-page {
+    position: relative;
+
+    &>header>h3 {
+        width: max-content;
+    }
+
+    &>.content-container {
+        width: 100%;
+        margin-top: 24px;
+
+        &>div>input {
+            padding: 12px 24px;
+        }
+    }
+}
+
+.content {
+    width: 100%;
+    position: relative;
+
+    &>.content__action,
+    &>.content__table-data {
+        width: 1541px;
+    }
+}
+
+.content__action {
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 24px;
+
+    &>.action__type-load {
+        &>svg {
+            cursor: pointer;
+            opacity: 1;
+            
+            &:hover {
+                opacity: .8;
+            }
+
+            &+svg {
+                margin-left: 16px;
+            }
+        }
+
+        &.table-visible {
+            &>svg:first-child {
+                color: var(--color-orange);
+            }
+        }
+
+        &.grid-visible {
+            &>svg:last-child {
+                color: var(--color-orange);
+            }
+        }
+    }
+}
+
+.combobox-data {
+    display: flex;
+    align-items: center;
+
+    &>.combo-data {
+        display: flex;
+        align-items: center;
+
+        &>li {
+            padding-top: 0;
+            margin-left: 16px;
+            cursor: pointer;
+
+            &>ul {
+                min-width: 111px;
+                z-index: 1;
+            }
+
+            &>div {
+                z-index: 2;
+            }
+        }
+    }
+
+    &>div+div {
+        margin-left: 64px;
+    }
+}

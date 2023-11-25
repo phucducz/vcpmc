@@ -17,12 +17,18 @@
         transition: all .6s linear;
 
         &>ul {
-            margin-top: -5px!important;
+            margin-top: -5px !important;
             width: max-content;
             min-width: max-content;
             background-color: var(--bg-lightest);
             margin: 0;
             z-index: 0;
+        }
+
+        &>input {
+            position: absolute;
+            top: 0;
+            left: 0;
         }
     }
 }
@@ -42,5 +48,16 @@
 
     &>svg {
         color: var(--color-orange);
+    }
+
+    &>input {
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
+        opacity: 0;
+        cursor: pointer;
+        z-index: 0;
     }
 }

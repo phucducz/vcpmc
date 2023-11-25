@@ -1,0 +1,19 @@
+.paging-container {
+    width: max-content;
+    height: auto;
+    display: flex;
+    padding: 2px;
+    align-items: center;
+    gap: 4px;
+
+    &>span>a {
+        font-weight: 600;
+        text-decoration: none;
+        opacity: .5;
+    }
+
+    &>span>svg {
+        width: 24px;
+        color: var(--color-orange-3);
+    }
+}

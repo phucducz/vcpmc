@@ -1,0 +1,166 @@
+.edit-record {
+    width: 100%;
+    height: 100%;
+
+    &>header>h3 {
+        width: max-content;
+        font-size: 36px;
+        font-weight: 700;
+        line-height: 48px;
+        letter-spacing: -0.072px;
+    }
+}
+
+.edit-record-form {
+    margin-top: 24px;
+    margin-left: -5.9rem;
+}
+
+.edit-record-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 24px;
+
+    &>.record-container__left {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        gap: 24px;
+
+        &>.record__detail,
+        &>.record__authorization-info {
+            background-color: var(--bg-lighter);
+            border-radius: 8px;
+            padding: 32px 22px 16px 24px;
+        }
+
+        &>.record__detail {
+            width: 570px;
+            height: 476px;
+        }
+
+        &>.record__authorization-info {
+            width: 570px;
+            height: 258px;
+        }
+    }
+
+    &>.record-container__right {
+        &>.edit-record-info {
+            width: 743px;
+            height: 757px;
+            background-color: var(--bg-lighter);
+            border-radius: 8px;
+            padding: 32px 22px 16px 24px;
+        }
+    }
+}
+
+.record__detail__title,
+.authorization-info__title,
+.edit-record-info__title {
+    color: var(--orange-4-default);
+    font-size: 24px;
+    font-weight: 700;
+    letter-spacing: -0.048px;
+}
+
+.authorization-info__title {
+    padding-bottom: 33px;
+}
+
+.record__detail__image {
+    width: 158px;
+    height: 144px;
+    margin: 0 auto;
+
+    &>img {
+        width: 130px !important;
+        height: 130px !important;
+    }
+
+    &>div {
+        &>label>svg {
+            width: 24px;
+            height: 24px;
+            position: relative;
+            z-index: 2;
+        }
+    }
+}
+
+.record__detail__mp3 {
+    display: flex;
+    width: max-content;
+    align-items: center;
+    gap: 8px;
+    margin: 18px auto 24px auto;
+
+    &>svg {
+        color: #18E306;
+    }
+
+    &>p {
+        opacity: 0.7;
+    }
+}
+
+.content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    &>p:last-child {
+        opacity: 0.7;
+        max-width: 161px;
+        text-align: end;
+    }
+
+    &+.content {
+        margin-top: 16px;
+    }
+}
+
+.group-input {
+    &>div>p {
+        padding: 0 0 8px 0;
+    }
+
+    &>div>input {
+        width: 695px;
+        color: rgba(245, 245, 255, 1);
+        opacity: 0.7;
+    }
+
+    &>div+div {
+        margin-top: 24px !important;
+    }
+}
+
+.record-combobox {
+    &>li {
+        &>div {
+            width: 695px !important;
+            height: 48px;
+            background-color: var(--bg-lighter);
+            border-color: rgb(114, 114, 136);
+            position: relative;
+            z-index: 2;
+            cursor: pointer;
+
+            &>p {
+                opacity: .7;
+            }
+        }
+
+        &>ul {
+            z-index: 1 !important;
+        }
+    }
+}
+
+.form__action>button {
+    width: 208px;
+    height: 56px;
+}

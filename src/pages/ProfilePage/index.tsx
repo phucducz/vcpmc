@@ -35,6 +35,7 @@ export const ProfilePage = () => {
         isEditPassword: false
     });
     const [toastActive, setToastActive] = useState<boolean>(false);
+    const [actionActive, setActionAcitve] = useState<boolean>(true);
     const [actionData, setActionData] = useState([
         {
             icon: <FontAwesomeIcon icon={faEdit} />,
@@ -203,7 +204,10 @@ export const ProfilePage = () => {
             fieldName: 'Mật khẩu hiện tại:',
             name: 'currentPassword',
             inputRef: changePasswordInputRef,
-            rightIcon: <FontAwesomeIcon icon={faEye} />,
+            rightIcon: <FontAwesomeIcon
+                icon={faEye}
+                onClick={() => editPassowrdFormik.setFieldValue('currentPasswordType', editPassowrdFormik.values.currentPasswordType === 'password' ? 'text' : 'password')}
+            />,
             value: editPassowrdFormik.values.currentPassword,
             errorMessage: editPassowrdFormik.errors.currentPassword,
             touched: editPassowrdFormik.touched.currentPassword,
@@ -215,7 +219,10 @@ export const ProfilePage = () => {
             fieldName: 'Mật khẩu mới:',
             name: 'newPassword',
             value: editPassowrdFormik.values.newPassword,
-            rightIcon: <FontAwesomeIcon icon={faEye} />,
+            rightIcon: <FontAwesomeIcon
+                icon={faEye}
+                onClick={() => editPassowrdFormik.setFieldValue('newPasswordType', editPassowrdFormik.values.newPasswordType === 'password' ? 'text' : 'password')}
+            />,
             errorMessage: editPassowrdFormik.errors.newPassword,
             touched: editPassowrdFormik.touched.newPassword,
             type: editPassowrdFormik.values.newPasswordType,
@@ -226,7 +233,10 @@ export const ProfilePage = () => {
             fieldName: 'Nhập lại mật khẩu mới:',
             name: 'confirmPassword',
             value: editPassowrdFormik.values.confirmPassword,
-            rightIcon: <FontAwesomeIcon icon={faEye} />,
+            rightIcon: <FontAwesomeIcon
+                icon={faEye}
+                onClick={() => editPassowrdFormik.setFieldValue('confirmPasswordType', editPassowrdFormik.values.confirmPasswordType === 'password' ? 'text' : 'password')}
+            />,
             errorMessage: editPassowrdFormik.errors.confirmPassword,
             touched: editPassowrdFormik.touched.confirmPassword,
             type: editPassowrdFormik.values.confirmPasswordType,
@@ -237,18 +247,18 @@ export const ProfilePage = () => {
     ];
 
     const handleActiveEditProfile = useCallback(() => {
+        setActionAcitve(false);
         setEdit({ ...edit, isEditProfile: true });
         profileInputRef.current?.focus();
     }, []);
 
     const handleActiveChangePassword = useCallback(() => {
+        setActionAcitve(false);
         setToastActive(false);
         setEdit({ ...edit, isEditPassword: true });
     }, []);
 
     useEffect(() => {
-        console.log(user.status);
-
         if (user.status === 'Đổi mật khẩu thành công') {
             setToastActive(true);
             return;
@@ -266,12 +276,14 @@ export const ProfilePage = () => {
         editPassowrdFormik.setErrors(editPassowrdFormik.initialErrors);
         editPassowrdFormik.setTouched(editPassowrdFormik.initialTouched);
         setEdit({ ...edit, isEditPassword: false });
+        setActionAcitve(true);
     }, []);
 
     const handleCancelEditProfile = useCallback(() => {
         profileFormik.setErrors(profileFormik.initialErrors);
         profileFormik.setTouched(profileFormik.initialTouched);
         setEdit({ ...edit, isEditProfile: false });
+        setActionAcitve(true);
     }, []);
 
     return (
@@ -341,7 +353,6 @@ export const ProfilePage = () => {
                             key={input.name}
                             medium
                             {...input}
-                            onRightIconClick={() => editPassowrdFormik.setFieldValue(`${input.name}Type`, input.type === 'password' ? 'text' : 'password')}
                         />
                     ))}
                     <Button
@@ -360,7 +371,7 @@ export const ProfilePage = () => {
                         Lưu
                     </Button>
                 </Form>
-                <Action placement="top-right" data={actionData} />
+                <Action visible={actionActive} placement="top-right" data={actionData} />
             </div>
             <Loading visible={user.loading} />
             <Toast

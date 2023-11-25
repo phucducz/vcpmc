@@ -20,6 +20,10 @@
     width: max-content;
     height: auto;
     padding: 1rem 0;
+
+    &>span.require {
+        color: var(--color-red);
+    }
 }
 
 .form-group__input {

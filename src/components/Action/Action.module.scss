@@ -1,5 +1,5 @@
 .action-container {
-    width: 11rem;
+    width: 0;
     height: max-content;
     display: flex;
     position: absolute;
@@ -8,6 +8,8 @@
     background-color: #2F2F41;
     border-top-left-radius: 16px;
     border-bottom-left-radius: 16px;
+    overflow-x: hidden;
+    transition: width .3s linear;
 }
 
 .action-container {
@@ -15,8 +17,18 @@
         top: 0;
         right: 0;
     }
-    
-    &>div+div {
-        border-top: 1px solid var(--bg-page);
+
+    &>div {
+        & p {
+            width: max-content;
+        }
+
+        &+div {
+            border-top: 1px solid var(--bg-page);
+        }
+    }
+
+    &.active {
+        width: 11rem;
     }
 }

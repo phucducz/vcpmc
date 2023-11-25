@@ -1,6 +1,6 @@
 .cn-image {
     position: relative;
-    
+
     &>img {
         border-radius: 50%;
         object-fit: cover;
@@ -9,21 +9,42 @@
 
 .profile__avatar__upload {
     position: absolute;
-    bottom: 0;
+    bottom: 10%;
     right: 19%;
     user-select: none;
     pointer-events: none;
     display: none;
-    
+
     & svg {
         font-size: 3rem;
         cursor: pointer;
         pointer-events: none;
+        z-index: 2;
     }
-    
+
     &.active {
         display: block;
         pointer-events: all;
         cursor: pointer;
+    }
+
+    &.bg-active {
+        & label {
+            position: relative;
+            z-index: 2;
+        }
+        
+        &::after {
+            content: '';
+            display: block;
+            width: 40px;
+            height: 40px;
+            background-color: #347AFF;
+            position: absolute;
+            bottom: -5%;
+            right: -30%;
+            border-radius: 50px;
+            z-index: 1;
+        }
     }
 }

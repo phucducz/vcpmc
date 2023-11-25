@@ -81,6 +81,12 @@ table {
                 align-items: center;
                 justify-content: space-between;
                 gap: 8px;
+
+                &>div>input {
+                    width: 48.374px;
+                    padding: 6px 16.187px 5px 16.187px;
+                    border-color: var(--color-orange-4);
+                }
             }
         }
     }
@@ -105,7 +111,7 @@ table {
     transform: translate(-50%, -50%);
     z-index: 21;
     background-color: rgba(47, 47, 65, 0.7);
-    
+
     &.active {
         display: block;
     }

@@ -8,12 +8,16 @@ export { default as calendarIcon } from './calendar-icon';
 export { default as searchIcon } from './search-icon';
 export { default as listTabGridIcon } from './list-tab-grid-icon';
 export { default as listTabListIcon } from './list-tab-list-icon';
+export { default as musicIcon } from './music-icon';
+export { default as cameraIcon } from './camera-icon';
 
 export type IconProps = {
     icon: any;
     style?: any;
+    className?: string;
+    onClick?: () => void
 }
 
-export const Icon = ({ icon: Icon, style, ...passProps }: IconProps) => {
-    return <Icon style={style} {...passProps} />;
+export const Icon = ({ icon: Icon, style, className, onClick, ...passProps }: IconProps) => {
+    return <Icon style={style} {...passProps} className={className} onClick={onClick} />;
 }

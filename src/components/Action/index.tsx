@@ -19,19 +19,20 @@ type ActionProps = {
     data: Array<ActionDataType>;
     className?: string;
     href?: string;
-    placement?: Exclude<`${HorizontalPosition}-${VerticalPosition}`, 'center-center'> | 'center'
+    placement?: Exclude<`${HorizontalPosition}-${VerticalPosition}`, 'center-center'> | 'center';
+    visible?: boolean;
 }
 
-export const Action = memo(({ data, className, placement = 'center' }: ActionProps) => {
+export const Action = memo(({ data, className, placement = 'center', visible }: ActionProps) => {
     if (!className) className = '';
-    
-    const classes = cx('action-container', {
-        [className]: className,
-        [placement]: placement
-    });
 
     return (
-        <div className={classes}>
+        <div
+            className={cx('action-container', visible && 'active', {
+                [className]: className,
+                [placement]: placement
+            })}
+        >
             {data.map((item: ActionDataType, index: number) => (
                 <Item
                     key={index}

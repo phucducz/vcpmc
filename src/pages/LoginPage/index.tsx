@@ -61,6 +61,12 @@ export const LoginPage = () => {
         }
     });
 
+    const handleRightIconClick = () => {
+        passwordType === 'password'
+            ? setPasswordType('text')
+            : setPasswordType('password');
+    }
+
     const LOGIN_INPUTS: Array<LoginInputProps> = [
         {
             fieldName: 'Tên đăng nhập',
@@ -76,21 +82,14 @@ export const LoginPage = () => {
             name: 'password',
             value: loginFormik.values.password,
             errorMessage: loginFormik.errors.password,
-            rightIcon: <FontAwesomeIcon icon={faEye} />,
+            rightIcon: <FontAwesomeIcon icon={faEye} onClick={handleRightIconClick} />,
             type: passwordType,
             touched: loginFormik.touched.password,
             onChange: loginFormik.handleChange,
-            onRightIconClick: () => handleRightIconClick(),
             onFocus: () => loginFormik.setFieldTouched('password', true),
             onBlur: () => loginFormik.setFieldTouched('password', false)
         }
     ];
-
-    const handleRightIconClick = () => {
-        passwordType === 'password'
-            ? setPasswordType('text')
-            : setPasswordType('password');
-    }
 
     useEffect(() => {
         if (role.loading) setLoading(true);

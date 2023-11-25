@@ -1,5 +1,5 @@
 import classNames from "classnames/bind";
-import { ReactNode, memo } from "react";
+import { ChangeEvent, ReactNode, memo, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronLeft, faChevronRight } from "@fortawesome/free-solid-svg-icons";
 
@@ -10,10 +10,16 @@ const cx = classNames.bind(style);
 
 type TableProps = {
     children: ReactNode;
-    loading: boolean
+    loading: boolean;
+    showNumber: number;
+    setShowNumber(number: number): void;
 }
 
-export const Table = memo(({ children, loading = false }: TableProps) => {
+export const Table = memo(({ children, loading = false, showNumber, setShowNumber }: TableProps) => {
+    useEffect(() => {
+        setShowNumber(showNumber);
+    }, [showNumber]);
+    
     return (
         <table className={cx('table-container')}>
             <thead>
@@ -38,7 +44,12 @@ export const Table = memo(({ children, loading = false }: TableProps) => {
                         <div className={cx('table__option__container')}>
                             <span>
                                 <p>Hiển thị</p>
-                                <Input tiny value={2} name='number' onChange={() => { }} />
+                                <Input
+                                    tiny
+                                    value={showNumber}
+                                    name='number'
+                                    onChange={(e: ChangeEvent<HTMLInputElement>) => setShowNumber(parseInt(e.target.value))}
+                                />
                                 <p>hàng trong mỗi trang</p>
                             </span>
                             <span className={cx('table__page-number')}>

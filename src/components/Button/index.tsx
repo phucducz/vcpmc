@@ -22,7 +22,6 @@ type ButtonProps<E extends React.ElementType> =
 
 export const Button = memo(<E extends React.ElementType>({
     to,
-    type,
     children,
     className,
     tiny = false,

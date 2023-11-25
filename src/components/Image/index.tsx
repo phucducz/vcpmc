@@ -2,9 +2,8 @@ import classNames from "classnames/bind";
 import { memo, useEffect, useRef } from "react";
 
 import style from './Image.module.scss';
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Input from "../Input";
-import { faCamera } from "@fortawesome/free-solid-svg-icons";
+import { Icon, cameraIcon } from "~/icons";
 
 const cx = classNames.bind(style);
 
@@ -15,10 +14,11 @@ export type ImageProps = {
     height?: number;
     className?: string;
     edit?: boolean;
-    type?: 'img' | 'upload'
+    type?: 'img' | 'upload';
+    isBG?: boolean
 }
 
-function Image({ src, alt, width, height, className, type = 'img', edit = false }: ImageProps) {
+function Image({ isBG, src, alt, width, height, className, type = 'img', edit = false }: ImageProps) {
     const imgRef = useRef<HTMLImageElement>(null);
 
     useEffect(() => {
@@ -31,9 +31,9 @@ function Image({ src, alt, width, height, className, type = 'img', edit = false 
     return (
         <div className={cx('cn-image', className)}>
             <img ref={imgRef} src={src} alt={alt} />
-            {type === 'upload' && <div className={cx('profile__avatar__upload', edit && 'active')}>
+            {type === 'upload' && <div className={cx('profile__avatar__upload', edit && 'active', isBG && 'bg-active')}>
                 <label>
-                    <FontAwesomeIcon className={cx('')} icon={faCamera} />
+                    <Icon icon={cameraIcon} />
                     <Input
                         name='avatar'
                         value=''

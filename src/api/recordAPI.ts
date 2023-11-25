@@ -1,17 +1,49 @@
-import { getService } from "~/service";
-import { Type } from "./typeAPI";
+import { saveService } from "~/service";
+import { Category } from "./categoryAPI";
+import { collection, getDocs } from "firebase/firestore";
+import { firestoreDatabase } from "~/config/firebase";
 
 export type Record = {
-    author: string;
-    singer: string;
+    id: string;
     ISRCCode: string;
+    approvalDate: string;
+    approveBy: string;
+    author: string;
+    category: Category;
+    contractId: string;
+    createdBy: string;
+    createdDate: string;
     expiryDate: string;
-    time: string;
+    format: string;
     nameRecord: string;
-    format: 'Ballad' | 'Pop' | 'EDM';
-    type: Type;
+    producer: string;
+    singer: string;
+    time: string;
+    expirationDate?: Date
 }
 
 export const getRecordList = async () => {
-    return await getService('records');
+    const resultSnapshot = getDocs(collection(firestoreDatabase, 'records'));
+
+    return (await resultSnapshot).docs.map(doc => ({
+        id: doc.id,
+        ISRCCode: doc.data().ISRCCode,
+        approvalDate: doc.data().approvalDate,
+        approveBy: doc.data().approveBy,
+        author: doc.data().author,
+        categoriesId: doc.data().categoriesId,
+        contractId: doc.data().contractId,
+        createdBy: doc.data().createdBy,
+        createdDate: doc.data().createdDate,
+        expiryDate: doc.data().expiryDate,
+        format: doc.data().format,
+        nameRecord: doc.data().nameRecord,
+        producer: doc.data().producer,
+        singer: doc.data().singer,
+        time: doc.data().time
+    }));
+}
+
+export const addRecord = async (record: Omit<Record, 'category'> & { categoriesId: string }) => {
+    await saveService('records', record);
 }
