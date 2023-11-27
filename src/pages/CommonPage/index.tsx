@@ -1,21 +1,26 @@
 import classNames from "classnames/bind";
-import { ReactNode, memo } from "react";
+import { ReactNode, memo, useState } from "react";
 
 import style from './CommonPage.module.scss';
 import Input from "~/components/Input";
 import { Icon, searchIcon } from "~/icons";
 import { ComboBox } from "~/components/ComboBox";
 import { Action } from "~/components/Action";
+import { Paging, PagingItemType } from "~/components/Paging";
 
 const cx = classNames.bind(style);
 
 type CommonPageProps = {
-    comboBoxData: Array<any>;
+    title: string;
+    pagingData?: Array<PagingItemType>
+    comboBoxData?: Array<any>;
+    comboBoxRef?: any;
     onComboBoxClick?(item: any): void;
     onComboBoxItemClick?(...passParams: any): void;
     actionType?: ReactNode;
     children: ReactNode;
     actionData?: Array<any>;
+    comboBoxRender?: ReactNode;
     search?: {
         placeHolder: string;
         searchValue: string;
@@ -23,15 +28,16 @@ type CommonPageProps = {
     }
 }
 
-export const CommonPage = memo(({ comboBoxData, actionType, actionData, search, children, onComboBoxClick, onComboBoxItemClick }: CommonPageProps) => {
-
+// export const CommonPage = memo(({ title, comboBoxRef, comboBoxData, onComboBoxClick, onComboBoxItemClick, comboBoxRender, pagingData, actionType, actionData, search, children }: CommonPageProps) => {
+export const CommonPage = memo(({ title, comboBoxData, comboBoxRef, pagingData, actionType, actionData = [], search, children, onComboBoxClick, onComboBoxItemClick }: CommonPageProps) => {
     const handleComboBoxClick = (item: any) => {
         onComboBoxClick && onComboBoxClick(item);
     }
 
     return (
         <div className={cx('common-page')}>
-            <header><h3>Kho bản ghi</h3></header>
+            {pagingData && <Paging data={pagingData} />}
+            <header><h3>{title}</h3></header>
             <div className={cx('content-container')}>
                 {search && <Input
                     large
@@ -43,9 +49,10 @@ export const CommonPage = memo(({ comboBoxData, actionType, actionData, search, 
                 />}
                 <div className={cx('content')}>
                     <div className={cx('content__action')}>
-                        <div className={cx('combobox-data')}>
-                            {comboBoxData.map((item, index) => (
+                        <div className={cx('combo-box-data')}>
+                            {comboBoxData?.length && comboBoxData.map((item, index) => (
                                 <ComboBox
+                                    comboBoxRef={comboBoxRef}
                                     key={index}
                                     title={item.title}
                                     active={item.activeData}
@@ -57,10 +64,10 @@ export const CommonPage = memo(({ comboBoxData, actionType, actionData, search, 
                                 />
                             ))}
                         </div>
-                        {actionType && actionType}
+                        {actionType && <div className={cx('action-type-container')}>{actionType}</div>}
                     </div>
                     {children}
-                    <Action visible={true} placement="top-right" data={actionData || []} />
+                    <Action visible={true} placement="top-right" data={actionData} />
                 </div>
             </div>
         </div >

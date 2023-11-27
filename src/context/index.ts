@@ -33,3 +33,9 @@ export const formatDateMDY = (date: string) => {
 
     return dateList[1] + '/' + dateList[0] + '/' + dateList[2];
 }
+
+export const formatToLocalStringCurrentDate = () => {
+    let date = new Date();
+    
+    return `${formatDateDMY(date)} - ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`;
+}

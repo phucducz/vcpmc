@@ -5,7 +5,7 @@ import style from './CheckBox.module.scss';
 const cx = classNames.bind(style);
 
 type CheckBoxProps = {
-    title: string,
+    title?: string,
     checked: boolean,
     onChange: (event: React.ChangeEvent<HTMLInputElement>) => void
 }
@@ -26,7 +26,7 @@ export const CheckBox = ({
                 checked={checked}
                 {...passProps}
             />
-            <label htmlFor={title}>{title}</label>
+            {title && <label htmlFor={title}>{title}</label>}
         </div>
     );
 }

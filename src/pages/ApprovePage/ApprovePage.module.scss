@@ -11,3 +11,46 @@
         margin-bottom: 24px;
     }
 }
+
+.action__type-load {
+    &>svg {
+        cursor: pointer;
+        opacity: 1;
+
+        &:hover {
+            opacity: .8;
+        }
+
+        &+svg {
+            margin-left: 16px;
+        }
+    }
+
+    &.table-visible {
+        &>svg:first-child {
+            color: var(--color-orange);
+        }
+    }
+
+    &.grid-visible {
+        &>svg:last-child {
+            color: var(--color-orange);
+        }
+    }
+}
+
+.approve-container-table-data {
+    &>table>tbody>tr>td:first-child>div {
+        width: max-content;
+        min-width: max-content;
+    }
+
+    & .header-children {
+        padding: 8px 0px 8px 8px;
+    }
+}
+
+.header-children>div {
+    width: max-content;
+    min-width: max-content;
+}

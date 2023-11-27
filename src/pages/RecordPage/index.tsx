@@ -52,7 +52,7 @@ type GridItemProps = {
     boxItemData: Array<BoxItemType>;
 }
 
-const GridItem = memo(({ data, boxItemData }: GridItemProps) => {
+export const GridItem = memo(({ data, boxItemData }: GridItemProps) => {
     const navigate = useNavigate();
 
     return (
@@ -238,7 +238,7 @@ export const RecordPage = () => {
                 data.title === id ? { ...data, activeData: item.title } : data
             )
         );
-    }, [])
+    }, []);
 
     const handleChange = (value: number) => {
         setShowNumber(value);
@@ -254,6 +254,7 @@ export const RecordPage = () => {
 
     return (
         <CommonPage
+            title='Kho bản ghi'
             search={{
                 placeHolder: 'Tên bản ghi, ca sĩ,...',
                 searchValue: searchValue,
@@ -270,7 +271,7 @@ export const RecordPage = () => {
             }
             actionData={actionData}
         >
-            <div className={cx('record-store__table-data')}>
+            <div className={cx('container-table-data')}>
                 {typeLoad === 'grid'
                     ? <Grid loading={record.loading} showNumber={showNumber || 0} setShowNumber={handleChange}>
                         {recordData.map(item => {
@@ -292,7 +293,13 @@ export const RecordPage = () => {
                             />
                         })}
                     </Grid>
-                    : <Table loading={record.loading} showNumber={showNumber || 0} setShowNumber={handleChange}>
+                    : <Table
+                        loading={record.loading}
+                        showNumber={showNumber || 0}
+                        setShowNumber={handleChange}
+                        thead={['STT', 'Tên bản ghi', 'Mã ISRC', 'Thời lượng', 'Ca sĩ',
+                            'Tác giả', 'Thể loại', 'Định dạng', 'Thời hạn sử dụng', '', '']}
+                    >
                         {recordData.map((item, index) => {
                             let expiryDateRecord = new Date(formatDateMDY(item.expiryDate));
                             let isExpiry = expiryDateRecord < new Date(getCurrentDate());
@@ -321,100 +328,5 @@ export const RecordPage = () => {
                     </Table>}
             </div>
         </CommonPage >
-        // <div className={cx('record-store-container')}>
-        //     <header><h3>Kho bản ghi</h3></header>
-        //     <div className={cx('record-store')}>
-        //         <Input
-        //             large
-        //             name='search'
-        //             value={searchValue}
-        //             onChange={(e: any) => setSearchValue(e.target.value)}
-        //             placeholder="Tên bản ghi, ca sĩ,..."
-        //             rightIcon={<Icon icon={searchIcon} style={{ color: 'var(--white)' }} />}
-        //         />
-        //         <div className={cx('content')}>
-        //             <div className={cx('record-store__action')}>
-        //                 <div className={cx('combobox-data')}>
-        //                     {comboBoxData.map((item, index) => (
-        //                         <ComboBox
-        //                             key={index}
-        //                             title={item.title}
-        //                             active={item.activeData}
-        //                             visible={item.visible}
-        //                             data={item.data}
-        //                             className={cx('combo-data')}
-        //                             onClick={() => setComboBoxData(prev =>
-        //                                 prev.map(data =>
-        //                                     data.title === item.title ? { ...data, visible: !item.visible } : data
-        //                                 )
-        //                             )}
-        //                             onBlur={() => setComboBoxData(prev =>
-        //                                 prev.map(data =>
-        //                                     data.title === item.title ? { ...data, visible: !item.visible } : data
-        //                                 )
-        //                             )}
-        // onItemClick={handleSetCategory}
-        //                         />
-        //                     ))}
-        //                 </div>
-        //                 <div className={cx('action__type-load', typeLoad === 'table' ? 'table-visible' : 'grid-visible')}>
-        //                     <Icon icon={listTabListIcon} onClick={() => setTypeLoad('table')} />
-        //                     <Icon icon={listTabGridIcon} onClick={() => setTypeLoad('grid')} />
-        //                 </div>
-        //             </div>
-        //             <div className={cx('record-store__table-data')}>
-        //                 {typeLoad === 'grid'
-        //                     ? <Grid loading={record.loading} showNumber={showNumber || 0} setShowNumber={handleChange}>
-        //                         {recordData.map(item => {
-        //                             return <GridItem
-        //                                 key={item.ISRCCode}
-        //                                 data={item}
-        //                                 boxItemData={[
-        //                                     {
-        //                                         title: 'Thể loại',
-        //                                         content: item.category.name
-        //                                     }, {
-        //                                         title: 'Định dạng',
-        //                                         content: item.format
-        //                                     }, {
-        //                                         title: 'Thời lượng',
-        //                                         content: item.time
-        //                                     }
-        //                                 ]}
-        //                             />
-        //                         })}
-        //                     </Grid>
-        //                     : <Table loading={record.loading} showNumber={showNumber || 0} setShowNumber={handleChange}>
-        //                         {recordData.map((item, index) => {
-        //                             let expiryDateRecord = new Date(formatDateMDY(item.expiryDate));
-        //                             let isExpiry = expiryDateRecord < new Date(getCurrentDate());
-
-        //                             if (index > showNumber - 1) return null;
-
-        //                             return (
-        //                                 <tr key={index} style={{ height: '47px' }} className={cx('content')}>
-        //                                     <td><p>{index + 1}</p></td>
-        //                                     <td><p>{item.nameRecord}</p></td>
-        //                                     <td><p>{item.ISRCCode}</p></td>
-        //                                     <td><p>{item.time}</p></td>
-        //                                     <td><p>{item.singer}</p></td>
-        //                                     <td><p>{item.author}</p></td>
-        //                                     <td><p>{item.category.name}</p></td>
-        //                                     <td><p>{item.format}</p></td>
-        //                                     <td className={cx('table-data__expiry-date', isExpiry ? 'expiry' : 'still-expiry')}>
-        //                                         <p>{isExpiry ? 'Hết thời hạn' : 'Còn thời hạn'}</p>
-        //                                         <p>{item.expiryDate}</p>
-        //                                     </td>
-        //                                     <td><p className={cx('action')} onClick={() => navigate(`/record/edit/${item.ISRCCode}`)}>Cập nhật</p></td>
-        //                                     <td><p className={cx('action')}>Nghe</p></td>
-        //                                 </tr>
-        //                             )
-        //                         })}
-        //                     </Table>}
-        //             </div>
-        //             <Action visible={true} placement="top-right" data={actionData} />
-        //         </div>
-        //     </div>
-        // </div>
     );
 }

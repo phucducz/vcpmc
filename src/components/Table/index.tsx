@@ -10,31 +10,24 @@ const cx = classNames.bind(style);
 
 type TableProps = {
     children: ReactNode;
+    headerChildren?: ReactNode;
     loading: boolean;
     showNumber: number;
+    thead: Array<string>
     setShowNumber(number: number): void;
 }
 
-export const Table = memo(({ children, loading = false, showNumber, setShowNumber }: TableProps) => {
+export const Table = memo(({ headerChildren, children, thead, loading = false, showNumber, setShowNumber }: TableProps) => {
     useEffect(() => {
         setShowNumber(showNumber);
     }, [showNumber]);
-    
+
     return (
         <table className={cx('table-container')}>
             <thead>
                 <tr>
-                    <th><p>STT</p></th>
-                    <th><p>Tên bản ghi</p></th>
-                    <th><p>Mã ISRC</p></th>
-                    <th><p>Thời lượng</p></th>
-                    <th><p>Ca sĩ</p></th>
-                    <th><p>Tác giả</p></th>
-                    <th><p>Thể loại</p></th>
-                    <th><p>Định dạng</p></th>
-                    <th><p>Thời hạn sử dụng</p></th>
-                    <th></th>
-                    <th></th>
+                    {headerChildren && headerChildren}
+                    {thead.map((th, index) => <th key={index}><p>{th}</p></th>)}
                 </tr>
             </thead>
             <tbody>

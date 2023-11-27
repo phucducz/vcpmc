@@ -1,13 +1,15 @@
-import { saveService } from "~/service";
+import { getService, saveService } from "~/service";
 import { Category } from "./categoryAPI";
-import { collection, getDocs } from "firebase/firestore";
+import { Timestamp, collection, doc, getDoc, getDocs, query, writeBatch } from "firebase/firestore";
 import { firestoreDatabase } from "~/config/firebase";
+import { Contract, getContractById } from "./contractAPI";
+import { RecordDataType } from "~/pages/ApprovePage";
 
 export type Record = {
     id: string;
     ISRCCode: string;
     approvalDate: string;
-    approveBy: string;
+    approvalBy: string;
     author: string;
     category: Category;
     contractId: string;
@@ -19,7 +21,8 @@ export type Record = {
     producer: string;
     singer: string;
     time: string;
-    expirationDate?: Date
+    expirationDate?: Timestamp | string;
+    // contract: Contract
 }
 
 export const getRecordList = async () => {
@@ -29,13 +32,14 @@ export const getRecordList = async () => {
         id: doc.id,
         ISRCCode: doc.data().ISRCCode,
         approvalDate: doc.data().approvalDate,
-        approveBy: doc.data().approveBy,
+        approvalBy: doc.data().approvalBy,
         author: doc.data().author,
         categoriesId: doc.data().categoriesId,
         contractId: doc.data().contractId,
         createdBy: doc.data().createdBy,
         createdDate: doc.data().createdDate,
         expiryDate: doc.data().expiryDate,
+        expirationDate: doc.data().expirationDate,
         format: doc.data().format,
         nameRecord: doc.data().nameRecord,
         producer: doc.data().producer,
@@ -44,6 +48,29 @@ export const getRecordList = async () => {
     }));
 }
 
+export const getContractList = async () => {
+    const q = query(
+        collection(firestoreDatabase, 'contract')
+    );
+
+    const querySnapshot = await getDocs(q);
+
+    return querySnapshot.docs.map(doc => ({
+        ...doc.data(),
+        id: doc.id
+    }));
+}
+
 export const addRecord = async (record: Omit<Record, 'category'> & { categoriesId: string }) => {
     await saveService('records', record);
+}
+
+export const approveRecords = async (records: Array<Omit<RecordDataType, 'category' | 'contract'> & { categoriesId: string }>) => {
+    const batch = writeBatch(firestoreDatabase);
+
+    records.forEach(record => {
+        batch.set(doc(firestoreDatabase, "records", record.id), record);
+    });
+
+    await batch.commit();
 }

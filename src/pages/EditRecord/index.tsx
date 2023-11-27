@@ -21,6 +21,7 @@ import { saveRecord } from "~/thunk/recordThunks";
 import { Category } from "~/api/categoryAPI";
 import Loading from "~/components/Loading";
 import { User, getUserById } from "~/api/userAPI";
+import { Timestamp } from "firebase/firestore";
 
 const cx = classNames.bind(style);
 
@@ -70,7 +71,7 @@ export const EditRecord = () => {
             category: {} as Category,
             contractId: '',
             createdBy: {} as User,
-            approveBy: {} as User,
+            approvalBy: {} as User,
             createdDate: '',
             expiryDate: '',
             format: '',
@@ -78,14 +79,14 @@ export const EditRecord = () => {
             producer: '',
             singer: '',
             time: '',
-            contract: {} as Contract
+            contract: {} as Contract,
         },
         onSubmit: async (values) => {
             await dispatch(saveRecord({
                 id: values.id,
                 ISRCCode: values.ISRCCode,
                 approvalDate: values.approvalDate,
-                approveBy: recordFormik.values.approveBy ? recordFormik.values.approveBy.id : '',
+                approvalBy: recordFormik.values.approvalBy ? recordFormik.values.approvalBy.id : '',
                 author: values.author,
                 categoriesId: values.category.id,
                 contractId: values.contractId,
@@ -96,7 +97,7 @@ export const EditRecord = () => {
                 nameRecord: values.nameRecord,
                 producer: values.producer,
                 singer: values.singer,
-                time: values.time,
+                time: values.time
             }));
 
             navigate('/record-management');
@@ -107,7 +108,7 @@ export const EditRecord = () => {
     const [visibleComboBox, setVisibleComboBox] = useState<boolean>(false);
     const [recordName, setRecordName] = useState<string>('');
 
-    const { ISRCCode, author, approveBy, createdDate,
+    const { ISRCCode, author, approvalBy, createdDate, approvalDate,
         nameRecord, producer, singer, contract } = recordFormik.values;
     const RECORD_INPUTS = [
         {
@@ -166,10 +167,10 @@ export const EditRecord = () => {
             const createdUser = await getUserById(recordItem.createdBy);
             let approvedUser;
 
-            recordItem.approveBy
+            recordItem.approvalBy
                 ? approvedUser = {
-                    ...await getUserById(recordItem.approveBy),
-                    id: recordItem.approveBy
+                    ...await getUserById(recordItem.approvalBy),
+                    id: recordItem.approvalBy
                 }
                 : approvedUser = null;
 
@@ -177,7 +178,7 @@ export const EditRecord = () => {
                 ...recordItem,
                 contract: contract,
                 createdBy: { ...createdUser, id: recordItem.createdBy },
-                approveBy: approvedUser
+                approvalBy: approvedUser
             });
         }
 
@@ -235,11 +236,11 @@ export const EditRecord = () => {
                                 </div>
                                 <div className={cx('content')}>
                                     <p>Người duyệt:</p>
-                                    {approveBy ? <p>{approveBy.firstName} {approveBy.lastName}</p> : <p>Hệ thống <br />(Tự động phê duyệt)</p>}
+                                    {approvalBy ? <p>{approvalBy.firstName} {approvalBy.lastName}</p> : <p>Hệ thống <br />(Tự động phê duyệt)</p>}
                                 </div>
                                 <div className={cx('content')}>
                                     <p>Ngày phê duyệt:</p>
-                                    <p>{createdDate}</p>
+                                    <p>{approvalDate}</p>
                                 </div>
                             </div>
                         </div>

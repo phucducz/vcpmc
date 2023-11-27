@@ -1,5 +1,5 @@
 import classNames from "classnames/bind";
-import { memo, useMemo, useRef } from "react";
+import { memo, useEffect, useMemo, useRef, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronDown } from "@fortawesome/free-solid-svg-icons";
 
@@ -31,6 +31,8 @@ export const ComboBox = memo(({ comboBoxRef, title, data, className, active, vis
     const ownRef = useRef<HTMLUListElement>(null);
 
     const width = useMemo(() => {
+        if (comboBoxRef && comboBoxRef.current)
+            return comboBoxRef.current.offsetWidth + 20;
         if (ownRef.current)
             return ownRef.current.offsetWidth + 20;
     }, [ownRef.current]);
@@ -51,7 +53,7 @@ export const ComboBox = memo(({ comboBoxRef, title, data, className, active, vis
                     {/* <input style={{ display: 'block', height: `${ref.current?.offsetHeight}px` }} onBlur={() => { }} /> */}
                 </div>
                 <DropDown
-                    dropDownRef={comboBoxRef || ownRef}
+                    dropDownRef={ownRef}
                     title={title}
                     data={data}
                     placement="bottom-left"
