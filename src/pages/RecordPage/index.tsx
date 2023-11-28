@@ -1,17 +1,15 @@
 import classNames from "classnames/bind";
-import { memo, useCallback, useContext, useEffect, useState } from "react";
+import { ReactNode, memo, useCallback, useContext, useEffect, useMemo, useState } from "react";
 import { RootState, useAppDispatch } from "~/store";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit, faPlay } from "@fortawesome/free-solid-svg-icons";
 
 import style from './Record.module.scss';
 import { MenuContext } from "~/context/Menu/MenuContext";
-import Input from "~/components/Input";
-import { Icon, listTabGridIcon, listTabListIcon, searchIcon } from "~/icons";
+import { Icon, listTabGridIcon, listTabListIcon } from "~/icons";
 import { ComboBox, ComboData } from "~/components/ComboBox";
 import { getRecords } from "~/thunk/recordThunks";
 import { useSelector } from "react-redux";
-import { Action } from "~/components/Action";
 import { Record } from "~/api/recordAPI";
 import { formatDateMDY, getCurrentDate } from "~/context";
 import { Table } from "~/components/Table";
@@ -19,6 +17,8 @@ import { Grid } from "~/components/Grid";
 import logo from '~/images/logo-test.jpg';
 import { useNavigate } from "react-router";
 import { CommonPage } from "../CommonPage";
+import { AudioDialog } from "~/components/AudioDialog";
+import Image from "~/components/Image";
 
 const cx = classNames.bind(style);
 
@@ -44,21 +44,28 @@ type GridItemType = {
     nameRecord: string;
     singer: string;
     author: string;
-    ISRCCode: string
+    ISRCCode: string;
+    imageURL: string;
 }
 
 type GridItemProps = {
     data: GridItemType;
     boxItemData: Array<BoxItemType>;
+    action?: ReactNode;
+    onGridItemClick: () => void
 }
 
-export const GridItem = memo(({ data, boxItemData }: GridItemProps) => {
-    const navigate = useNavigate();
-
+export const GridItem = memo(({ data, boxItemData, action, onGridItemClick }: GridItemProps) => {
     return (
-        <div className={cx('grid-container__item')}>
-            <div className={cx('item__image')}>
-                <img src={logo} alt='record' />
+        <div className={cx('grid-container__item')} onClick={onGridItemClick}>
+            <div
+                className={cx('item__image')}
+                style={{
+                    backgroundImage: `url(${data.imageURL})`,
+                    backgroundRepeat: 'no-repeat',
+                    backgroundSize: 'cover'
+                }}
+            >
                 <FontAwesomeIcon icon={faPlay} className={cx('item__image__icon')} />
             </div>
             <div className={cx('item__content')}>
@@ -83,7 +90,8 @@ export const GridItem = memo(({ data, boxItemData }: GridItemProps) => {
                     </div>
                 </div>
                 <div className={cx('item__content__left')}>
-                    <FontAwesomeIcon icon={faEdit} className={cx('content__left__icon')} onClick={() => navigate(`/record/edit/${data.ISRCCode}`)} />
+                    {action && action}
+                    {/* <FontAwesomeIcon icon={faEdit} className={cx('content__left__icon')} onClick={() => navigate(`/record/edit/${data.ISRCCode}`)} /> */}
                 </div>
             </div>
         </div>
@@ -95,15 +103,20 @@ export const RecordPage = () => {
 
     const record = useSelector((state: RootState) => state.record);
     const category = useSelector((state: RootState) => state.category);
+    const approval = useSelector((state: RootState) => state.approval);
 
     const navigate = useNavigate();
     const { setMenuActive } = useContext(MenuContext);
 
-    const [actionActive, setActionActive] = useState<boolean>(true);
+    const [audioLink, setAudioLink] = useState<string>('');
+    const [audioActive, setAudioActive] = useState<boolean>(false);
     const [searchValue, setSearchValue] = useState<string>('');
     const [typeLoad, setTypeLoad] = useState<'table' | 'grid'>('table');
+
     const [recordData, setRecordData] = useState<Array<Record>>([] as Array<Record>);
-    const [showNumber, setShowNumber] = useState<number>(8);
+    const [currentItems, setCurrentItems] = useState<Array<any>>([]);
+
+    const [itemsPerPage, setItemsPerPage] = useState<string>('8');
     const [comboBoxData, setComboBoxData] = useState([
         {
             title: 'Thể loại',
@@ -146,7 +159,6 @@ export const RecordPage = () => {
     ]);
 
     const handleClickItemAction = useCallback(() => {
-        setActionActive(false);
         navigate('/approve-record');
     }, []);
 
@@ -163,7 +175,7 @@ export const RecordPage = () => {
     }, []);
 
     useEffect(() => {
-        setRecordData(record.recordList);
+        setRecordData(record.recordList.filter(record => record.approvalDate !== '' && record.status !== 'not approval record'));
     }, [record.recordList]);
 
     useEffect(() => {
@@ -201,13 +213,13 @@ export const RecordPage = () => {
                 return itemData = item;
             else {
                 if (contractTerm === 'Còn thời hạn') {
-                    if (new Date(formatDateMDY(item.expiryDate)) > new Date(getCurrentDate())) {
+                    if (new Date(formatDateMDY(item.expirationDate)) > new Date(getCurrentDate())) {
                         itemData = item;
                         return itemData;
                     }
                 }
                 else if (contractTerm === 'Hết thời hạn')
-                    if (new Date(formatDateMDY(item.expiryDate)) < new Date(getCurrentDate())) {
+                    if (new Date(formatDateMDY(item.expirationDate)) < new Date(getCurrentDate())) {
                         itemData = item;
                         return itemData;
                     }
@@ -220,8 +232,6 @@ export const RecordPage = () => {
             item.author.toLowerCase().includes(search) ||
             item.singer.toLowerCase().includes(search) ||
             item.ISRCCode.toLowerCase().includes(search) ||
-            item.expiryDate.toLowerCase().includes(search) ||
-            item.time.toLowerCase().includes(search) ||
             item.nameRecord.toLowerCase().includes(search) ||
             item.format.toLowerCase().includes(search) ||
             item.category.name.toLowerCase().includes(search)
@@ -229,8 +239,14 @@ export const RecordPage = () => {
     }, [searchValue, comboBoxData]);
 
     useEffect(() => {
-        category.categoryList.length && dispatch(getRecords({ categoryList: category.categoryList }));
-    }, [category.categoryList]);
+        category.categoryList.length
+            && dispatch(getRecords(
+                {
+                    categoryList: category.categoryList,
+                    approvalList: approval.approvalList
+                }
+            ));
+    }, [category.categoryList, approval.approvalList]);
 
     const handleSetCategory = useCallback((item: ComboData, id: string) => {
         setComboBoxData(prev =>
@@ -240,8 +256,8 @@ export const RecordPage = () => {
         );
     }, []);
 
-    const handleChange = (value: number) => {
-        setShowNumber(value);
+    const handleChange = (value: string) => {
+        setItemsPerPage(value);
     }
 
     const handleComboBoxClick = useCallback((item: any) => {
@@ -252,6 +268,24 @@ export const RecordPage = () => {
         );
     }, []);
 
+    const handleUpdateClick = useCallback((item: Record) => {
+        let expirationDateRecord = new Date(formatDateMDY(item.expirationDate));
+        let isExpiry = expirationDateRecord < new Date(getCurrentDate());
+
+        if (isExpiry) return;
+
+        navigate(`/record/edit/${item.ISRCCode}`);
+    }, []);
+
+    const handleListenAudioClick = useCallback((item: Record) => {
+        setAudioLink(item.audioLink);
+        setAudioActive(true);
+    }, []);
+
+    const handleSetCurrentItems = (items: Array<any>) => {
+        setCurrentItems(items);
+    }
+
     return (
         <CommonPage
             title='Kho bản ghi'
@@ -260,9 +294,21 @@ export const RecordPage = () => {
                 searchValue: searchValue,
                 setSearchValue: (e: any) => setSearchValue(e.target.value)
             }}
-            comboBoxData={comboBoxData}
-            onComboBoxClick={handleComboBoxClick}
-            onComboBoxItemClick={handleSetCategory}
+            actionFilter={<div className={cx('combo-box-data')}>
+                {comboBoxData?.length && comboBoxData.map((item, index) => (
+                    <ComboBox
+                        key={index}
+                        title={item.title}
+                        active={item.activeData}
+                        visible={item.visible}
+                        data={item.data}
+                        className={cx('combo-data')}
+                        onClick={() => handleComboBoxClick(item)}
+                        onItemClick={handleSetCategory}
+                    />
+                ))}
+            </div>}
+
             actionType={
                 <div className={cx('action__type-load', typeLoad === 'table' ? 'table-visible' : 'grid-visible')}>
                     <Icon icon={listTabListIcon} onClick={() => setTypeLoad('table')} />
@@ -273,8 +319,18 @@ export const RecordPage = () => {
         >
             <div className={cx('container-table-data')}>
                 {typeLoad === 'grid'
-                    ? <Grid loading={record.loading} showNumber={showNumber || 0} setShowNumber={handleChange}>
-                        {recordData.map(item => {
+                    ? <Grid
+                        paginate={{
+                            dataForPaginate: recordData,
+                            setCurrentItems: handleSetCurrentItems
+                        }}
+                        loading={record.loading}
+                        itemsPerPage={itemsPerPage}
+                        setItemsPerPage={handleChange}
+                    >
+                        {currentItems.map((item, index) => {
+                            if (index > parseInt(itemsPerPage) - 1) return null;
+
                             return <GridItem
                                 key={item.ISRCCode}
                                 data={item}
@@ -290,21 +346,31 @@ export const RecordPage = () => {
                                         content: item.time
                                     }
                                 ]}
+                                action={<FontAwesomeIcon
+                                    icon={faEdit}
+                                    className={cx('content__left__icon')}
+                                    onClick={() => navigate(`/record/edit/${item.ISRCCode}`)}
+                                />}
+                                onGridItemClick={() => handleListenAudioClick(item)}
                             />
                         })}
                     </Grid>
                     : <Table
+                        paginate={{
+                            dataForPaginate: recordData,
+                            setCurrentItems: handleSetCurrentItems
+                        }}
                         loading={record.loading}
-                        showNumber={showNumber || 0}
-                        setShowNumber={handleChange}
+                        itemsPerPage={itemsPerPage}
+                        setItemsPerPage={handleChange}
                         thead={['STT', 'Tên bản ghi', 'Mã ISRC', 'Thời lượng', 'Ca sĩ',
                             'Tác giả', 'Thể loại', 'Định dạng', 'Thời hạn sử dụng', '', '']}
                     >
-                        {recordData.map((item, index) => {
-                            let expiryDateRecord = new Date(formatDateMDY(item.expiryDate));
+                        {currentItems.map((item, index) => {
+                            let expiryDateRecord = new Date(formatDateMDY(item.expirationDate));
                             let isExpiry = expiryDateRecord < new Date(getCurrentDate());
 
-                            if (index > showNumber - 1) return null;
+                            if (index > parseInt(itemsPerPage) - 1) return null;
 
                             return (
                                 <tr key={index} style={{ height: '47px' }} className={cx('content')}>
@@ -318,14 +384,15 @@ export const RecordPage = () => {
                                     <td><p>{item.format}</p></td>
                                     <td className={cx('table-data__expiry-date', isExpiry ? 'expiry' : 'still-expiry')}>
                                         <p>{isExpiry ? 'Hết thời hạn' : 'Còn thời hạn'}</p>
-                                        <p>{item.expiryDate}</p>
+                                        <p>{item.expirationDate}</p>
                                     </td>
-                                    <td><p className={cx('action')} onClick={() => navigate(`/record/edit/${item.ISRCCode}`)}>Cập nhật</p></td>
-                                    <td><p className={cx('action')}>Nghe</p></td>
+                                    <td><p className={cx('action')} onClick={() => handleUpdateClick(item)}>Cập nhật</p></td>
+                                    <td><p className={cx('action')} onClick={() => handleListenAudioClick(item)}>Nghe</p></td>
                                 </tr>
                             )
                         })}
                     </Table>}
+                <AudioDialog src={audioLink} visible={audioActive} setVisible={setAudioActive} />
             </div>
         </CommonPage >
     );

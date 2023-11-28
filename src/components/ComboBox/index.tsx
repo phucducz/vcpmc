@@ -1,10 +1,11 @@
 import classNames from "classnames/bind";
-import { memo, useEffect, useMemo, useRef, useState } from "react";
+import { memo, useMemo, useRef } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronDown } from "@fortawesome/free-solid-svg-icons";
 
 import style from './ComboBox.module.scss';
 import { DropDown } from "../DropDown";
+import Input from "../Input";
 
 const cx = classNames.bind(style);
 
@@ -48,6 +49,7 @@ export const ComboBox = memo(({ comboBoxRef, title, data, className, active, vis
                 onBlur={onBlur}
             >
                 <div className={cx('content__active')} style={{ width: `${width}px` }}>
+                    {/* <Input value={active} name='comboBoxValue' onChange={() => { }} /> */}
                     <p>{active}</p>
                     <FontAwesomeIcon icon={faChevronDown} />
                     {/* <input style={{ display: 'block', height: `${ref.current?.offsetHeight}px` }} onBlur={() => { }} /> */}

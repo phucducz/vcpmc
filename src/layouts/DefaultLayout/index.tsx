@@ -12,6 +12,8 @@ import avtNoFound from '~/images/no-found-avt.jpg';
 import { MenuProvider } from "~/context/Menu/MenuProvider";
 import { Sidebar } from "~/components/Sidebar";
 import { getCategories } from "~/thunk/categoryThunk";
+import { getApprovalList } from "~/thunk/approvalThunk";
+import { routes } from "~/config/routes";
 
 const cx = classNames.bind(style);
 
@@ -23,7 +25,6 @@ export const DefaultLayout = ({ children }: DefaultLayoutProps) => {
     const user = useSelector((state: RootState) => state.user);
 
     const dispatch = useAppDispatch();
-
     const navigate = useNavigate();
 
     const { lastName, firstName, avatar, role, id } = user.currentUser;
@@ -31,11 +32,12 @@ export const DefaultLayout = ({ children }: DefaultLayoutProps) => {
 
     useEffect(() => {
         try {
-            if (!id) navigate('/login');
+            if (!id) navigate(routes.LoginPage);
             dispatch(getCategories());
+            dispatch(getApprovalList());
         }
         catch {
-            navigate('/login');
+            navigate(routes.LoginPage);
         }
     }, []);
 

@@ -39,6 +39,8 @@ type MenuProps = {
 }
 
 export const Menu = memo(({ data, active }: MenuProps) => {
+    console.log(data);
+    
     return (
         <ul className={cx('menu-container')}>
             {data.map(item =>

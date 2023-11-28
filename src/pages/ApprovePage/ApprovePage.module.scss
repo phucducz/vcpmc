@@ -48,9 +48,37 @@
     & .header-children {
         padding: 8px 0px 8px 8px;
     }
+
+    & .not-exs-content {
+        cursor: auto!important;
+
+        &:hover {
+            opacity: 1;
+        }
+    }
 }
 
 .header-children>div {
     width: max-content;
     min-width: max-content;
+}
+
+.form__note-approve {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    background-color: var(--bg-lightest);
+    padding: 40px;
+    border-radius: 16px;
+    transform: translate(-50%, -50%);
+
+    &>h3 {
+        padding: 0 3rem 3rem 3rem;
+    }
+
+    & input {
+        width: 639px!important;
+        height: 208px!important;
+        padding: 12px 24px 12px 16px;
+    }
 }

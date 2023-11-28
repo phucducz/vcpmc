@@ -21,7 +21,7 @@
     --color-green-2: rgba(15, 191, 0, 1);
     --color-gray: rgba(135, 136, 144, 1);
     --color-blue: rgba(52, 122, 255, 1);
-    
+
     --bg-input: rgb(43, 43, 63);
     --bg-page: rgb(30, 30, 46);
     --bg-page-2: rgba(48, 48, 63, 1);
@@ -41,10 +41,21 @@
     margin-top: 24px;
     width: 1541px;
 
-    &>table>thead>tr>th>p {
-        display: flex;
-        align-items: center;
+    &>table {
+        &>thead>tr>th>p {
+            display: flex;
+            align-items: center;
+        }
+
+        &>tbody>tr {
+            cursor: pointer;
+
+            &:hover {
+                opacity: .8;
+            }
+        }
     }
+
 
     & .action {
         width: max-content;
@@ -52,6 +63,45 @@
         padding: 5px 16px;
         text-decoration: underline;
         cursor: pointer;
+
+        &:hover {
+            opacity: 1;
+        }
+    }
+}
+
+.pagination {
+    list-style: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    &:hover {
+        opacity: 1;
+    }
+
+    &>li {
+        padding: 0 9px;
+        user-select: none;
+
+        &>a {
+            padding: 4px 8px;
+            border-radius: 50%;
+            background-color: transparent;
+            cursor: pointer;
+
+            &>svg {
+                font-size: 1.5rem;
+            }
+
+            &:hover {
+                background-color: #FF7506;
+            }
+        }
+
+        &.active>a {
+            background-color: #FF7506;
+        }
     }
 }
 

@@ -2,6 +2,7 @@ import { routes } from "~/config/routes";
 import { LoginLayout } from "~/layouts/LoginLayout";
 import { ApprovePage } from "~/pages/ApprovePage";
 import { EditRecord } from "~/pages/EditRecord";
+import { EntrusmentPage } from "~/pages/EntrustmentPage";
 import { LoginPage } from "~/pages/LoginPage";
 import { ProfilePage } from "~/pages/ProfilePage";
 import { RecordPage } from "~/pages/RecordPage";
@@ -17,5 +18,6 @@ export const publicRoutes = [
     { path: routes.RecoverPage, Component: RecoverPage, layout: LoginLayout },
     { path: routes.RecordPage, Component: RecordPage },
     { path: routes.EditRecord, Component: EditRecord },
-    { path: routes.ApproveRecord, Component: ApprovePage }
+    { path: routes.ApproveRecord, Component: ApprovePage },
+    { path: routes.Entrusment, Component: EntrusmentPage }
 ];

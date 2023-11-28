@@ -1,27 +1,30 @@
-import { getService, saveService } from "~/service";
+import { saveService } from "~/service";
 import { Category } from "./categoryAPI";
-import { Timestamp, collection, doc, getDoc, getDocs, query, writeBatch } from "firebase/firestore";
+import { collection, getDocs, query } from "firebase/firestore";
 import { firestoreDatabase } from "~/config/firebase";
-import { Contract, getContractById } from "./contractAPI";
-import { RecordDataType } from "~/pages/ApprovePage";
 
 export type Record = {
+    approvalsId: string;
     id: string;
+    imageURL: string;
     ISRCCode: string;
     approvalDate: string;
     approvalBy: string;
+    audioLink: string;
     author: string;
     category: Category;
     contractId: string;
     createdBy: string;
     createdDate: string;
-    expiryDate: string;
+    // expiryDate: string;
     format: string;
     nameRecord: string;
     producer: string;
     singer: string;
     time: string;
-    expirationDate?: Timestamp | string;
+    expirationDate: string;
+    // expirationDate?: Timestamp | string;
+    status: string;
     // contract: Contract
 }
 
@@ -30,15 +33,17 @@ export const getRecordList = async () => {
 
     return (await resultSnapshot).docs.map(doc => ({
         id: doc.id,
+        imageURL: doc.data().imageURL,
         ISRCCode: doc.data().ISRCCode,
         approvalDate: doc.data().approvalDate,
         approvalBy: doc.data().approvalBy,
+        audioLink: doc.data().audioLink,
         author: doc.data().author,
         categoriesId: doc.data().categoriesId,
         contractId: doc.data().contractId,
         createdBy: doc.data().createdBy,
         createdDate: doc.data().createdDate,
-        expiryDate: doc.data().expiryDate,
+        // expiraDate: doc.data().expiraDate,
         expirationDate: doc.data().expirationDate,
         format: doc.data().format,
         nameRecord: doc.data().nameRecord,
@@ -61,16 +66,16 @@ export const getContractList = async () => {
     }));
 }
 
-export const addRecord = async (record: Omit<Record, 'category'> & { categoriesId: string }) => {
+export const addRecord = async (record: Omit<Record, 'category' | 'approvalsId'> & { categoriesId: string }) => {
     await saveService('records', record);
 }
 
-export const approveRecords = async (records: Array<Omit<RecordDataType, 'category' | 'contract'> & { categoriesId: string }>) => {
-    const batch = writeBatch(firestoreDatabase);
+// export const approveRecords = async (approvals: Array<Approval>) => {
+//     const batch = writeBatch(firestoreDatabase);
 
-    records.forEach(record => {
-        batch.set(doc(firestoreDatabase, "records", record.id), record);
-    });
+//     approvals.forEach(approval => {
+//         batch.set(doc(firestoreDatabase, "approvals", approval.id), approval);
+//     });
 
-    await batch.commit();
-}
+//     await batch.commit();
+// }

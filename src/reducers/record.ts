@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 import { Record } from "~/api/recordAPI";
-import { approveRecordList, getRecords, saveRecord } from "~/thunk/recordThunks";
+import { getRecords, saveRecord } from "~/thunk/recordThunks";
 
 type InitialStateType = {
     recordList: Array<Record>;
@@ -45,16 +45,6 @@ const recordSlice = createSlice({
             state.loading = false;
         });
         builder.addCase(saveRecord.rejected, (state, action) => {
-            state.loading = false;
-            throw new Error(`${action.error.name}: ${action.error.message}`);
-        });
-        builder.addCase(approveRecordList.pending, state => {
-            state.loading = true;
-        });
-        builder.addCase(approveRecordList.fulfilled, state => {
-            state.loading = false;
-        });
-        builder.addCase(approveRecordList.rejected, (state, action) => {
             state.loading = false;
             throw new Error(`${action.error.name}: ${action.error.message}`);
         });

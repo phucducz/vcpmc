@@ -1,62 +1,59 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { collection, getDocs, orderBy, query, where } from "firebase/firestore";
+import { collection, getDocs, orderBy, query } from "firebase/firestore";
 import { firestoreDatabase } from "~/config/firebase";
 
-import { Record, addRecord, approveRecords } from "~/api/recordAPI";
+import { Record, addRecord } from "~/api/recordAPI";
 import { Category } from "~/api/categoryAPI";
-import { RecordDataType } from "~/pages/ApprovePage";
+import { Approval } from "~/api/approvalAPI";
 
 export const getRecords = createAsyncThunk(
     'record/getList',
-    async ({ categoryList, status = 'approved' }: { categoryList: Array<Category>, status?: 'not yet approved' | 'approved' }) => {
-        let q;
-        if (status === 'not yet approved')
-            q = query(
-                collection(firestoreDatabase, 'records'),
-                where('approvalDate', '==', ''),
-                orderBy('approvalDate', 'desc')
-            );
-        else
-            q = query(
-                collection(firestoreDatabase, 'records'),
-                where('approvalDate', '!=', ''),
-                orderBy('approvalDate', 'desc')
-            );
+    async ({ categoryList, approvalList }: {
+        categoryList: Array<Category>;
+        approvalList: Array<Approval>;
+    }) => {
+        let q = query(collection(firestoreDatabase, 'records'));
 
         const querySnapshot = await getDocs(q);
 
-        return querySnapshot.docs.map(doc => ({
-            id: doc.id,
-            ISRCCode: doc.data().ISRCCode,
-            approvalDate: doc.data().approvalDate,
-            approvalBy: doc.data().approvalBy,
-            author: doc.data().author,
-            category: categoryList.find(type => doc.data().categoriesId === type.id) || {} as Category,
-            contractId: doc.data().contractId,
-            createdBy: doc.data().createdBy,
-            createdDate: doc.data().createdDate,
-            expiryDate: doc.data().expiryDate,
-            expirationDate: doc.data().expirationDate,
-            format: doc.data().format,
-            nameRecord: doc.data().nameRecord,
-            producer: doc.data().producer,
-            singer: doc.data().singer,
-            time: doc.data().time,
-            expitationDate: doc.data().expirationDate
-        }));
+        return querySnapshot.docs.map(doc => {
+            let approval = approvalList.find(approval => approval.recordsId === doc.id);
+            
+            return {
+                approvalsId: approval ? approval.id : '',
+                id: doc.id,
+                imageURL: doc.data().imageURL,
+                ISRCCode: doc.data().ISRCCode,
+                approvalDate: approval ? approval.approvalDate : '',
+                approvalBy: approval ? approval.approvalBy : '',
+                audioLink: doc.data().audioLink,
+                author: doc.data().author,
+                category: categoryList.find(type => doc.data().categoriesId === type.id) || {} as Category,
+                contractId: doc.data().contractId,
+                createdBy: doc.data().createdBy,
+                createdDate: doc.data().createdDate,
+                expirationDate: doc.data().expirationDate,
+                format: doc.data().format,
+                nameRecord: doc.data().nameRecord,
+                producer: doc.data().producer,
+                singer: doc.data().singer,
+                time: doc.data().time,
+                status: approval ? approval.status : 'not yet approved',
+            }
+        });
     }
 );
 
 export const saveRecord = createAsyncThunk(
     'record/addRecord',
-    async (data: Omit<Record, 'category'> & { categoriesId: string }) => {
+    async (data: Omit<Record, 'category' | 'approvalsId'> & { categoriesId: string }) => {
         await addRecord(data);
     }
 );
 
-export const approveRecordList = createAsyncThunk(
-    'record/approveRecordList',
-    async (records: Array<Omit<RecordDataType, 'category' | 'contract'> & { categoriesId: string }>) => {
-        await approveRecords(records);
-    }
-);
+// export const approveRecordList = createAsyncThunk(
+//     'record/approveRecordList',
+//     async (approvals: Array<Approval>) => {
+//         await approveRecords(approvals);
+//     }
+// );

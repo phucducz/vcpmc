@@ -36,6 +36,15 @@ export const formatDateMDY = (date: string) => {
 
 export const formatToLocalStringCurrentDate = () => {
     let date = new Date();
-    
+
     return `${formatDateDMY(date)} - ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`;
+}
+
+export const formatTime = (time: number) => {
+    let minutes = Math.floor(time / 60);
+    let timeForSeconds = time - (minutes * 60);
+    let seconds = Math.floor(timeForSeconds);
+    let secondsReadable = seconds > 9 ? seconds : `0${seconds}`;
+    
+    return `${minutes}:${secondsReadable}`;
 }

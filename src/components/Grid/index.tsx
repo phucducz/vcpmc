@@ -1,5 +1,6 @@
 import classNames from "classnames/bind";
-import { ChangeEvent, ReactNode, memo, useEffect } from "react";
+import { ChangeEvent, ReactNode, memo, useState, useEffect } from "react";
+import ReactPaginate from "react-paginate";
 
 import style from './Grid.module.scss';
 import Input from "../Input";
@@ -52,17 +53,36 @@ const cx = classNames.bind(style);
 // })
 
 type GridProps = {
-    className?: string;
+    paginate: {
+        dataForPaginate: Array<any>;
+        setCurrentItems(item: Array<any>): void
+    }
     children: ReactNode;
-    showNumber: number;
-    setShowNumber(number: number): void;
-    loading?: boolean;
+    headerChildren?: ReactNode;
+    loading: boolean;
+    itemsPerPage: string;
+    setItemsPerPage(number: string): void;
+    className?: string;
 }
 
-export const Grid = memo(({ loading, className, children, showNumber, setShowNumber }: GridProps) => {
+export const Grid = memo(({ paginate, loading, className, children, itemsPerPage: per, setItemsPerPage }: GridProps) => {
+    const [itemOffset, setItemOffset] = useState(0);
+    const [pageCount, setPageCount] = useState<number>(0);
+
+    const itemsPerPage = parseInt(per);
+    const { dataForPaginate, setCurrentItems } = paginate;
+
     useEffect(() => {
-        setShowNumber(showNumber);
-    }, [showNumber]);
+        const endOffset = itemOffset + itemsPerPage;
+        setCurrentItems && setCurrentItems(paginate.dataForPaginate.slice(itemOffset, endOffset));
+        setPageCount(Math.ceil(dataForPaginate.length / itemsPerPage));
+    }, [itemOffset, itemsPerPage, dataForPaginate]);
+
+    const handlePageClick = (event: { selected: number }) => {
+        const newOffset = (event.selected * itemsPerPage) % dataForPaginate.length;
+
+        setItemOffset(newOffset);
+    };
 
     return (
         <div className={cx('grid-container', className)}>
@@ -72,21 +92,31 @@ export const Grid = memo(({ loading, className, children, showNumber, setShowNum
                     <p>Hiển thị</p>
                     <Input
                         tiny
-                        value={showNumber}
+                        value={itemsPerPage}
                         name='number'
-                        onChange={(e: ChangeEvent<HTMLInputElement>) => setShowNumber(parseInt(e.target.value))}
+                        onChange={(e: ChangeEvent<HTMLInputElement>) => setItemsPerPage(e.target.value)}
                     />
                     <p>hàng trong mỗi trang</p>
                 </span>
-                <span className={cx('gird__page-number')}>
-                    <FontAwesomeIcon icon={faChevronLeft} />
-                    <p>1</p>
-                    <p>2</p>
-                    <p>3</p>
-                    <p>...</p>
-                    <p>100</p>
-                    <FontAwesomeIcon icon={faChevronRight} />
-                </span>
+                <ReactPaginate
+                    breakLabel="..."
+                    nextLabel={<FontAwesomeIcon icon={faChevronRight} />}
+                    onPageChange={handlePageClick}
+                    pageRangeDisplayed={3}
+                    pageCount={pageCount}
+                    previousLabel={<FontAwesomeIcon icon={faChevronLeft} />}
+                    renderOnZeroPageCount={null}
+                    containerClassName="pagination"
+                    pageLinkClassName="page-num"
+                    previousClassName="page-num"
+                    nextLinkClassName="page-num"
+                    activeClassName="active"
+                    // containerClassName={cx("pagination")}
+                    // pageLinkClassName={cx("page-num")}
+                    // previousClassName={cx("page-num")}
+                    // nextLinkClassName={cx("page-num")}
+                    // activeClassName={cx("active")}
+                />
             </div>
             {/* <Loading visible={true} className={cx('grid-container__loading')}/> */}
             <Loading visible={loading || false} className={cx('grid-container__loading')} />

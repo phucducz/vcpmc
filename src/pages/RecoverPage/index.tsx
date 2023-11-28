@@ -1,5 +1,5 @@
 import classNames from "classnames/bind";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useFormik } from "formik";
 import { Link } from "react-router-dom";
 
@@ -12,14 +12,10 @@ import Image from "~/components/Image";
 import logo from '~/images/logo.png';
 import { sendPasswordToResetEmail } from "~/api/loginAPI";
 import Loading from "~/components/Loading";
-import { useAppDispatch } from "~/store";
-import { setNewData } from "~/reducers/user";
 
 const cx = classNames.bind(style);
 
 export const RecoverPage = () => {
-    const dispatch = useAppDispatch();
-
     const [confirmSuccess, setConfirmSuccess] = useState(true);
     const [loading, setLoading] = useState<boolean>(false);
 

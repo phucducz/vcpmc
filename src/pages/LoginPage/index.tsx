@@ -120,7 +120,7 @@ export const LoginPage = () => {
 
     return (
         <div className={cx('login-container')}>
-            <Image src={logo} alt='logo' width={240} />
+            <Image src='https://res.cloudinary.com/dvlzvsyxs/image/upload/v1701141410/logo_ul3efy.png' alt='logo' width={240} />
             <Form
                 visible={toggleLogin}
                 title='Đăng nhập'

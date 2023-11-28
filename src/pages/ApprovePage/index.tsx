@@ -1,26 +1,30 @@
 import classNames from "classnames/bind";
 import { useCallback, useEffect, useRef, useState } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCheck, faXmark } from "@fortawesome/free-solid-svg-icons";
+import { routes } from "~/config/routes";
+import { useFormik } from "formik";
+import { useSelector } from "react-redux";
 
 import style from './ApprovePage.module.scss';
 import { PagingItemType } from "~/components/Paging";
-import { routes } from "~/config/routes";
 import { Icon, listTabGridIcon, listTabListIcon } from "~/icons";
 import { CommonPage } from "../CommonPage";
-import { ComboData } from "~/components/ComboBox";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCheck, faEdit, faXmark } from "@fortawesome/free-solid-svg-icons";
+import { ComboBox, ComboData } from "~/components/ComboBox";
 import { Table } from "~/components/Table";
 import { Grid } from "~/components/Grid";
-import { useSelector } from "react-redux";
 import { RootState, useAppDispatch } from "~/store";
 import { Record, getContractList } from "~/api/recordAPI";
 import { GridItem } from "../RecordPage";
-import { useNavigate } from "react-router";
-import { approveRecordList, getRecords } from "~/thunk/recordThunks";
+import { getRecords } from "~/thunk/recordThunks";
 import { Contract } from "~/api/contractAPI";
 import { CheckBox } from "~/components/CheckBox";
 import { ActionDataType } from "~/components/Action";
 import { formatToLocalStringCurrentDate } from "~/context";
+import { approveRecordList, getApprovalList } from "~/thunk/approvalThunk";
+import { Form } from "~/components/Form";
+import { Button } from "~/components/Button";
+import Input from "~/components/Input";
 
 const cx = classNames.bind(style);
 
@@ -40,14 +44,20 @@ export const ApprovePage = () => {
     const record = useSelector((state: RootState) => state.record);
     const category = useSelector((state: RootState) => state.category);
     const user = useSelector((state: RootState) => state.user);
-
+    const approval = useSelector((state: RootState) => state.approval);
     const dispatch = useAppDispatch();
-    const navigate = useNavigate();
 
+    const reasonInputRef = useRef<HTMLInputElement>(null);
+
+    const [audioLink, setAudioLink] = useState<string>('');
+    const [audioActive, setAudioActive] = useState<boolean>(false);
+    const [currentItems, setCurrentItems] = useState<Array<any>>([]);
+    const [activeFormNote, setActiveFormNote] = useState<boolean>(false);
     const [recordData, setRecordData] = useState<Array<RecordDataType>>([]);
+    const [searchResult, setSearchResult] = useState<Array<RecordDataType>>([]);
     const [searchValue, setSearchValue] = useState<string>('');
     const [typeLoad, setTypeLoad] = useState<'table' | 'grid'>('table');
-    const [showNumber, setShowNumber] = useState<number>(8);
+    const [itemsPerPage, setItemsPerPage] = useState<string>("8");
     const [approveRecords, setApproveRecords] = useState<Array<RecordDataType>>([]);
     const [approveAll, setApproveAll] = useState<boolean>(false);
     const [comboBoxData, setComboBoxData] = useState([
@@ -73,63 +83,71 @@ export const ApprovePage = () => {
         }
     ]);
 
-    const handleGetData = async () => {
-        category.categoryList && await dispatch(getRecords({
-            categoryList: category.categoryList,
-            status: 'not yet approved'
+    const handleApprove = async (status: string, reason: string) => {
+        setActiveFormNote(false);
+
+        const approveData = approveRecords.map((record: Record) => ({
+            id: record.approvalsId,
+            approvalBy: user.currentUser.id,
+            approvalDate: formatToLocalStringCurrentDate(),
+            reason: reason,
+            recordsId: record.id,
+            status: status
         }));
+
+        await dispatch(approveRecordList(approveData));
+        await dispatch(getApprovalList());
+
+        setApproveAll(false);
+        setApproveRecords([]);
     }
 
+    const reasonFormik = useFormik({
+        initialValues: {
+            reason: ''
+        },
+        onSubmit: async values => {
+            await handleApprove('not approval record', values.reason);
+            reasonFormik.setValues(reasonFormik.initialValues);
+        }
+    });
+
     useEffect(() => {
-        handleGetData();
-    }, []);
+        category.categoryList.length
+            && dispatch(getRecords(
+                {
+                    categoryList: category.categoryList,
+                    approvalList: approval.approvalList
+                }
+            ));
+    }, [approval.approvalList, category.categoryList]);
 
     useEffect(() => {
         const getContracts = async () => {
             const contract = await getContractList();
             let newRecord: any = [];
-            console.log(record.recordList);
 
             record.recordList.forEach(record => {
                 contract.forEach(contract => {
-                    if (record.contractId === contract.id)
+                    if (record.contractId === contract.id && record.approvalDate === '')
                         newRecord.push({ ...record, contract });
                 });
             });
+
             setRecordData(newRecord);
+            setSearchResult(newRecord);
         }
 
         getContracts();
     }, [record.recordList]);
 
-    const handleApprove = useCallback(async () => {
-        const approveData = approveRecords.map((record: Record) => ({
-            id: record.id,
-            ISRCCode: record.ISRCCode,
-            author: record.author,
-            createdBy: record.createdBy,
-            createdDate: record.createdDate,
-            expiryDate: record.expiryDate,
-            expirationDate: record.expirationDate,
-            format: record.format,
-            nameRecord: record.nameRecord,
-            producer: record.producer,
-            singer: record.singer,
-            time: record.time,
-            approvalBy: user.currentUser.id,
-            categoriesId: record.category.id,
-            contractId: record.contractId,
-            approvalDate: formatToLocalStringCurrentDate()
-        }));
-
-        await dispatch(approveRecordList(approveData));
-        await handleGetData();
-
-        setApproveAll(false);
+    const handleApproveClick = useCallback(async () => {
+        await handleApprove('approved', '');
     }, [approveRecords]);
 
-    const handleCancelApprove = useCallback(() => {
-        console.log(approveRecords);
+    const handleCancelApproveClick = useCallback(() => {
+        setActiveFormNote(true);
+        reasonInputRef.current?.focus();
     }, [approveRecords]);
 
     const [actionData, setActionData] = useState<Array<ActionDataType>>([]);
@@ -139,14 +157,14 @@ export const ApprovePage = () => {
             {
                 icon: <FontAwesomeIcon icon={faCheck} style={{ color: 'var(--color-green-2)' }} />,
                 title: 'Phê duyệt',
-                onClick: handleApprove
+                onClick: handleApproveClick
             }, {
                 icon: <FontAwesomeIcon icon={faXmark} style={{ color: 'var(--color-red)' }} />,
                 title: 'Từ chối',
-                onClick: handleCancelApprove
+                onClick: handleCancelApproveClick
             }
         ]);
-    }, [handleApprove, handleCancelApprove]);
+    }, [handleApproveClick, handleCancelApproveClick]);
 
     const handleComboBoxClick = useCallback((item: any) => {
         setComboBoxData(prev =>
@@ -164,8 +182,50 @@ export const ApprovePage = () => {
         );
     }, []);
 
-    const handleChange = (value: number) => {
-        setShowNumber(value);
+    useEffect(() => {
+        if (!record.recordList.length) return;
+
+        let search = searchValue.trim().toLowerCase();
+        let category = comboBoxData[0].activeData;
+        let format = comboBoxData[1].activeData;
+
+        if (searchValue === '')
+            setSearchResult(recordData);
+
+        let result = recordData.filter(item => {
+            let itemData;
+
+            if (category === 'Tất cả')
+                itemData = item;
+            else {
+                if (item.category.name.includes(category))
+                    itemData = item;
+                else
+                    return null;
+            }
+            if (format === 'Tất cả')
+                itemData = item;
+            else {
+                if (item.format.includes(format))
+                    itemData = item;
+                else return null;
+            }
+
+            return itemData;
+        });
+
+        setSearchResult(result.filter(item =>
+            item.author.toLowerCase().includes(search) ||
+            item.singer.toLowerCase().includes(search) ||
+            item.ISRCCode.toLowerCase().includes(search) ||
+            item.nameRecord.toLowerCase().includes(search) ||
+            item.format.toLowerCase().includes(search) ||
+            item.category.name.toLowerCase().includes(search)
+        ));
+    }, [searchValue, comboBoxData]);
+
+    const handleChange = (value: string) => {
+        setItemsPerPage(value);
     }
 
     const handleCheck = (item: RecordDataType, isChecked: boolean) => {
@@ -178,39 +238,13 @@ export const ApprovePage = () => {
         approveAll ? setApproveRecords(recordData) : setApproveRecords([]);
     }, [approveAll]);
 
-    const handleActionClick = (type: 'table' | 'grid') => {
-        let actionData = [
-            {
-                title: 'Thể loại',
-                data: [
-                    { title: 'Tất cả' },
-                    { title: 'Pop' },
-                    { title: 'EDM' },
-                    { title: 'Ballad' }
-                ],
-                visible: false,
-                activeData: 'Tất cả'
-            }, {
-                title: 'Định dạng',
-                data: [
-                    { title: 'Tất cả' },
-                    { title: 'Audio' },
-                    { title: 'Video' }
-                ],
-                visible: false,
-                activeData: 'Tất cả'
-            }
-        ];
+    const handleListenAudioClick = useCallback((item: Record) => {
+        setAudioLink(item.audioLink);
+        setAudioActive(true);
+    }, []);
 
-        switch (type) {
-            case 'table':
-                setTypeLoad(type);
-                break;
-
-            default:
-                setTypeLoad(type);
-                break;
-        }
+    const handleSetCurrentItems = (items: Array<any>) => {
+        setCurrentItems(items);
     }
 
     return (
@@ -222,9 +256,22 @@ export const ApprovePage = () => {
                 searchValue: searchValue,
                 setSearchValue: (e: any) => setSearchValue(e.target.value)
             }}
-            comboBoxData={comboBoxData}
-            onComboBoxClick={handleComboBoxClick}
-            onComboBoxItemClick={handleSetCategory}
+            actionFilter={<div className={cx('combo-box-data')}>
+                {comboBoxData?.length && comboBoxData.map((item, index) => (
+                    <ComboBox
+                        key={index}
+                        title={item.title}
+                        active={item.activeData}
+                        visible={item.visible}
+                        data={item.data}
+                        className={cx('combo-data')}
+                        onClick={() => handleComboBoxClick(item)}
+                        onItemClick={handleSetCategory}
+                    />
+                ))}
+                {typeLoad === 'grid' && <CheckBox title="Chọn tất cả" checked={approveAll} onChange={() => setApproveAll(!approveAll)} />}
+            </div>}
+
             actionType={
                 <div className={cx('action__type-load', typeLoad === 'table' ? 'table-visible' : 'grid-visible')}>
                     <Icon icon={listTabListIcon} onClick={() => setTypeLoad('table')} />
@@ -235,8 +282,19 @@ export const ApprovePage = () => {
         >
             <div className={cx('container-table-data', 'approve-container-table-data')}>
                 {typeLoad === 'grid'
-                    ? <Grid loading={record.loading} showNumber={showNumber || 0} setShowNumber={handleChange}>
-                        {recordData.map(item => {
+                    ? <Grid
+                        paginate={{
+                            dataForPaginate: searchResult,
+                            setCurrentItems: handleSetCurrentItems
+                        }}
+                        loading={record.loading}
+                        itemsPerPage={itemsPerPage}
+                        setItemsPerPage={handleChange}
+                    >
+                        {currentItems.map(item => {
+                            let recordChecked = approveRecords.find(record => record.id === item.id);
+                            let isChecked = typeof recordChecked !== 'undefined' ? true : false;
+
                             return <GridItem
                                 key={item.ISRCCode}
                                 data={item}
@@ -252,13 +310,19 @@ export const ApprovePage = () => {
                                         content: item.time
                                     }
                                 ]}
+                                action={<CheckBox checked={isChecked} onChange={() => handleCheck(item, isChecked)} />}
+                                onGridItemClick={() => handleListenAudioClick(item)}
                             />
                         })}
                     </Grid>
                     : <Table
+                        paginate={{
+                            dataForPaginate: searchResult,
+                            setCurrentItems: handleSetCurrentItems
+                        }}
                         loading={record.loading}
-                        showNumber={showNumber || 0}
-                        setShowNumber={handleChange}
+                        itemsPerPage={itemsPerPage}
+                        setItemsPerPage={handleChange}
                         thead={['STT', 'Tên bản ghi', 'Ca sĩ', 'Tác giả', 'Mã ISRC',
                             'Số hợp đồng', 'Ngày tải', '']}
                         headerChildren={<th className={cx('header-children')}>
@@ -266,30 +330,76 @@ export const ApprovePage = () => {
                             />
                         </th>}
                     >
-                        {recordData.map((item, index) => {
-                            let recordChecked = approveRecords.find(record => record.id === item.id);
-                            let isChecked = typeof recordChecked !== 'undefined' ? true : false;
+                        {currentItems.length > 0
+                            ? currentItems.map((item, index) => {
+                                let recordChecked = approveRecords.find(record => record.id === item.id);
+                                let isChecked = typeof recordChecked !== 'undefined' ? true : false;
 
-                            if (index > showNumber - 1) return null;
-                            return (
-                                <tr key={index} style={{ height: '47px' }} className={cx('content')}>
-                                    <td><CheckBox
-                                        checked={isChecked}
-                                        onChange={() => handleCheck(item, isChecked)}
-                                    /></td>
-                                    <td><p>{index + 1}</p></td>
-                                    <td><p>{item.nameRecord}</p></td>
-                                    <td><p>{item.singer}</p></td>
-                                    <td><p>{item.author}</p></td>
-                                    <td><p>{item.ISRCCode}</p></td>
-                                    <td><p>{item.contract.contractCode}</p></td>
-                                    <td><p>{item.createdDate}</p></td>
-                                    <td><p className={cx('action')}>Nghe</p></td>
-                                </tr>
-                            )
-                        })}
+                                if (index > parseInt(itemsPerPage) - 1) return null;
+                                return (
+                                    <tr
+                                        key={index}
+                                        style={{ height: '47px' }}
+                                        className={cx('content')}
+                                        onClick={() => handleCheck(item, isChecked)}
+                                    >
+                                        <td><CheckBox
+                                            checked={isChecked}
+                                            onChange={() => handleCheck(item, isChecked)}
+                                        /></td>
+                                        <td><p>{index + 1}</p></td>
+                                        <td><p>{item.nameRecord}</p></td>
+                                        <td><p>{item.singer}</p></td>
+                                        <td><p>{item.author}</p></td>
+                                        <td><p>{item.ISRCCode}</p></td>
+                                        <td><p>{item.contract.contractCode}</p></td>
+                                        <td><p>{item.createdDate}</p></td>
+                                        <td><p className={cx('action')}>Nghe</p></td>
+                                    </tr>
+                                )
+                            })
+                            : <tr
+                                style={{ height: '47px' }}
+                                className={cx('not-exs-content')}
+                            >
+                                <td colSpan={9}><p style={{ textAlign: 'center', padding: '18px 0', opacity: '.8' }}>Không có bản ghi mới nào cần phê duyệt</p></td>
+                            </tr>
+                        }
                     </Table>}
             </div>
+            <Form
+                className={cx('form__note-approve')}
+                visible={activeFormNote}
+                title='Lý do từ chối phê duyệt'
+                type='dialog'
+                onSubmit={reasonFormik.handleSubmit}
+            >
+                <Input
+                    medium
+                    name='reason'
+                    placeholder="Cho chúng tôi biết lý do bạn muốn từ chối phê duyệt bản ghi này..."
+                    inputRef={reasonInputRef}
+                    value={reasonFormik.values.reason}
+                    onChange={reasonFormik.handleChange}
+                />
+                <Button
+                    small
+                    outline
+                    type="button"
+                    onClick={() => {
+                        setActiveFormNote(false);
+                        reasonFormik.setValues(reasonFormik.initialValues);
+                    }}
+                >
+                    Hủy
+                </Button>
+                <Button
+                    small
+                    type="submit"
+                >
+                    Lưu
+                </Button>
+            </Form>
         </CommonPage >
     );
 }   

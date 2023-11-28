@@ -37,7 +37,7 @@ export const DropDown = ({ dropDownRef, title, data, onItemClick, className, pla
         [placement]: placement,
     });
 
-const handleShowDropDown = (ref: any) => {
+    const handleShowDropDown = (ref: any) => {
         if (ref.current) {
             const idTimeoutActive = setTimeout(() => {
                 if (ref.current) {
@@ -74,19 +74,21 @@ const handleShowDropDown = (ref: any) => {
         handleHideDropDown(dropDownRef || divRef);
     }, [visible]);
 
-    const handleClick = (item: LanguageProps, ...passParams: any) => {
-        onItemClick(item, ...passParams);
+    const handleClick = (item?: any, ...passParams: any) => {
+        onItemClick
+            ? onItemClick(item, ...passParams)
+            : item.onClick();
     }
 
     return (
         <ul ref={dropDownRef || divRef} className={classes} style={style}>
-            {data.map(item =>
-                <Item
+            {data.map(item => {
+                return <Item
                     key={item.title}
                     title={item.title}
                     onClick={() => handleClick(item, title)}
                 />
-            )}
+            })}
         </ul>
     );
 }

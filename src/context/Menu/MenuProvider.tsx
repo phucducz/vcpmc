@@ -3,6 +3,7 @@ import { useNavigate } from "react-router";
 
 import { MenuContext, MenuType } from "./MenuContext";
 import { MENU_ICONS } from "~/images";
+import { routes } from "~/config/routes";
 
 type MenuProviderProps = {
     children: ReactNode;
@@ -20,7 +21,7 @@ export const MenuProvider = ({ children }: MenuProviderProps) => {
             title: 'Kho bản ghi',
             onClick: () => {
                 setMenuActive(1);
-                navigate('/record-management');
+                navigate(routes.RecordPage);
             }
         }, {
             id: 2,
@@ -40,7 +41,10 @@ export const MenuProvider = ({ children }: MenuProviderProps) => {
             children: [
                 {
                     title: 'Quản lý hợp đồng',
-                    onClick: () => { }
+                    onClick: () => {
+                        setMenuActive(4);
+                        navigate(routes.Entrusment);
+                    }
                 }, {
                     title: 'Quản lý thiết bị',
                     onClick: () => { }

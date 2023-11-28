@@ -1,10 +1,10 @@
 import classNames from "classnames/bind";
-import { ReactNode, memo, useState } from "react";
+import { ReactNode, memo } from "react";
 
 import style from './CommonPage.module.scss';
 import Input from "~/components/Input";
 import { Icon, searchIcon } from "~/icons";
-import { ComboBox } from "~/components/ComboBox";
+// import { ComboBox } from "~/components/ComboBox";
 import { Action } from "~/components/Action";
 import { Paging, PagingItemType } from "~/components/Paging";
 
@@ -12,12 +12,9 @@ const cx = classNames.bind(style);
 
 type CommonPageProps = {
     title: string;
-    pagingData?: Array<PagingItemType>
-    comboBoxData?: Array<any>;
-    comboBoxRef?: any;
-    onComboBoxClick?(item: any): void;
-    onComboBoxItemClick?(...passParams: any): void;
+    pagingData?: Array<PagingItemType>;
     actionType?: ReactNode;
+    actionFilter?: ReactNode;
     children: ReactNode;
     actionData?: Array<any>;
     comboBoxRender?: ReactNode;
@@ -28,12 +25,7 @@ type CommonPageProps = {
     }
 }
 
-// export const CommonPage = memo(({ title, comboBoxRef, comboBoxData, onComboBoxClick, onComboBoxItemClick, comboBoxRender, pagingData, actionType, actionData, search, children }: CommonPageProps) => {
-export const CommonPage = memo(({ title, comboBoxData, comboBoxRef, pagingData, actionType, actionData = [], search, children, onComboBoxClick, onComboBoxItemClick }: CommonPageProps) => {
-    const handleComboBoxClick = (item: any) => {
-        onComboBoxClick && onComboBoxClick(item);
-    }
-
+export const CommonPage = memo(({ title, actionFilter, pagingData, actionType, actionData = [], search, children }: CommonPageProps) => {
     return (
         <div className={cx('common-page')}>
             {pagingData && <Paging data={pagingData} />}
@@ -49,21 +41,7 @@ export const CommonPage = memo(({ title, comboBoxData, comboBoxRef, pagingData, 
                 />}
                 <div className={cx('content')}>
                     <div className={cx('content__action')}>
-                        <div className={cx('combo-box-data')}>
-                            {comboBoxData?.length && comboBoxData.map((item, index) => (
-                                <ComboBox
-                                    comboBoxRef={comboBoxRef}
-                                    key={index}
-                                    title={item.title}
-                                    active={item.activeData}
-                                    visible={item.visible}
-                                    data={item.data}
-                                    className={cx('combo-data')}
-                                    onClick={() => handleComboBoxClick(item)}
-                                    onItemClick={onComboBoxItemClick}
-                                />
-                            ))}
-                        </div>
+                        {actionFilter && actionFilter}
                         {actionType && <div className={cx('action-type-container')}>{actionType}</div>}
                     </div>
                     {children}

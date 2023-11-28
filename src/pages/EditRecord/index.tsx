@@ -1,18 +1,17 @@
 import classNames from "classnames/bind";
 import { useEffect, useRef, useState } from "react";
+import { useFormik } from "formik";
+import { useSelector } from "react-redux";
+import { useNavigate, useParams } from "react-router";
 
 import style from './EditRecord.module.scss';
 import { Paging, PagingItemType } from "~/components/Paging";
-import logo from '~/images/logo-test.jpg';
 import Image from "~/components/Image";
 import { Icon, musicIcon } from "~/icons";
 import Input from "~/components/Input";
 import { ComboBox } from "~/components/ComboBox";
 import { routes } from "~/config/routes";
 import { Button } from "~/components/Button";
-import { useNavigate, useParams } from "react-router";
-import { useFormik } from "formik";
-import { useSelector } from "react-redux";
 import { RootState, useAppDispatch } from "~/store";
 import { Record } from "~/api/recordAPI";
 import { Contract, getContractById } from "~/api/contractAPI";
@@ -21,7 +20,6 @@ import { saveRecord } from "~/thunk/recordThunks";
 import { Category } from "~/api/categoryAPI";
 import Loading from "~/components/Loading";
 import { User, getUserById } from "~/api/userAPI";
-import { Timestamp } from "firebase/firestore";
 
 const cx = classNames.bind(style);
 
@@ -65,6 +63,7 @@ export const EditRecord = () => {
     const recordFormik = useFormik({
         initialValues: {
             id: '',
+            imageURL: '',
             ISRCCode: '',
             approvalDate: '',
             author: '',
@@ -72,32 +71,37 @@ export const EditRecord = () => {
             contractId: '',
             createdBy: {} as User,
             approvalBy: {} as User,
+            audioLink: '',
             createdDate: '',
-            expiryDate: '',
+            expirationDate: '',
             format: '',
             nameRecord: '',
             producer: '',
             singer: '',
             time: '',
             contract: {} as Contract,
+            status: ''
         },
         onSubmit: async (values) => {
             await dispatch(saveRecord({
                 id: values.id,
+                imageURL: values.imageURL,
                 ISRCCode: values.ISRCCode,
                 approvalDate: values.approvalDate,
                 approvalBy: recordFormik.values.approvalBy ? recordFormik.values.approvalBy.id : '',
                 author: values.author,
+                audioLink: values.audioLink,
                 categoriesId: values.category.id,
                 contractId: values.contractId,
                 createdBy: values.createdBy.id,
                 createdDate: values.createdDate,
-                expiryDate: values.expiryDate,
+                expirationDate: values.expirationDate,
                 format: values.format,
                 nameRecord: values.nameRecord,
                 producer: values.producer,
                 singer: values.singer,
-                time: values.time
+                time: values.time,
+                status: 'approved'
             }));
 
             navigate('/record-management');
@@ -220,7 +224,7 @@ export const EditRecord = () => {
                     <div className={cx('record-container__left')}>
                         <div className={cx('record__detail')}>
                             <p className={cx('record__detail__title')}>Thông tin bản ghi</p>
-                            <Image isBG className={cx('record__detail__image')} src={logo} alt='logo' type="upload" edit={true} />
+                            <Image isBG className={cx('record__detail__image')} src={recordFormik.values.imageURL} alt='logo' type="upload" edit={true} />
                             <div className={cx('record__detail__mp3')}>
                                 <Icon icon={musicIcon} />
                                 <p>Matem.mp3</p>

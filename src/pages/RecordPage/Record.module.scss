@@ -76,12 +76,14 @@ $topPlayIcon: (
     flex-direction: column;
     justify-content: center;
     border-radius: 8px;
+    overflow: hidden;
     position: relative;
     cursor: pointer;
 
     &>.item__image {
         width: 342px;
-        height: auto;
+        height: 98%;
+        object-fit: cover;
         position: absolute;
         top: 0;
         left: 0;
@@ -172,6 +174,7 @@ $topPlayIcon: (
 
     & div {
         width: max-content;
+        min-width: max-content;
     }
 
     &>.item__content__right {
@@ -190,6 +193,10 @@ $topPlayIcon: (
             height: 24px;
             color: var(--color-orange);
         }
+    }
+
+    &>div {
+
     }
 }
 

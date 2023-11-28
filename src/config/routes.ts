@@ -6,5 +6,6 @@ export const routes = {
     ResetNoFoundPage: '/reset-password/*',
     RecordPage: '/record-management',
     EditRecord: '/record/edit/:id',
-    ApproveRecord: '/approve-record'
+    ApproveRecord: '/approve-record',
+    Entrusment: '/entrusment-contract'
 }

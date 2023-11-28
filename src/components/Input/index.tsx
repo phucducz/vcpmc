@@ -22,8 +22,11 @@ export type InputProps = {
     style?: Object;
     readOnly?: boolean;
     accept?: string;
+    max?: number;
+    min?: number;
     isRequired?: boolean,
     placeholder?: string;
+    className?: string;
     leftIcon?: ReactNode,
     inputRef?: any;
     onRightIconClick?: any,
@@ -47,6 +50,7 @@ function Input({
     touched,
     errorMessage,
     isRequired = false,
+    className,
     inputRef,
     onChange,
     onFocus,
@@ -98,7 +102,7 @@ function Input({
                 ref={inputRef}
                 value={value}
                 name={name}
-                className={cx('form-group__input', { small, large, medium, tiny })}
+                className={cx('form-group__input', { small, large, medium, tiny }, className)}
                 onChange={onChange}
                 onFocus={onFocus}
                 onBlur={() => handleBlur()}
