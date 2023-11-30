@@ -1,0 +1,25 @@
+.tab-container {
+    width: max-content;
+    height: auto;
+    display: flex;
+    justify-content: space-between;
+    border: 1px solid var(--orange-4-default);
+    border-radius: 24px;
+    align-items: center;
+    margin-top: 24px;
+}
+
+.item {
+    padding: 8px 24px;
+    border-radius: 24px;
+    cursor: pointer;
+    user-select: none;
+
+    &>p {
+        opacity: .7;
+    }
+
+    &.active {
+        background-color: var(--color-orange-5);
+    }
+}

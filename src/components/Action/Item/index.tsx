@@ -6,11 +6,11 @@ import { ActionDataType } from "..";
 
 const cx = classNames.bind(style);
 
-type ItemProps = ActionDataType;
+type ItemProps = ActionDataType & { className: string };
 
-export const Item = memo(({ icon, title, onClick }: ItemProps) => {
+export const Item = memo(({ icon, title, onClick, className }: ItemProps) => {
     return (
-        <div className={cx('action__item')} onClick={onClick}>
+        <div className={cx('action__item', className)} onClick={onClick}>
             <div className={cx('action__item__icon')}>{icon}</div>
             <div className={cx('action__item__title')}><p>{title}</p></div>
         </div>

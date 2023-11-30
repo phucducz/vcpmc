@@ -160,6 +160,12 @@ table {
     }
 }
 
+.page-num {
+    .active {
+        background-color: rgba(255, 117, 6, 0.5);
+    }
+}
+
 @keyframes loading-loading {
     0% {
         top: 50%;
@@ -173,37 +179,3 @@ table {
         transform: translate(-50%, -50%) rotate(360deg);
     }
 }
-
-// .pagination {
-//     list-style: none;
-//     display: flex;
-//     align-items: center;
-//     justify-content: center;
-
-//     &:hover {
-//         opacity: 1;
-//     }
-
-//     &>li {
-//         padding: 0 9px;
-//         user-select: none;
-        
-//         &>a {
-//             padding: 4px 8px;
-//             border-radius: 50%;
-//             background-color: transparent;
-
-//             &>svg {
-//                 font-size: 1.5rem;
-//             }
-
-//             &:hover {
-//                 background-color: #FF7506;
-//             }
-//         }
-
-//         &.active>a {
-//             background-color: #FF7506;
-//         }
-//     }
-// }

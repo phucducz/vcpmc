@@ -43,7 +43,7 @@ export const MenuProvider = ({ children }: MenuProviderProps) => {
                     title: 'Quản lý hợp đồng',
                     onClick: () => {
                         setMenuActive(4);
-                        navigate(routes.Entrusment);
+                        navigate(routes.Entrustment);
                     }
                 }, {
                     title: 'Quản lý thiết bị',

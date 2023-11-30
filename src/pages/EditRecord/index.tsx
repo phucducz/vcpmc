@@ -1,5 +1,5 @@
 import classNames from "classnames/bind";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useFormik } from "formik";
 import { useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router";
@@ -101,7 +101,7 @@ export const EditRecord = () => {
                 producer: values.producer,
                 singer: values.singer,
                 time: values.time,
-                status: 'approved'
+                status: 'Đã phê duyệt'
             }));
 
             navigate('/record-management');
@@ -215,6 +215,13 @@ export const EditRecord = () => {
         return 'Còn hiệu lực';
     }
 
+    const handleBlur = useCallback((item: any) => {
+        console.log(item);
+        setVisibleComboBox(false);
+    }, []);
+
+    console.log(visibleComboBox);
+
     return (
         <div className={cx('edit-record')}>
             <Paging data={PAGING_ITEMS} />
@@ -278,6 +285,7 @@ export const EditRecord = () => {
                                     <Input key={input.fieldName} {...input} />
                                 )}
                                 <ComboBox
+                                    width={'100%'}
                                     comboBoxRef={comboBoxRef}
                                     visible={visibleComboBox}
                                     onClick={() => setVisibleComboBox(!visibleComboBox)}
@@ -285,7 +293,9 @@ export const EditRecord = () => {
                                     title='Thể loại:'
                                     data={COMBOBOX_DATA}
                                     active={comboBoxDataActive}
-                                    onBlur={() => { }}
+                                    // onBlur={handleBlur}
+                                    // setVisible={() => setVisibleComboBox(false)}
+                                    // onBlur={() => handleBlur(false)}
                                     onItemClick={handleComboBoxItemClick}
                                 />
                             </div>

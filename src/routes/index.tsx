@@ -1,6 +1,8 @@
 import { routes } from "~/config/routes";
 import { LoginLayout } from "~/layouts/LoginLayout";
+import { AddETMContract } from "~/pages/AddEntrusmentContract";
 import { ApprovePage } from "~/pages/ApprovePage";
+import { ETMContractDetail } from "~/pages/ETMContractDetail";
 import { EditRecord } from "~/pages/EditRecord";
 import { EntrusmentPage } from "~/pages/EntrustmentPage";
 import { LoginPage } from "~/pages/LoginPage";
@@ -19,5 +21,7 @@ export const publicRoutes = [
     { path: routes.RecordPage, Component: RecordPage },
     { path: routes.EditRecord, Component: EditRecord },
     { path: routes.ApproveRecord, Component: ApprovePage },
-    { path: routes.Entrusment, Component: EntrusmentPage }
+    { path: routes.Entrustment, Component: EntrusmentPage },
+    { path: routes.ETMContractDetail, Component: ETMContractDetail },
+    { path: routes.AddETMContract, Component: AddETMContract }
 ];

@@ -1,5 +1,5 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { collection, getDocs, orderBy, query } from "firebase/firestore";
+import { collection, getDocs, query } from "firebase/firestore";
 import { firestoreDatabase } from "~/config/firebase";
 
 import { Record, addRecord } from "~/api/recordAPI";

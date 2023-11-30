@@ -14,11 +14,9 @@ import { Record } from "~/api/recordAPI";
 import { formatDateMDY, getCurrentDate } from "~/context";
 import { Table } from "~/components/Table";
 import { Grid } from "~/components/Grid";
-import logo from '~/images/logo-test.jpg';
 import { useNavigate } from "react-router";
 import { CommonPage } from "../CommonPage";
 import { AudioDialog } from "~/components/AudioDialog";
-import Image from "~/components/Image";
 
 const cx = classNames.bind(style);
 
@@ -86,12 +84,11 @@ export const GridItem = memo(({ data, boxItemData, action, onGridItemClick }: Gr
                         </div>
                     </div>
                     <div className={cx('content__right__box')}>
-                        {boxItemData.map(item => <BoxItem data={item} />)}
+                        {boxItemData.map(item => <BoxItem key={item.title} data={item} />)}
                     </div>
                 </div>
                 <div className={cx('item__content__left')}>
                     {action && action}
-                    {/* <FontAwesomeIcon icon={faEdit} className={cx('content__left__icon')} onClick={() => navigate(`/record/edit/${data.ISRCCode}`)} /> */}
                 </div>
             </div>
         </div>
@@ -106,7 +103,7 @@ export const RecordPage = () => {
     const approval = useSelector((state: RootState) => state.approval);
 
     const navigate = useNavigate();
-    const { setMenuActive } = useContext(MenuContext);
+    const { menuActive, setMenuActive } = useContext(MenuContext);
 
     const [audioLink, setAudioLink] = useState<string>('');
     const [audioActive, setAudioActive] = useState<boolean>(false);
@@ -171,11 +168,14 @@ export const RecordPage = () => {
     ]);
 
     useEffect(() => {
+        console.log(menuActive);
         setMenuActive(1);
     }, []);
 
     useEffect(() => {
-        setRecordData(record.recordList.filter(record => record.approvalDate !== '' && record.status !== 'not approval record'));
+        console.log(record.recordList);
+        
+        setRecordData(record.recordList.filter(record => record.approvalDate !== '' && record.status !== 'Bị từ chối' && record.status !== ''));
     }, [record.recordList]);
 
     useEffect(() => {
@@ -268,6 +268,14 @@ export const RecordPage = () => {
         );
     }, []);
 
+    const handleBlurComboBox = useCallback((item: any) => {
+        setComboBoxData(prev =>
+            prev.map(data =>
+                data.title === item.title ? { ...data, visible: false } : data
+            )
+        );
+    }, []);
+
     const handleUpdateClick = useCallback((item: Record) => {
         let expirationDateRecord = new Date(formatDateMDY(item.expirationDate));
         let isExpiry = expirationDateRecord < new Date(getCurrentDate());
@@ -294,7 +302,7 @@ export const RecordPage = () => {
                 searchValue: searchValue,
                 setSearchValue: (e: any) => setSearchValue(e.target.value)
             }}
-            actionFilter={<div className={cx('combo-box-data')}>
+            actionFilter={<>
                 {comboBoxData?.length && comboBoxData.map((item, index) => (
                     <ComboBox
                         key={index}
@@ -305,10 +313,10 @@ export const RecordPage = () => {
                         className={cx('combo-data')}
                         onClick={() => handleComboBoxClick(item)}
                         onItemClick={handleSetCategory}
+                        onBlur={() => handleBlurComboBox(item)}
                     />
                 ))}
-            </div>}
-
+            </>}
             actionType={
                 <div className={cx('action__type-load', typeLoad === 'table' ? 'table-visible' : 'grid-visible')}>
                     <Icon icon={listTabListIcon} onClick={() => setTypeLoad('table')} />

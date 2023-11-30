@@ -1,10 +1,9 @@
 import classNames from "classnames/bind";
 import { memo, useRef, useState, useEffect } from "react";
-
-import style from './AudioDialog.module.scss';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMaximize, faPause, faPlay, faVolumeLow, faVolumeXmark } from "@fortawesome/free-solid-svg-icons";
 
+import style from './AudioDialog.module.scss';
 import { formatTime } from "~/context";
 import Input from "../Input";
 
@@ -95,7 +94,7 @@ export const AudioDialog = memo(({ src, visible, setVisible }: AudioDialogProps)
                         </div>
                         <div className={cx('box__control__input')}>
                             <div className={cx('box__control__input__left')}>
-                                {audioStatus
+                                {!audioStatus
                                     ? <FontAwesomeIcon icon={faPlay} className={cx('audio-status')} onClick={() => setAudioStatus(!audioStatus)} />
                                     : <FontAwesomeIcon icon={faPause} className={cx('audio-status')} onClick={() => setAudioStatus(!audioStatus)} />
                                 }

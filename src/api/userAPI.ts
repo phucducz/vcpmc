@@ -10,15 +10,35 @@ type Role = {
 
 export type User = {
     avatar: string;
-    id: string;
+    bank: string;
+    bankNumber: string;
     dateOfBirth: string;
+    dateRange: string;
     email: string;
     firstName: string;
+    gender: string;
+    idNumber: string;
+    issuedBy: string;
     lastName: string;
+    nationality: string;
     password: string;
     phoneNumber: string;
-    role: Role;
+    residence: string;
+    rolesId: string;
+    taxCode: string;
     userName: string;
+    role: Role;
+    id: string;
+    //     avatar: string;
+    //     id: string;
+    //     dateOfBirth: string;
+    //     email: string;
+    //     firstName: string;
+    //     lastName: string;
+    //     password: string;
+    //     role: Role;
+    //     phoneNumber: string;
+    //     userName: string;
 }
 
 // export const checkLogin = async (userName: string, password: string) => {
@@ -39,19 +59,39 @@ export type User = {
 export const getUserById = async (id: string, roleList?: Role[]) => {
     let result = (await getDoc(doc(firestoreDatabase, 'users', id))).data();
 
-    if (result)
-        return {
-            avatar: result.avatar,
-            dateOfBirth: result.dateOfBirth,
-            email: result.email,
-            firstName: result.firstName,
-            id: result.id,
-            lastName: result.lastName,
-            password: result.password,
-            phoneNumber: result.phoneNumber,
-            userName: result.userName,
-            role: roleList?.find(role => result && role.id === result.rolesId)
-        }
+    if (!result) return {} as User;
+
+    return {
+        // avatar: result.avatar,
+        // dateOfBirth: result.dateOfBirth,
+        // email: result.email,
+        // firstName: result.firstName,
+        // id: result.id,
+        // lastName: result.lastName,
+        // password: result.password,
+        // phoneNumber: result.phoneNumber,
+        // userName: result.userName,
+        avatar: result.avatar,
+        bank: result.bank,
+        bankNumber: result.bankNumber,
+        dateOfBirth: result.dateOfBirth,
+        dateRange: result.dateRange,
+        email: result.email,
+        firstName: result.firstName,
+        gender: result.gender,
+        idNumber: result.idNumber,
+        issuedBy: result.issuedBy,
+        lastName: result.lastName,
+        nationality: result.nationality,
+        password: result.password,
+        phoneNumber: result.phoneNumber,
+        residence: result.residence,
+        rolesId: result.rolesId,
+        taxCode: result.taxCode,
+        userName: result.userName,
+        id: result.id,
+        role: typeof roleList !== 'undefined' ? roleList.find(role => result && role.id === result.rolesId) : { id: '', role: '' }
+    }
 }
 
 export const getUserIdByEmail = async (email: string) => {

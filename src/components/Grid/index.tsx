@@ -111,14 +111,8 @@ export const Grid = memo(({ paginate, loading, className, children, itemsPerPage
                     previousClassName="page-num"
                     nextLinkClassName="page-num"
                     activeClassName="active"
-                    // containerClassName={cx("pagination")}
-                    // pageLinkClassName={cx("page-num")}
-                    // previousClassName={cx("page-num")}
-                    // nextLinkClassName={cx("page-num")}
-                    // activeClassName={cx("active")}
                 />
             </div>
-            {/* <Loading visible={true} className={cx('grid-container__loading')}/> */}
             <Loading visible={loading || false} className={cx('grid-container__loading')} />
         </div>
     );

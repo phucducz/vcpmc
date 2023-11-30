@@ -1,0 +1,59 @@
+.content-container {
+    &>.content-edit>button {
+        margin: 76px 0;
+
+        &+button {
+            margin-left: 40px !important;
+        }
+    }
+}
+
+.gender-group {
+    height: 48px;
+    display: flex;
+}
+
+// block input
+
+.content-edit__box {
+    max-width: 1691px;
+    display: flex;
+    flex-wrap: wrap;
+    row-gap: 99px;
+}
+
+.content__type {
+    display: flex;
+    flex-direction: column;
+
+    &>p {
+        text-align: start;
+    }
+
+    &>.content__type__all {
+        display: inline-flex;
+        justify-content: space-between;
+        gap: 42px;
+
+        & input[type='text'] {
+            width: 169px !important;
+        }
+
+        &>div+div {
+            width: 1px;
+            height: auto;
+            padding-left: 13px;
+            border-left: 1px solid #727288;
+        }
+    }
+
+    &>div+div {
+        margin-top: 17px;
+    }
+}
+
+.all__value-input {
+    &>div {
+        gap: 12px;
+    }
+}

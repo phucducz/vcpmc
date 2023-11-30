@@ -25,6 +25,7 @@ export type InputProps = {
     max?: number;
     min?: number;
     isRequired?: boolean,
+    spellCheck?: boolean,
     placeholder?: string;
     className?: string;
     leftIcon?: ReactNode,

@@ -12,7 +12,8 @@ type VerticalPosition = 'center' | 'left' | 'right';
 export type ActionDataType = {
     icon: ReactNode;
     title: ReactNode;
-    onClick?: () => void
+    onClick?: () => void;
+    disable?: boolean;
 }
 
 type ActionProps = {
@@ -38,7 +39,8 @@ export const Action = memo(({ data, className, placement = 'center', visible }: 
                     key={index}
                     icon={item.icon}
                     title={item.title}
-                    onClick={item.onClick}
+                    onClick={!item.disable ? item.onClick : () => { }}
+                    className={cx(item.disable && 'disable')}
                 />
             ))}
         </div>

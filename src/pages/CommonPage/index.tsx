@@ -4,9 +4,9 @@ import { ReactNode, memo } from "react";
 import style from './CommonPage.module.scss';
 import Input from "~/components/Input";
 import { Icon, searchIcon } from "~/icons";
-// import { ComboBox } from "~/components/ComboBox";
 import { Action } from "~/components/Action";
 import { Paging, PagingItemType } from "~/components/Paging";
+import { Tab, TabItemProps } from "~/components/Tab";
 
 const cx = classNames.bind(style);
 
@@ -23,13 +23,15 @@ type CommonPageProps = {
         searchValue: string;
         setSearchValue: (e: React.ChangeEvent<HTMLInputElement>) => void
     }
+    tab?: Array<TabItemProps>;
 }
 
-export const CommonPage = memo(({ title, actionFilter, pagingData, actionType, actionData = [], search, children }: CommonPageProps) => {
+export const CommonPage = memo(({ title, actionFilter, pagingData, actionType, actionData = [], search, children, tab = [] as Array<TabItemProps> }: CommonPageProps) => {
     return (
         <div className={cx('common-page')}>
             {pagingData && <Paging data={pagingData} />}
             <header><h3>{title}</h3></header>
+            <Tab data={tab} />
             <div className={cx('content-container')}>
                 {search && <Input
                     large
@@ -41,7 +43,7 @@ export const CommonPage = memo(({ title, actionFilter, pagingData, actionType, a
                 />}
                 <div className={cx('content')}>
                     <div className={cx('content__action')}>
-                        {actionFilter && actionFilter}
+                        {actionFilter && <div>{actionFilter}</div>}
                         {actionType && <div className={cx('action-type-container')}>{actionType}</div>}
                     </div>
                     {children}

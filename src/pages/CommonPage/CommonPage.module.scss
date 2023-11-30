@@ -26,11 +26,11 @@
 }
 
 .content__action {
-    height: 40px;
+    height: auto;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-top: 24px;
+    // margin-top: 24px;
 
     &>.action__type-load {
         &>svg {
@@ -57,6 +57,10 @@
                 color: var(--color-orange);
             }
         }
+    }
+
+    &>div {
+        margin-top: 24px;
     }
 }
 

@@ -18,17 +18,19 @@ export type ComboData = {
 
 type ComboBoxProps = {
     title: string;
+    width?: string;
     data: Array<any>;
     className?: string;
     active: string;
     visible?: boolean;
     comboBoxRef?: any;
     onItemClick?: (category: any, ...passParams: any) => void;
-    onBlur?: () => void;
+    onBlur?(item: any): void;
     onClick: () => void;
+    // setVisible?(visible: boolean): void;
 }
 
-export const ComboBox = memo(({ comboBoxRef, title, data, className, active, visible, onClick, onBlur, onItemClick }: ComboBoxProps) => {
+export const ComboBox = memo(({ width: widthOut, comboBoxRef, title, data, className, active, visible, onClick, onBlur, onItemClick }: ComboBoxProps) => {
     const ownRef = useRef<HTMLUListElement>(null);
 
     const width = useMemo(() => {
@@ -46,13 +48,18 @@ export const ComboBox = memo(({ comboBoxRef, title, data, className, active, vis
             <li
                 className={cx('combo-box__content', visible && 'active')}
                 onClick={onClick}
-                onBlur={onBlur}
             >
-                <div className={cx('content__active')} style={{ width: `${width}px` }}>
-                    {/* <Input value={active} name='comboBoxValue' onChange={() => { }} /> */}
-                    <p>{active}</p>
-                    <FontAwesomeIcon icon={faChevronDown} />
-                    {/* <input style={{ display: 'block', height: `${ref.current?.offsetHeight}px` }} onBlur={() => { }} /> */}
+                <div className={cx('content__active')} >
+                    <Input
+                        spellCheck={false}
+                        value={active}
+                        name='comboBoxValue'
+                        onChange={() => { }}
+                        // onBlur={() => console.log(onBlur)}
+                        // onBlur={onBlur}
+                        style={{ width: widthOut || `calc(${width}px - 40px)` }}
+                    />
+                    < FontAwesomeIcon icon={faChevronDown} />
                 </div>
                 <DropDown
                     dropDownRef={ownRef}
@@ -61,7 +68,8 @@ export const ComboBox = memo(({ comboBoxRef, title, data, className, active, vis
                     placement="bottom-left"
                     visible={visible}
                     onItemClick={onItemClick}
-                    style={{ width: `${width}px` }}
+                    // onClick={setVisible}
+                    style={{ width: widthOut || `${width}px` }}
                 />
             </li>
         </div>

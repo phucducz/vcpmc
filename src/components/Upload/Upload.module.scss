@@ -1,0 +1,51 @@
+.upload-container {
+    display: block;
+    width: 108px;
+    height: 40px;
+    position: relative;
+    cursor: pointer;
+    user-select: none;
+}
+
+.upload__form-group {
+    border: 1px solid var(--color-orange-3);
+    border-radius: 6px;
+
+    &>span {
+        display: inline-flex;
+        padding: 0.7rem 0;
+
+        &>div {
+            position: absolute;
+            top: 0;
+            left: 0;
+            opacity: 0;
+
+            &>input {
+                width: 108px;
+                padding: 0;
+                position: absolute;
+                top: 0;
+                left: 0;
+                z-index: 2;
+                cursor: pointer;
+            }
+        }
+    }
+}
+
+.upload__form-group {
+    &>span>span {
+        display: inline-flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 4px;
+        position: relative;
+        z-index: 1;
+
+        &>svg,
+        &>span {
+            color: var(--color-orange-3);
+        }
+    }
+}

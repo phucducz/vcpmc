@@ -16,16 +16,13 @@ export type Record = {
     contractId: string;
     createdBy: string;
     createdDate: string;
-    // expiryDate: string;
     format: string;
     nameRecord: string;
     producer: string;
     singer: string;
     time: string;
     expirationDate: string;
-    // expirationDate?: Timestamp | string;
     status: string;
-    // contract: Contract
 }
 
 export const getRecordList = async () => {
@@ -43,7 +40,6 @@ export const getRecordList = async () => {
         contractId: doc.data().contractId,
         createdBy: doc.data().createdBy,
         createdDate: doc.data().createdDate,
-        // expiraDate: doc.data().expiraDate,
         expirationDate: doc.data().expirationDate,
         format: doc.data().format,
         nameRecord: doc.data().nameRecord,
@@ -69,13 +65,3 @@ export const getContractList = async () => {
 export const addRecord = async (record: Omit<Record, 'category' | 'approvalsId'> & { categoriesId: string }) => {
     await saveService('records', record);
 }
-
-// export const approveRecords = async (approvals: Array<Approval>) => {
-//     const batch = writeBatch(firestoreDatabase);
-
-//     approvals.forEach(approval => {
-//         batch.set(doc(firestoreDatabase, "approvals", approval.id), approval);
-//     });
-
-//     await batch.commit();
-// }

@@ -7,5 +7,7 @@ export const routes = {
     RecordPage: '/record-management',
     EditRecord: '/record/edit/:id',
     ApproveRecord: '/approve-record',
-    Entrusment: '/entrusment-contract'
+    Entrustment: '/entrustment-contract',
+    ETMContractDetail: '/contract-detail/:id',
+    AddETMContract: '/contract-detail/add'
 }

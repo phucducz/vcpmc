@@ -35,3 +35,12 @@
         padding: 1rem;
     }
 }
+
+.action__item.disable {
+    cursor: auto;
+    
+    & p,
+    & svg {
+        color: var(--color-gray);
+    }
+}

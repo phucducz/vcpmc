@@ -10,6 +10,7 @@ export { default as listTabGridIcon } from './list-tab-grid-icon';
 export { default as listTabListIcon } from './list-tab-list-icon';
 export { default as musicIcon } from './music-icon';
 export { default as cameraIcon } from './camera-icon';
+export { default as uploadIcon } from './upload-icon';
 
 export type IconProps = {
     icon: any;

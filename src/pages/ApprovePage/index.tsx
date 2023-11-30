@@ -25,6 +25,7 @@ import { approveRecordList, getApprovalList } from "~/thunk/approvalThunk";
 import { Form } from "~/components/Form";
 import { Button } from "~/components/Button";
 import Input from "~/components/Input";
+import { AudioDialog } from "~/components/AudioDialog";
 
 const cx = classNames.bind(style);
 
@@ -107,7 +108,7 @@ export const ApprovePage = () => {
             reason: ''
         },
         onSubmit: async values => {
-            await handleApprove('not approval record', values.reason);
+            await handleApprove('Bị từ chối', values.reason);
             reasonFormik.setValues(reasonFormik.initialValues);
         }
     });
@@ -256,7 +257,7 @@ export const ApprovePage = () => {
                 searchValue: searchValue,
                 setSearchValue: (e: any) => setSearchValue(e.target.value)
             }}
-            actionFilter={<div className={cx('combo-box-data')}>
+            actionFilter={<>
                 {comboBoxData?.length && comboBoxData.map((item, index) => (
                     <ComboBox
                         key={index}
@@ -270,8 +271,7 @@ export const ApprovePage = () => {
                     />
                 ))}
                 {typeLoad === 'grid' && <CheckBox title="Chọn tất cả" checked={approveAll} onChange={() => setApproveAll(!approveAll)} />}
-            </div>}
-
+            </>}
             actionType={
                 <div className={cx('action__type-load', typeLoad === 'table' ? 'table-visible' : 'grid-visible')}>
                     <Icon icon={listTabListIcon} onClick={() => setTypeLoad('table')} />
@@ -354,7 +354,7 @@ export const ApprovePage = () => {
                                         <td><p>{item.ISRCCode}</p></td>
                                         <td><p>{item.contract.contractCode}</p></td>
                                         <td><p>{item.createdDate}</p></td>
-                                        <td><p className={cx('action')}>Nghe</p></td>
+                                        <td><p className={cx('action')} onClick={() => handleListenAudioClick(item)}>Nghe</p></td>
                                     </tr>
                                 )
                             })
@@ -366,6 +366,7 @@ export const ApprovePage = () => {
                             </tr>
                         }
                     </Table>}
+                <AudioDialog src={audioLink} visible={audioActive} setVisible={setAudioActive} />
             </div>
             <Form
                 className={cx('form__note-approve')}
@@ -376,6 +377,7 @@ export const ApprovePage = () => {
             >
                 <Input
                     medium
+                    type='textarea'
                     name='reason'
                     placeholder="Cho chúng tôi biết lý do bạn muốn từ chối phê duyệt bản ghi này..."
                     inputRef={reasonInputRef}
