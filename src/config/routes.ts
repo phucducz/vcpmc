@@ -9,5 +9,8 @@ export const routes = {
     ApproveRecord: '/approve-record',
     Entrustment: '/entrustment-contract',
     ETMContractDetail: '/contract-detail/:id',
-    AddETMContract: '/contract-detail/add'
+    AddETMContract: '/contract-detail/add',
+    ETMContractCopy: '/entrustment-contract/copy/:id',
+    PlaylistManagement: '/playlist-management',
+    PlaylistDetail: '/playlist-detail/:id'
 }

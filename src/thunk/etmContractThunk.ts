@@ -1,6 +1,8 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 
-import { getEtmContracts, getEtmContractById } from "~/api/etmContractAPI";
+import { getEtmContracts, getEtmContractById, saveETMContract, EtmContract } from "~/api/etmContractAPI";
+import { saveUser } from "./userThunk";
+import { User, addUser } from "~/api/userAPI";
 
 export const getEtmContractList = createAsyncThunk(
     'etmContract/getEtmContractList',
@@ -13,5 +15,40 @@ export const getETMContractById = createAsyncThunk(
     'etmContract/getETMContractById',
     async (id: string) => {
         return await getEtmContractById(id);
+    }
+);
+
+type SaveEntrustmentContractParamsType = {
+    contract: EtmContract;
+    // contract: EtmContract | Omit<EtmContract, 'id'>;
+    user: Omit<User, 'role'>;
+    navigate: () => void;
+}
+
+export const saveEntrustmentContract = createAsyncThunk(
+    'etmContract/saveEntrustmentContract',
+    async (
+        { contract, user, navigate }: SaveEntrustmentContractParamsType,
+        thunkAPI
+    ) => {
+        let newUser;
+
+        if (user.id === '') {
+            newUser = await addUser(user);
+            await saveETMContract({ contract: { ...contract, usersId: newUser.id } });
+        }
+        else {
+            thunkAPI.dispatch(saveUser({ user }));
+            await saveETMContract({ contract: { ...contract } });
+        }
+
+        navigate();
+    }
+);
+
+export const cancelEntrustmentContract = createAsyncThunk(
+    'etmContract/cancelEntrustmentContract',
+    async ({ contract }: { contract: EtmContract }) => {
+        await saveETMContract({ contract });
     }
 );

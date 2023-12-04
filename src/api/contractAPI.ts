@@ -15,7 +15,5 @@ export type Contract = {
 } 
 
 export const getContractById = async (id: string) => {
-    console.log(id);
-    
     return (await getDoc(doc(firestoreDatabase, 'contract', id))).data();
 }

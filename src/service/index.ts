@@ -14,13 +14,17 @@ export const getService = async (table: string, id?: string) => {
 }
 
 export const saveService = async (table: string, data: any) => {
-    await setDoc(doc(firestoreDatabase, `${table}`, `${data.id}`), data);
+    const { id } = data;
+    delete data.id;
+
+    await setDoc(doc(firestoreDatabase, `${table}`, `${id}`), data);
 }
 
 export const updateService = async (table: string, data: any) => {
-    await updateDoc(doc(firestoreDatabase, `${table}`, `${data.id}`), {
-        ...data
-    });
+    const { id } = data;
+    delete data.id;
+
+    await updateDoc(doc(firestoreDatabase, `${table}`, `${id}`), { ...data });
 }
 
 export const deleteService = async (table: string, id: number) => {

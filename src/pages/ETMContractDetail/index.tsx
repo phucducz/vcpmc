@@ -1,6 +1,6 @@
 import classNames from "classnames/bind";
-import { memo, useEffect, useState } from "react";
-import { useParams } from "react-router";
+import { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router";
 import { useSelector } from "react-redux";
 import { useFormik } from "formik";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -9,12 +9,16 @@ import { faEdit, faXmark } from "@fortawesome/free-solid-svg-icons";
 import style from './ETMContractDetail.module.scss';
 import { CommonPageContractEdit } from "../CommonPageContractEdit";
 import { RootState, useAppDispatch } from "~/store";
-import { getETMContractById } from "~/thunk/etmContractThunk";
-import { getUserById } from "~/api/userAPI";
+import { cancelEntrustmentContract, getETMContractById, saveEntrustmentContract } from "~/thunk/etmContractThunk";
+import { User, getUserById } from "~/api/userAPI";
 import { PagingItemType } from "~/components/Paging";
 import { routes } from "~/config/routes";
 import { ActionDataType } from "~/components/Action";
 import { Button } from "~/components/Button";
+import { EtmContract } from "~/api/etmContractAPI";
+import { Yup } from "~/constants";
+import Loading from "~/components/Loading";
+import { formatToLocalStringCurrentDate } from "~/context";
 
 const cx = classNames.bind(style);
 
@@ -31,9 +35,11 @@ const PAGING_ITEMS: Array<PagingItemType> = [
     }
 ];
 
-export const ETMContractDetail = () => {
+export const ETMContractDetailPage = () => {
     const { id } = useParams();
     const dispatch = useAppDispatch();
+    const navigate = useNavigate();
+
     const etmContract = useSelector((state: RootState) => state.etmContract);
     const role = useSelector((state: RootState) => state.role);
 
@@ -44,6 +50,7 @@ export const ETMContractDetail = () => {
         initialValues: {
             id: '',
             code: '',
+            contractCode: '',
             createdBy: '',
             createdDate: '',
             distributionValue: '',
@@ -77,20 +84,121 @@ export const ETMContractDetail = () => {
             fullName: '',
             playValue: ''
         },
+        validationSchema: Yup.object({
+            id: Yup.string().required(),
+            code: Yup.string().required(),
+            createdDate: Yup.string().required(),
+            distributionValue: Yup.string().required(),
+            effectiveDate: Yup.string().required(),
+            expirationDate: Yup.string().required(),
+            name: Yup.string().required(),
+            status: Yup.string().required(),
+            type: Yup.string().required(),
+            value: Yup.string().required(),
+            companyName: Yup.string().required(),
+            position: Yup.string().required(),
+            usersId: Yup.string().required(),
+            bank: Yup.string().required(),
+            bankNumber: Yup.string().required(),
+            dateOfBirth: Yup.string().required(),
+            dateRange: Yup.string().required(),
+            email: Yup.string().required(),
+            firstName: Yup.string().required(),
+            gender: Yup.string().required(),
+            idNumber: Yup.string().required(),
+            issuedBy: Yup.string().required(),
+            lastName: Yup.string().required(),
+            nationality: Yup.string().required(),
+            password: Yup.string().required(),
+            phoneNumber: Yup.string().required(),
+            residence: Yup.string().required(),
+            rolesId: Yup.string().required(),
+            taxCode: Yup.string().required(),
+            userName: Yup.string().required(),
+            fullName: Yup.string().required()
+        }),
         onSubmit: values => {
-            console.log('update contract');
-            console.log(values);
+            const { code, distributionValue, effectiveDate, expirationDate, id, name, playValue,
+                status, type, value, companyName, position, createdBy, createdDate, usersId } = values;
+
+            const { avatar, bank, bankNumber, dateOfBirth, dateRange, email, gender,
+                idNumber, issuedBy, nationality, password, phoneNumber, residence,
+                rolesId, taxCode, userName, fullName } = values;
+
+            const fullNameList = fullName.split(' ');
+
+            const formatToDMY = (date: string) => {
+                const dateArray = date.split('-');
+
+                return `${dateArray[2]}/${dateArray[1]}/${dateArray[0]}`;
+            }
+
+            const user: Omit<User, 'role'> = {
+                avatar: avatar,
+                bank: bank,
+                bankNumber: bankNumber,
+                dateOfBirth: formatToDMY(dateOfBirth),
+                dateRange: formatToDMY(dateRange),
+                email: email,
+                firstName: fullNameList[fullNameList.length - 1],
+                gender: gender,
+                idNumber: idNumber,
+                issuedBy: issuedBy,
+                lastName: fullNameList[0],
+                nationality: nationality,
+                password: password,
+                phoneNumber: phoneNumber,
+                residence: residence,
+                rolesId: rolesId,
+                taxCode: taxCode,
+                userName: userName,
+                id: usersId
+            }
+
+            const contract: EtmContract = {
+                id: id,
+                code: code,
+                createdBy: createdBy,
+                createdDate: createdDate,
+                companyName: companyName,
+                distributionValue: distributionValue,
+                effectiveDate: formatToDMY(effectiveDate),
+                expirationDate: formatToDMY(expirationDate),
+                name: name,
+                status: status,
+                type: type,
+                value: value,
+                position: position,
+                usersId: usersId,
+                playValue: playValue
+            }
+
+            console.log(user);
+            console.log(contract);
+
+            dispatch(saveEntrustmentContract({
+                contract,
+                user,
+                navigate: () => navigate(routes.Entrustment)
+            }));
         }
     });
 
-    const { code, distributionValue, effectiveDate, expirationDate,
+    const { code, distributionValue, effectiveDate, expirationDate, playValue,
         name, status, type, value, companyName, position } = contractFormik.values;
+    console.log(contractFormik.errors);
 
     useEffect(() => {
         if (id === '') return;
 
         dispatch(getETMContractById(id || ''));
     }, [id]);
+
+    const formatYMDToMDY = (date: string) => {
+        let dateArray = date.split('/');
+
+        return `${dateArray[2]}-${dateArray[1]}-${dateArray[0]}`;
+    }
 
     useEffect(() => {
         if (Object.keys(etmContract.etmContract).length <= 0) return;
@@ -100,17 +208,52 @@ export const ETMContractDetail = () => {
             const user = await getUserById(usersId, role.roleList);
 
             contractFormik.setValues({
-                ...etmContract.etmContract,
                 ...user,
-                fullName: `${user.firstName}${user.lastName}`,
-                playValue: ''
+                ...etmContract.etmContract,
+                fullName: `${user.firstName} ${user.lastName}`,
+                playValue: etmContract.etmContract.playValue,
+                dateOfBirth: formatYMDToMDY(user.dateOfBirth),
+                expirationDate: formatYMDToMDY(etmContract.etmContract.expirationDate),
+                effectiveDate: formatYMDToMDY(etmContract.etmContract.effectiveDate),
+                dateRange: formatYMDToMDY(user.dateRange),
+                contractCode: etmContract.etmContract.code
             });
         }
 
         getUser();
     }, [etmContract.etmContract]);
 
-    console.log(status);
+    const handleCancelContract = async () => {
+        const formatToDMY = (date: string) => {
+            const dateArray = date.split('-');
+
+            return `${dateArray[2]}/${dateArray[1]}/${dateArray[0]}`;
+        }
+
+        const { code, distributionValue, effectiveDate, expirationDate, name, usersId, id,
+            playValue, type, value, companyName, position, createdBy, createdDate } = contractFormik.values;
+
+        const contract: EtmContract = {
+            id: id,
+            code: code,
+            createdBy: createdBy,
+            createdDate: createdDate,
+            companyName: companyName,
+            distributionValue: distributionValue,
+            effectiveDate: formatToDMY(effectiveDate),
+            expirationDate: formatToDMY(expirationDate),
+            name: name,
+            status: 'Đã hủy',
+            type: type,
+            value: value,
+            position: position,
+            usersId: usersId,
+            playValue: playValue,
+        }
+
+        await dispatch(cancelEntrustmentContract({ contract }));
+        navigate(routes.Entrustment);
+    }
 
     useEffect(() => {
         let statusCancel = false;
@@ -129,138 +272,137 @@ export const ETMContractDetail = () => {
             }, {
                 icon: <FontAwesomeIcon icon={faXmark} />,
                 title: 'Huỷ hợp đồng',
-                onClick: () => setEdit(false),
+                onClick: () => handleCancelContract(),
                 disable: statusCancel
             }
         ]);
     }, [status]);
 
     return (
-        <CommonPageContractEdit
-            pagingData={PAGING_ITEMS}
-            title={`Hợp đồng khai thác - ${code}`}
-            edit={edit}
-            // edit={{
-            //     isEdit: edit,
-            //     setEdit: setEdit
-            // }}
-            formikData={contractFormik}
-            actionData={actionData}
-            data={
-                [
-                    {
-                        id: 1,
-                        children: [
-                            {
-                                title: 'Tên hợp đồng:',
-                                content: name
-                            }, {
-                                title: 'Số hợp đồng:',
-                                content: code
-                            }, {
-                                title: 'Ngày hiệu lực:',
-                                content: effectiveDate
-                            }, {
-                                title: 'Ngày hết hạn:',
-                                content: expirationDate
-                            }
-                        ]
-                    }, {
-                        id: 2,
-                        children: [
-                            {
-                                title: 'Đính kèm tệp:',
-                                content: 'Hợp đồng kinh doanh'
-                            }
-                        ]
-                    }, {
-                        id: 3,
-                        children: [
-                            {
-                                title: 'Loại hợp đồng:',
-                                content: type
-                            }, {
-                                title: 'Giá trị hợp đồng (VNĐ):',
-                                content: value
-                            }, {
-                                title: 'Giá trị phân phối (VNĐ/ngày):',
-                                content: distributionValue
-                            }, {
-                                title: 'Tình trạng:',
-                                content: status
-                            }
-                        ]
-                    }, {
-                        id: 4,
-                        children: [
-                            {
-                                title: 'Tên đơn vị sử dụng:',
-                                content: companyName
-                            }, {
-                                title: 'Người đại diện:',
-                                content: contractFormik.values.firstName
-                            }, {
-                                title: 'Chức vụ:',
-                                content: position
-                            }, {
-                                title: 'Ngày sinh:',
-                                content: contractFormik.values.dateOfBirth
-                            }, {
-                                title: 'Quốc tịch:',
-                                content: contractFormik.values.nationality
-                            }, {
-                                title: 'Số điện thoại:',
-                                content: contractFormik.values.phoneNumber
-                            }, {
-                                title: 'Email:',
-                                content: contractFormik.values.email
-                            }
-                        ]
-                    }, {
-                        id: 5,
-                        children: [
-                            {
-                                title: 'Giới tính:',
-                                content: contractFormik.values.gender
-                            }, {
-                                title: 'CMND/ CCCD:',
-                                content: contractFormik.values.idNumber
-                            }, {
-                                title: 'Ngày cấp:',
-                                content: contractFormik.values.dateRange
-                            }, {
-                                title: 'Nơi cấp:',
-                                content: contractFormik.values.issuedBy
-                            }, {
-                                title: 'Mã số thuế:',
-                                content: contractFormik.values.taxCode
-                            }, {
-                                title: 'Nơi cư trú:',
-                                content: contractFormik.values.residence
-                            }
-                        ]
-                    }, {
-                        id: 6,
-                        children: [
-                            {
-                                title: 'Tên đăng nhập:',
-                                content: contractFormik.values.userName
-                            }, {
-                                title: 'Mật khẩu:',
-                                content: contractFormik.values.password
-                            }, {
-                                title: 'Số tài khoản:',
-                                content: contractFormik.values.bankNumber
-                            }, {
-                                title: 'Ngân hàng:',
-                                content: contractFormik.values.bank
-                            }
-                        ]
-                    }
-                ]}
-        >
-            <Button outline type='button' onClick={() => setEdit(false)}>Hủy</Button>
-            <Button type='submit'>Lưu</Button>
-        </CommonPageContractEdit>
+        <div className={cx('entrustment-detail-container')}>
+            <CommonPageContractEdit
+                pagingData={PAGING_ITEMS}
+                title={`Hợp đồng khai thác - ${contractFormik.values.contractCode}`}
+                edit={edit}
+                formikData={contractFormik}
+                actionData={actionData}
+                data={
+                    [
+                        {
+                            id: 1,
+                            children: [
+                                {
+                                    title: 'Tên hợp đồng:',
+                                    content: name
+                                }, {
+                                    title: 'Số hợp đồng:',
+                                    content: code
+                                }, {
+                                    title: 'Ngày hiệu lực:',
+                                    content: effectiveDate
+                                }, {
+                                    title: 'Ngày hết hạn:',
+                                    content: expirationDate
+                                }
+                            ]
+                        }, {
+                            id: 2,
+                            children: [
+                                {
+                                    title: 'Đính kèm tệp:',
+                                    content: 'Hợp đồng kinh doanh'
+                                }
+                            ]
+                        }, {
+                            id: 3,
+                            children: [
+                                {
+                                    title: 'Loại hợp đồng:',
+                                    content: type
+                                }, {
+                                    title: type === 'Trọn gói' ? 'Giá trị hợp đồng (VNĐ):' : 'Giá trị lượt phát (VNĐ)/lượt',
+                                    content: type === 'Trọn gói' ? value : playValue
+                                }, {
+                                    title: type === 'Trọn gói' ? 'Giá trị phân phối (VNĐ/ngày):' : '',
+                                    content: type === 'Trọn gói' ? distributionValue : '',
+                                }, {
+                                    title: 'Tình trạng:',
+                                    content: status
+                                }
+                            ]
+                        }, {
+                            id: 4,
+                            children: [
+                                {
+                                    title: 'Tên đơn vị sử dụng:',
+                                    content: companyName
+                                }, {
+                                    title: 'Người đại diện:',
+                                    content: contractFormik.values.fullName
+                                }, {
+                                    title: 'Chức vụ:',
+                                    content: position
+                                }, {
+                                    title: 'Ngày sinh:',
+                                    content: contractFormik.values.dateOfBirth
+                                }, {
+                                    title: 'Quốc tịch:',
+                                    content: contractFormik.values.nationality
+                                }, {
+                                    title: 'Số điện thoại:',
+                                    content: contractFormik.values.phoneNumber
+                                }, {
+                                    title: 'Email:',
+                                    content: contractFormik.values.email
+                                }
+                            ]
+                        }, {
+                            id: 5,
+                            children: [
+                                {
+                                    title: 'Giới tính:',
+                                    content: contractFormik.values.gender
+                                }, {
+                                    title: 'CMND/ CCCD:',
+                                    content: contractFormik.values.idNumber
+                                }, {
+                                    title: 'Ngày cấp:',
+                                    content: contractFormik.values.dateRange
+                                }, {
+                                    title: 'Nơi cấp:',
+                                    content: contractFormik.values.issuedBy
+                                }, {
+                                    title: 'Mã số thuế:',
+                                    content: contractFormik.values.taxCode
+                                }, {
+                                    title: 'Nơi cư trú:',
+                                    content: contractFormik.values.residence
+                                }
+                            ]
+                        }, {
+                            id: 6,
+                            children: [
+                                {
+                                    title: 'Tên đăng nhập:',
+                                    content: contractFormik.values.userName
+                                }, {
+                                    title: 'Mật khẩu:',
+                                    content: contractFormik.values.password
+                                }, {
+                                    title: 'Số tài khoản:',
+                                    content: contractFormik.values.bankNumber
+                                }, {
+                                    title: 'Ngân hàng:',
+                                    content: contractFormik.values.bank
+                                }
+                            ]
+                        }
+                    ]}
+            >
+                <Button outline type='button' onClick={() => setEdit(false)}>Hủy</Button>
+                <Button type='submit'>Lưu</Button>
+            </CommonPageContractEdit>
+            <Loading visible={etmContract.loading} />
+        </div>
     );
 };

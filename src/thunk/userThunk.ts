@@ -1,6 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 
-import { User, changePasswordUserById, getUserById, updateUserById } from "../api/userAPI";
+import { User, changePasswordUserById, getUserById, saveUserAPI, updateUserById } from "../api/userAPI";
 import { Role } from "~/reducers/role";
 import { checkLogin } from "~/api/loginAPI";
 
@@ -49,5 +49,16 @@ export const changeInfoUserById = createAsyncThunk(
     'user/changeInfo',
     async (data: Pick<User, 'lastName' | 'firstName' | 'dateOfBirth' | 'phoneNumber' | 'id'>) => {
         return await updateUserById(data);
+    }
+)
+
+type SaveUserParamsType = {
+    user: Omit<User, 'role'>
+}
+
+export const saveUser = createAsyncThunk(
+    'user/saveUser',
+    async ({ user }: SaveUserParamsType) => {
+        await saveUserAPI(user);
     }
 )

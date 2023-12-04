@@ -1,6 +1,7 @@
-import { collection, doc, getDoc, getDocs } from "firebase/firestore";
+import { addDoc, collection, doc, getDoc, getDocs } from "firebase/firestore";
 
 import { firestoreDatabase } from "~/config/firebase";
+import { saveService } from "~/service";
 
 export type EtmContract = {
     id: string;
@@ -17,6 +18,7 @@ export type EtmContract = {
     value: string;
     position: string;
     usersId: string;
+    playValue: string;
 }
 
 export const getEtmContracts = async () => {
@@ -36,7 +38,8 @@ export const getEtmContracts = async () => {
         value: doc.data().value,
         companyName: doc.data().companyName,
         position: doc.data().position,
-        usersId: doc.data().usersId
+        usersId: doc.data().usersId,
+        playValue: doc.data().playValue
     }));
 }
 
@@ -59,6 +62,14 @@ export const getEtmContractById = async (id: string) => {
         value: result.value,
         companyName: result.companyName,
         position: result.position,
-        usersId: result.usersId
+        usersId: result.usersId,
+        playValue: result.playValue
     }
+}
+
+export const saveETMContract = async ({ contract }: { contract: EtmContract }) => {
+    if (contract.id !== '')
+        return await saveService('entrustmentContract', contract);
+
+    return await addDoc(collection(firestoreDatabase, 'entrustmentContract'), { ...contract });
 }

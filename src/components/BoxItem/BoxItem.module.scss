@@ -1,0 +1,23 @@
+.box__item {
+    display: flex;
+    width: max-content;
+    padding: 4px 12px;
+    flex-direction: column;
+    justify-content: center;
+    border-radius: 6px;
+    border: 1px solid var(--text-stroke-2);
+
+    &>p.box__item__title {
+        color: var(--text-stroke-2);
+        font-size: 8px;
+        font-weight: 700;
+        line-height: 12px;
+    }
+
+    &>p.box__item__content {
+        color: #F5F5FF;
+        font-size: 12px;
+        font-weight: 500;
+        line-height: 18px;
+    }
+}

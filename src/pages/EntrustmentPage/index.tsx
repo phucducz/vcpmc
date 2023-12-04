@@ -2,17 +2,17 @@ import classNames from "classnames/bind";
 import { useCallback, useEffect, useState } from 'react';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
+import { useNavigate } from "react-router";
+import { useSelector } from "react-redux";
 
 import style from './Entrustment.module.scss';
 import { CommonPage } from "../CommonPage";
 import { PagingItemType } from "~/components/Paging";
 import { TabItemProps } from "~/components/Tab";
-import { useNavigate } from "react-router";
 import { routes } from "~/config/routes";
 import { Table } from "~/components/Table";
 import { RootState, useAppDispatch } from "~/store";
 import { getEtmContractList } from "~/thunk/etmContractThunk";
-import { useSelector } from "react-redux";
 import { EtmContract } from "~/api/etmContractAPI";
 
 const cx = classNames.bind(style);
@@ -47,10 +47,10 @@ export const EntrusmentPage = () => {
     const [tab, setTab] = useState<TabItemProps[]>([
         {
             title: 'Hợp đồng uỷ quyền',
-            onClick: () => navigate('#')
+            onClick: () => navigate('#'),
         }, {
             title: 'Hợp đồng khai thác',
-            onClick: () => navigate(routes.Entrustment)
+            onClick: () => navigate(routes.Entrustment),
         }
     ]);
 
@@ -130,7 +130,7 @@ export const EntrusmentPage = () => {
                                     <td><p>{item.expirationDate}</p></td>
                                     <td><p className={cx('status', status)}>{item.status}</p></td>
                                     <td><p className={cx('action')} onClick={() => navigate(`/contract-detail/${item.id}`)}>Xem chi tiết</p></td>
-                                    <td><p className={cx('action')} onClick={() => { }}>Sao chép hợp đồng</p></td>
+                                    <td><p className={cx('action')} onClick={() => navigate(`/entrustment-contract/copy/${item.id}`)}>Sao chép hợp đồng</p></td>
                                 </tr>
                             );
                         })}

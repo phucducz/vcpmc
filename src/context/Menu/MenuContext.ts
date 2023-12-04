@@ -13,6 +13,10 @@ export type ContextType = {
     data: Array<MenuType>;
     menuActive: number;
     setMenuActive: (active: number) => void;
+    active: boolean;
+    setActive: (active: boolean) => void;
+    type: string;
+    setType: (type: 'normal' | 'dynamic') => void;
 }
 
 export const MenuContext = createContext<ContextType>({} as ContextType);

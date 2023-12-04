@@ -17,7 +17,7 @@ export type ComboData = {
 }
 
 type ComboBoxProps = {
-    title: string;
+    title?: string;
     width?: string;
     data: Array<any>;
     className?: string;
@@ -27,7 +27,6 @@ type ComboBoxProps = {
     onItemClick?: (category: any, ...passParams: any) => void;
     onBlur?(item: any): void;
     onClick: () => void;
-    // setVisible?(visible: boolean): void;
 }
 
 export const ComboBox = memo(({ width: widthOut, comboBoxRef, title, data, className, active, visible, onClick, onBlur, onItemClick }: ComboBoxProps) => {
@@ -43,7 +42,7 @@ export const ComboBox = memo(({ width: widthOut, comboBoxRef, title, data, class
     return (
         <div className={cx('combo-box-container', className)}>
             <div className={cx('combo-box__title')}>
-                <p>{title}</p>
+                {title && <p>{title}</p>}
             </div>
             <li
                 className={cx('combo-box__content', visible && 'active')}
@@ -55,8 +54,6 @@ export const ComboBox = memo(({ width: widthOut, comboBoxRef, title, data, class
                         value={active}
                         name='comboBoxValue'
                         onChange={() => { }}
-                        // onBlur={() => console.log(onBlur)}
-                        // onBlur={onBlur}
                         style={{ width: widthOut || `calc(${width}px - 40px)` }}
                     />
                     < FontAwesomeIcon icon={faChevronDown} />
@@ -68,7 +65,6 @@ export const ComboBox = memo(({ width: widthOut, comboBoxRef, title, data, class
                     placement="bottom-left"
                     visible={visible}
                     onItemClick={onItemClick}
-                    // onClick={setVisible}
                     style={{ width: widthOut || `${width}px` }}
                 />
             </li>

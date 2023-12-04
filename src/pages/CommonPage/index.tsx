@@ -24,11 +24,12 @@ type CommonPageProps = {
         setSearchValue: (e: React.ChangeEvent<HTMLInputElement>) => void
     }
     tab?: Array<TabItemProps>;
+    className?: string;
 }
 
-export const CommonPage = memo(({ title, actionFilter, pagingData, actionType, actionData = [], search, children, tab = [] as Array<TabItemProps> }: CommonPageProps) => {
+export const CommonPage = memo(({ title, actionFilter, pagingData, actionType, actionData = [], search, children, tab = [] as Array<TabItemProps>, className = '' }: CommonPageProps) => {
     return (
-        <div className={cx('common-page')}>
+        <div className={cx('common-page', className)}>
             {pagingData && <Paging data={pagingData} />}
             <header><h3>{title}</h3></header>
             <Tab data={tab} />

@@ -1,8 +1,7 @@
 import classNames from "classnames/bind";
 import { useSelector } from "react-redux";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEdit, faEye, faLock, faSignOut } from "@fortawesome/free-solid-svg-icons";
-import { faCheckCircle } from "@fortawesome/free-regular-svg-icons";
+import { faCheckCircle, faEdit, faEye, faLock, faSignOut } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useFormik } from "formik";

@@ -11,6 +11,9 @@ export { default as listTabListIcon } from './list-tab-list-icon';
 export { default as musicIcon } from './music-icon';
 export { default as cameraIcon } from './camera-icon';
 export { default as uploadIcon } from './upload-icon';
+export { default as playlistAddIcon } from './play-list-icon';
+export { default as circleExclaminationIcon } from './circle-exclamination-icon';
+export { default as trashIcon } from './trash-icon';
 
 export type IconProps = {
     icon: any;

@@ -1,41 +1,23 @@
 import classNames from "classnames/bind";
-// import { useParams } from "react-router";
-// import { useSelector } from "react-redux";
-import { ReactNode, memo, useEffect, useState } from "react";
-// import { useFormik } from "formik";
+import { ReactNode, memo, useEffect, useState, useCallback } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye } from "@fortawesome/free-solid-svg-icons";
-// import { faEdit, faEye, faXmark } from "@fortawesome/free-solid-svg-icons";
 
 import style from './CommonPageContractEdit.module.scss';
 import { PagingItemType } from "~/components/Paging";
-// import { routes } from "~/config/routes";
 import { BlockInfo, BlockInput } from "~/components/Block";
-// import { BlockInfo, BlockInput, BlockInfoItemProps } from "~/components/Block";
-// import { RootState, useAppDispatch } from "~/store";
-// import { getETMContractById } from "~/thunk/etmContractThunk";
-// import { getUserById } from "~/api/userAPI";
 import { CommonPage } from "../CommonPage";
 import { ActionDataType } from "~/components/Action";
 import Input from "~/components/Input";
-import { Button } from "~/components/Button";
 import { RadioButton } from "~/components/RadioButton";
 import { Upload } from "~/components/Upload";
+import { ComboBox } from "~/components/ComboBox";
 
 const cx = classNames.bind(style);
-
-// type BlockData = {
-//     id: number;
-//     children: Array<BlockInfoItemProps>;
-// }
 
 type CommonPageContractEditProps = {
     title: string;
     edit: boolean;
-    // edit: {
-    //     isEdit: boolean;
-    //     setEdit?(edit: boolean): void;
-    // }
     data: Array<any>;
     pagingData: Array<PagingItemType>;
     formikData: any;
@@ -44,205 +26,24 @@ type CommonPageContractEditProps = {
 }
 
 export const CommonPageContractEdit = memo(({ title, edit, data, pagingData, formikData, actionData = [], children }: CommonPageContractEditProps) => {
-    // const { id } = useParams();
-    // const dispatch = useAppDispatch();
-
-    // const etmContract = useSelector((state: RootState) => state.etmContract);
-    // const role = useSelector((state: RootState) => state.role);
-
-    // const [actionData, setActionData] = useState<Array<ActionDataType>>([]);
-    // const [data, setData] = useState<Array<BlockData>>([] as Array<BlockData>);
-    // const [edit, setEdit] = useState<boolean>(false);
     const [passwordType, setPasswordType] = useState<string>('password');
     const [blockInput1, setBlockInput1] = useState<Array<any>>([]);
     const [blockInput2, setBlockInput2] = useState<Array<any>>([]);
     const [blockInput3, setBlockInput3] = useState<Array<any>>([]);
     const [blockInput4, setBlockInput4] = useState<Array<any>>([]);
     const [blockInput5, setBlockInput5] = useState<Array<any>>([]);
-
-    // const formikData = useFormik({
-    //     initialValues: {
-    //         id: '',
-    //         code: '',
-    //         createdBy: '',
-    //         createdDate: '',
-    //         distributionValue: '',
-    //         effectiveDate: '',
-    //         expirationDate: '',
-    //         name: '',
-    //         status: '',
-    //         type: '',
-    //         value: '',
-    //         companyName: '',
-    //         position: '',
-    //         usersId: '',
-    //         avatar: '',
-    //         bank: '',
-    //         bankNumber: '',
-    //         dateOfBirth: '',
-    //         dateRange: '',
-    //         email: '',
-    //         firstName: '',
-    //         gender: '',
-    //         idNumber: '',
-    //         issuedBy: '',
-    //         lastName: '',
-    //         nationality: '',
-    //         password: '',
-    //         phoneNumber: '',
-    //         residence: '',
-    //         rolesId: '',
-    //         taxCode: '',
-    //         userName: '',
-    //         fullName: '',
-    //         playValue: ''
-    //     },
-    //     onSubmit: values => {
-
-    //     }
-    // });
+    const [nationality, setNationality] = useState<string>(formikData.values.nationality || 'Việt Nam');
+    const [visibleComboBox, setVisibleComboBox] = useState<boolean>(false);
 
     const { type } = formikData.values;
 
-    // const { isEdit, setEdit } = edit;
+    const handleClick = useCallback((visible: boolean) => {
+        setVisibleComboBox(visible);
+    }, []);
 
-    // useEffect(() => {
-    //     if (id === '') return;
-
-    //     dispatch(getETMContractById(id || ''));
-    // }, [id]);
-
-    // useEffect(() => {
-    //     if (Object.keys(etmContract.etmContract).length <= 0) return;
-
-    //     const getUser = async () => {
-    //         const { usersId } = etmContract.etmContract;
-    //         const user = await getUserById(usersId, role.roleList);
-
-    //         formikData.setValues({
-    //             ...etmContract.etmContract,
-    //             ...user,
-    //             fullName: `${user.firstName}${user.lastName}`,
-    //             playValue: ''
-    //         });
-    //     }
-
-    //     getUser();
-    // }, [etmContract.etmContract]);
-
-    // useEffect(() => {
-    // setData([
-    //     {
-    //         id: 1,
-    //         children: [
-    //             {
-    //                 title: 'Tên hợp đồng:',
-    //                 content: name
-    //             }, {
-    //                 title: 'Số hợp đồng:',
-    //                 content: code
-    //             }, {
-    //                 title: 'Ngày hiệu lực:',
-    //                 content: effectiveDate
-    //             }, {
-    //                 title: 'Ngày hết hạn:',
-    //                 content: expirationDate
-    //             }
-    //         ]
-    //     }, {
-    //         id: 2,
-    //         children: [
-    //             {
-    //                 title: 'Đính kèm tệp:',
-    //                 content: 'Hợp đồng kinh doanh'
-    //             }
-    //         ]
-    //     }, {
-    //         id: 3,
-    //         children: [
-    //             {
-    //                 title: 'Loại hợp đồng:',
-    //                 content: type
-    //             }, {
-    //                 title: 'Giá trị hợp đồng (VNĐ):',
-    //                 content: value
-    //             }, {
-    //                 title: 'Giá trị phân phối (VNĐ/ngày):',
-    //                 content: distributionValue
-    //             }, {
-    //                 title: 'Tình trạng:',
-    //                 content: status
-    //             }
-    //         ]
-    //     }, {
-    //         id: 4,
-    //         children: [
-    //             {
-    //                 title: 'Tên đơn vị sử dụng:',
-    //                 content: companyName
-    //             }, {
-    //                 title: 'Người đại diện:',
-    //                 content: formikData.values.firstName
-    //             }, {
-    //                 title: 'Chức vụ:',
-    //                 content: position
-    //             }, {
-    //                 title: 'Ngày sinh:',
-    //                 content: formikData.values.dateOfBirth
-    //             }, {
-    //                 title: 'Quốc tịch:',
-    //                 content: formikData.values.nationality
-    //             }, {
-    //                 title: 'Số điện thoại:',
-    //                 content: formikData.values.phoneNumber
-    //             }, {
-    //                 title: 'Email:',
-    //                 content: formikData.values.email
-    //             }
-    //         ]
-    //     }, {
-    //         id: 5,
-    //         children: [
-    //             {
-    //                 title: 'Giới tính:',
-    //                 content: formikData.values.gender
-    //             }, {
-    //                 title: 'CMND/ CCCD:',
-    //                 content: formikData.values.idNumber
-    //             }, {
-    //                 title: 'Ngày cấp:',
-    //                 content: formikData.values.dateRange
-    //             }, {
-    //                 title: 'Nơi cấp:',
-    //                 content: formikData.values.issuedBy
-    //             }, {
-    //                 title: 'Mã số thuế:',
-    //                 content: formikData.values.taxCode
-    //             }, {
-    //                 title: 'Nơi cư trú:',
-    //                 content: formikData.values.residence
-    //             }
-    //         ]
-    //     }, {
-    //         id: 6,
-    //         children: [
-    //             {
-    //                 title: 'Tên đăng nhập:',
-    //                 content: formikData.values.userName
-    //             }, {
-    //                 title: 'Mật khẩu:',
-    //                 content: formikData.values.password
-    //             }, {
-    //                 title: 'Số tài khoản:',
-    //                 content: formikData.values.bankNumber
-    //             }, {
-    //                 title: 'Ngân hàng:',
-    //                 content: formikData.values.bank
-    //             }
-    //         ]
-    //     }
-    // ]);
-    // }, [formikData.values]);
+    const handleItemClick = useCallback((item: any) => {
+        setNationality(item.title);
+    }, []);
 
     useEffect(() => {
         setBlockInput1([
@@ -277,7 +78,7 @@ export const CommonPageContractEdit = memo(({ title, edit, data, pagingData, for
                 isRequired: true,
                 input: <Input
                     name='effectiveDate'
-                    type='datetime-local'
+                    type='date'
                     value={formikData.values.effectiveDate}
                     errorMessage={formikData.errors.effectiveDate}
                     touched={formikData.touched.effectiveDate}
@@ -290,108 +91,13 @@ export const CommonPageContractEdit = memo(({ title, edit, data, pagingData, for
                 isRequired: true,
                 input: <Input
                     name='expirationDate'
-                    type='datetime-local'
+                    type='date'
                     value={formikData.values.expirationDate}
                     errorMessage={formikData.errors.expirationDate}
                     touched={formikData.touched.expirationDate}
                     onChange={formikData.handleChange}
                     onFocus={() => formikData.setFieldTouched('expirationDate', true)}
                     onBlur={() => formikData.setFieldTouched('expirationDate', false)}
-                />
-            }
-        ]);
-
-        setBlockInput2([
-            {
-                fieldName: 'Tên đơn vị sử dụng:',
-                isRequired: true,
-                input: <Input
-                    type='text'
-                    name='companyName'
-                    value={formikData.values.companyName}
-                    errorMessage={formikData.errors.companyName}
-                    touched={formikData.touched.companyName}
-                    onChange={formikData.handleChange}
-                    onFocus={() => formikData.setFieldTouched('companyName', true)}
-                    onBlur={() => formikData.setFieldTouched('companyName', false)}
-                />
-            }, {
-                fieldName: 'Người đại diện:',
-                isRequired: true,
-                input: <Input
-                    type='text'
-                    name='fullName'
-                    value={formikData.values.fullName}
-                    errorMessage={formikData.errors.fullName}
-                    touched={formikData.touched.fullName}
-                    onChange={formikData.handleChange}
-                    onFocus={() => formikData.setFieldTouched('fullName', true)}
-                    onBlur={() => formikData.setFieldTouched('fullName', false)}
-                />
-            }, {
-                fieldName: 'Chức vụ:',
-                isRequired: true,
-                input: <Input
-                    type='text'
-                    name='position'
-                    value={formikData.values.position}
-                    errorMessage={formikData.errors.position}
-                    touched={formikData.touched.position}
-                    onChange={formikData.handleChange}
-                    onFocus={() => formikData.setFieldTouched('position', true)}
-                    onBlur={() => formikData.setFieldTouched('position', false)}
-                />
-            }, {
-                fieldName: 'Ngày sinh:',
-                isRequired: true,
-                input: <Input
-                    name='dateOfBirth'
-                    type='datetime-local'
-                    value={formikData.values.dateOfBirth}
-                    errorMessage={formikData.errors.dateOfBirth}
-                    touched={formikData.touched.dateOfBirth}
-                    onChange={formikData.handleChange}
-                    onFocus={() => formikData.setFieldTouched('dateOfBirth', true)}
-                    onBlur={() => formikData.setFieldTouched('dateOfBirth', false)}
-                />
-            }, {
-                fieldName: 'Quốc tịch:',
-                isRequired: true,
-                input: <Input
-                    name='nationality'
-                    type='datetime-local'
-                    value={formikData.values.nationality}
-                    errorMessage={formikData.errors.nationality}
-                    touched={formikData.touched.nationality}
-                    onChange={formikData.handleChange}
-                    onFocus={() => formikData.setFieldTouched('nationality', true)}
-                    onBlur={() => formikData.setFieldTouched('nationality', false)}
-                />
-            }, {
-                fieldName: 'Số điện thoại:',
-                isRequired: true,
-                input: <Input
-                    type='text'
-                    name='phoneNumber'
-                    value={formikData.values.phoneNumber}
-                    errorMessage={formikData.errors.phoneNumber}
-                    touched={formikData.touched.phoneNumber}
-                    onChange={formikData.handleChange}
-                    onFocus={() => formikData.setFieldTouched('phoneNumber', true)}
-                    onBlur={() => formikData.setFieldTouched('phoneNumber', false)}
-                />
-            }, {
-                fieldName: 'Email:',
-                isRequired: true,
-                input: <Input
-                    type='text'
-                    name='email'
-                    value={formikData.values.email}
-                    errorMessage={formikData.errors.email}
-                    touched={formikData.touched.email}
-                    onChange={formikData.handleChange}
-                    onFocus={() => formikData.setFieldTouched('email', true)}
-                    onBlur={() => formikData.setFieldTouched('email', false)}
                 />
             }
         ]);
@@ -422,7 +128,7 @@ export const CommonPageContractEdit = memo(({ title, edit, data, pagingData, for
                 isRequired: true,
                 input: <Input
                     name='dateRange'
-                    type='datetime-local'
+                    type='date'
                     value={formikData.values.dateRange}
                     errorMessage={formikData.errors.dateRange}
                     touched={formikData.touched.dateRange}
@@ -471,7 +177,110 @@ export const CommonPageContractEdit = memo(({ title, edit, data, pagingData, for
                 />
             }
         ]);
-    }, [formikData.values]);
+    }, [formikData, formikData.values]);
+
+    useEffect(() => {
+        setBlockInput2([
+            {
+                fieldName: 'Tên đơn vị sử dụng:',
+                isRequired: true,
+                input: <Input
+                    type='text'
+                    name='companyName'
+                    value={formikData.values.companyName}
+                    errorMessage={formikData.errors.companyName}
+                    touched={formikData.touched.companyName}
+                    onChange={formikData.handleChange}
+                    onFocus={() => formikData.setFieldTouched('companyName', true)}
+                    onBlur={() => formikData.setFieldTouched('companyName', false)}
+                />
+            }, {
+                fieldName: 'Người đại diện:',
+                isRequired: true,
+                input: <Input
+                    type='text'
+                    name='fullName'
+                    value={formikData.values.fullName}
+                    errorMessage={formikData.errors.fullName}
+                    touched={formikData.touched.fullName}
+                    onChange={formikData.handleChange}
+                    onFocus={() => formikData.setFieldTouched('fullName', true)}
+                    onBlur={() => formikData.setFieldTouched('fullName', false)}
+                />
+            }, {
+                fieldName: 'Chức vụ:',
+                isRequired: true,
+                input: <Input
+                    type='text'
+                    name='position'
+                    value={formikData.values.position}
+                    errorMessage={formikData.errors.position}
+                    touched={formikData.touched.position}
+                    onChange={formikData.handleChange}
+                    onFocus={() => formikData.setFieldTouched('position', true)}
+                    onBlur={() => formikData.setFieldTouched('position', false)}
+                />
+            }, {
+                fieldName: 'Ngày sinh:',
+                isRequired: true,
+                input: <Input
+                    name='dateOfBirth'
+                    type='date'
+                    value={formikData.values.dateOfBirth}
+                    errorMessage={formikData.errors.dateOfBirth}
+                    touched={formikData.touched.dateOfBirth}
+                    onChange={formikData.handleChange}
+                    onFocus={() => formikData.setFieldTouched('dateOfBirth', true)}
+                    onBlur={() => formikData.setFieldTouched('dateOfBirth', false)}
+                />
+            }, {
+                fieldName: 'Quốc tịch:',
+                isRequired: true,
+                input: <ComboBox
+                    data={[
+                        { title: 'Việt Nam' },
+                        { title: 'Mỹ' },
+                        { title: 'Anh' }
+                    ]}
+                    active={nationality}
+                    className={cx('nationality-combo-box')}
+                    visible={visibleComboBox}
+                    onItemClick={handleItemClick}
+                    onClick={() => handleClick(!visibleComboBox)}
+                />
+            }, {
+                fieldName: 'Số điện thoại:',
+                isRequired: true,
+                input: <Input
+                    type='text'
+                    name='phoneNumber'
+                    value={formikData.values.phoneNumber}
+                    errorMessage={formikData.errors.phoneNumber}
+                    touched={formikData.touched.phoneNumber}
+                    onChange={formikData.handleChange}
+                    onFocus={() => formikData.setFieldTouched('phoneNumber', true)}
+                    onBlur={() => formikData.setFieldTouched('phoneNumber', false)}
+                />
+            }, {
+                fieldName: 'Email:',
+                isRequired: true,
+                input: <Input
+                    type='text'
+                    name='email'
+                    value={formikData.values.email}
+                    errorMessage={formikData.errors.email}
+                    touched={formikData.touched.email}
+                    onChange={formikData.handleChange}
+                    onFocus={() => formikData.setFieldTouched('email', true)}
+                    onBlur={() => formikData.setFieldTouched('email', false)}
+                />
+            }
+        ]);
+    }, [formikData, formikData.values, visibleComboBox, nationality]);
+
+    useEffect(() => {
+        formikData.setFieldValue('nationality', nationality);
+    }, [nationality]);
 
     useEffect(() => {
         setBlockInput4([
@@ -480,7 +289,7 @@ export const CommonPageContractEdit = memo(({ title, edit, data, pagingData, for
                 isRequired: true,
                 input: <Input
                     type='text'
-                    name={'userName'}
+                    name='userName'
                     value={formikData.values.userName}
                     errorMessage={formikData.errors.userName}
                     touched={formikData.touched.userName}
@@ -533,7 +342,7 @@ export const CommonPageContractEdit = memo(({ title, edit, data, pagingData, for
                 />
             }
         ]);
-    }, [formikData.values, passwordType]);
+    }, [formikData, formikData.values, passwordType]);
 
     useEffect(() => {
         setBlockInput5([
@@ -543,10 +352,13 @@ export const CommonPageContractEdit = memo(({ title, edit, data, pagingData, for
                     type='text'
                     name='value'
                     readOnly={type === 'Trọn gói' ? false : true}
-                    value={formikData.values.value}
+                    value={type === 'Trọn gói' ? formikData.values.value : ''}
                     errorMessage={formikData.errors.value}
                     touched={formikData.touched.value}
-                    onChange={formikData.handleChange}
+                    onChange={(e) => {
+                        formikData.setFieldValue('value', e.target.value);
+                        formikData.setFieldValue('distributionValue', e.target.value);
+                    }}
                     onFocus={() => formikData.setFieldTouched('value', true)}
                     onBlur={() => formikData.setFieldTouched('value', false)}
                 />
@@ -555,8 +367,8 @@ export const CommonPageContractEdit = memo(({ title, edit, data, pagingData, for
                 input: <Input
                     type='text'
                     name='distributionValue'
-                    readOnly={type === 'Trọn gói' ? false : true}
-                    value={formikData.values.distributionValue}
+                    readOnly={true}
+                    value={type === 'Trọn gói' ? formikData.values.value : ''}
                     errorMessage={formikData.errors.distributionValue}
                     touched={formikData.touched.distributionValue}
                     onChange={formikData.handleChange}
@@ -564,30 +376,27 @@ export const CommonPageContractEdit = memo(({ title, edit, data, pagingData, for
                     onBlur={() => formikData.setFieldTouched('distributionValue', false)}
                 />
             }
-        ])
-    }, [formikData.values]);
+        ]);
+    }, [formikData, formikData.values, type]);
 
-    // useEffect(() => {
-    //     setActionData([
-    //         {
-    //             icon: <FontAwesomeIcon icon={faEdit} style={{ color: 'var(--color-orange-4)' }} />,
-    //             title: 'Chỉnh sửa',
-    //             onClick: () => setEdit(true)
-    //         }, {
-    //             icon: <FontAwesomeIcon icon={faXmark} style={{ color: 'var(--color-red)' }} />,
-    //             title: 'Huỷ hợp đồng',
-    //             onClick: () => setEdit(false)
-    //         }
-    //     ]);
-    // }, []);
+    useEffect(() => {
+        if (type === 'Trọn gói') {
+            formikData.setFieldValue('playValue', 0);
+            formikData.setFieldValue('distributionValue', '');
+            formikData.setFieldValue('value', '');
+            return;
+        }
+        
+        formikData.setFieldValue('playValue', '');
+        formikData.setFieldValue('distributionValue', 0);
+        formikData.setFieldValue('value', 0);
+    }, [formikData.values.type]);
 
     return (
         <CommonPage
             title={title}
             pagingData={pagingData}
-            // pagingData={PAGING_ITEMS}
             actionData={!edit ? actionData : []}
-        // actionData={edit && (!edit.isEdit ? actionData : [])}
         >
             <form className={cx('content-container')} onSubmit={formikData.handleSubmit}>
                 {edit
@@ -628,7 +437,7 @@ export const CommonPageContractEdit = memo(({ title, edit, data, pagingData, for
                                                 type='text'
                                                 name='playValue'
                                                 readOnly={type === 'Trọn gói' ? true : false}
-                                                value={formikData.values.playValue}
+                                                value={type === 'Trọn gói' ? '' : formikData.values.playValue}
                                                 errorMessage={formikData.errors.playValue}
                                                 touched={formikData.touched.playValue}
                                                 onChange={formikData.handleChange}
@@ -644,8 +453,6 @@ export const CommonPageContractEdit = memo(({ title, edit, data, pagingData, for
                             <BlockInput data={blockInput4} />
                         </div>
                         {children && children}
-                        {/* <Button outline type='button' onClick={() => edit.setEdit && edit.setEdit(false)}>Hủy</Button>
-                        <Button type='submit'>Lưu</Button> */}
                     </div>
                     : <BlockInfo data={data} />
                 }

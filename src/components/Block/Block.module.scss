@@ -71,12 +71,16 @@
 
 .item__right {
     &>div>div {
+
         &>input[type='text'],
         &>input[type='password'] {
             width: 311px;
         }
+
+        &>input[type='date'] {
+            width: 208px;
+        }
     }
-    
 
     &>div+div {
         margin-top: 1.5rem;

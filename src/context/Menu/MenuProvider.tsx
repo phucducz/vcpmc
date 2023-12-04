@@ -13,6 +13,8 @@ export const MenuProvider = ({ children }: MenuProviderProps) => {
     const navigate = useNavigate();
 
     const [menuActive, setMenuActive] = useState<number>(0);
+    const [active, setActive] = useState<boolean>(true);
+    const [type, setType] = useState<'normal' | 'dynamic'>('normal');
 
     const MENU_ITEMS: Array<MenuType> = [
         {
@@ -27,7 +29,10 @@ export const MenuProvider = ({ children }: MenuProviderProps) => {
             id: 2,
             icon: MENU_ICONS.playlistIcon,
             title: 'Playlist',
-            onClick: () => { }
+            onClick: () => {
+                setMenuActive(2);
+                navigate(routes.PlaylistManagement);
+            }
         }, {
             id: 3,
             icon: MENU_ICONS.calendarIcon,
@@ -117,7 +122,15 @@ export const MenuProvider = ({ children }: MenuProviderProps) => {
     ];
 
     return (
-        <MenuContext.Provider value={{ data: MENU_ITEMS, menuActive, setMenuActive }}>
+        <MenuContext.Provider value={{
+            data: MENU_ITEMS,
+            menuActive,
+            setMenuActive,
+            active,
+            setActive,
+            type,
+            setType
+        }}>
             {children}
         </MenuContext.Provider>
     );

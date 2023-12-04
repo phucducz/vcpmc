@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 import { EtmContract } from "~/api/etmContractAPI";
-import { getETMContractById, getEtmContractList } from "~/thunk/etmContractThunk";
+import { cancelEntrustmentContract, getETMContractById, getEtmContractList, saveEntrustmentContract } from "~/thunk/etmContractThunk";
 
 type InitialState = {
     etmContractList: Array<EtmContract>;
@@ -43,6 +43,26 @@ const etmContractSlice = createSlice({
                 state.etmContract = action.payload;
         });
         builder.addCase(getETMContractById.rejected, (state, action) => {
+            state.loading = false;
+            throw new Error(`${action.error.name}: ${action.error.message}`);
+        });
+        builder.addCase(saveEntrustmentContract.pending, state => {
+            state.loading = true;
+        });
+        builder.addCase(saveEntrustmentContract.fulfilled, (state, action) => {
+            state.loading = false;
+        });
+        builder.addCase(saveEntrustmentContract.rejected, (state, action) => {
+            state.loading = false;
+            throw new Error(`${action.error.name}: ${action.error.message}`);
+        });
+        builder.addCase(cancelEntrustmentContract.pending, state => {
+            state.loading = true;
+        });
+        builder.addCase(cancelEntrustmentContract.fulfilled, (state, action) => {
+            state.loading = false;
+        });
+        builder.addCase(cancelEntrustmentContract.rejected, (state, action) => {
             state.loading = false;
             throw new Error(`${action.error.name}: ${action.error.message}`);
         });

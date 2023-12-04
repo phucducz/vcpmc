@@ -11,7 +11,6 @@ import Input, { InputProps } from "~/components/Input";
 import { RootState, useAppDispatch } from "~/store";
 import { Yup } from "~/constants";
 import { login } from "~/thunk/userThunk";
-import logo from '~/images/logo.png';
 import { Form } from "~/components/Form";
 import { CheckBox } from "~/components/CheckBox";
 import { Button } from "~/components/Button";

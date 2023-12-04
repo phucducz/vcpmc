@@ -3,13 +3,13 @@ import { createSlice } from "@reduxjs/toolkit";
 import { Record } from "~/api/recordAPI";
 import { getRecords, saveRecord } from "~/thunk/recordThunks";
 
-type InitialStateType = {
+export type RecordInitialState = {
     recordList: Array<Record>;
     loading: boolean;
     status: 'fetch success' | 'fetch fail' | ''
 }
 
-const initialState: InitialStateType = {
+const initialState: RecordInitialState = {
     recordList: [],
     loading: false,
     status: ''

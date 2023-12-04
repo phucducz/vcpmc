@@ -1,5 +1,5 @@
 import classNames from "classnames/bind";
-import { ReactNode, useEffect } from "react";
+import { ReactNode, useContext, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { RootState, useAppDispatch } from "~/store";
 import { useNavigate } from "react-router";
@@ -14,6 +14,7 @@ import { Sidebar } from "~/components/Sidebar";
 import { getCategories } from "~/thunk/categoryThunk";
 import { getApprovalList } from "~/thunk/approvalThunk";
 import { routes } from "~/config/routes";
+import { MenuContext } from "~/context/Menu/MenuContext";
 
 const cx = classNames.bind(style);
 

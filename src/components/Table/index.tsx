@@ -30,10 +30,13 @@ export const Table = memo(({ paginate, headerChildren, children, thead, loading 
     const { dataForPaginate, setCurrentItems } = paginate;
 
     useEffect(() => {
+        if (typeof dataForPaginate === 'undefined')
+            return;
+
         const endOffset = itemOffset + itemsPerPage;
         setCurrentItems && setCurrentItems(paginate.dataForPaginate.slice(itemOffset, endOffset));
         setPageCount(Math.ceil(dataForPaginate.length / itemsPerPage));
-    }, [itemOffset, itemsPerPage, dataForPaginate]);
+    }, [itemOffset, per, dataForPaginate]);
 
     const handlePageClick = (event: { selected: number }) => {
         const newOffset = (event.selected * itemsPerPage) % dataForPaginate.length;
@@ -76,7 +79,7 @@ export const Table = memo(({ paginate, headerChildren, children, thead, loading 
                                 pageLinkClassName={cx("page-num")}
                                 previousClassName={cx("page-num")}
                                 nextLinkClassName={cx("page-num")}
-                                activeClassName={cx("active")}
+                                activeClassName="active"
                             />
                         </div>
                     </td>

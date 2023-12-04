@@ -177,7 +177,7 @@ $topPlayIcon: (
         min-width: max-content;
     }
 
-    &>.item__content__right {
+    &>.item__content__left {
         display: flex;
         flex-direction: column;
         gap: 12px;
@@ -187,16 +187,12 @@ $topPlayIcon: (
         }
     }
 
-    &>.item__content__left {
+    &>.item__content__right {
         &>svg {
             width: 24px;
             height: 24px;
             color: var(--color-orange);
         }
-    }
-
-    &>div {
-
     }
 }
 
@@ -210,28 +206,4 @@ $topPlayIcon: (
     display: flex;
     justify-content: space-between;
     gap: 8px;
-
-    &>.box__item {
-        display: flex;
-        width: max-content;
-        padding: 4px 12px;
-        flex-direction: column;
-        justify-content: center;
-        border-radius: 6px;
-        border: 1px solid var(--text-stroke-2);
-
-        &>p.box__item__title {
-            color: var(--text-stroke-2);
-            font-size: 8px;
-            font-weight: 700;
-            line-height: 12px;
-        }
-
-        &>p.box__item__content {
-            color: #F5F5FF;
-            font-size: 12px;
-            font-weight: 500;
-            line-height: 18px;
-        }
-    }
 }

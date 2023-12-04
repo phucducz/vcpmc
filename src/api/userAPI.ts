@@ -1,7 +1,8 @@
-import { collection, doc, getDoc, getDocs, query, where } from "firebase/firestore";
+import { addDoc, collection, doc, getDoc, getDocs, query, where } from "firebase/firestore";
 
 import { firestoreDatabase } from "../config/firebase";
-import { updateService } from "../service";
+import { saveService, updateService } from "../service";
+import { getListRole } from "./roleAPI";
 
 type Role = {
     id: string;
@@ -59,18 +60,12 @@ export type User = {
 export const getUserById = async (id: string, roleList?: Role[]) => {
     let result = (await getDoc(doc(firestoreDatabase, 'users', id))).data();
 
+    if (typeof roleList === 'undefined' || roleList.length < 0)
+        roleList = await getListRole();
+
     if (!result) return {} as User;
 
     return {
-        // avatar: result.avatar,
-        // dateOfBirth: result.dateOfBirth,
-        // email: result.email,
-        // firstName: result.firstName,
-        // id: result.id,
-        // lastName: result.lastName,
-        // password: result.password,
-        // phoneNumber: result.phoneNumber,
-        // userName: result.userName,
         avatar: result.avatar,
         bank: result.bank,
         bankNumber: result.bankNumber,
@@ -90,7 +85,8 @@ export const getUserById = async (id: string, roleList?: Role[]) => {
         taxCode: result.taxCode,
         userName: result.userName,
         id: result.id,
-        role: typeof roleList !== 'undefined' ? roleList.find(role => result && role.id === result.rolesId) : { id: '', role: '' }
+        role: roleList.find(role => result && role.id === result.rolesId) || { id: '', role: '' }
+        // role: typeof roleList !== 'undefined' ? roleList.find(role => result && role.id === result.rolesId) : { id: '', role: '' }
     }
 }
 
@@ -123,3 +119,14 @@ export const updateUserById = async (data: Pick<
         return null;
     }
 }
+
+export const saveUserAPI = async (user: Omit<User, 'role'>) => {
+    await saveService('users', user);
+}
+
+export const addUser = async (user: Omit<User, 'role' | 'id'> & { id?: string }) => {
+    if (user.id === '')
+        delete user?.id;
+
+    return await addDoc(collection(firestoreDatabase, 'users'), { ...user });
+} 

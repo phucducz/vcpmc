@@ -17,26 +17,27 @@ import { Grid } from "~/components/Grid";
 import { useNavigate } from "react-router";
 import { CommonPage } from "../CommonPage";
 import { AudioDialog } from "~/components/AudioDialog";
+import { BoxItem, BoxItemType } from "~/components/BoxItem";
 
 const cx = classNames.bind(style);
 
-type BoxItemType = {
-    title: string;
-    content: string
-}
+// type BoxItemType = {
+//     title: string;
+//     content: string
+// }
 
-type BoxItemProps = {
-    data: BoxItemType
-}
+// type BoxItemProps = {
+//     data: BoxItemType
+// }
 
-const BoxItem = memo(({ data }: BoxItemProps) => {
-    return (
-        <div className={cx('box__item')}>
-            <p className={cx('box__item__title')}>{data.title}</p>
-            <p className={cx('box__item__content')}>{data.content}</p>
-        </div>
-    )
-});
+// export const BoxItem = memo(({ data }: BoxItemProps) => {
+//     return (
+//         <div className={cx('box__item')}>
+//             <p className={cx('box__item__title')}>{data.title}</p>
+//             <p className={cx('box__item__content')}>{data.content}</p>
+//         </div>
+//     )
+// });
 
 type GridItemType = {
     nameRecord: string;
@@ -46,7 +47,7 @@ type GridItemType = {
     imageURL: string;
 }
 
-type GridItemProps = {
+export type GridItemProps = {
     data: GridItemType;
     boxItemData: Array<BoxItemType>;
     action?: ReactNode;
@@ -67,7 +68,7 @@ export const GridItem = memo(({ data, boxItemData, action, onGridItemClick }: Gr
                 <FontAwesomeIcon icon={faPlay} className={cx('item__image__icon')} />
             </div>
             <div className={cx('item__content')}>
-                <div className={cx('item__content__right')}>
+                <div className={cx('item__content__left')}>
                     <div className={cx('group-content')}>
                         <p className={cx('content__right__title')}>{data.nameRecord}</p>
                         <div className={cx('singer')}>
@@ -87,7 +88,7 @@ export const GridItem = memo(({ data, boxItemData, action, onGridItemClick }: Gr
                         {boxItemData.map(item => <BoxItem key={item.title} data={item} />)}
                     </div>
                 </div>
-                <div className={cx('item__content__left')}>
+                <div className={cx('item__content__right')}>
                     {action && action}
                 </div>
             </div>
@@ -103,7 +104,7 @@ export const RecordPage = () => {
     const approval = useSelector((state: RootState) => state.approval);
 
     const navigate = useNavigate();
-    const { menuActive, setMenuActive } = useContext(MenuContext);
+    const { setMenuActive } = useContext(MenuContext);
 
     const [audioLink, setAudioLink] = useState<string>('');
     const [audioActive, setAudioActive] = useState<boolean>(false);
@@ -168,13 +169,10 @@ export const RecordPage = () => {
     ]);
 
     useEffect(() => {
-        console.log(menuActive);
         setMenuActive(1);
     }, []);
 
     useEffect(() => {
-        console.log(record.recordList);
-        
         setRecordData(record.recordList.filter(record => record.approvalDate !== '' && record.status !== 'Bị từ chối' && record.status !== ''));
     }, [record.recordList]);
 
