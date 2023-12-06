@@ -8,7 +8,7 @@ import style from './EditRecord.module.scss';
 import { Paging, PagingItemType } from "~/components/Paging";
 import Image from "~/components/Image";
 import { Icon, musicIcon } from "~/icons";
-import Input from "~/components/Input";
+import { Input } from "~/components/Input";
 import { ComboBox } from "~/components/ComboBox";
 import { routes } from "~/config/routes";
 import { Button } from "~/components/Button";

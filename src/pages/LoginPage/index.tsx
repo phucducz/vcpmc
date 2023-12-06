@@ -7,7 +7,6 @@ import { Link, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 import style from './Login.module.scss';
-import Input, { InputProps } from "~/components/Input";
 import { RootState, useAppDispatch } from "~/store";
 import { Yup } from "~/constants";
 import { login } from "~/thunk/userThunk";
@@ -17,6 +16,7 @@ import { Button } from "~/components/Button";
 import Loading from "~/components/Loading";
 import Image from "~/components/Image";
 import { routes } from "~/config/routes";
+import { Input, InputProps } from "~/components/Input";
 
 const cx = classNames.bind(style);
 

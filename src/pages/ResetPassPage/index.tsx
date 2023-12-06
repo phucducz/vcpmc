@@ -13,7 +13,7 @@ import { getUserById } from "~/api/userAPI";
 import { setDataUser } from "~/reducers/user";
 import { Logo } from "~/components/Logo";
 import { Form } from "~/components/Form";
-import Input from "~/components/Input";
+import { Input } from "~/components/Input";
 import { Button } from "~/components/Button";
 import Loading from "~/components/Loading";
 import { useQuery } from "~/context";

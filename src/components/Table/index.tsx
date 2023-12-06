@@ -5,7 +5,7 @@ import { faChevronLeft, faChevronRight } from "@fortawesome/free-solid-svg-icons
 import ReactPaginate from "react-paginate";
 
 import style from './Table.module.scss';
-import Input from "../Input";
+import { Input } from "../Input";
 
 const cx = classNames.bind(style);
 
@@ -16,13 +16,14 @@ type TableProps = {
     }
     children: ReactNode;
     headerChildren?: ReactNode;
-    loading: boolean;
+    loading?: boolean;
     itemsPerPage: string;
     thead: Array<string>
+    tableRef?: React.RefObject<HTMLTableElement>;
     setItemsPerPage(number: string): void;
 }
 
-export const Table = memo(({ paginate, headerChildren, children, thead, loading = false, itemsPerPage: per, setItemsPerPage }: TableProps) => {
+export const Table = memo(({ tableRef, paginate, headerChildren, children, thead, loading = false, itemsPerPage: per, setItemsPerPage }: TableProps) => {
     const [itemOffset, setItemOffset] = useState(0);
     const [pageCount, setPageCount] = useState<number>(0);
 
@@ -37,6 +38,10 @@ export const Table = memo(({ paginate, headerChildren, children, thead, loading 
         setCurrentItems && setCurrentItems(paginate.dataForPaginate.slice(itemOffset, endOffset));
         setPageCount(Math.ceil(dataForPaginate.length / itemsPerPage));
     }, [itemOffset, per, dataForPaginate]);
+    
+    useEffect(() => {
+        setCurrentItems && setCurrentItems(paginate.dataForPaginate.slice(0, itemsPerPage));
+    }, [itemsPerPage]);
 
     const handlePageClick = (event: { selected: number }) => {
         const newOffset = (event.selected * itemsPerPage) % dataForPaginate.length;
@@ -45,7 +50,7 @@ export const Table = memo(({ paginate, headerChildren, children, thead, loading 
     };
 
     return (
-        <table className={cx('table-container')}>
+        <table className={cx('table-container')} ref={tableRef}>
             <thead>
                 <tr>
                     {headerChildren && headerChildren}

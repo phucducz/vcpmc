@@ -2,7 +2,7 @@ import classNames from "classnames/bind";
 import { memo } from "react";
 
 import style from './Upload.module.scss';
-import Input from "../Input";
+import { Input } from "../Input";
 import { Icon, uploadIcon } from "~/icons";
 
 const cx = classNames.bind(style);

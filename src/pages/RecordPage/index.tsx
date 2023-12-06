@@ -21,24 +21,6 @@ import { BoxItem, BoxItemType } from "~/components/BoxItem";
 
 const cx = classNames.bind(style);
 
-// type BoxItemType = {
-//     title: string;
-//     content: string
-// }
-
-// type BoxItemProps = {
-//     data: BoxItemType
-// }
-
-// export const BoxItem = memo(({ data }: BoxItemProps) => {
-//     return (
-//         <div className={cx('box__item')}>
-//             <p className={cx('box__item__title')}>{data.title}</p>
-//             <p className={cx('box__item__content')}>{data.content}</p>
-//         </div>
-//     )
-// });
-
 type GridItemType = {
     nameRecord: string;
     singer: string;
@@ -110,10 +92,8 @@ export const RecordPage = () => {
     const [audioActive, setAudioActive] = useState<boolean>(false);
     const [searchValue, setSearchValue] = useState<string>('');
     const [typeLoad, setTypeLoad] = useState<'table' | 'grid'>('table');
-
     const [recordData, setRecordData] = useState<Array<Record>>([] as Array<Record>);
     const [currentItems, setCurrentItems] = useState<Array<any>>([]);
-
     const [itemsPerPage, setItemsPerPage] = useState<string>('8');
     const [comboBoxData, setComboBoxData] = useState([
         {
@@ -375,8 +355,6 @@ export const RecordPage = () => {
                         {currentItems.map((item, index) => {
                             let expiryDateRecord = new Date(formatDateMDY(item.expirationDate));
                             let isExpiry = expiryDateRecord < new Date(getCurrentDate());
-
-                            if (index > parseInt(itemsPerPage) - 1) return null;
 
                             return (
                                 <tr key={index} style={{ height: '47px' }} className={cx('content')}>

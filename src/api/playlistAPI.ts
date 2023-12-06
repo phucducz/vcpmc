@@ -1,7 +1,8 @@
 import { collection, getDocs } from "firebase/firestore";
 
 import { firestoreDatabase } from "~/config/firebase";
-import { User, getUserById } from "./userAPI";
+import { User } from "./userAPI";
+import { updateService } from "~/service";
 
 export type Playlist = {
     id: string;
@@ -11,15 +12,18 @@ export type Playlist = {
     createdBy: User;
     description: string;
     mode: string;
+    imageURL: string;
 }
 
 export const getPlaylists = async () => {
     const resultSnapshot = await getDocs(collection(firestoreDatabase, 'playlists'));
     const userList = await getDocs(collection(firestoreDatabase, 'users'));
+    const roleList = await getDocs(collection(firestoreDatabase, 'roles'));
 
     return resultSnapshot.docs.map(doc => {
         const user = userList.docs.find(user => user.id === doc.data().createdBy);
-
+        const role = roleList.docs.find(role => role.id === user?.data().rolesId);
+        
         return {
             id: doc.id,
             title: doc.data().title,
@@ -44,11 +48,18 @@ export const getPlaylists = async () => {
                 rolesId: user?.data().rolesId || '',
                 taxCode: user?.data().taxCode || '',
                 userName: user?.data().userName || '',
-                role: user?.data().role || '',
+                role: role ? { id: role.id, role: role.data().role } : { id: '', role: '' },
                 id: user?.id || ''
             },
             description: doc.data().description,
-            mode: doc.data().mode
+            mode: doc.data().mode,
+            imageURL: doc.data().imageURL
         }
     });
+}
+
+export const editPlaylistAPI = async ({ description, categories, title, mode, id }:
+    Pick<Playlist, 'description' | 'categories' | 'title' | 'mode' | 'id'>
+) => {
+    await updateService('playlists', { id, description, categories, title, mode });
 }

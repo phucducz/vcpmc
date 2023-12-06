@@ -5,7 +5,7 @@ import { faChevronDown } from "@fortawesome/free-solid-svg-icons";
 
 import style from './ComboBox.module.scss';
 import { DropDown } from "../DropDown";
-import Input from "../Input";
+import { Input } from "../Input";
 
 const cx = classNames.bind(style);
 

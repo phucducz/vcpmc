@@ -8,7 +8,7 @@ import { PagingItemType } from "~/components/Paging";
 import { BlockInfo, BlockInput } from "~/components/Block";
 import { CommonPage } from "../CommonPage";
 import { ActionDataType } from "~/components/Action";
-import Input from "~/components/Input";
+import { Input } from "~/components/Input";
 import { RadioButton } from "~/components/RadioButton";
 import { Upload } from "~/components/Upload";
 import { ComboBox } from "~/components/ComboBox";
@@ -355,7 +355,7 @@ export const CommonPageContractEdit = memo(({ title, edit, data, pagingData, for
                     value={type === 'Trọn gói' ? formikData.values.value : ''}
                     errorMessage={formikData.errors.value}
                     touched={formikData.touched.value}
-                    onChange={(e) => {
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                         formikData.setFieldValue('value', e.target.value);
                         formikData.setFieldValue('distributionValue', e.target.value);
                     }}

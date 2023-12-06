@@ -5,7 +5,7 @@ import { faMaximize, faPause, faPlay, faVolumeLow, faVolumeXmark } from "@fortaw
 
 import style from './AudioDialog.module.scss';
 import { formatTime } from "~/context";
-import Input from "../Input";
+import { Input } from "../Input";
 
 const cx = classNames.bind(style);
 
@@ -88,7 +88,7 @@ export const AudioDialog = memo(({ src, visible, setVisible }: AudioDialogProps)
                                 max={audioRef.current?.duration || 0}
                                 value={currentTime}
                                 className={cx('progress__input')}
-                                onChange={e => { setCurrentTime(parseInt(e.target.value)) }}
+                                onChange={(e: React.ChangeEvent<HTMLInputElement>) => { setCurrentTime(parseInt(e.target.value)) }}
                             />
                             <div ref={progressRef} className={cx('range__progress')}></div>
                         </div>

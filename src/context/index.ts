@@ -1,3 +1,4 @@
+import moment from "moment";
 import { useLocation } from "react-router";
 
 export const useQuery = () => {
@@ -45,6 +46,20 @@ export const formatTime = (time: number) => {
     let timeForSeconds = time - (minutes * 60);
     let seconds = Math.floor(timeForSeconds);
     let secondsReadable = seconds > 9 ? seconds : `0${seconds}`;
-    
+
     return `${minutes}:${secondsReadable}`;
+}
+
+export const getMoment = (array: Array<any>) => {
+    let momentTime = moment
+        ("00000000", "hh:mm:ss")
+        .utcOffset(0)
+        .set({ hour: 0, minute: 0, second: 0, millisecond: 0 });
+
+    array.filter(item => {
+        let timeSplit = item.time.split(':');
+        momentTime.add("minutes", timeSplit[0]).add("seconds", timeSplit[1]);
+    });
+
+    return momentTime.toISOString();
 }

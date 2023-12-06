@@ -10,7 +10,7 @@ import style from './Profile.module.scss';
 import Image from "~/components/Image";
 import { RootState, useAppDispatch } from "~/store";
 import { Form } from "~/components/Form";
-import Input from "~/components/Input";
+import { Input } from "~/components/Input";
 import { Action } from "~/components/Action";
 import { Button } from "~/components/Button";
 import { Yup } from "~/constants";

@@ -2,7 +2,7 @@ import classNames from "classnames/bind";
 import { memo, useEffect, useRef } from "react";
 
 import style from './Image.module.scss';
-import Input from "../Input";
+import { Input } from "../Input";
 import { Icon, cameraIcon } from "~/icons";
 
 const cx = classNames.bind(style);

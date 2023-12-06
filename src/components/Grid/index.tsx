@@ -3,7 +3,7 @@ import { ChangeEvent, ReactNode, memo, useState, useEffect } from "react";
 import ReactPaginate from "react-paginate";
 
 import style from './Grid.module.scss';
-import Input from "../Input";
+import { Input } from "../Input";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronLeft, faChevronRight } from "@fortawesome/free-solid-svg-icons";
 import Loading from "../Loading";

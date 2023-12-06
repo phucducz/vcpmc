@@ -1,0 +1,79 @@
+.record-playlist-container {
+    &>div>div {
+        &>div:nth-child(2) {
+            display: flex;
+            flex-direction: row-reverse;
+            justify-content: center;
+            align-items: center;
+            gap: 16px;
+        }
+
+        &>div>div:last-child>div {
+            margin-top: 0;
+        }
+    }
+
+    & input[name='search'] {
+        width: 382px!important;
+    }
+}
+
+.record-name {
+    &>p:last-child {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 0 30px 0 8px;
+
+        &>span {
+            font-size: 12px;
+            line-height: 18px;
+            opacity: .5;
+            position: relative;
+
+            &+span {
+                &::after {
+                    content: '';
+                    display: block;
+                    width: 4px;
+                    height: 4px;
+                    background-color: var(--color-blue);
+                    position: absolute;
+                    top: 50%;
+                    left: -25%;
+                    transform: translateY(-50%);
+                    border-radius: 50%;
+                }
+            }
+        }
+    }
+}
+
+table {
+    & .action {
+        width: max-content;
+        color: var(--color-orange-4);
+        padding: 5px 16px;
+        text-decoration: underline;
+        cursor: pointer;
+
+        &:hover {
+            opacity: 1;
+        }
+    }
+}
+
+.record-playlist__status {
+    display: flex;
+    gap: 84px;
+    height: 40px;
+    align-items: center;
+    margin-bottom: 16px;
+    
+    &>div {
+        &>span+span {
+            opacity: .7;
+            padding-left: 4px;
+        }
+    }
+}

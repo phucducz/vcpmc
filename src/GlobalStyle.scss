@@ -47,11 +47,15 @@
             align-items: center;
         }
 
-        &>tbody>tr {
-            cursor: pointer;
+        &>tbody {
+            overflow-y: hidden;
 
-            &:hover {
-                opacity: .8;
+            &>tr {
+                cursor: pointer;
+
+                &:hover {
+                    opacity: .8;
+                }
             }
         }
     }
@@ -170,8 +174,4 @@ textarea {
 h3 {
     font-size: 3.6rem;
     line-height: 48px;
-}
-
-textarea {
-    font-size: 1.5rem;
 }

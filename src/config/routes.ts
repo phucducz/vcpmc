@@ -12,5 +12,8 @@ export const routes = {
     AddETMContract: '/contract-detail/add',
     ETMContractCopy: '/entrustment-contract/copy/:id',
     PlaylistManagement: '/playlist-management',
-    PlaylistDetail: '/playlist-detail/:id'
+    PlaylistDetail: '/playlist-detail/:id',
+    EditPlaylistDetail: '/playlist-detail/edit/:id',
+    AddPlaylist: '/playlist-add',
+    AddRecordPlaylist: '/playlist-detail/:id/add-record',
 }

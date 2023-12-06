@@ -24,7 +24,7 @@ import { formatToLocalStringCurrentDate } from "~/context";
 import { approveRecordList, getApprovalList } from "~/thunk/approvalThunk";
 import { Form } from "~/components/Form";
 import { Button } from "~/components/Button";
-import Input from "~/components/Input";
+import { Input } from "~/components/Input";
 import { AudioDialog } from "~/components/AudioDialog";
 
 const cx = classNames.bind(style);

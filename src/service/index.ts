@@ -23,7 +23,7 @@ export const saveService = async (table: string, data: any) => {
 export const updateService = async (table: string, data: any) => {
     const { id } = data;
     delete data.id;
-
+    
     await updateDoc(doc(firestoreDatabase, `${table}`, `${id}`), { ...data });
 }
 

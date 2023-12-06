@@ -1,6 +1,8 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
+import { Playlist, editPlaylistAPI } from "~/api/playlistAPI";
 
-import { getPlaylistsRecords } from "~/api/playlistsRecords";
+import { RemoveRecordParam, editRecordsInPlaylist, getPlaylistsRecords, removeRecordAPI } from "~/api/playlistsRecords";
+import { getPlaylistList } from "./playlistThunk";
 
 export const getPlaylistsRecordsList = createAsyncThunk(
     'playlistsRecords/getPlaylistsRecordsList',
@@ -9,44 +11,40 @@ export const getPlaylistsRecordsList = createAsyncThunk(
     }
 );
 
-// export const getPlaylistsRecordsDetails = createAsyncThunk(
-//     'playlistsRecords/getPlaylistsRecordsDetails',
-//     async ({ playlistsRecords, playlist, record }: {
-//         playlistsRecords: PlaylistRecordInitialState,
-//         playlist: PlaylistInitialState,
-//         record: RecordInitialState
-//     }) => {
-//         let playlistRecordList: Array<PlaylistRecordDetail> = [] as Array<PlaylistRecordDetail>;
+export const removeRecord = createAsyncThunk(
+    'playlistsRecords/removeRecord',
+    async ({ recordList, recordId, playlistRecordId }: RemoveRecordParam) => {
+        return await removeRecordAPI({ recordList, recordId, playlistRecordId });
+    }
+);
 
-//         playlistsRecords.playlistsRecords.forEach((playlistRecord: PlaylistsRecords) => {
-//             let playlistItem: Playlist = playlist.playlist.find((playlistItem: Playlist) =>
-//                 playlistRecord.playlistsId === playlistItem.id
-//             ) || {} as Playlist;
+export const editPlaylist = createAsyncThunk(
+    'playlistsRecords/editRecord',
+    async ({ recordList, playlistRecordId, playlist, navigate }: RemoveRecordParam & {
+        playlist: Pick<Playlist, 'description' | 'categories' | 'title' | 'mode' | 'id'>;
+        navigate: () => void;
+    }, thunkAPI) => {
+        await thunkAPI.dispatch(removeRecord({
+            recordList: recordList,
+            playlistRecordId: playlistRecordId
+        }));
+        await editPlaylistAPI({ ...playlist });
+        await thunkAPI.dispatch(getPlaylistList());
+        await thunkAPI.dispatch(getPlaylistsRecordsList());
 
-//             let recordList: Array<Record> = playlistRecord.recordsId.map(recordId => {
-//                 return record.recordList.find((record: Record) => recordId === record.id) || {} as Record;
-//             });
+        navigate();
+    }
+);
 
-//             let momentTime = moment
-//                 ("00000000", "hh:mm:ss")
-//                 .utcOffset(0)
-//                 .set({ hour: 0, minute: 0, second: 0, millisecond: 0 });
-
-//             let quantity = recordList.reduce((total: number, record: Record) => {
-//                 let timeSplit = record.time.split(':');
-
-//                 momentTime.add("minutes", timeSplit[0]).add("seconds", timeSplit[1]);
-//                 return total + 1;
-//             }, 0);
-
-//             playlistRecordList.push({
-//                 playlist: { ...playlistItem, imageURL: recordList[0].imageURL },
-//                 records: recordList,
-//                 playlistId: playlistItem.id,
-//                 playlistRecordId: playlistRecord.id,
-//                 quantity: quantity,
-//                 totalTime: momentTime.toISOString().split('T')[1].slice(0, 8)
-//             });
-//         });
-//     }
-// );
+export const editRecordsPlaylist = createAsyncThunk(
+    'playlistsRecords/editRecordsPlaylist',
+    async (
+        { playlistRecordId, recordList, navigate }: Omit<RemoveRecordParam, 'recordId'> & { navigate: () => void },
+        thunkAPI
+    ) => {
+        await editRecordsInPlaylist({ playlistRecordId, recordList });
+        await thunkAPI.dispatch(getPlaylistsRecordsList());
+        
+        navigate();
+    }
+);

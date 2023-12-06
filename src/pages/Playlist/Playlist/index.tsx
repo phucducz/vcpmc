@@ -6,21 +6,20 @@ import { useSelector } from "react-redux";
 import moment from "moment";
 
 import style from './PlaylistPage.module.scss';
-import { CommonPage } from "../CommonPage";
 import { MenuContext } from "~/context/Menu/MenuContext";
 import { Grid } from "~/components/Grid";
 import { Table } from "~/components/Table";
 import { RootState, useAppDispatch } from "~/store";
 import { getPlaylistsRecordsList } from "~/thunk/playlistsRecordsThunk";
-import Loading from "~/components/Loading";
 import { getPlaylistList } from "~/thunk/playlistThunk";
 import { Playlist } from "~/api/playlistAPI";
-import { Record } from "~/api/recordAPI";
 import { PlaylistRecordDetail, PlaylistsRecords } from "~/api/playlistsRecords";
-import { GridItemProps } from "../RecordPage";
 import { Category } from "~/api/categoryAPI";
 import { BoxItem } from "~/components/BoxItem";
-import { setPlaylistsRecordsDetail } from "~/reducers/playlistsRecords";
+import { getPlaylistsRecordsDetail, setPlaylistsRecordsDetail } from "~/reducers/playlistsRecords";
+import { CommonPage } from "~/pages/CommonPage";
+import { GridItemProps } from "~/pages/RecordPage";
+import { routes } from "~/config/routes";
 
 const cx = classNames.bind(style);
 
@@ -40,12 +39,10 @@ const CategoryBoxItem = memo(({ title }: { title?: string }) => {
 
 const GridItem = memo(({ data, action, categories, onGridItemClick, quantity, totalTime }:
     Omit<GridItemProps, 'data' | 'boxItemData'> &
-    { data: Omit<Playlist, 'id'> & { imageURL: string } } &
+    { data: Omit<Playlist, 'id'> } &
     { categories: Array<Category> } &
     { quantity: number, totalTime: string }
 ) => {
-    console.log(data);
-
     return (
         <div className={cx('grid-container__item')} onClick={onGridItemClick}>
             <div
@@ -94,13 +91,13 @@ export const PlaylistPage = () => {
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
 
-    const { setMenuActive } = useContext(MenuContext);
+    const { setMenuActive, setActive } = useContext(MenuContext);
 
     const playlist = useSelector((state: RootState) => state.playlist);
     const playlistsRecords = useSelector((state: RootState) => state.playlistsRecords);
     const record = useSelector((state: RootState) => state.record);
     const category = useSelector((state: RootState) => state.category);
-
+    
     const [searchValue, setSearchValue] = useState<string>('');
     const [typeLoad, setTypeLoad] = useState<'table' | 'grid'>('table');
     const [actionData, setActionData] = useState<ActionDataType[]>([] as ActionDataType[]);
@@ -114,7 +111,7 @@ export const PlaylistPage = () => {
             {
                 icon: <Icon icon={playlistAddIcon} />,
                 title: 'Thêm Playlist',
-                onClick: () => navigate('#')
+                onClick: () => { navigate(routes.AddPlaylist); setActive(false); }
             }
         ]);
         setMenuActive(2);
@@ -125,47 +122,18 @@ export const PlaylistPage = () => {
     }, []);
 
     useEffect(() => {
-        if (playlist.playlist.length < 0 || playlistsRecords.playlistsRecords.length < 0) return;
+        if (playlist.playlist.length <= 0) return;
 
-        let playlistRecordList: Array<PlaylistRecordDetail> = [] as Array<PlaylistRecordDetail>;
+        dispatch(getPlaylistsRecordsDetail({ playlist, playlistsRecords, record }));
+    }, [playlist.playlist, playlistsRecords.playlistsRecords]);
 
-        playlistsRecords.playlistsRecords.forEach((playlistRecord: PlaylistsRecords) => {
-            let playlistItem: Playlist = playlist.playlist.find((playlistItem: Playlist) =>
-                playlistRecord.playlistsId === playlistItem.id
-            ) || {} as Playlist;
-
-            let recordList: Array<Record> = playlistRecord.recordsId.map(recordId => {
-                return record.recordList.find((record: Record) => recordId === record.id) || {} as Record;
-            });
-
-            let momentTime = moment
-                ("00000000", "hh:mm:ss")
-                .utcOffset(0)
-                .set({ hour: 0, minute: 0, second: 0, millisecond: 0 });
-
-            let quantity = recordList.reduce((total: number, record: Record) => {
-                let timeSplit = record.time.split(':');
-
-                momentTime.add("minutes", timeSplit[0]).add("seconds", timeSplit[1]);
-                return total + 1;
-            }, 0);
-
-            playlistRecordList.push({
-                playlist: { ...playlistItem, imageURL: recordList[0].imageURL },
-                records: recordList,
-                playlistId: playlistItem.id,
-                playlistRecordId: playlistRecord.id,
-                quantity: quantity,
-                totalTime: momentTime.toISOString().split('T')[1].slice(0, 8)
-            });
-        });
-
-        setPlaylistRecords(playlistRecordList);
-        setSearchResult(playlistRecordList);
-    }, [playlist, playlistsRecords.playlistsRecords]);
-    
     useEffect(() => {
-        if(playlistRecords.length < 0) return;
+        setPlaylistRecords(playlistsRecords.playlistsRecordsDetail);
+        setSearchResult(playlistsRecords.playlistsRecordsDetail);
+    }, [playlistsRecords.playlistsRecordsDetail]);
+
+    useEffect(() => {
+        if (playlistRecords.length < 0) return;
 
         dispatch(setPlaylistsRecordsDetail(playlistRecords));
     }, [playlistRecords]);
@@ -238,7 +206,7 @@ export const PlaylistPage = () => {
                                         </td>
                                         <td><p>{item.playlist.createdDate}</p></td>
                                         <td>{item.playlist.createdBy && <p>{item.playlist.createdBy.firstName} {item.playlist.createdBy.lastName}</p>}</td>
-                                        <td><p className={cx('action')} onClick={() => navigate(`/playlist-detail/${item.playlistId}`)}>Chi tiết</p></td>
+                                        <td><p className={cx('action')} onClick={() => navigate(`/playlist-detail/${item.playlistRecordId}`)}>Chi tiết</p></td>
                                     </tr>
                                 );
                             })}
@@ -254,7 +222,8 @@ export const PlaylistPage = () => {
                     >
                         {currentItems.map((item, index) => {
                             if (index > parseInt(itemsPerPage) - 1) return null;
-
+                            console.log(item.playlist.imageURL);
+                            
                             return <GridItem
                                 key={item.playlistRecordId}
                                 data={item.playlist}
@@ -267,7 +236,6 @@ export const PlaylistPage = () => {
                         })}
                     </Grid>}
             </div>
-            <Loading visible={playlistsRecords.loading} />
         </CommonPage>
     );
 }

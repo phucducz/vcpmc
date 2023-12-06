@@ -25,7 +25,7 @@ const cx = classNames.bind(style);
 const PAGING_ITEMS: Array<PagingItemType> = [
     {
         title: 'Quản lý',
-        to: '#'
+        to: routes.Entrustment
     }, {
         title: 'Quản lý hợp đồng',
         to: routes.Entrustment

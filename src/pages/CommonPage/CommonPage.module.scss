@@ -19,18 +19,17 @@
     width: 100%;
     position: relative;
 
-    &>.content__action,
     &>.content__table-data {
         width: 1541px;
     }
 }
 
 .content__action {
+    width: 1541px;
     height: auto;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    // margin-top: 24px;
 
     &>.action__type-load {
         &>svg {

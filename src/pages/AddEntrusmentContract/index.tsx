@@ -171,8 +171,6 @@ export const AddETMContractPage = () => {
     const { code, distributionValue, effectiveDate, expirationDate,
         name, status, type, value, companyName, position } = contractFormik.values;
 
-    console.log(contractFormik.errors);
-
     return (
         <div className={cx('entrustment-contract-container')}>
             <CommonPageContractEdit

@@ -15,8 +15,6 @@ export const Sidebar = memo(() => {
 
     const [activeNav, setActiveNav] = useState<boolean>(active);
 
-    console.log(type);
-
     const handleClick = () => {
         if (type === 'dynamic')
             setActive(true);

@@ -1,6 +1,4 @@
 import classNames from "classnames/bind";
-// import { IconProp } from "@fortawesome/fontawesome-svg-core";
-// import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { ReactNode, memo, useEffect, useRef, useState } from "react";
 
 import style from './InputStyle.module.scss';
@@ -24,20 +22,27 @@ export type InputProps = {
     accept?: string;
     max?: number;
     min?: number;
+    cols?: number;
+    rows?: number;
     isRequired?: boolean,
     spellCheck?: boolean,
     placeholder?: string;
     className?: string;
     leftIcon?: ReactNode,
     inputRef?: any;
-    onRightIconClick?: any,
-    onLeftIconClick?: any,
-    onFocus?: any,
-    onBlur?: any,
-    onChange: (event: React.ChangeEvent<HTMLInputElement>) => void,
-}
+    onRightIconClick?: any;
+    onLeftIconClick?: any;
+    onFocus?: any;
+    onBlur?: any;
+    onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+};
 
-function Input({
+type PropsOwnInput<E extends React.ElementType> = InputProps & { as?: E } & React.ComponentProps<'input'>;
+
+type InputComponentProps<E extends React.ElementType> =
+    PropsOwnInput<E> & Omit<React.ComponentProps<E>, keyof PropsOwnInput<E>>;
+
+export const Input = memo(<E extends React.ElementType>({
     value,
     fieldName,
     name,
@@ -58,8 +63,11 @@ function Input({
     onBlur,
     onRightIconClick,
     onLeftIconClick,
+    as,
     ...passProps
-}: InputProps) {
+}: InputComponentProps<E>) => {
+    const Component = as || 'input';
+
     const [isInvalid, setIsInvalid] = useState(false);
 
     const fieldRef = useRef<HTMLParagraphElement>(null);
@@ -99,7 +107,7 @@ function Input({
                 {isRequired && <span className={cx(isRequired && 'require')}>*</span>}
             </p>}
             {leftIcon && <div ref={divSvgRef} className={cx('form-group__icon-left')}>{leftIcon}</div>}
-            <input
+            <Component
                 ref={inputRef}
                 value={value}
                 name={name}
@@ -113,6 +121,6 @@ function Input({
             {rightIcon && <div ref={divSvgRef} className={cx('form-group__icon-right')}>{rightIcon}</div>}
         </div>
     );
-}
+})
 
-export default memo(Input);
+// export default memo(Input);
