@@ -1,8 +1,8 @@
-import { collection, getDocs } from "firebase/firestore";
+import { addDoc, collection, getDocs } from "firebase/firestore";
 
 import { firestoreDatabase } from "~/config/firebase";
 import { User } from "./userAPI";
-import { updateService } from "~/service";
+import { deleteService, updateService } from "~/service";
 
 export type Playlist = {
     id: string;
@@ -23,7 +23,7 @@ export const getPlaylists = async () => {
     return resultSnapshot.docs.map(doc => {
         const user = userList.docs.find(user => user.id === doc.data().createdBy);
         const role = roleList.docs.find(role => role.id === user?.data().rolesId);
-        
+
         return {
             id: doc.id,
             title: doc.data().title,
@@ -62,4 +62,12 @@ export const editPlaylistAPI = async ({ description, categories, title, mode, id
     Pick<Playlist, 'description' | 'categories' | 'title' | 'mode' | 'id'>
 ) => {
     await updateService('playlists', { id, description, categories, title, mode });
+}
+
+export const savePlaylist = async ({ playlist }: { playlist: Omit<Playlist, 'id' | 'createdBy'> & { createdBy: string } }) => {
+    return (await addDoc(collection(firestoreDatabase, 'playlists'), { ...playlist })).id;
+}
+
+export const deletePlaylistAPI = async (id: string) => {
+    await deleteService('playlists', id);
 }

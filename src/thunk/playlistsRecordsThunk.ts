@@ -1,8 +1,11 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { Playlist, editPlaylistAPI } from "~/api/playlistAPI";
+import { Playlist, editPlaylistAPI, savePlaylist } from "~/api/playlistAPI";
 
-import { RemoveRecordParam, editRecordsInPlaylist, getPlaylistsRecords, removeRecordAPI } from "~/api/playlistsRecords";
-import { getPlaylistList } from "./playlistThunk";
+import { PlaylistsRecords, RemoveRecordParam, deletePlaylistRecordsAPI, editRecordsInPlaylist, getPlaylistsRecords, removeRecordAPI, savePlaylistRecordsAPI } from "~/api/playlistsRecords";
+import { getPlaylistList, savePlaylistList } from "./playlistThunk";
+import { addDoc, collection } from "firebase/firestore";
+import { firestoreDatabase } from "~/config/firebase";
+import { setRecordsOfPlaylist } from "~/reducers/playlistsRecords";
 
 export const getPlaylistsRecordsList = createAsyncThunk(
     'playlistsRecords/getPlaylistsRecordsList',
@@ -44,7 +47,35 @@ export const editRecordsPlaylist = createAsyncThunk(
     ) => {
         await editRecordsInPlaylist({ playlistRecordId, recordList });
         await thunkAPI.dispatch(getPlaylistsRecordsList());
-        
+
+        navigate();
+    }
+);
+
+export type SavePlaylistRecordsParams = {
+    playlist: Omit<Playlist, 'id' | 'createdBy'> & { createdBy: string };
+    playlistRecords: Omit<PlaylistsRecords, 'id' | 'playlistsId'>;
+}
+
+export const savePlaylistRecords = createAsyncThunk(
+    'playlistsRecords/savePlaylistRecords',
+    async ({ playlist, playlistRecords, navigate }: SavePlaylistRecordsParams & { navigate: () => void }, thunkAPI) => {
+        const playlistId: string = await savePlaylist({ playlist });
+        const playslitRecordsData = {
+            playlistsId: playlistId,
+            recordsId: playlistRecords.recordsId
+        };
+        await savePlaylistRecordsAPI({ data: playslitRecordsData });
+        thunkAPI.dispatch(setRecordsOfPlaylist([]));
+
+        navigate();
+    }
+);
+
+export const deletePlaylistRecords = createAsyncThunk(
+    'playlistsRecords/deletePlaylistRecords',
+    async ({ playlistRecordsId, navigate }: { playlistRecordsId: string; navigate: () => void }) => {
+        await deletePlaylistRecordsAPI({ playlistRecordsId });
         navigate();
     }
 );

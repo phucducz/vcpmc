@@ -13,8 +13,6 @@ const cx = classNames.bind(style);
 export const Sidebar = memo(() => {
     const { data, menuActive, active, setActive, type } = useContext(MenuContext);
 
-    const [activeNav, setActiveNav] = useState<boolean>(active);
-
     const handleClick = () => {
         if (type === 'dynamic')
             setActive(true);

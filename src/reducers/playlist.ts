@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import { AsyncThunkFulfilledActionCreator } from "@reduxjs/toolkit/dist/createAsyncThunk";
 
 import { Playlist } from "~/api/playlistAPI";
-import { getPlaylistList } from "~/thunk/playlistThunk";
+import { deletePlaylist, getPlaylistList } from "~/thunk/playlistThunk";
 
 export type PlaylistInitialState = {
     playlist: Array<Playlist>;
@@ -27,6 +27,16 @@ const playlistSlice = createSlice({
             state.playlist = action.payload;
         });
         builder.addCase(getPlaylistList.rejected, (state, action) => {
+            state.loading = false;
+            throw new Error(`${action.error.name}: ${action.error.message}`);
+        });
+        builder.addCase(deletePlaylist.pending, state => {
+            state.loading = true;
+        });
+        builder.addCase(deletePlaylist.fulfilled,  (state, action) => {
+            state.loading = false;
+        });
+        builder.addCase(deletePlaylist.rejected, (state, action) => {
             state.loading = false;
             throw new Error(`${action.error.name}: ${action.error.message}`);
         });

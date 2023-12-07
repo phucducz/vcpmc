@@ -35,6 +35,12 @@ export const formatDateMDY = (date: string) => {
     return dateList[1] + '/' + dateList[0] + '/' + dateList[2];
 }
 
+export const formatDateYMD = (date: string) => {
+    let dateList = date.split('/');
+
+    return dateList[2] + '-' + dateList[1] + '-' + dateList[0];
+}
+
 export const formatToLocalStringCurrentDate = () => {
     let date = new Date();
 

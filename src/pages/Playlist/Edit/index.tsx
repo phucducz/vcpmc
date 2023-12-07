@@ -20,6 +20,7 @@ import { Table } from "~/components/Table";
 import { useFormik } from "formik";
 import { User } from "~/api/userAPI";
 import moment from "moment";
+import { Button } from "~/components/Button";
 
 const cx = classNames.bind(style);
 
@@ -90,7 +91,7 @@ export const EditPlaylistDetailPage = () => {
                 to: "#",
             }
         ]);
-        
+
         setActionData([
             {
                 icon: <FontAwesomeIcon icon={faEdit} />,
@@ -104,9 +105,7 @@ export const EditPlaylistDetailPage = () => {
         if (typeof playlistsRecords.playlistsRecordsDetail === 'undefined') return;
 
         let playlistRecordDetail = playlistsRecords.playlistsRecordsDetail.find(playlist => playlist.playlistRecordId === id);
-       
-        console.log(playlistRecordDetail);
-        
+
         if (typeof playlistRecordDetail !== 'undefined') {
             const { playlist, playlistId, playlistRecordId, quantity,
                 records, totalTime } = playlistRecordDetail;
@@ -209,6 +208,8 @@ export const EditPlaylistDetailPage = () => {
                         );
                     })}
             </Table>
+            <Button outline type='button' onClick={() => navigate(`/playlist-detail/${id}`)}>Hủy</Button>
+            <Button type='submit'>Lưu</Button>
         </CommonPlaylistPage>
     );
 }

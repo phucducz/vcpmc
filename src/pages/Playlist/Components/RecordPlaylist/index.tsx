@@ -13,11 +13,10 @@ const cx = classNames.bind(style);
 
 type RecordPlaylistProps = {
     data: PlaylistRecordDetail;
-    loading?: boolean;
     onItemRemoveClick(recordId: string): void;
 }
 
-export const RecordPlaylist = memo(({ data, loading = false, onItemRemoveClick }: RecordPlaylistProps) => {
+export const RecordPlaylist = memo(({ data, onItemRemoveClick }: RecordPlaylistProps) => {
     const [searchValue, setSearchValue] = useState<string>('');
     const [comboBoxData, setComboBoxData] = useState<Array<ComboData>>([] as Array<ComboData>);
     const [audioLink, setAudioLink] = useState<string>('');
@@ -44,7 +43,10 @@ export const RecordPlaylist = memo(({ data, loading = false, onItemRemoveClick }
     useEffect(() => {
         const { records } = data;
 
-        if (typeof records !== 'undefined' && records.length <= 0 || comboBoxData.length <= 0) return;
+        if (typeof records === 'undefined' || records.length <= 0 || comboBoxData.length <= 0) {
+            setSearchResult([]);
+            return;
+        }
 
         let search = searchValue.trim().toLowerCase();
         let format = comboBoxData[0].activeData;
@@ -153,8 +155,8 @@ export const RecordPlaylist = memo(({ data, loading = false, onItemRemoveClick }
                     setItemsPerPage={handleChange}
                     thead={['STT', 'Tên bản ghi', 'Ca sĩ', 'Tác giả', '', '']}
                 >
-                    {currentItems.map((item: Record, index: number) => {
-                        return (
+                    {currentItems.length > 0
+                        ? currentItems.map((item: Record, index: number) => (
                             <tr key={index} style={{ height: '47px' }} className={cx('content')}>
                                 <td><p>{index + 1}</p></td>
                                 <td className={cx('record-name')}>
@@ -170,8 +172,14 @@ export const RecordPlaylist = memo(({ data, loading = false, onItemRemoveClick }
                                 <td><p className={cx('action')} onClick={() => handleListenAudioClick(item)}>Nghe</p></td>
                                 <td><p className={cx('action')} onClick={() => onItemRemoveClick(item.id)}>Gỡ</p></td>
                             </tr>
-                        )
-                    })}
+                        ))
+                        : <tr><td colSpan={6}>
+                            <p style={{ textAlign: 'center', display: 'inline-flex', alignItems: 'center', gap: '4px' }}>
+                                <span>Vui lòng chọn bản ghi để thêm vào Playlist</span>
+                                <span style={{ color: 'var(--color-red)' }}>*</span>
+                            </p>
+                        </td></tr>
+                    }
                 </Table>
                 <AudioDialog src={audioLink} visible={audioActive} setVisible={setAudioActive} />
             </CommonPage>

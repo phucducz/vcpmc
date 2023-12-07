@@ -1,0 +1,17 @@
+.schedule-playlist-container {
+    & table {
+        width: 1541px;
+
+        & .action {
+            width: max-content;
+            color: var(--color-orange-4);
+            padding: 5px 16px;
+            text-decoration: underline;
+            cursor: pointer;
+
+            &:hover {
+                opacity: 1;
+            }
+        }
+    }
+}

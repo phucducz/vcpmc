@@ -12,6 +12,9 @@ import { AddRecordPlaylistPage } from "~/pages/Playlist/AddRecord";
 import { PlaylistDetailPage } from "~/pages/Playlist/Detail";
 import { EditPlaylistDetailPage } from "~/pages/Playlist/Edit";
 import { PlaylistPage } from "~/pages/Playlist/Playlist";
+import { PlaylistScheduleDetailPage } from "~/pages/PlaylistSchedule/Detail";
+import { PlaylistScheduleEditPage } from "~/pages/PlaylistSchedule/Edit";
+import { PlaylistSchedulePage } from "~/pages/PlaylistSchedule/Schedule";
 import { ProfilePage } from "~/pages/ProfilePage";
 import { RecordPage } from "~/pages/RecordPage";
 import { RecoverPage } from "~/pages/RecoverPage";
@@ -36,4 +39,7 @@ export const publicRoutes = [
     { path: routes.EditPlaylistDetail, Component: EditPlaylistDetailPage },
     { path: routes.AddPlaylist, Component: AddPlaylistPage },
     { path: routes.AddRecordPlaylist, Component: AddRecordPlaylistPage },
+    { path: routes.PlaylistSchedule, Component: PlaylistSchedulePage },
+    { path: routes.PlaylistScheduleDetail, Component: PlaylistScheduleDetailPage },
+    { path: routes.PlaylistScheduleEdit, Component: PlaylistScheduleEditPage }
 ];

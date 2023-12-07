@@ -1,0 +1,45 @@
+.schedule-playlist-detail-container {
+    & table {
+        width: 1690px;
+
+        & .action {
+            width: max-content;
+            color: var(--color-orange-4);
+            padding: 5px 16px;
+            text-decoration: underline;
+            cursor: pointer;
+
+            &:hover {
+                opacity: 1;
+            }
+        }
+    }
+}
+
+.header {
+    width: max-content;
+    font-size: 24px;
+    font-weight: 700;
+    line-height: 24px;
+    letter-spacing: -0.048px;
+    margin-bottom: 24px;
+}
+
+table {
+    & tr>td {
+        &>.table__time {
+            display: flex;
+            flex-direction: column;
+        }
+
+        &>.table__cycle {
+            display: flex;
+            
+            &>span+span {
+                padding-left: 8px;
+                margin-left: 8px;
+                border-left: 1px solid var(--white);
+            }
+        }
+    }
+}

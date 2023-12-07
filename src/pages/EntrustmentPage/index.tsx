@@ -20,10 +20,12 @@ const cx = classNames.bind(style);
 const PAGING_ITEMS: Array<PagingItemType> = [
     {
         title: 'Quản lý',
-        to: '#'
+        to: '#',
+        active: true
     }, {
         title: 'Quản lý hợp đồng',
-        to: "#"
+        to: "#",
+        active: true
     }
 ];
 

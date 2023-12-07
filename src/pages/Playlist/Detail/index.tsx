@@ -18,6 +18,8 @@ import { routes } from "~/config/routes";
 import { getPlaylistsRecordsList, removeRecord } from "~/thunk/playlistsRecordsThunk";
 import { getPlaylistsRecordsDetail } from "~/reducers/playlistsRecords";
 import { CommonPlaylistPage, PlaylistValue } from "../CommonPage";
+import { deletePlaylist } from "~/thunk/playlistThunk";
+import Loading from "~/components/Loading";
 
 const cx = classNames.bind(style);
 
@@ -50,6 +52,17 @@ export const PlaylistDetailPage = () => {
     const [currentItems, setCurrentItems] = useState<Array<Record>>([] as Array<Record>);
     const [itemsPerPage, setItemsPerPage] = useState<string>('8');
 
+    const handleDeletePlaylist = useCallback(() => {
+        const playlistId = playlistsRecords.playlistsRecords.find(playlistRecords => playlistRecords.id === id)?.playlistsId;
+
+        if (typeof playlistId !== 'undefined' && typeof id !== 'undefined')
+            dispatch(deletePlaylist({
+                playlistId: playlistId,
+                playlistRecordsId: id,
+                navigate: () => navigate(routes.PlaylistManagement),
+            }));
+    }, []);
+
     useEffect(() => {
         setActive(false);
         setType('dynamic');
@@ -62,14 +75,14 @@ export const PlaylistDetailPage = () => {
             }, {
                 icon: <Icon icon={trashIcon} />,
                 title: 'Xóa Playlist',
-                onClick: () => navigate('#')
+                onClick: () => handleDeletePlaylist()
             }
         ]);
     }, []);
 
     useEffect(() => {
         if (typeof playlistsRecords.playlistsRecordsDetail === 'undefined') return;
-        
+
         let playlistRecordDetail = playlistsRecords.playlistsRecordsDetail.find(playlist => playlist.playlistRecordId === id);
         if (typeof playlistRecordDetail !== 'undefined') {
             const { playlist, playlistId, playlistRecordId, quantity,
@@ -137,7 +150,6 @@ export const PlaylistDetailPage = () => {
                     dataForPaginate: playlistDetail.records,
                     setCurrentItems: handleSetCurrentItems
                 }}
-                loading={playlistsRecords.loading}
                 itemsPerPage={itemsPerPage}
                 setItemsPerPage={handleChange}
                 thead={['STT', 'Tên bản ghi', 'Ca sĩ', 'Tác giả', '', '']}
@@ -156,6 +168,7 @@ export const PlaylistDetailPage = () => {
                         );
                     })}
             </Table>
+            <Loading visible={playlist.loading} />
         </CommonPlaylistPage>
     );
 }

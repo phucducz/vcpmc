@@ -27,6 +27,6 @@ export const updateService = async (table: string, data: any) => {
     await updateDoc(doc(firestoreDatabase, `${table}`, `${id}`), { ...data });
 }
 
-export const deleteService = async (table: string, id: number) => {
+export const deleteService = async (table: string, id: any) => {
     await deleteDoc(doc(firestoreDatabase, `${table}`, `${id}`));
 }

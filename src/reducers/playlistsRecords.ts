@@ -4,18 +4,20 @@ import moment from "moment";
 import { Playlist } from "~/api/playlistAPI";
 import { PlaylistRecordDetail, PlaylistsRecords } from "~/api/playlistsRecords";
 import { Record } from "~/api/recordAPI";
-import { editPlaylist, editRecordsPlaylist, getPlaylistsRecordsList, removeRecord } from "~/thunk/playlistsRecordsThunk";
+import { editPlaylist, editRecordsPlaylist, getPlaylistsRecordsList, removeRecord, savePlaylistRecords } from "~/thunk/playlistsRecordsThunk";
 
 export type PlaylistRecordInitialState = {
     playlistsRecords: Array<PlaylistsRecords>;
     loading: boolean;
     playlistsRecordsDetail: Array<PlaylistRecordDetail>;
+    recordsOfPlaylist: Array<Record>;
 }
 
 const initialState: PlaylistRecordInitialState = {
     playlistsRecords: [],
     loading: false,
-    playlistsRecordsDetail: []
+    playlistsRecordsDetail: [],
+    recordsOfPlaylist: []
 }
 
 const playlistRecordsSlice = createSlice({
@@ -27,7 +29,7 @@ const playlistRecordsSlice = createSlice({
         },
         getPlaylistsRecordsDetail: (state, action) => {
             const { playlist, playlistsRecords, record } = action.payload;
-            
+
             let playlistRecordList: Array<PlaylistRecordDetail> = [] as Array<PlaylistRecordDetail>;
 
             playlistsRecords.playlistsRecords.forEach((playlistRecord: PlaylistsRecords) => {
@@ -62,6 +64,11 @@ const playlistRecordsSlice = createSlice({
 
                 state.playlistsRecordsDetail = playlistRecordList;
             });
+        },
+        setRecordsOfPlaylist: (state, action) => {
+            console.log(action.payload);
+            
+            state.recordsOfPlaylist = action.payload;
         }
     },
     extraReducers: builder => {
@@ -106,9 +113,19 @@ const playlistRecordsSlice = createSlice({
             state.loading = false;
             throw new Error(`${action.error.name}: ${action.error.message}`);
         });
+        builder.addCase(savePlaylistRecords.pending, state => {
+            state.loading = true;
+        });
+        builder.addCase(savePlaylistRecords.fulfilled, (state) => {
+            state.loading = false;
+        });
+        builder.addCase(savePlaylistRecords.rejected, (state, action) => {
+            state.loading = false;
+            throw new Error(`${action.error.name}: ${action.error.message}`);
+        });
     }
 });
 
 export const { reducer: playlistsRecordsReducer } = playlistRecordsSlice;
 
-export const { setPlaylistsRecordsDetail, getPlaylistsRecordsDetail } = playlistRecordsSlice.actions;
+export const { setPlaylistsRecordsDetail, getPlaylistsRecordsDetail, setRecordsOfPlaylist } = playlistRecordsSlice.actions;

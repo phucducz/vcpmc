@@ -1,9 +1,9 @@
-import { collection, getDocs } from "firebase/firestore";
+import { addDoc, collection, getDocs } from "firebase/firestore";
 
 import { firestoreDatabase } from "~/config/firebase";
 import { Playlist } from "./playlistAPI";
 import { Record } from "./recordAPI";
-import { updateService } from "~/service";
+import { deleteService, updateService } from "~/service";
 
 export type PlaylistsRecords = {
     id: string;
@@ -49,4 +49,12 @@ export const editRecordsInPlaylist = async ({ playlistRecordId, recordList }: Om
         id: playlistRecordId,
         recordsId: recordList
     });
+}
+
+export const savePlaylistRecordsAPI = async ({ data }: { data: Omit<PlaylistsRecords, 'id'> }) => {
+    await addDoc(collection(firestoreDatabase, 'playlists_records'), { ...data });
+}
+
+export const deletePlaylistRecordsAPI = async ({ playlistRecordsId }: { playlistRecordsId: string }) => {
+    await deleteService('playlists_records', playlistRecordsId);
 }

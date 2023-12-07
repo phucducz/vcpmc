@@ -1,5 +1,5 @@
 import classNames from "classnames/bind";
-import { useEffect, useState, useCallback } from 'react';
+import { useEffect, useState, useCallback, useContext } from 'react';
 import { useFormik } from "formik";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
@@ -14,15 +14,25 @@ import { routes } from "~/config/routes";
 import { ActionDataType } from "~/components/Action";
 import { Table } from "~/components/Table";
 import { useSelector } from "react-redux";
-import { RootState } from "~/store";
+import { RootState, useAppDispatch } from "~/store";
 import moment from "moment";
+import { getCurrentDate } from "~/context";
+import { savePlaylistRecords } from "~/thunk/playlistsRecordsThunk";
+import Loading from "~/components/Loading";
+import { Button } from "~/components/Button";
+import { MenuContext } from "~/context/Menu/MenuContext";
+import { setRecordsOfPlaylist } from "~/reducers/playlistsRecords";
 
 const cx = classNames.bind(style);
 
 export const AddPlaylistPage = () => {
+    const dispath = useAppDispatch();
     const navigate = useNavigate();
 
+    const { setActive } = useContext(MenuContext);
+
     const playlistsRecords = useSelector((state: RootState) => state.playlistsRecords);
+    const user = useSelector((state: RootState) => state.user);
 
     const [paging, setPaging] = useState<Array<PagingItemType>>([] as Array<PagingItemType>);
     const [actionData, setActionData] = useState<ActionDataType[]>([] as ActionDataType[]);
@@ -36,7 +46,7 @@ export const AddPlaylistPage = () => {
             title: '',
             categories: [] as Array<string>,
             createdDate: '',
-            createdBy: {} as User,
+            createdBy: {} as Pick<User, 'id'>,
             description: '',
             mode: '',
             imageURL: '',
@@ -47,7 +57,26 @@ export const AddPlaylistPage = () => {
             playlistRecordId: '',
         } as PlaylistValue,
         onSubmit: values => {
-            
+            if (values.records.length <= 0) return;
+
+            const playlist = {
+                title: values.title,
+                categories: ['NyVjFmpolxH9UbyFOYAo', 'NcKduGPiNK2wN2WIM0Bz'],
+                createdDate: getCurrentDate(),
+                createdBy: user.currentUser.id,
+                description: values.description,
+                mode: values.mode,
+                imageURL: values.imageURL === '' ? 'https://res.cloudinary.com/dvlzvsyxs/image/upload/v1701837054/image-playlist-default_wwfydk.jpg' : values.imageURL,
+            }
+            const playlistRecords = {
+                recordsId: values.records.map(record => record.id)
+            }
+
+            dispath(savePlaylistRecords({
+                playlist,
+                playlistRecords,
+                navigate: () => navigate(routes.PlaylistManagement)
+            }));
         }
     });
 
@@ -67,9 +96,10 @@ export const AddPlaylistPage = () => {
             {
                 icon: <FontAwesomeIcon icon={faPlus} />,
                 title: 'Thêm bản ghi',
-                onClick: () => navigate('#')
+                onClick: () => navigate(`/playlist-detail/${'new-playlist'}/add-record`)
             }
         ]);
+        playlistFormik.setFieldValue('records', playlistsRecords.recordsOfPlaylist);
     }, []);
 
     const handleSetCurrentItems = useCallback((items: Array<any>) => {
@@ -99,13 +129,13 @@ export const AddPlaylistPage = () => {
             }
         });
 
-        playlistFormik.setFieldValue('records', recordsCurrent);
         playlistFormik.setValues({
             ...playlistFormik.values,
             records: recordsCurrent,
             totalTime: momentTime.toISOString().split('T')[1].slice(0, 8),
             quantity: recordsCurrent.length
         });
+        dispath(setRecordsOfPlaylist(recordsCurrent));
     }
 
     return (
@@ -130,13 +160,12 @@ export const AddPlaylistPage = () => {
                         dataForPaginate: playlistFormik.values.records,
                         setCurrentItems: handleSetCurrentItems
                     }}
-                    loading={playlistsRecords.loading}
                     itemsPerPage={itemsPerPage}
                     setItemsPerPage={handleChange}
                     thead={['STT', 'Tên bản ghi', 'Ca sĩ', 'Tác giả', '', '']}
                 >
                     {currentItems.length > 0
-                        && currentItems.map((item: Record, index) => {
+                        ? currentItems.map((item: Record, index) => {
                             return (
                                 <tr key={index} style={{ height: '47px' }} className={cx('content')}>
                                     <td><p>{index + 1}</p></td>
@@ -147,8 +176,20 @@ export const AddPlaylistPage = () => {
                                     <td><p className={cx('action')} onClick={() => handleRemoveRecord(item.id)}>Gỡ</p></td>
                                 </tr>
                             );
-                        })}
+                        })
+                        : <tr>
+                            <td colSpan={6}>
+                                <p style={{ textAlign: 'center', display: 'inline-flex', alignItems: 'center', gap: '4px' }}>
+                                    <span>Vui lòng chọn bản ghi để thêm vào Playlist</span>
+                                    <span style={{ color: 'var(--color-red)' }}>*</span>
+                                </p>
+                            </td>
+                        </tr>
+                    }
                 </Table>
+                <Button outline type='button' onClick={() => { navigate(routes.PlaylistManagement); setActive(true) }}>Hủy</Button>
+                <Button type='submit'>Lưu</Button>
+                <Loading visible={playlistsRecords.loading} />
             </CommonPlaylistPage>
         </div>
     );

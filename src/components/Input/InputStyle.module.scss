@@ -16,7 +16,7 @@
     }
 
     textarea {
-        height: auto!important;
+        height: auto !important;
     }
 }
 
@@ -95,4 +95,15 @@
 
 input[type='textarea'] {
     resize: none;
+}
+
+input[type='date'] {
+    &::-webkit-calendar-picker-indicator {
+        display: block;
+        background: url("../../images/u_calendar-image.png") no-repeat;
+        width: 20px;
+        height: 20px;
+        border-width: thin;
+        cursor: pointer;
+    }
 }

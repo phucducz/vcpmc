@@ -8,6 +8,7 @@ import { approvalReducer } from "./approval";
 import { etmContractReducer } from "./etmContract";
 import { playlistReducer } from "./playlist";
 import { playlistsRecordsReducer } from "./playlistsRecords";
+import { playlistScheduleReducer } from "./playlistSchedule";
 
 export const rootReducer = combineReducers({
     user: userReducer,
@@ -17,5 +18,6 @@ export const rootReducer = combineReducers({
     approval: approvalReducer,
     etmContract: etmContractReducer,
     playlist: playlistReducer,
-    playlistsRecords: playlistsRecordsReducer
+    playlistsRecords: playlistsRecordsReducer,
+    playlistSchedule: playlistScheduleReducer
 });

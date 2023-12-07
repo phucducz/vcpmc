@@ -91,13 +91,13 @@ export const PlaylistPage = () => {
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
 
-    const { setMenuActive, setActive } = useContext(MenuContext);
-
+    const { setMenuActive, setActive, active } = useContext(MenuContext);
+    
     const playlist = useSelector((state: RootState) => state.playlist);
     const playlistsRecords = useSelector((state: RootState) => state.playlistsRecords);
     const record = useSelector((state: RootState) => state.record);
     const category = useSelector((state: RootState) => state.category);
-    
+
     const [searchValue, setSearchValue] = useState<string>('');
     const [typeLoad, setTypeLoad] = useState<'table' | 'grid'>('table');
     const [actionData, setActionData] = useState<ActionDataType[]>([] as ActionDataType[]);
@@ -115,7 +115,7 @@ export const PlaylistPage = () => {
             }
         ]);
         setMenuActive(2);
-        setItemsPerPage('8');
+        setActive(true);
 
         dispatch(getPlaylistsRecordsList());
         dispatch(getPlaylistList());
@@ -223,7 +223,7 @@ export const PlaylistPage = () => {
                         {currentItems.map((item, index) => {
                             if (index > parseInt(itemsPerPage) - 1) return null;
                             console.log(item.playlist.imageURL);
-                            
+
                             return <GridItem
                                 key={item.playlistRecordId}
                                 data={item.playlist}

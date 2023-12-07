@@ -220,8 +220,6 @@ export const EditRecord = () => {
         setVisibleComboBox(false);
     }, []);
 
-    console.log(visibleComboBox);
-
     return (
         <div className={cx('edit-record')}>
             <Paging data={PAGING_ITEMS} />

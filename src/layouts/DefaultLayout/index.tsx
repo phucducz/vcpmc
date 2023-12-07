@@ -14,7 +14,6 @@ import { Sidebar } from "~/components/Sidebar";
 import { getCategories } from "~/thunk/categoryThunk";
 import { getApprovalList } from "~/thunk/approvalThunk";
 import { routes } from "~/config/routes";
-import { MenuContext } from "~/context/Menu/MenuContext";
 
 const cx = classNames.bind(style);
 

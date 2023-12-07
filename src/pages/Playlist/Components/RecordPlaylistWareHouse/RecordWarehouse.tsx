@@ -7,6 +7,8 @@ import style from './RecordWarehouse.module.scss';
 import { Table } from "~/components/Table";
 import { Record } from "~/api/recordAPI";
 import { AudioDialog } from "~/components/AudioDialog";
+import { useSelector } from "react-redux";
+import { RootState } from "~/store";
 
 const cx = classNames.bind(style);
 
@@ -17,6 +19,8 @@ type RecordPlaylistWareHouseProps = {
 }
 
 export const RecordPlaylistWareHouse = memo(({ data, loading = false, onItemAddClick }: RecordPlaylistWareHouseProps) => {
+    const playlistsRecords = useSelector((state: RootState) => state.playlistsRecords);
+
     const [searchValue, setSearchValue] = useState<string>('');
     const [comboBoxData, setComboBoxData] = useState<Array<ComboData>>([] as Array<ComboData>);
     const [audioLink, setAudioLink] = useState<string>('');
@@ -25,9 +29,11 @@ export const RecordPlaylistWareHouse = memo(({ data, loading = false, onItemAddC
     const [itemsPerPage, setItemsPerPage] = useState<string>('5');
     const [searchResult, setSearchResult] = useState<Array<Record>>([] as Array<Record>);
 
-    console.log('data', data);
-
     useEffect(() => {
+        let playlistSample = playlistsRecords.playlistsRecordsDetail.map(item => ({
+            title: item.playlist.title
+        }));
+
         setComboBoxData([
             {
                 title: 'Thể loại',
@@ -41,16 +47,14 @@ export const RecordPlaylistWareHouse = memo(({ data, loading = false, onItemAddC
             }, {
                 title: 'Playlist mẫu',
                 data: [
-                    { title: 'Playlist 1' },
-                    { title: 'Playlist 2' },
-                    { title: 'Playlist 3' },
-                    { title: 'Playlist 4' }
+                    { title: 'Playlist mẫu' },
+                    ...playlistSample
                 ],
                 visible: false,
-                activeData: 'Tất cả'
+                activeData: 'Playlist mẫu'
             }
         ]);
-    }, []);
+    }, [playlistsRecords]);
 
     useEffect(() => {
         if ((data && data.length <= 0) || comboBoxData.length <= 0) {
@@ -59,25 +63,31 @@ export const RecordPlaylistWareHouse = memo(({ data, loading = false, onItemAddC
         }
 
         let search = searchValue.trim().toLowerCase();
-
-        let category = comboBoxData[0].activeData;
+        let format = comboBoxData[0].activeData;
         let playlistSample = comboBoxData[1].activeData;
 
         if (searchValue.trim() === '')
             setSearchResult(data);
 
-        let result = data.filter((item: Record) => {
-            if (category === 'Tất cả')
+        const resultPlaylist = playlistsRecords.playlistsRecordsDetail.find(item => item.playlist.title === playlistSample)?.records;
+
+        let dataSearch: Record[] = data;
+
+        if (typeof resultPlaylist !== 'undefined')
+            dataSearch = resultPlaylist.filter(playlist => data.find(item => item.id === playlist.id));
+
+        let resultRecord: Record[] = dataSearch.filter((item: Record) => {
+            if (format === 'Tất cả')
                 return item;
             else {
-                if (item.category.name.includes(category))
+                if (item.format.includes(format))
                     return item;
                 else
                     return null;
             }
         });
 
-        setSearchResult(result.filter(item =>
+        setSearchResult(resultRecord.filter(item =>
             item.author.toLowerCase().includes(search) ||
             item.singer.toLowerCase().includes(search) ||
             item.nameRecord.toLowerCase().includes(search)
@@ -151,6 +161,7 @@ export const RecordPlaylistWareHouse = memo(({ data, loading = false, onItemAddC
                         dataForPaginate: searchResult,
                         setCurrentItems: handleSetCurrentItems
                     }}
+                    loading={loading}
                     itemsPerPage={itemsPerPage}
                     setItemsPerPage={handleChange}
                     thead={['STT', 'Tên bản ghi', 'Ca sĩ', 'Tác giả', '', '']}

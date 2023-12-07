@@ -1,0 +1,70 @@
+.content {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+}
+
+.content__left {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    
+    &>div {
+        padding: 16px;
+        border-radius: 16px;
+        background: rgba(47, 47, 65, 0.70);
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    &>.schedule-information {
+        &>p {
+            font-size: 18px;
+            font-weight: 700;
+            line-height: 24px;
+            letter-spacing: -0.036px;
+            text-align: start;
+        }
+
+        &>div {
+            margin: 0;
+
+            &>input {
+                width: 241px;
+
+                &[type='date'] {
+                    border-color: var(--orange-4-default, #FF7506);
+                    background-color: var(--background-bg, #1E1E2E);
+
+                    &::-webkit-calendar-picker-indicator {
+                        color: rgba(0, 0, 0, 0);
+                        opacity: 1;
+                        display: block;
+                        background: url("../../../images/u_calendar-image.png") no-repeat;
+                        width: 20px;
+                        height: 20px;
+                        border-width: thin;
+                        cursor: pointer;
+                    }
+                }
+            }
+
+            &>p {
+                color: rgba(174, 174, 174, 1);
+            }
+        }
+    }
+}
+
+.playlist {
+    &>div {
+        &>p {
+            font-size: 18px;
+            font-weight: 700;
+            line-height: 24px;
+            letter-spacing: -0.036px;
+            text-align: start;
+        }
+    }
+}

@@ -1,8 +1,8 @@
 import classNames from "classnames/bind";
+import { useContext } from "react";
 
 import style from './Account.module.scss';
 import Image, { ImageProps } from "../Image";
-import { useContext } from "react";
 import { MenuContext } from "~/context/Menu/MenuContext";
 
 const cx = classNames.bind(style);

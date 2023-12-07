@@ -37,7 +37,7 @@ export const MenuProvider = ({ children }: MenuProviderProps) => {
             id: 3,
             icon: MENU_ICONS.calendarIcon,
             title: 'Lập lịch phát',
-            onClick: () => { }
+            onClick: () => navigate(routes.PlaylistSchedule)
         }, {
             id: 4,
             icon: MENU_ICONS.managementIcon,
