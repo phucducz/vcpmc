@@ -291,9 +291,6 @@ export const EditRecord = () => {
                                     title='Thể loại:'
                                     data={COMBOBOX_DATA}
                                     active={comboBoxDataActive}
-                                    // onBlur={handleBlur}
-                                    // setVisible={() => setVisibleComboBox(false)}
-                                    // onBlur={() => handleBlur(false)}
                                     onItemClick={handleComboBoxItemClick}
                                 />
                             </div>

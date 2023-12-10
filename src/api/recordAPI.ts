@@ -50,9 +50,7 @@ export const getRecordList = async () => {
 }
 
 export const getContractList = async () => {
-    const q = query(
-        collection(firestoreDatabase, 'contract')
-    );
+    const q = query(collection(firestoreDatabase, 'contract'));
 
     const querySnapshot = await getDocs(q);
 

@@ -1,23 +1,23 @@
-import classNames from "classnames/bind";
-import { useState, useEffect, useContext } from "react";
-import { useSelector } from "react-redux";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import classNames from "classnames/bind";
+import { useContext, useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router";
 
-import style from './Detail.module.scss';
-import { CommonPage } from "~/pages/CommonPage";
-import { Table } from "~/components/Table";
-import { RootState, useAppDispatch } from "~/store";
+import { Playlist } from "~/api/playlistAPI";
+import { PlaybackCycle, PlaylistSchedule, SchedulePlaylist, SchedulePlaylistDetail } from "~/api/playlistScheduleAPI";
 import { ActionDataType } from "~/components/Action";
-import { PlaylistSchedule, SchedulePlaylist, SchedulePlaylistDetail } from "~/api/playlistScheduleAPI";
 import { PagingItemType } from "~/components/Paging";
+import { Table } from "~/components/Table";
 import { routes } from "~/config/routes";
 import { MenuContext } from "~/context/Menu/MenuContext";
-import { Playlist } from "~/api/playlistAPI";
-import { getPlaylistList } from "~/thunk/playlistThunk";
+import { CommonPage } from "~/pages/CommonPage";
 import { setPlaylistScheduleDetail } from "~/reducers/playlistSchedule";
+import { RootState, useAppDispatch } from "~/store";
+import { getPlaylistList } from "~/thunk/playlistThunk";
 import { getPlaylistsRecordsList } from "~/thunk/playlistsRecordsThunk";
+import style from './Detail.module.scss';
 import Loading from "~/components/Loading";
 
 const cx = classNames.bind(style);
@@ -32,7 +32,6 @@ export const PlaylistScheduleDetailPage = () => {
     const playlistSchedule = useSelector((state: RootState) => state.playlistSchedule);
     const playlist = useSelector((state: RootState) => state.playlist);
     const playlistsRecords = useSelector((state: RootState) => state.playlistsRecords);
-    const record = useSelector((state: RootState) => state.record);
 
     const [actionData, setActionData] = useState<ActionDataType[]>([] as ActionDataType[]);
     const [currentItems, setCurrentItems] = useState<Array<any>>([]);
@@ -69,7 +68,11 @@ export const PlaylistScheduleDetailPage = () => {
             }
         ]);
 
+        if (playlist.playlist.length <= 0 ||
+            playlistsRecords.playlistsRecords.length <= 0) return;
+
         let schedule: PlaylistSchedule = playlistSchedule.listSchedule.find(schedule => schedule.id === id) || {} as PlaylistSchedule;
+        console.log(schedule);
 
         const scheduleDetail: SchedulePlaylistDetail = {
             id: schedule.id,
@@ -77,23 +80,23 @@ export const PlaylistScheduleDetailPage = () => {
             playbackTime: schedule.playbackTime,
             playlist: schedule.playlistsIds.map(item => ({
                 playbackCycle: item.playbackCycle,
-                time: item.time,
                 playlistDetail: playlist.playlist.find(playlist => item.playlistsId === playlist.id) || {} as Playlist
             }))
         }
 
         setScheduleDetail(scheduleDetail);
         dispatch(setPlaylistScheduleDetail(scheduleDetail));
+    }, [playlist.playlist, playlistsRecords.playlistsRecords]);
 
+    useEffect(() => {
         playlistsRecords.playlistsRecords.length <= 0 && dispatch(getPlaylistsRecordsList());
         playlist.playlist.length <= 0 && dispatch(getPlaylistList());
     }, []);
 
     useEffect(() => {
-        if (playlistsRecords.loading)
-            setLoading(true);
-        else if (playlist.loading)
-            setLoading(true);
+        if (playlistsRecords.loading) setLoading(true);
+        else if (playlist.loading) setLoading(true);
+        else if (playlistSchedule.loading === true) setLoading(true);
         else setLoading(false);
     }, [playlistsRecords, playlist]);
 
@@ -118,7 +121,6 @@ export const PlaylistScheduleDetailPage = () => {
                         dataForPaginate: scheduleDetail.playlist,
                         setCurrentItems: handleSetCurrentItems
                     }}
-                    loading={playlistSchedule.loading}
                     itemsPerPage={itemsPerPage}
                     setItemsPerPage={handleChange}
                     thead={['STT', 'Tên lịch', 'Ngày phát Playlist', 'Bắt đầu - Kết thúc', 'Chu kỳ phát', 'Thiết bị']}
@@ -129,13 +131,14 @@ export const PlaylistScheduleDetailPage = () => {
                                 <td><p>{index + 1}</p></td>
                                 <td><p>{item.playlistDetail.title}</p></td>
                                 <td><p>{scheduleDetail.playbackTime}</p></td>
-                                <td><p className={cx('table__time')}>{item.time.map((item: string, index: number) => <span key={index}>{item}</span>)}</p></td>
-                                <td><p className={cx('table__cycle')}>{item.playbackCycle.map((cycle: string, index: number) => <span key={index}>{cycle}</span>)}</p></td>
+                                <td><div className={cx('table__time')}>{item.playbackCycle.map((item: PlaybackCycle, index: number) =>
+                                    <p key={index}>{item.time.map(time => time)}</p>
+                                )}</div></td>
+                                <td><div className={cx('table__cycle')}>{item.playbackCycle.map((item: PlaybackCycle, index: number) => <span key={index}>{item.day}</span>)}</div></td>
                                 <td><p>{scheduleDetail.playbackTime}</p></td>
                             </tr>
                         )
-                    }
-                    )}
+                    })}
                 </Table>
                 <Loading visible={loading} />
             </CommonPage>

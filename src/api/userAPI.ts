@@ -30,6 +30,7 @@ export type User = {
     userName: string;
     role: Role;
     id: string;
+    companyName?: string;
     //     avatar: string;
     //     id: string;
     //     dateOfBirth: string;
@@ -85,7 +86,8 @@ export const getUserById = async (id: string, roleList?: Role[]) => {
         taxCode: result.taxCode,
         userName: result.userName,
         id: result.id,
-        role: roleList.find(role => result && role.id === result.rolesId) || { id: '', role: '' }
+        role: roleList.find(role => result && role.id === result.rolesId) || { id: '', role: '' },
+        companyName: result.companyName
         // role: typeof roleList !== 'undefined' ? roleList.find(role => result && role.id === result.rolesId) : { id: '', role: '' }
     }
 }

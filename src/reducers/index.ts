@@ -9,6 +9,8 @@ import { etmContractReducer } from "./etmContract";
 import { playlistReducer } from "./playlist";
 import { playlistsRecordsReducer } from "./playlistsRecords";
 import { playlistScheduleReducer } from "./playlistSchedule";
+import { deviceReducer } from "./device";
+import { scheduleDeviceReducer } from "./scheduleDevice";
 
 export const rootReducer = combineReducers({
     user: userReducer,
@@ -19,5 +21,7 @@ export const rootReducer = combineReducers({
     etmContract: etmContractReducer,
     playlist: playlistReducer,
     playlistsRecords: playlistsRecordsReducer,
-    playlistSchedule: playlistScheduleReducer
+    playlistSchedule: playlistScheduleReducer,
+    device: deviceReducer,
+    scheduleDevice: scheduleDeviceReducer
 });

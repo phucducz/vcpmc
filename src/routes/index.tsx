@@ -12,6 +12,8 @@ import { AddRecordPlaylistPage } from "~/pages/Playlist/AddRecord";
 import { PlaylistDetailPage } from "~/pages/Playlist/Detail";
 import { EditPlaylistDetailPage } from "~/pages/Playlist/Edit";
 import { PlaylistPage } from "~/pages/Playlist/Playlist";
+import AddPlaylistSchedulePage from "~/pages/PlaylistSchedule/AddPlaylistSchedule";
+import { AppySchedulePage } from "~/pages/PlaylistSchedule/ApplySchedule";
 import { PlaylistScheduleDetailPage } from "~/pages/PlaylistSchedule/Detail";
 import { PlaylistScheduleEditPage } from "~/pages/PlaylistSchedule/Edit";
 import { PlaylistSchedulePage } from "~/pages/PlaylistSchedule/Schedule";
@@ -41,5 +43,7 @@ export const publicRoutes = [
     { path: routes.AddRecordPlaylist, Component: AddRecordPlaylistPage },
     { path: routes.PlaylistSchedule, Component: PlaylistSchedulePage },
     { path: routes.PlaylistScheduleDetail, Component: PlaylistScheduleDetailPage },
-    { path: routes.PlaylistScheduleEdit, Component: PlaylistScheduleEditPage }
+    { path: routes.PlaylistScheduleEdit, Component: PlaylistScheduleEditPage },
+    { path: routes.ApplySchedule, Component: AppySchedulePage },
+    { path: routes.AddPlaylistSchedule, Component: AddPlaylistSchedulePage }
 ];

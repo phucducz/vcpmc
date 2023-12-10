@@ -6,44 +6,55 @@ import ReactPaginate from "react-paginate";
 
 import style from './Table.module.scss';
 import { Input } from "../Input";
+import { Paging } from "../Paging";
 
 const cx = classNames.bind(style);
 
 type TableProps = {
-    paginate: {
+    paginate?: {
         dataForPaginate: Array<any>;
         setCurrentItems(item: Array<any>): void
     }
     children: ReactNode;
     headerChildren?: ReactNode;
     loading?: boolean;
-    itemsPerPage: string;
+    itemsPerPage?: string;
     thead: Array<string>
     tableRef?: React.RefObject<HTMLTableElement>;
-    setItemsPerPage(number: string): void;
+    setItemsPerPage?(number: string): void;
 }
 
-export const Table = memo(({ tableRef, paginate, headerChildren, children, thead, loading = false, itemsPerPage: per, setItemsPerPage }: TableProps) => {
+export const Table = memo(({ tableRef, paginate, headerChildren, children, thead, loading = false, itemsPerPage: per = '1', setItemsPerPage }: TableProps) => {
     const [itemOffset, setItemOffset] = useState(0);
     const [pageCount, setPageCount] = useState<number>(0);
 
     const itemsPerPage = parseInt(per);
-    const { dataForPaginate, setCurrentItems } = paginate;
 
     useEffect(() => {
-        if (typeof dataForPaginate === 'undefined')
+        if (typeof paginate === 'undefined')
             return;
+
+        const { dataForPaginate, setCurrentItems } = paginate;
 
         const endOffset = itemOffset + itemsPerPage;
         setCurrentItems && setCurrentItems(paginate.dataForPaginate.slice(itemOffset, endOffset));
         setPageCount(Math.ceil(dataForPaginate.length / itemsPerPage));
-    }, [itemOffset, per, dataForPaginate]);
-    
+    }, [itemOffset, per, paginate?.dataForPaginate]);
+
     useEffect(() => {
+        if (typeof paginate === 'undefined')
+            return;
+
+        const { setCurrentItems } = paginate;
+
         setCurrentItems && setCurrentItems(paginate.dataForPaginate.slice(0, itemsPerPage));
     }, [itemsPerPage]);
 
     const handlePageClick = (event: { selected: number }) => {
+        if (typeof paginate === 'undefined')
+            return;
+
+        const { dataForPaginate } = paginate;
         const newOffset = (event.selected * itemsPerPage) % dataForPaginate.length;
 
         setItemOffset(newOffset);
@@ -59,7 +70,7 @@ export const Table = memo(({ tableRef, paginate, headerChildren, children, thead
             </thead>
             <tbody>
                 {children}
-                <tr className={cx('table__option')}>
+                {paginate ? <tr className={cx('table__option')}>
                     <td colSpan={11}>
                         <div className={cx('table__option__container')}>
                             <span>
@@ -68,7 +79,7 @@ export const Table = memo(({ tableRef, paginate, headerChildren, children, thead
                                     tiny
                                     value={per}
                                     name='number'
-                                    onChange={(e: ChangeEvent<HTMLInputElement>) => setItemsPerPage(e.target.value)}
+                                    onChange={(e: ChangeEvent<HTMLInputElement>) => setItemsPerPage && setItemsPerPage(e.target.value)}
                                 />
                                 <p>hàng trong mỗi trang</p>
                             </span>
@@ -89,6 +100,8 @@ export const Table = memo(({ tableRef, paginate, headerChildren, children, thead
                         </div>
                     </td>
                 </tr>
+                    : <tr><td colSpan={11}></td></tr>
+                }
                 <tr className={cx('table__loading__tr', loading && 'active')}><td>
                     <div className={cx('tr__loading-container')}>
                         <div></div>

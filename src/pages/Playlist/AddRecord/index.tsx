@@ -1,25 +1,24 @@
 import classNames from "classnames/bind";
-import { useEffect, useState, useCallback } from 'react';
-import { useNavigate, useParams } from "react-router";
+import { useFormik } from "formik";
+import { useCallback, useEffect, useState } from 'react';
 import { useSelector } from "react-redux";
-import { Formik, useFormik } from "formik";
+import { useNavigate, useParams } from "react-router";
 
-import style from './AddRecord.module.scss';
-import { CommonPage } from "~/pages/CommonPage";
+import { PlaylistRecordDetail } from "~/api/playlistsRecords";
+import { Record } from "~/api/recordAPI";
+import { User } from "~/api/userAPI";
+import { Button } from "~/components/Button";
+import Loading from "~/components/Loading";
 import { PagingItemType } from "~/components/Paging";
 import { routes } from "~/config/routes";
-import { RootState, useAppDispatch } from "~/store";
-import { PlaylistRecordDetail } from "~/api/playlistsRecords";
-import { RecordPlaylistWareHouse } from "../Components/RecordPlaylistWareHouse/RecordWarehouse";
-import { RecordPlaylist } from "../Components/RecordPlaylist";
-import { Record } from "~/api/recordAPI";
 import { getMoment } from "~/context";
-import { Button } from "~/components/Button";
-import { editRecordsPlaylist } from "~/thunk/playlistsRecordsThunk";
-import Loading from "~/components/Loading";
-import { Category } from "~/api/categoryAPI";
-import { User } from "~/api/userAPI";
+import { CommonPage } from "~/pages/CommonPage";
 import { setRecordsOfPlaylist } from "~/reducers/playlistsRecords";
+import { RootState, useAppDispatch } from "~/store";
+import { editRecordsPlaylist } from "~/thunk/playlistsRecordsThunk";
+import { RecordPlaylist } from "../Components/RecordPlaylist";
+import { RecordPlaylistWareHouse } from "../Components/RecordPlaylistWareHouse/RecordWarehouse";
+import style from './AddRecord.module.scss';
 
 const cx = classNames.bind(style);
 

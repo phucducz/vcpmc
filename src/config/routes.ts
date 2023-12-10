@@ -18,5 +18,7 @@ export const routes = {
     AddRecordPlaylist: '/playlist-detail/:id/add-record',
     PlaylistSchedule: '/playlist-schedule',
     PlaylistScheduleDetail: '/playlist-schedule/detail/:id',
-    PlaylistScheduleEdit: '/playlist-schedule/detail/edit/:id'
+    PlaylistScheduleEdit: '/playlist-schedule/detail/edit/:id',
+    ApplySchedule: '/playlist-schedule/detail/edit/:id/apply-schedule',
+    AddPlaylistSchedule: '/playlist-schedule/add'
 }

@@ -140,6 +140,7 @@ export const ETMContractDetailPage = () => {
                 avatar: avatar,
                 bank: bank,
                 bankNumber: bankNumber,
+                companyName: companyName,
                 dateOfBirth: formatToDMY(dateOfBirth),
                 dateRange: formatToDMY(dateRange),
                 email: email,
@@ -175,9 +176,6 @@ export const ETMContractDetailPage = () => {
                 usersId: usersId,
                 playValue: playValue
             }
-
-            console.log(user);
-            console.log(contract);
 
             dispatch(saveEntrustmentContract({
                 contract,

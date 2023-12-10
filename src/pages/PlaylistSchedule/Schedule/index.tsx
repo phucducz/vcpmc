@@ -32,12 +32,13 @@ export const PlaylistSchedulePage = () => {
             {
                 icon: <Icon icon={playlistAddIcon} />,
                 title: 'Thêm lịch phát',
-                onClick: () => { }
+                onClick: () => { navigate('/playlist-schedule/add'); setActive(false); }
             }
         ]);
 
         dispatch(getScheduleList());
         setMenuActive(3);
+        setActive(true);
     }, []);
 
     const handleSetCurrentItems = (items: Array<any>) => {

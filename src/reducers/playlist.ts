@@ -1,5 +1,4 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { AsyncThunkFulfilledActionCreator } from "@reduxjs/toolkit/dist/createAsyncThunk";
 
 import { Playlist } from "~/api/playlistAPI";
 import { deletePlaylist, getPlaylistList } from "~/thunk/playlistThunk";

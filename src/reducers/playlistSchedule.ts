@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { PlaylistSchedule, SchedulePlaylistDetail } from "~/api/playlistScheduleAPI";
-import { getScheduleList } from "~/thunk/playlistSchedule";
+import { getScheduleList, savePlaylistSchedule } from "~/thunk/playlistSchedule";
 
 type InitialStateType = {
     listSchedule: Array<PlaylistSchedule>;
@@ -19,8 +19,6 @@ const playlistScheduleSlice = createSlice({
     initialState,
     reducers: {
         setPlaylistScheduleDetail: (state, action) => {
-            console.log(action.payload);
-            
             state.playlistScheduleDetail = action.payload;
         }
     },
@@ -33,6 +31,16 @@ const playlistScheduleSlice = createSlice({
             state.listSchedule = action.payload;
         });
         builder.addCase(getScheduleList.rejected, (state, action) => {
+            state.loading = false;
+            throw new Error(`${action.error.name}: ${action.error.message}`);
+        });
+        builder.addCase(savePlaylistSchedule.pending, (state) => {
+            state.loading = true;
+        });
+        builder.addCase(savePlaylistSchedule.fulfilled, (state, action) => {
+            state.loading = false;
+        });
+        builder.addCase(savePlaylistSchedule.rejected, (state, action) => {
             state.loading = false;
             throw new Error(`${action.error.name}: ${action.error.message}`);
         });

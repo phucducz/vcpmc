@@ -124,6 +124,7 @@ export const AddETMContractPage = () => {
                 avatar: avatar,
                 bank: bank,
                 bankNumber: bankNumber,
+                companyName: companyName,
                 dateOfBirth: formatToDMY(dateOfBirth),
                 dateRange: formatToDMY(dateRange),
                 email: email,

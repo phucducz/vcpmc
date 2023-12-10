@@ -64,26 +64,11 @@ const userSlice = createSlice({
                 state.loading = false;
 
                 if (action.payload?.user) {
-                    // let { avatar, dateOfBirth, email, firstName, id, lastName,
-                    //     password, phoneNumber, role, userName } = action.payload.user;
-
                     if (action.payload.user)
                         state.currentUser = {
                             ...action.payload.user,
                             role: action.payload.user.role || { id: '', role: '' }
                         }
-                    // state.currentUser = {
-                    //     avatar: avatar,
-                    //     dateOfBirth: dateOfBirth,
-                    //     email: email,
-                    //     firstName: firstName,
-                    //     id: id,
-                    //     lastName: lastName,
-                    //     password: password,
-                    //     phoneNumber: phoneNumber,
-                    //     role: role || { id: '', role: '' },
-                    //     userName: userName
-                    // };
                     state.status = 'Đăng nhập thành công';
 
                     action.payload.navigate();
