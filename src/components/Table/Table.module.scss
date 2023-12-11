@@ -14,11 +14,16 @@ table {
         text-align: start;
     }
 
-    &>thead>tr>th>p {
-        color: var(--color-orange-3);
-        height: 48px;
-        padding: 8px 30px 8px 8px;
+    &>thead>tr>th {
+        white-space: nowrap;
+        
+        &>p {
+            color: var(--color-orange-3);
+            height: 48px;
+            padding: 8px 30px 8px 8px;
+        }
     }
+    
 
     &>tbody>tr>td>p {
         padding: 8px 30px 8px 8px;

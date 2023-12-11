@@ -13,9 +13,8 @@ import { CheckBox } from "~/components/CheckBox";
 import { Input } from "~/components/Input";
 import Loading from "~/components/Loading";
 import { PagingItemType } from "~/components/Paging";
-import { formatDateYMD } from "~/context";
 import { CommonPage } from "~/pages/CommonPage";
-import { RootState, useAppDispatch } from "~/store";
+import { RootState } from "~/store";
 import { Table } from "../Table";
 import style from './CommonPlaylistSchedule.module.scss';
 
@@ -156,105 +155,15 @@ type CommonPlaylistSchedulePageProps = {
 export const CommonPlaylistSchedulePage = ({ title, data, setData, formik, action, paging, newPlaylist }: CommonPlaylistSchedulePageProps) => {
     const { id } = useParams();
     const navigate = useNavigate();
-    const dispatch = useAppDispatch();
 
     const playlistSchedule = useSelector((state: RootState) => state.playlistSchedule);
-    // const playlist = useSelector((state: RootState) => state.playlist);
-    // const record = useSelector((state: RootState) => state.record);
-    const playlistsRecords = useSelector((state: RootState) => state.playlistsRecords);
 
-    // const [paging, setPaging] = useState<Array<PagingItemType>>([] as Array<PagingItemType>);
     const [scheduleInput, setScheduleInput] = useState<Array<InputProps>>([] as Array<InputProps>);
-    // const [newPlaylist, setNewPlaylist] = useState<Array<PlaylistRecordDetail>>([] as Array<PlaylistRecordDetail>);
-    // const [actionData, setActionData] = useState<ActionDataType[]>([] as ActionDataType[]);
     const [timeActive, setTimeActive] = useState<TimeActive>({} as TimeActive);
-    // const [itemActive, setItemActive] = useState<Array<PlaylistScheduleDetail>>([] as Array<PlaylistScheduleDetail>);
     const [active, setActive] = useState<boolean>(false);
     const [daysChosen, setDaysChosen] = useState<ChosenDay[]>([] as ChosenDay[]);
-    const [playlistChosen, setplaylistChosen] = useState<PlaylistRecordDetail>({} as PlaylistRecordDetail);
+    const [playlistChosen, setPlaylistChosen] = useState<PlaylistRecordDetail>({} as PlaylistRecordDetail);
     const [itemChosen, setItemChosen] = useState<PlaylistScheduleDetail>({} as PlaylistScheduleDetail);
-
-    // const formik = useFormik({
-    //     initialValues: {
-    //         id: '',
-    //         name: '',
-    //         playbackTime: '',
-    //         playlist: [] as Array<PlaylistScheduleDetail>,
-    //         startDate: '',
-    //         endDate: ''
-    //     },
-    //     onSubmit: values => {
-    //         let playlists = itemActive.map(item => ({
-    //             playbackCycle: item.playbackCycle.filter(playbackCycle => playbackCycle.time.length > 0),
-    //             playlistsId: item.playlist.playlistId
-    //         }));
-
-    //         let playbackTime = `${formatDateDMYHPTS(values.startDate)} - ${formatDateDMYHPTS(values.endDate)}`;
-
-    //         dispatch(savePlaylistSchedule({
-    //             id: values.id,
-    //             playlistsIds: playlists.filter(playlist => playlist.playbackCycle.length > 0),
-    //             navigate: () => navigate('/playlist-schedule'),
-    //             name: values.name,
-    //             playbackTime: playbackTime
-    //         }));
-
-    //         setActiveMenu(true);
-    //     }
-    // });
-
-    // useEffect(() => {
-    //     setActionData([
-    //         {
-    //             icon: <Icon icon={calendarIcon} />,
-    //             title: 'Áp lịch cho thiết bị',
-    //             onClick: () => navigate(`/playlist-schedule/detail/edit/${id}/apply-schedule`)
-    //         }
-    //     ]);
-
-    //     setPaging([
-    //         {
-    //             title: 'Lập lịch phát',
-    //             to: routes.PlaylistSchedule,
-    //             active: true
-    //         }, {
-    //             title: 'Chi tiết',
-    //             to: `/playlist-schedule/detail/${id}`,
-    //             active: false
-    //         }, {
-    //             title: 'Chỉnh sửa lịch phát',
-    //             to: '#',
-    //             active: false
-    //         }
-    //     ]);
-
-    //     dispatch(getPlaylistsRecordsDetail({ playlist, playlistsRecords, record }));
-    // }, []);
-
-    useEffect(() => {
-        if (typeof playlistSchedule.playlistScheduleDetail === 'undefined' ||
-            typeof playlistSchedule.playlistScheduleDetail.playbackTime === 'undefined' ||
-            playlistsRecords.playlistsRecordsDetail.length <= 0)
-            return;
-
-        // const playlistDetailList: Array<PlaylistScheduleDetail> = playlistSchedule.playlistScheduleDetail.playlist.map(playlist => ({
-        //     playbackCycle: playlist.playbackCycle,
-        //     playlist: playlistsRecords.playlistsRecordsDetail.find((playlistDetail: PlaylistRecordDetail) => playlistDetail.playlistId === playlist.playlistDetail.id) || {} as PlaylistRecordDetail
-        // }));
-
-        // const playbackTimeSplit = playlistSchedule.playlistScheduleDetail.playbackTime.split('-');
-        // formik.setValues({
-        //     ...playlistSchedule.playlistScheduleDetail,
-        //     playlist: playlistDetailList,
-        //     startDate: formatDateYMD(playbackTimeSplit[0].trim()),
-        //     endDate: formatDateYMD(playbackTimeSplit[1].trim())
-        // });
-
-        // typeof formik.values.playlist !== 'undefined' && formik.values.playlist.length > 0 &&
-        //     setNewPlaylist(playlistsRecords.playlistsRecordsDetail.filter(playlistsRecordsDetail =>
-        //         !formik.values.playlist.some((playlistDetail: PlaylistScheduleDetail) => playlistDetail.playlist.playlistId === playlistsRecordsDetail.playlistId)
-        //     ));
-    }, [formik.values]);
 
     useEffect(() => {
         setScheduleInput([
@@ -301,9 +210,28 @@ export const CommonPlaylistSchedulePage = ({ title, data, setData, formik, actio
         });
     }
 
-    console.log(data);
-
     const handleSaveChange = useCallback((dayActive: { title: string, checked: boolean }) => {
+        // setData(data.map(item => {
+        //     if (item.playlist.playlistId === timeActive.id)
+        //         return {
+        //             ...item,
+        //             playbackCycle: dayActive.checked === true
+        //                 ? item.playbackCycle.filter(playbackCycle => playbackCycle.day !== dayActive.title)
+        //                 : item.playbackCycle.map(playbackCycle => {
+        //                     return {
+        //                         ...playbackCycle,
+        //                         time: playbackCycle.time.filter(time => time !== timeActive.time)
+        //                     }
+        //                 })
+        //         }
+        //     return {
+        //         ...item,
+        //         playbackCycle: dayActive.checked === true
+        //             ? item.playbackCycle.filter(playbackCycle => playbackCycle.day !== dayActive.title)
+        //             : item.playbackCycle
+        //     }
+        // }));
+
         setData(data.map(item => {
             if (item.playlist.playlistId === timeActive.id)
                 return {
@@ -311,10 +239,13 @@ export const CommonPlaylistSchedulePage = ({ title, data, setData, formik, actio
                     playbackCycle: dayActive.checked === true
                         ? item.playbackCycle.filter(playbackCycle => playbackCycle.day !== dayActive.title)
                         : item.playbackCycle.map(playbackCycle => {
-                            return {
-                                ...playbackCycle,
-                                time: playbackCycle.time.filter(time => time !== timeActive.time)
-                            }
+                            if (playbackCycle.day === dayActive.title)
+                                return {
+                                    ...playbackCycle,
+                                    time: playbackCycle.time.filter(time => time !== timeActive.time)
+                                }
+
+                            return playbackCycle;
                         })
                 }
             return {
@@ -346,13 +277,30 @@ export const CommonPlaylistSchedulePage = ({ title, data, setData, formik, actio
 
     const handlePlaylistItemClick = (playlist: PlaylistRecordDetail) => {
         setActive(true);
-        setplaylistChosen(playlist);
+        setPlaylistChosen(playlist);
     }
 
     const handleAddPlaylist = () => {
         setActive(false);
+        if (daysChosen.length === 0) return;
         setDaysChosen([]);
-        setData([...data, itemChosen]);
+
+        let itemExsit = data.find(item => {
+            return item.playlist.playlistId === itemChosen.playlist.playlistId
+        });
+
+        if (typeof itemExsit === 'undefined')
+            setData([...data, itemChosen]);
+        else
+            setData(data.map(item => {
+                if (item.playlist.playlistId === itemChosen.playlist.playlistId)
+                    return {
+                        ...item,
+                        playbackCycle: [...item.playbackCycle, ...itemChosen.playbackCycle]
+                    }
+                else return item;
+            }));
+
         setItemChosen({} as PlaylistScheduleDetail);
     }
 
@@ -417,8 +365,8 @@ export const CommonPlaylistSchedulePage = ({ title, data, setData, formik, actio
                     onClose={handleCancleDialog}
                     onSubmit={handleAddPlaylist}
                 >
-                    <p>Xóa lịch phát</p>
-                    <p>Xóa tất cả lịch phát trong ngày </p>
+                    <p>{Object.keys(playlistChosen).length > 0 && playlistChosen.playlist.title}</p>
+                    <p>Lặp lại trong tuần</p>
                     <div className={cx('dialog__choose-days')}>
                         {DAYSNUM.map((day, index) => {
                             let checked = typeof daysChosen.find((dayChosen: ChosenDay) => dayChosen.day === day) !== 'undefined' ? true : false;
@@ -446,7 +394,7 @@ export const CommonPlaylistSchedulePage = ({ title, data, setData, formik, actio
                             />
                         })}
                     </div>
-                    <div className={cx('dialog__choose-times')}>
+                    {daysChosen.length > 0 && <div className={cx('dialog__choose-times')}>
                         {daysChosen.map((dayChosen, index) => {
                             const { day, start, end } = dayChosen;
 
@@ -459,7 +407,7 @@ export const CommonPlaylistSchedulePage = ({ title, data, setData, formik, actio
                                 onTimeChange={handleTimeChange}
                             />
                         })}
-                    </div>
+                    </div>}
                 </DialogConfirm>
                 <Loading visible={playlistSchedule.loading} />
             </CommonPage>

@@ -1,25 +1,25 @@
 import classNames from "classnames/bind";
 
-import style from './AddPlaylistSchedule.module.scss';
-import { CommonPlaylistSchedulePage, PlaylistScheduleDetail } from "../CommonPlaylistSchedulePage";
-import { useEffect, useState } from "react";
-import { getPlaylistsRecordsDetail } from "~/reducers/playlistsRecords";
-import { routes } from "~/config/routes";
-import { Icon, calendarIcon } from "~/icons";
-import { formatDateDMYHPTS, formatDateYMD } from "~/context";
 import { useFormik } from "formik";
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { RootState, useAppDispatch } from "~/store";
 import { useNavigate, useParams } from "react-router";
-import { PagingItemType } from "~/components/Paging";
-import { ActionDataType } from "~/components/Action";
 import { PlaybackCycle } from "~/api/playlistScheduleAPI";
-import { savePlaylistSchedule } from "~/thunk/playlistSchedule";
 import { PlaylistRecordDetail } from "~/api/playlistsRecords";
-import { Yup } from "~/constants";
-import { getPlaylistsRecordsList } from "~/thunk/playlistsRecordsThunk";
-import { getPlaylistList } from "~/thunk/playlistThunk";
+import { ActionDataType } from "~/components/Action";
 import Loading from "~/components/Loading";
+import { PagingItemType } from "~/components/Paging";
+import { routes } from "~/config/routes";
+import { Yup } from "~/constants";
+import { formatDateDMYHPTS } from "~/context";
+import { Icon, calendarIcon } from "~/icons";
+import { getPlaylistsRecordsDetail } from "~/reducers/playlistsRecords";
+import { RootState, useAppDispatch } from "~/store";
+import { savePlaylistSchedule } from "~/thunk/playlistSchedule";
+import { getPlaylistList } from "~/thunk/playlistThunk";
+import { getPlaylistsRecordsList } from "~/thunk/playlistsRecordsThunk";
+import { CommonPlaylistSchedulePage, PlaylistScheduleDetail } from "../CommonPlaylistSchedulePage";
+import style from './AddPlaylistSchedule.module.scss';
 
 const cx = classNames.bind(style);
 
@@ -36,7 +36,6 @@ function AddPlaylistSchedulePage() {
     const [itemActive, setItemActive] = useState<Array<PlaylistScheduleDetail>>([] as Array<PlaylistScheduleDetail>);
     const [paging, setPaging] = useState<Array<PagingItemType>>([] as Array<PagingItemType>);
     const [actionData, setActionData] = useState<ActionDataType[]>([] as ActionDataType[]);
-    // const [newPlaylist, setNewPlaylist] = useState<Array<PlaylistRecordDetail>>([] as Array<PlaylistRecordDetail>);
 
     const scheduleFormik = useFormik({
         initialValues: {
@@ -64,7 +63,7 @@ function AddPlaylistSchedulePage() {
             dispatch(savePlaylistSchedule({
                 id: values.id,
                 playlistsIds: playlists.filter(playlist => playlist.playbackCycle.length > 0),
-                navigate: () => navigate(''),
+                navigate: () => navigate('/playlist-schedule'),
                 name: values.name,
                 playbackTime: playbackTime
             }));
@@ -97,29 +96,29 @@ function AddPlaylistSchedulePage() {
     }, []);
 
     useEffect(() => {
-        console.log(playlist, playlistsRecords, record);
-
         dispatch(getPlaylistsRecordsDetail({ playlist, playlistsRecords, record }));
     }, [playlistsRecords.playlistsRecords, playlist]);
 
     useEffect(() => {
         console.log(scheduleFormik.values.playlist);
-        
+
         setItemActive(scheduleFormik.values.playlist);
     }, [scheduleFormik.values.playlist]);
 
-    console.log(itemActive);
 
     useEffect(() => {
         scheduleFormik.setValues({
             ...scheduleFormik.values,
-            newPlaylist: playlistsRecords.playlistsRecordsDetail,
-            // playlist: playlistsRecords.playlistsRecordsDetail.map(playlist => ({
-            //     playbackCycle: [],
-            //     playlist: playlist
-            // }))
+            newPlaylist: playlistsRecords.playlistsRecordsDetail
         });
     }, [playlistsRecords.playlistsRecordsDetail]);
+
+    useEffect(() => {
+        scheduleFormik.setFieldValue(
+            'newPlaylist',
+            playlistsRecords.playlistsRecordsDetail.filter(playlistsRecordsDetail => !scheduleFormik.values.playlist.some(playlist => playlist.playlist.playlistId === playlistsRecordsDetail.playlistId))
+        );
+    }, [scheduleFormik.values.playlist]);
 
     useEffect(() => {
         scheduleFormik.setFieldValue('playlist', itemActive);

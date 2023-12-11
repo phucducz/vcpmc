@@ -166,6 +166,7 @@ export const CommonPlaylistPage = memo(({ titlePage, type, paging, actionData, p
                             <div className={cx('info__mode')}>
                                 {isExistType && type !== 'read'
                                     ? <Switch
+                                        title='Chế độ công khai'
                                         status={playlistDetail.mode === 'public' ? true : false}
                                         onClick={() => type.formik.setFieldValue('mode', playlistDetail.mode === 'public' ? 'private' : 'public')}
                                     />

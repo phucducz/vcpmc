@@ -55,10 +55,16 @@ export const MenuProvider = ({ children }: MenuProviderProps) => {
                     onClick: () => { }
                 }, {
                     title: 'Đơn vị ủy quyền',
-                    onClick: () => { }
+                    onClick: () => {
+                        setMenuActive(4);
+                        navigate(routes.AuthorizedContract);
+                    }
                 }, {
                     title: 'Đơn vị sử dụng',
-                    onClick: () => { }
+                    onClick: () => {
+                        setMenuActive(4);
+                        navigate(routes.Unit);
+                    }
                 }
             ]
         }, {

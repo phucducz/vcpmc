@@ -7,16 +7,17 @@ const cx = classNames.bind(style);
 
 type SwitchProps = {
     status: boolean;
+    title: string;
     onClick?: () => void;
 }
 
-export const Switch = memo(({ status, onClick }: SwitchProps) => {
+export const Switch = memo(({ status, title, onClick }: SwitchProps) => {
     return (
         <div className={cx('switch-container')}>
             <div className={cx('switch__button', status ? 'switch__on' : 'switch__off')} onClick={onClick}>
                 <span></span>
             </div>
-            <p className={cx('title')}>Chế độ công khai</p>
+            <p className={cx('title')}>{title}</p>
         </div>
     );
 })

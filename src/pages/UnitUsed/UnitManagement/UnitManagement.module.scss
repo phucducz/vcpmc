@@ -1,0 +1,30 @@
+.unit-management-container {
+    & table {
+        margin-top: 24px;
+        width: 1541px;
+
+        &>tbody>tr.table__row__paginate {
+            position: relative !important;
+        }
+
+        & p {
+            white-space: nowrap;
+        }
+
+        & .action {
+            width: max-content;
+            color: var(--color-orange-4);
+            padding: 5px 16px;
+            text-decoration: underline;
+            cursor: pointer;
+        }
+    }
+}
+
+.table__row__checkbox {
+    padding: 0px 0px 8px 8px;
+
+    &>div {
+        min-width: auto;
+    }
+}

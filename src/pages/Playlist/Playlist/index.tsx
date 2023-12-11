@@ -1,25 +1,24 @@
 import classNames from "classnames/bind";
 import { ReactNode, memo, useCallback, useContext, useEffect, useState } from "react";
-import { Icon, circleExclaminationIcon, listTabGridIcon, listTabListIcon, playlistAddIcon } from "~/icons";
-import { useNavigate } from "react-router";
 import { useSelector } from "react-redux";
-import moment from "moment";
+import { useNavigate } from "react-router";
+import { Icon, circleExclaminationIcon, listTabGridIcon, listTabListIcon, playlistAddIcon } from "~/icons";
 
-import style from './PlaylistPage.module.scss';
-import { MenuContext } from "~/context/Menu/MenuContext";
+import { Category } from "~/api/categoryAPI";
+import { Playlist } from "~/api/playlistAPI";
+import { PlaylistRecordDetail } from "~/api/playlistsRecords";
+import { BoxItem } from "~/components/BoxItem";
 import { Grid } from "~/components/Grid";
 import { Table } from "~/components/Table";
-import { RootState, useAppDispatch } from "~/store";
-import { getPlaylistsRecordsList } from "~/thunk/playlistsRecordsThunk";
-import { getPlaylistList } from "~/thunk/playlistThunk";
-import { Playlist } from "~/api/playlistAPI";
-import { PlaylistRecordDetail, PlaylistsRecords } from "~/api/playlistsRecords";
-import { Category } from "~/api/categoryAPI";
-import { BoxItem } from "~/components/BoxItem";
-import { getPlaylistsRecordsDetail, setPlaylistsRecordsDetail } from "~/reducers/playlistsRecords";
+import { routes } from "~/config/routes";
+import { MenuContext } from "~/context/Menu/MenuContext";
 import { CommonPage } from "~/pages/CommonPage";
 import { GridItemProps } from "~/pages/RecordPage";
-import { routes } from "~/config/routes";
+import { getPlaylistsRecordsDetail, setPlaylistsRecordsDetail } from "~/reducers/playlistsRecords";
+import { RootState, useAppDispatch } from "~/store";
+import { getPlaylistList } from "~/thunk/playlistThunk";
+import { getPlaylistsRecordsList } from "~/thunk/playlistsRecordsThunk";
+import style from './PlaylistPage.module.scss';
 
 const cx = classNames.bind(style);
 

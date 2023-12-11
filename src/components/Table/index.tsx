@@ -22,9 +22,10 @@ type TableProps = {
     thead: Array<string>
     tableRef?: React.RefObject<HTMLTableElement>;
     setItemsPerPage?(number: string): void;
+    paginateClass?: string;
 }
 
-export const Table = memo(({ tableRef, paginate, headerChildren, children, thead, loading = false, itemsPerPage: per = '1', setItemsPerPage }: TableProps) => {
+export const Table = memo(({ tableRef, paginate, paginateClass, headerChildren, children, thead, loading = false, itemsPerPage: per = '1', setItemsPerPage }: TableProps) => {
     const [itemOffset, setItemOffset] = useState(0);
     const [pageCount, setPageCount] = useState<number>(0);
 
@@ -70,7 +71,7 @@ export const Table = memo(({ tableRef, paginate, headerChildren, children, thead
             </thead>
             <tbody>
                 {children}
-                {paginate ? <tr className={cx('table__option')}>
+                {paginate ? <tr className={cx('table__option', paginateClass)}>
                     <td colSpan={11}>
                         <div className={cx('table__option__container')}>
                             <span>

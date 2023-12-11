@@ -20,5 +20,7 @@ export const routes = {
     PlaylistScheduleDetail: '/playlist-schedule/detail/:id',
     PlaylistScheduleEdit: '/playlist-schedule/detail/edit/:id',
     ApplySchedule: '/playlist-schedule/detail/edit/:id/apply-schedule',
-    AddPlaylistSchedule: '/playlist-schedule/add'
+    AddPlaylistSchedule: '/playlist-schedule/add',
+    Unit: '/unit/management',
+    AuthorizedContract: '/authorized-contract-management',
 }

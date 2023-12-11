@@ -159,7 +159,7 @@
     left: 50%;
     transform: translate(-50%, -50%);
     z-index: 3;
-    
+
     &>div:first-child {
         &>p:first-child {
             color: #F5F5FF;
@@ -206,10 +206,29 @@
         }
     }
 
-    &>div:first-child>div+div {
-        border-top: 1px solid #C8C8DB;
-        padding-top: 26px;
-        margin-top: 26px;
+    &>div {
+        &>p:first-child {
+            text-align: start;
+            font-size: 24px;
+            font-weight: 700;
+            line-height: 24px;
+            letter-spacing: -0.048px;
+        }
+
+        &>p:nth-child(2) {
+            font-size: 14px;
+            font-weight: 500;
+            line-height: normal;
+            letter-spacing: 0.21px;
+            margin-bottom: 24px;
+            text-align: start;
+        }
+
+        &:first-child>div+div {
+            border-top: 1px solid #C8C8DB;
+            padding-top: 26px;
+            margin-top: 26px;
+        }
     }
 }
 

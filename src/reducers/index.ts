@@ -11,6 +11,7 @@ import { playlistsRecordsReducer } from "./playlistsRecords";
 import { playlistScheduleReducer } from "./playlistSchedule";
 import { deviceReducer } from "./device";
 import { scheduleDeviceReducer } from "./scheduleDevice";
+import { authorizedContractReducer } from "./authorizedContract";
 
 export const rootReducer = combineReducers({
     user: userReducer,
@@ -23,5 +24,6 @@ export const rootReducer = combineReducers({
     playlistsRecords: playlistsRecordsReducer,
     playlistSchedule: playlistScheduleReducer,
     device: deviceReducer,
-    scheduleDevice: scheduleDeviceReducer
+    scheduleDevice: scheduleDeviceReducer,
+    authorized: authorizedContractReducer,
 });

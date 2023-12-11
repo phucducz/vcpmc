@@ -78,7 +78,6 @@ export const Table = memo(({ data, onRemoveItem, saveChange }: TableProps) => {
                 {DAYS.map((day, index) => {
                     let dayIndex = currentDay - 1;
                     if (dayIndex === -1) dayIndex = 6;
-                    console.log(daysActive.map((day) => DAYSNUM.find(dayNum => dayNum === day.day)));
 
                     return <div
                         key={day}
@@ -115,6 +114,8 @@ export const Table = memo(({ data, onRemoveItem, saveChange }: TableProps) => {
                                 setDaysActive([...daysActive, { day: day, index: leftIndex }]);
 
                             return playback.time.map((time, index) => {
+                                console.log(time);
+                                
                                 let timeArray = time.split('-');
                                 let timeArrayStart = timeArray[0].split(':');
                                 let topIndex = hours.indexOf(`${timeArrayStart[0]}:${timeArrayStart[1]}`);

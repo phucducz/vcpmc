@@ -1,0 +1,22 @@
+.authorized-contract-container {
+    & table {
+        margin-top: 24px;
+        width: 1611px;
+    
+        &>tbody>tr.table__row__paginate {
+            position: relative !important;
+        }
+    
+        & p {
+            white-space: nowrap;
+        }
+    
+        & .action {
+            width: max-content;
+            color: var(--color-orange-4);
+            padding: 5px 16px;
+            text-decoration: underline;
+            cursor: pointer;
+        }
+    }
+}

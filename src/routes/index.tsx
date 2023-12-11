@@ -2,6 +2,7 @@ import { routes } from "~/config/routes";
 import { LoginLayout } from "~/layouts/LoginLayout";
 import { AddETMContractPage } from "~/pages/AddEntrusmentContract";
 import { ApprovePage } from "~/pages/ApprovePage";
+import AuthorizedContract from "~/pages/AuthorizedContract/AuthorizedContract";
 import { ETMContractDetailPage } from "~/pages/ETMContractDetail";
 import { EditRecord } from "~/pages/EditRecord";
 import { ETMEntrustmentCopyPage } from "~/pages/EntrustmentCopyPage";
@@ -22,6 +23,7 @@ import { RecordPage } from "~/pages/RecordPage";
 import { RecoverPage } from "~/pages/RecoverPage";
 import { ResetPassPage } from "~/pages/ResetPassPage";
 import { NoFoundPage } from "~/pages/ResetPassPage/NoFound";
+import UnitManagementPage from "~/pages/UnitUsed/UnitManagement";
 
 export const publicRoutes = [
     { path: routes.ProfilePage, Component: ProfilePage },
@@ -45,5 +47,7 @@ export const publicRoutes = [
     { path: routes.PlaylistScheduleDetail, Component: PlaylistScheduleDetailPage },
     { path: routes.PlaylistScheduleEdit, Component: PlaylistScheduleEditPage },
     { path: routes.ApplySchedule, Component: AppySchedulePage },
-    { path: routes.AddPlaylistSchedule, Component: AddPlaylistSchedulePage }
+    { path: routes.AddPlaylistSchedule, Component: AddPlaylistSchedulePage },
+    { path: routes.Unit, Component: UnitManagementPage },
+    { path: routes.AuthorizedContract, Component: AuthorizedContract }
 ];
