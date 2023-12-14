@@ -22,7 +22,7 @@ const cx = classNames.bind(style);
 
 type LoginInputProps = InputProps;
 
-export const LoginPage = () => {
+function LoginPage() {
     const user = useSelector((state: RootState) => state.user);
     const role = useSelector((state: RootState) => state.role);
     const dispatch = useAppDispatch();
@@ -33,7 +33,7 @@ export const LoginPage = () => {
     const [errorMessage, setErrorMessage] = useState('');
     const [toggleLogin, setToggleLogin] = useState(true);
     const [loading, setLoading] = useState<boolean>(false);
-
+    
     const loginFormik = useFormik({
         initialValues: {
             // userName: '',
@@ -59,7 +59,7 @@ export const LoginPage = () => {
             }));
         }
     });
-
+    
     const handleRightIconClick = () => {
         passwordType === 'password'
             ? setPasswordType('text')
@@ -154,3 +154,5 @@ export const LoginPage = () => {
         </div>
     );
 }
+
+export default LoginPage;

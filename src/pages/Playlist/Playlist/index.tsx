@@ -13,12 +13,12 @@ import { Table } from "~/components/Table";
 import { routes } from "~/config/routes";
 import { MenuContext } from "~/context/Menu/MenuContext";
 import { CommonPage } from "~/pages/CommonPage";
-import { GridItemProps } from "~/pages/RecordPage";
 import { getPlaylistsRecordsDetail, setPlaylistsRecordsDetail } from "~/reducers/playlistsRecords";
 import { RootState, useAppDispatch } from "~/store";
 import { getPlaylistList } from "~/thunk/playlistThunk";
 import { getPlaylistsRecordsList } from "~/thunk/playlistsRecordsThunk";
 import style from './PlaylistPage.module.scss';
+import { GridItemProps } from "~/pages/Record/Record";
 
 const cx = classNames.bind(style);
 
@@ -49,7 +49,8 @@ const GridItem = memo(({ data, action, categories, onGridItemClick, quantity, to
                 style={{
                     backgroundImage: `url(${data.imageURL})`,
                     backgroundRepeat: 'no-repeat',
-                    backgroundSize: 'cover'
+                    backgroundSize: 'cover',
+                    backgroundPosition: 'center center'
                 }}
             >
             </div>
@@ -86,12 +87,12 @@ const GridItem = memo(({ data, action, categories, onGridItemClick, quantity, to
     );
 });
 
-export const PlaylistPage = () => {
+function PlaylistPage() {
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
 
     const { setMenuActive, setActive, active } = useContext(MenuContext);
-    
+
     const playlist = useSelector((state: RootState) => state.playlist);
     const playlistsRecords = useSelector((state: RootState) => state.playlistsRecords);
     const record = useSelector((state: RootState) => state.record);
@@ -221,13 +222,12 @@ export const PlaylistPage = () => {
                     >
                         {currentItems.map((item, index) => {
                             if (index > parseInt(itemsPerPage) - 1) return null;
-                            console.log(item.playlist.imageURL);
 
                             return <GridItem
                                 key={item.playlistRecordId}
                                 data={item.playlist}
                                 categories={category.categoryList}
-                                action={<Icon icon={circleExclaminationIcon} style={{ color: 'var(--color-orange)' }} onClick={() => { }} />}
+                                action={<Icon icon={circleExclaminationIcon} style={{ color: 'var(--color-orange)' }} onClick={() => navigate(`/playlist-detail/${item.playlistRecordId}`)} />}
                                 onGridItemClick={() => { }}
                                 quantity={item.quantity}
                                 totalTime={item.totalTime}
@@ -238,3 +238,5 @@ export const PlaylistPage = () => {
         </CommonPage>
     );
 }
+
+export default PlaylistPage;

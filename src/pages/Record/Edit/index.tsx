@@ -50,7 +50,7 @@ const COMBOBOX_DATA: Array<Pick<ComboBoxItemType, 'title'>> = [
     }
 ];
 
-export const EditRecord = () => {
+function EditRecord() {
     const { id } = useParams();
     const navigate = useNavigate();
     const dispatch = useAppDispatch();
@@ -306,3 +306,5 @@ export const EditRecord = () => {
         </div>
     );
 }
+
+export default EditRecord;

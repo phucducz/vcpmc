@@ -21,7 +21,7 @@ import { ScheduleDeviceInitialStateType } from "~/reducers/scheduleDevice";
 
 const cx = classNames.bind(style);
 
-export const AppySchedulePage = () => {
+function AppySchedulePage() {
     const { id } = useParams();
     const navigate = useNavigate();
     const dispatch = useAppDispatch();
@@ -146,3 +146,5 @@ export const AppySchedulePage = () => {
         </div>
     );
 }
+
+export default AppySchedulePage;

@@ -24,8 +24,6 @@ export const Form = ({ className, visible, title, subTitle, children, type = 'fo
         if (type !== 'dialog') return;
 
         if (visible) {
-            console.log(visible);
-            
             if (formRef.current) {
                 formRef.current.style.display = 'block';
 

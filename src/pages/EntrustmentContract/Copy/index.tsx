@@ -4,7 +4,6 @@ import { useFormik } from "formik";
 import { useSelector } from "react-redux";
 
 import style from './EntrusmentCopy.module.scss';
-import { CommonPageContractEdit } from "../CommonPageContractEdit";
 import { PagingItemType } from "~/components/Paging";
 import { routes } from "~/config/routes";
 import { Button } from "~/components/Button";
@@ -16,6 +15,7 @@ import { Yup } from "~/constants";
 import Loading from "~/components/Loading";
 import { formatToLocalStringCurrentDate } from "~/context";
 import { useEffect } from "react";
+import { CommonPageContractEdit } from "../Components/CommonPageContractEdit";
 
 const cx = classNames.bind(style);
 
@@ -32,7 +32,7 @@ const PAGING_ITEMS: Array<PagingItemType> = [
     }
 ];
 
-export const ETMEntrustmentCopyPage = () => {
+function ETMEntrustmentCopyPage() {
     const { id } = useParams();
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
@@ -336,3 +336,5 @@ export const ETMEntrustmentCopyPage = () => {
         </div>
     );
 };
+
+export default ETMEntrustmentCopyPage

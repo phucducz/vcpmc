@@ -25,7 +25,7 @@ export type PlaylistScheduleDetail = {
     playlist: PlaylistRecordDetail;
 }
 
-export const PlaylistScheduleEditPage = () => {
+function PlaylistScheduleEditPage() {
     const { id } = useParams();
     const navigate = useNavigate();
     const dispatch = useAppDispatch();
@@ -148,3 +148,5 @@ export const PlaylistScheduleEditPage = () => {
         paging={paging}
     />
 }
+
+export default PlaylistScheduleEditPage;

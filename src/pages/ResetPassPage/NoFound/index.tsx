@@ -1,14 +1,14 @@
 import classNames from "classnames/bind";
 
-import style from './NoFound.module.scss';
-import { Logo } from "~/components/Logo";
-import { Form } from "~/components/Form";
-import { Button } from "~/components/Button";
 import { Link } from "react-router-dom";
+import { Button } from "~/components/Button";
+import { Form } from "~/components/Form";
+import { Logo } from "~/components/Logo";
+import style from './NoFound.module.scss';
 
 const cx = classNames.bind(style);
 
-export const NoFoundPage = () => {
+function NoFoundPage() {
     return (
         <div className={cx("no-found-container")}>
             <Logo />
@@ -33,3 +33,5 @@ export const NoFoundPage = () => {
         </div>
     );
 }
+
+export default NoFoundPage;

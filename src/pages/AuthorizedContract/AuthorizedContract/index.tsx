@@ -1,6 +1,7 @@
 import classNames from "classnames/bind";
 import { useCallback, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router";
 
 import { PagingItemType } from "~/components/Paging";
 import { Table } from "~/components/Table";
@@ -10,15 +11,15 @@ import { RootState, useAppDispatch } from "~/store";
 import { getAuthorizedContracts } from "~/thunk/authorizedContractThunk";
 import { AuthorizedContractDetailt } from "~/api/authorizedContract";
 import { Switch } from "~/components/Switch";
+import { getCurrentDate } from "~/context";
 
 const cx = classNames.bind(style);
 
 function AuthorizedContract() {
     const dispatch = useAppDispatch();
+    const navigate = useNavigate();
 
     const authorizedContract = useSelector((state: RootState) => state.authorized);
-
-    console.log(authorizedContract);
 
     const [paging, setPaging] = useState<Array<PagingItemType>>([] as Array<PagingItemType>);
     const [searchValue, setSearchValue] = useState<string>('');
@@ -70,12 +71,13 @@ function AuthorizedContract() {
                     setCurrentItems: handleSetCurrentItems
                 }}
                 paginateClass={cx('table__row__paginate')}
-                loading={false}
+                loading={authorizedContract.loading}
                 itemsPerPage={itemsPerPage}
                 setItemsPerPage={handleChange}
                 thead={['STT', 'Họ tên', 'Tên đăng nhập', 'Email', 'Ngày hết hạn', 'Số điện thoại', 'Trạng thái', '']}
             >
                 {currentItems.map((item, index) => {
+                    let isExpirationDate = item.expirationDate > getCurrentDate();
 
                     return (
                         <tr>
@@ -86,11 +88,11 @@ function AuthorizedContract() {
                             <td><p>{item.expirationDate}</p></td>
                             <td><p>{item.authorizedPerson.phoneNumber}</p></td>
                             <td><p>{<Switch
-                                title={item.authorizedPerson.status === 'active' ? 'Đang kích hoạt' : 'Ngừng kích hoạt'}
-                                status={item.authorizedPerson.status === 'active'}
+                                title={isExpirationDate ? 'Đang kích hoạt' : 'Ngừng kích hoạt'}
+                                status={isExpirationDate}
                                 onClick={() => { }} />
                             }</p></td>
-                            <td><p className={cx('action')}>Cập nhật</p></td>
+                            <td><p className={cx('action')} onClick={() => navigate(`/authorized-contract-management/edit/${item.id}`)}>Cập nhật</p></td>
                         </tr>
                     )
                 })}

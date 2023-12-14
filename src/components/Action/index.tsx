@@ -11,8 +11,9 @@ type VerticalPosition = 'center' | 'left' | 'right';
 
 export type ActionDataType = {
     icon: ReactNode;
-    title: ReactNode;
-    onClick?: () => void;
+    title: string;
+    // title: ReactNode;
+    onClick(title?: string): void;
     disable?: boolean;
 }
 
@@ -22,9 +23,10 @@ type ActionProps = {
     href?: string;
     placement?: Exclude<`${HorizontalPosition}-${VerticalPosition}`, 'center-center'> | 'center';
     visible?: boolean;
+    onClick?: () => void;
 }
 
-export const Action = memo(({ data, className, placement = 'center', visible }: ActionProps) => {
+export const Action = memo(({ data, className, placement = 'center', visible, onClick }: ActionProps) => {
     if (!className) className = '';
 
     return (
@@ -33,16 +35,21 @@ export const Action = memo(({ data, className, placement = 'center', visible }: 
                 [className]: className,
                 [placement]: placement
             })}
+            onClick={onClick}
         >
-            {data.map((item: ActionDataType, index: number) => (
-                <Item
-                    key={index}
-                    icon={item.icon}
-                    title={item.title}
-                    onClick={!item.disable ? item.onClick : () => { }}
-                    className={cx(item.disable && 'disable')}
-                />
-            ))}
+            {data.map((item: ActionDataType, index: number) => {
+                const { icon, title, onClick } = item;
+
+                return (
+                    <Item
+                        key={index}
+                        icon={icon}
+                        title={title}
+                        onClick={onClick}
+                        className={cx(item.disable && 'disable')}
+                    />
+                )
+            })}
         </div>
     );
 });

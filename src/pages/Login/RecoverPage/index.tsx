@@ -15,7 +15,7 @@ import Loading from "~/components/Loading";
 
 const cx = classNames.bind(style);
 
-export const RecoverPage = () => {
+function RecoverPage() {
     const [confirmSuccess, setConfirmSuccess] = useState(true);
     const [loading, setLoading] = useState<boolean>(false);
 
@@ -83,3 +83,5 @@ export const RecoverPage = () => {
         </div>
     );
 }
+
+export default RecoverPage;

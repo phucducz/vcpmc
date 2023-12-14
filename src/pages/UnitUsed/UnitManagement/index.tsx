@@ -20,7 +20,6 @@ import style from './UnitManagement.module.scss';
 const cx = classNames.bind(style);
 
 function UnitManagementPage() {
-    const navigate = useNavigate();
     const dispatch = useAppDispatch();
 
     const { setActive, setMenuActive } = useContext(MenuContext);
@@ -39,8 +38,8 @@ function UnitManagementPage() {
     useEffect(() => {
         setActionData([
             {
-                icon: <FontAwesomeIcon icon={faXmark} />,
-                title: 'Thêm Playlist',
+                icon: <FontAwesomeIcon icon={faXmark} style={{ color: 'red' }} />,
+                title: 'Xóa',
                 onClick: () => { }
             }
         ]);
@@ -63,7 +62,7 @@ function UnitManagementPage() {
         etmContractsDetail.length > 0 && setSearchResult(etmContractsDetail);
 
     }, []);
-    
+
     useEffect(() => {
         setSearchResult(etmContractsDetail);
     }, [etmContractsDetail]);

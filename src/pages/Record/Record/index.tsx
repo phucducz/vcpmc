@@ -1,23 +1,23 @@
-import classNames from "classnames/bind";
-import { ReactNode, memo, useCallback, useContext, useEffect, useMemo, useState } from "react";
-import { RootState, useAppDispatch } from "~/store";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit, faPlay } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import classNames from "classnames/bind";
+import { ReactNode, memo, useCallback, useContext, useEffect, useState } from "react";
+import { RootState, useAppDispatch } from "~/store";
 
-import style from './Record.module.scss';
-import { MenuContext } from "~/context/Menu/MenuContext";
-import { Icon, listTabGridIcon, listTabListIcon } from "~/icons";
-import { ComboBox, ComboData } from "~/components/ComboBox";
-import { getRecords } from "~/thunk/recordThunks";
 import { useSelector } from "react-redux";
-import { Record } from "~/api/recordAPI";
-import { formatDateMDY, getCurrentDate } from "~/context";
-import { Table } from "~/components/Table";
-import { Grid } from "~/components/Grid";
 import { useNavigate } from "react-router";
-import { CommonPage } from "../CommonPage";
+import { Record } from "~/api/recordAPI";
 import { AudioDialog } from "~/components/AudioDialog";
 import { BoxItem, BoxItemType } from "~/components/BoxItem";
+import { ComboBox, ComboData } from "~/components/ComboBox";
+import { Grid } from "~/components/Grid";
+import { Table } from "~/components/Table";
+import { formatDateMDY, getCurrentDate } from "~/context";
+import { MenuContext } from "~/context/Menu/MenuContext";
+import { Icon, listTabGridIcon, listTabListIcon } from "~/icons";
+import { CommonPage } from "~/pages/CommonPage";
+import { getRecords } from "~/thunk/recordThunks";
+import style from './Record.module.scss';
 
 const cx = classNames.bind(style);
 
@@ -78,7 +78,7 @@ export const GridItem = memo(({ data, boxItemData, action, onGridItemClick }: Gr
     );
 });
 
-export const RecordPage = () => {
+function RecordPage() {
     const dispatch = useAppDispatch();
 
     const record = useSelector((state: RootState) => state.record);
@@ -381,3 +381,5 @@ export const RecordPage = () => {
         </CommonPage >
     );
 }
+
+export default RecordPage;

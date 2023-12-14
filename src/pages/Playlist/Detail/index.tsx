@@ -34,7 +34,7 @@ const PAGING_ITEMS: Array<PagingItemType> = [
     }
 ];
 
-export const PlaylistDetailPage = () => {
+function PlaylistDetailPage() {
     const { id } = useParams();
     const navigate = useNavigate();
     const dispatch = useAppDispatch();
@@ -172,3 +172,5 @@ export const PlaylistDetailPage = () => {
         </CommonPlaylistPage>
     );
 }
+
+export default PlaylistDetailPage;

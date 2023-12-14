@@ -1,0 +1,82 @@
+.device-management-container {
+    &>div>div:first-child {
+        width: 1541px;
+        display: flex;
+        align-items: center;
+        flex-direction: row-reverse;
+        justify-content: space-between;
+        margin-bottom: 24px;
+
+        &>div:nth-child(2)>div {
+            margin-top: 0;
+        }
+    }
+}
+
+.device-management-container {
+    table {
+        width: 1541px;
+
+        &>tbody {
+            &>tr>td>p {
+                position: relative;
+                white-space: nowrap;
+
+                &::after {  
+                    content: '';
+                    display: block;
+                    width: 8px;
+                    height: 8px;
+                    background-color: transparent;
+                    border-radius: 50%;
+                    position: absolute;
+                    top: 50%;
+                    transform: translateY(-50%);
+                    left: -4px;
+                }
+
+                &.activated::after {
+                    background-color: var(--color-green);
+                }
+
+                &.deactivated::after,
+                &.blocked::after {
+                    background-color: var(--color-red);
+                }
+            }
+        }
+    }
+}
+
+table {
+    & .action {
+        width: max-content;
+        color: var(--color-orange-4);
+        padding: 5px 16px;
+        text-decoration: underline;
+        cursor: pointer;
+
+        &:hover {
+            opacity: 1;
+        }
+    }
+}
+
+.form-remove-device {
+    width: 418px;
+    padding: 40px 24px;
+
+    & h3 {
+        padding: 0;
+    }
+
+    & p {
+        text-align: start;
+        margin-top: 24px;
+        margin-bottom: 40px;
+    }
+
+    & button {
+        margin-top: 0;
+    }
+}

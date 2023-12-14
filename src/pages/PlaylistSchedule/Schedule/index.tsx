@@ -1,21 +1,21 @@
 import classNames from "classnames/bind";
-import { useState, useEffect, useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router";
 
-import style from './Schedule.module.scss';
-import { CommonPage } from "~/pages/CommonPage";
-import { Icon, playlistAddIcon } from "~/icons";
+import { PlaylistSchedule } from "~/api/playlistScheduleAPI";
 import { ActionDataType } from "~/components/Action";
 import { Table } from "~/components/Table";
+import { MenuContext } from "~/context/Menu/MenuContext";
+import { Icon, playlistAddIcon } from "~/icons";
+import { CommonPage } from "~/pages/CommonPage";
 import { RootState, useAppDispatch } from "~/store";
 import { getScheduleList } from "~/thunk/playlistSchedule";
-import { PlaylistSchedule } from "~/api/playlistScheduleAPI";
-import { MenuContext } from "~/context/Menu/MenuContext";
+import style from './Schedule.module.scss';
 
 const cx = classNames.bind(style);
 
-export const PlaylistSchedulePage = () => {
+function PlaylistSchedulePage() {
     const navigate = useNavigate();
     const dispatch = useAppDispatch();
 
@@ -84,3 +84,5 @@ export const PlaylistSchedulePage = () => {
         </div>
     );
 }
+
+export default PlaylistSchedulePage;

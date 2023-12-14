@@ -1,28 +1,32 @@
 import { routes } from "~/config/routes";
 import { LoginLayout } from "~/layouts/LoginLayout";
-import { AddETMContractPage } from "~/pages/AddEntrusmentContract";
-import { ApprovePage } from "~/pages/ApprovePage";
 import AuthorizedContract from "~/pages/AuthorizedContract/AuthorizedContract";
-import { ETMContractDetailPage } from "~/pages/ETMContractDetail";
-import { EditRecord } from "~/pages/EditRecord";
-import { ETMEntrustmentCopyPage } from "~/pages/EntrustmentCopyPage";
-import { EntrusmentPage } from "~/pages/EntrustmentPage";
-import { LoginPage } from "~/pages/LoginPage";
-import { AddPlaylistPage } from "~/pages/Playlist/AddPlaylist";
-import { AddRecordPlaylistPage } from "~/pages/Playlist/AddRecord";
-import { PlaylistDetailPage } from "~/pages/Playlist/Detail";
-import { EditPlaylistDetailPage } from "~/pages/Playlist/Edit";
-import { PlaylistPage } from "~/pages/Playlist/Playlist";
+import EditAuthorizedContract from "~/pages/AuthorizedContract/Edit";
+import AddDevicePage from "~/pages/Device/Add";
+import DeviceDetailPage from "~/pages/Device/Detail";
+import DeviceManagementPage from "~/pages/Device/Device";
+import AddETMContractPage from "~/pages/EntrustmentContract/Add";
+import ETMEntrustmentCopyPage from "~/pages/EntrustmentContract/Copy";
+import ETMContractDetailPage from "~/pages/EntrustmentContract/Detail";
+import EntrusmentPage from "~/pages/EntrustmentContract/Entrustment";
+import LoginPage from "~/pages/Login/Login";
+import RecoverPage from "~/pages/Login/RecoverPage";
+import AddPlaylistPage from "~/pages/Playlist/AddPlaylist";
+import AddRecordPlaylistPage from "~/pages/Playlist/AddRecord";
+import PlaylistDetailPage from "~/pages/Playlist/Detail";
+import EditPlaylistDetailPage from "~/pages/Playlist/Edit";
+import PlaylistPage from "~/pages/Playlist/Playlist";
 import AddPlaylistSchedulePage from "~/pages/PlaylistSchedule/AddPlaylistSchedule";
-import { AppySchedulePage } from "~/pages/PlaylistSchedule/ApplySchedule";
-import { PlaylistScheduleDetailPage } from "~/pages/PlaylistSchedule/Detail";
-import { PlaylistScheduleEditPage } from "~/pages/PlaylistSchedule/Edit";
-import { PlaylistSchedulePage } from "~/pages/PlaylistSchedule/Schedule";
-import { ProfilePage } from "~/pages/ProfilePage";
-import { RecordPage } from "~/pages/RecordPage";
-import { RecoverPage } from "~/pages/RecoverPage";
-import { ResetPassPage } from "~/pages/ResetPassPage";
-import { NoFoundPage } from "~/pages/ResetPassPage/NoFound";
+import AppySchedulePage from "~/pages/PlaylistSchedule/ApplySchedule";
+import PlaylistScheduleDetailPage from "~/pages/PlaylistSchedule/Detail";
+import PlaylistScheduleEditPage from "~/pages/PlaylistSchedule/Edit";
+import PlaylistSchedulePage from "~/pages/PlaylistSchedule/Schedule";
+import ProfilePage from "~/pages/ProfilePage";
+import ApprovePage from "~/pages/Record/Approve";
+import EditRecord from "~/pages/Record/Edit";
+import RecordPage from "~/pages/Record/Record";
+import ResetPassPage from "~/pages/ResetPassPage";
+import NoFoundPage from "~/pages/ResetPassPage/NoFound";
 import UnitManagementPage from "~/pages/UnitUsed/UnitManagement";
 
 export const publicRoutes = [
@@ -49,5 +53,9 @@ export const publicRoutes = [
     { path: routes.ApplySchedule, Component: AppySchedulePage },
     { path: routes.AddPlaylistSchedule, Component: AddPlaylistSchedulePage },
     { path: routes.Unit, Component: UnitManagementPage },
-    { path: routes.AuthorizedContract, Component: AuthorizedContract }
+    { path: routes.AuthorizedContract, Component: AuthorizedContract },
+    { path: routes.EidtAuthorizedContract, Component: EditAuthorizedContract },
+    { path: routes.DeviceManagement, Component: DeviceManagementPage },
+    { path: routes.DeviceDetail, Component: DeviceDetailPage },
+    { path: routes.AddDevice, Component: AddDevicePage }
 ];

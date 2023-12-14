@@ -64,14 +64,6 @@
 }
 
 .form_edit-password {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    background-color: var(--bg-lightest);
-    padding: 40px;
-    border-radius: 16px;
-    transform: translate(-50%, -50%);
-
     &>h3 {
         padding: 0 3rem 3rem 3rem;
     }

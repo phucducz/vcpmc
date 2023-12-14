@@ -23,4 +23,8 @@ export const routes = {
     AddPlaylistSchedule: '/playlist-schedule/add',
     Unit: '/unit/management',
     AuthorizedContract: '/authorized-contract-management',
+    EidtAuthorizedContract: '/authorized-contract-management/edit/:id',
+    DeviceManagement: '/device-management',
+    DeviceDetail: '/device-management/detail/:id',
+    AddDevice: '/device-management/add'
 }

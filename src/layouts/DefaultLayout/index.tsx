@@ -55,7 +55,7 @@ export const DefaultLayout = ({ children }: DefaultLayoutProps) => {
                                 displayName={displayName}
                                 role={role && role.role}
                                 image={{
-                                    src: typeof avatar !== 'undefined' ? `../../images/${avatar}` : avtNoFound,
+                                    src: typeof avatar !== 'undefined' ? `${avatar}` : avtNoFound,
                                     alt: 'avt-acc'
                                 }}
                                 onClick={() => navigate(`/profile/id/${id}`)}

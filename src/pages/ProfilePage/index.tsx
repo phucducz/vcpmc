@@ -1,26 +1,26 @@
-import classNames from "classnames/bind";
-import { useSelector } from "react-redux";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheckCircle, faEdit, faEye, faLock, faSignOut } from "@fortawesome/free-solid-svg-icons";
-import { useNavigate } from "react-router";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import classNames from "classnames/bind";
 import { useFormik } from "formik";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router";
 
-import style from './Profile.module.scss';
-import Image from "~/components/Image";
-import { RootState, useAppDispatch } from "~/store";
-import { Form } from "~/components/Form";
-import { Input } from "~/components/Input";
 import { Action } from "~/components/Action";
 import { Button } from "~/components/Button";
-import { Yup } from "~/constants";
-import { changeInfoUserById, changePassword } from "~/thunk/userThunk";
+import { Form } from "~/components/Form";
+import Image from "~/components/Image";
+import { Input } from "~/components/Input";
 import Loading from "~/components/Loading";
 import { Toast } from "~/components/Toast";
+import { Yup } from "~/constants";
+import { RootState, useAppDispatch } from "~/store";
+import { changeInfoUserById, changePassword } from "~/thunk/userThunk";
+import style from './Profile.module.scss';
 
 const cx = classNames.bind(style);
 
-export const ProfilePage = () => {
+function ProfilePage() {
     const navigate = useNavigate();
     const dispatch = useAppDispatch();
 
@@ -292,7 +292,7 @@ export const ProfilePage = () => {
                 <div className={cx('profile__avatar')}>
                     <Image
                         edit
-                        src={`../../images/${avatar}`}
+                        src={avatar}
                         alt='avt-admin'
                         width={273}
                         height={280}
@@ -383,3 +383,5 @@ export const ProfilePage = () => {
         </div>
     );
 }
+
+export default ProfilePage;

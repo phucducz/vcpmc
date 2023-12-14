@@ -1,31 +1,31 @@
-import classNames from "classnames/bind";
-import { useEffect, useState, useCallback, useContext } from 'react';
-import { useFormik } from "formik";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import classNames from "classnames/bind";
+import { useFormik } from "formik";
+import { useCallback, useContext, useEffect, useState } from 'react';
 import { useNavigate } from "react-router";
 
-import style from './AddPlaylist.module.scss';
-import { CommonPlaylistPage, PlaylistValue } from "../CommonPage";
+import moment from "moment";
+import { useSelector } from "react-redux";
 import { Record } from "~/api/recordAPI";
 import { User } from "~/api/userAPI";
-import { PagingItemType } from "~/components/Paging";
-import { routes } from "~/config/routes";
 import { ActionDataType } from "~/components/Action";
-import { Table } from "~/components/Table";
-import { useSelector } from "react-redux";
-import { RootState, useAppDispatch } from "~/store";
-import moment from "moment";
-import { getCurrentDate } from "~/context";
-import { savePlaylistRecords } from "~/thunk/playlistsRecordsThunk";
-import Loading from "~/components/Loading";
 import { Button } from "~/components/Button";
+import Loading from "~/components/Loading";
+import { PagingItemType } from "~/components/Paging";
+import { Table } from "~/components/Table";
+import { routes } from "~/config/routes";
+import { getCurrentDate } from "~/context";
 import { MenuContext } from "~/context/Menu/MenuContext";
 import { setRecordsOfPlaylist } from "~/reducers/playlistsRecords";
+import { RootState, useAppDispatch } from "~/store";
+import { savePlaylistRecords } from "~/thunk/playlistsRecordsThunk";
+import { CommonPlaylistPage, PlaylistValue } from "../CommonPage";
+import style from './AddPlaylist.module.scss';
 
 const cx = classNames.bind(style);
 
-export const AddPlaylistPage = () => {
+function AddPlaylistPage() {
     const dispath = useAppDispatch();
     const navigate = useNavigate();
 
@@ -194,3 +194,5 @@ export const AddPlaylistPage = () => {
         </div>
     );
 }
+
+export default AddPlaylistPage;

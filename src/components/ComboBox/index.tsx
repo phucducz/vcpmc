@@ -27,9 +27,10 @@ type ComboBoxProps = {
     onItemClick?: (category: any, ...passParams: any) => void;
     onBlur?(item: any): void;
     onClick: () => void;
+    style?: any;
 }
 
-export const ComboBox = memo(({ width: widthOut, comboBoxRef, title, data, className, active, visible, onClick, onBlur, onItemClick }: ComboBoxProps) => {
+export const ComboBox = memo(({ width: widthOut, comboBoxRef, title, data, className, active, visible, onClick, onBlur, onItemClick, style }: ComboBoxProps) => {
     const ownRef = useRef<HTMLUListElement>(null);
 
     const width = useMemo(() => {
@@ -54,7 +55,7 @@ export const ComboBox = memo(({ width: widthOut, comboBoxRef, title, data, class
                         value={active}
                         name='comboBoxValue'
                         onChange={() => { }}
-                        style={{ width: widthOut || `calc(${width}px - 40px)` }}
+                        style={{ width: widthOut || `calc(${width}px - 40px)`, style }}
                     />
                     < FontAwesomeIcon icon={faChevronDown} />
                 </div>

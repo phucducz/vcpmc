@@ -52,7 +52,10 @@ export const MenuProvider = ({ children }: MenuProviderProps) => {
                     }
                 }, {
                     title: 'Quản lý thiết bị',
-                    onClick: () => { }
+                    onClick: () => {
+                        setMenuActive(4);
+                        navigate(routes.DeviceManagement);
+                    }
                 }, {
                     title: 'Đơn vị ủy quyền',
                     onClick: () => {

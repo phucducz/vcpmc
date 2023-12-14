@@ -22,7 +22,7 @@ import Loading from "~/components/Loading";
 
 const cx = classNames.bind(style);
 
-export const PlaylistScheduleDetailPage = () => {
+function PlaylistScheduleDetailPage() {
     const { id } = useParams();
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
@@ -145,3 +145,5 @@ export const PlaylistScheduleDetailPage = () => {
         </div>
     );
 }
+
+export default PlaylistScheduleDetailPage;

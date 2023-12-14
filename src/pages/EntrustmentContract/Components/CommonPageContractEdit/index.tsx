@@ -6,12 +6,12 @@ import { faEye } from "@fortawesome/free-solid-svg-icons";
 import style from './CommonPageContractEdit.module.scss';
 import { PagingItemType } from "~/components/Paging";
 import { BlockInfo, BlockInput } from "~/components/Block";
-import { CommonPage } from "../CommonPage";
 import { ActionDataType } from "~/components/Action";
 import { Input } from "~/components/Input";
 import { RadioButton } from "~/components/RadioButton";
 import { Upload } from "~/components/Upload";
 import { ComboBox } from "~/components/ComboBox";
+import { CommonPage } from "~/pages/CommonPage";
 
 const cx = classNames.bind(style);
 
@@ -177,7 +177,7 @@ export const CommonPageContractEdit = memo(({ title, edit, data, pagingData, for
                 />
             }
         ]);
-    }, [formikData, formikData.values]);
+    }, [formikData.values, formikData.errors, formikData.touched]);
 
     useEffect(() => {
         setBlockInput2([
@@ -276,7 +276,7 @@ export const CommonPageContractEdit = memo(({ title, edit, data, pagingData, for
                 />
             }
         ]);
-    }, [formikData, formikData.values, visibleComboBox, nationality]);
+    }, [formikData.values, formikData.errors, formikData.touched, visibleComboBox, nationality]);
 
     useEffect(() => {
         formikData.setFieldValue('nationality', nationality);
@@ -342,8 +342,8 @@ export const CommonPageContractEdit = memo(({ title, edit, data, pagingData, for
                 />
             }
         ]);
-    }, [formikData, formikData.values, passwordType]);
-
+    }, [formikData.values, formikData.errors, formikData.touched, passwordType]);
+    
     useEffect(() => {
         setBlockInput5([
             {
@@ -377,7 +377,7 @@ export const CommonPageContractEdit = memo(({ title, edit, data, pagingData, for
                 />
             }
         ]);
-    }, [formikData, formikData.values, type]);
+    }, [formikData.values, formikData.errors, formikData.touched, type]);
 
     useEffect(() => {
         if (type === 'Trọn gói') {

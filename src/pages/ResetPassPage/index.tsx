@@ -1,23 +1,23 @@
+import { faEye } from "@fortawesome/free-solid-svg-icons";
 import classNames from "classnames/bind";
 import { useFormik } from "formik";
-import { faEye } from "@fortawesome/free-solid-svg-icons";
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router";
 
-import style from './ResetPass.module.scss';
-import { useAppDispatch } from "~/store";
-import { Yup } from "~/constants";
-import { changePassword } from "~/thunk/userThunk";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { getUserById } from "~/api/userAPI";
-import { setDataUser } from "~/reducers/user";
-import { Logo } from "~/components/Logo";
+import { Button } from "~/components/Button";
 import { Form } from "~/components/Form";
 import { Input } from "~/components/Input";
-import { Button } from "~/components/Button";
 import Loading from "~/components/Loading";
+import { Logo } from "~/components/Logo";
+import { Yup } from "~/constants";
 import { useQuery } from "~/context";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { setDataUser } from "~/reducers/user";
+import { useAppDispatch } from "~/store";
+import { changePassword } from "~/thunk/userThunk";
+import style from './ResetPass.module.scss';
 
 const cx = classNames.bind(style);
 
@@ -31,7 +31,7 @@ const initialPassword: ResetPasswordType = {
     confirmPassword: ''
 }
 
-export const ResetPassPage = () => {
+function ResetPassPage() {
     const params = useQuery();
     const navigate = useNavigate();
     const dispatch = useAppDispatch();
@@ -132,3 +132,5 @@ export const ResetPassPage = () => {
         </div>
     );
 }
+
+export default ResetPassPage;

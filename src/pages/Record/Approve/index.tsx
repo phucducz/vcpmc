@@ -9,13 +9,11 @@ import { useSelector } from "react-redux";
 import style from './ApprovePage.module.scss';
 import { PagingItemType } from "~/components/Paging";
 import { Icon, listTabGridIcon, listTabListIcon } from "~/icons";
-import { CommonPage } from "../CommonPage";
 import { ComboBox, ComboData } from "~/components/ComboBox";
 import { Table } from "~/components/Table";
 import { Grid } from "~/components/Grid";
 import { RootState, useAppDispatch } from "~/store";
 import { Record, getContractList } from "~/api/recordAPI";
-import { GridItem } from "../RecordPage";
 import { getRecords } from "~/thunk/recordThunks";
 import { Contract } from "~/api/contractAPI";
 import { CheckBox } from "~/components/CheckBox";
@@ -26,22 +24,14 @@ import { Form } from "~/components/Form";
 import { Button } from "~/components/Button";
 import { Input } from "~/components/Input";
 import { AudioDialog } from "~/components/AudioDialog";
+import { CommonPage } from "~/pages/CommonPage";
+import { GridItem } from "../Record";
 
 const cx = classNames.bind(style);
 
-const PAGING_ITEMS: Array<PagingItemType> = [
-    {
-        title: 'Kho bản ghi',
-        to: routes.RecordPage
-    }, {
-        title: 'Quản lý phê duyệt',
-        to: "#"
-    }
-];
-
 export type RecordDataType = Record & { contract: Contract };
 
-export const ApprovePage = () => {
+function ApprovePage() {
     const record = useSelector((state: RootState) => state.record);
     const category = useSelector((state: RootState) => state.category);
     const user = useSelector((state: RootState) => state.user);
@@ -61,6 +51,7 @@ export const ApprovePage = () => {
     const [itemsPerPage, setItemsPerPage] = useState<string>("8");
     const [approveRecords, setApproveRecords] = useState<Array<RecordDataType>>([]);
     const [approveAll, setApproveAll] = useState<boolean>(false);
+    const [paging, setPaging] = useState<Array<PagingItemType>>([] as Array<PagingItemType>);
     const [comboBoxData, setComboBoxData] = useState([
         {
             title: 'Thể loại',
@@ -83,6 +74,20 @@ export const ApprovePage = () => {
             activeData: 'Tất cả'
         }
     ]);
+
+    useEffect(() => {
+        setPaging([
+            {
+                title: 'Kho bản ghi',
+                to: routes.RecordPage,
+                active: true
+            }, {
+                title: 'Quản lý phê duyệt',
+                to: "#",
+                active: true
+            }
+        ]);
+    }, []);
 
     const handleApprove = async (status: string, reason: string) => {
         setActiveFormNote(false);
@@ -129,6 +134,8 @@ export const ApprovePage = () => {
             let newRecord: any = [];
 
             record.recordList.forEach(record => {
+                console.log(record.id, record.approvalDate);
+                
                 contract.forEach(contract => {
                     if (record.contractId === contract.id && record.approvalDate === '')
                         newRecord.push({ ...record, contract });
@@ -250,7 +257,7 @@ export const ApprovePage = () => {
 
     return (
         <CommonPage
-            pagingData={PAGING_ITEMS}
+            pagingData={paging}
             title='Phê duyệt bản ghi'
             search={{
                 placeHolder: 'Tên bản ghi, ca sĩ,...',
@@ -404,4 +411,6 @@ export const ApprovePage = () => {
             </Form>
         </CommonPage >
     );
-}   
+}
+
+export default ApprovePage;

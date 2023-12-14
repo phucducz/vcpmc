@@ -114,8 +114,6 @@ export const Table = memo(({ data, onRemoveItem, saveChange }: TableProps) => {
                                 setDaysActive([...daysActive, { day: day, index: leftIndex }]);
 
                             return playback.time.map((time, index) => {
-                                console.log(time);
-                                
                                 let timeArray = time.split('-');
                                 let timeArrayStart = timeArray[0].split(':');
                                 let topIndex = hours.indexOf(`${timeArrayStart[0]}:${timeArrayStart[1]}`);

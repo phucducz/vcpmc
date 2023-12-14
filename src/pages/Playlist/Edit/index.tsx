@@ -24,7 +24,7 @@ import { Button } from "~/components/Button";
 
 const cx = classNames.bind(style);
 
-export const EditPlaylistDetailPage = () => {
+function EditPlaylistDetailPage() {
     const { id } = useParams();
     const navigate = useNavigate();
     const dispatch = useAppDispatch();
@@ -213,3 +213,5 @@ export const EditPlaylistDetailPage = () => {
         </CommonPlaylistPage>
     );
 }
+
+export default EditPlaylistDetailPage;

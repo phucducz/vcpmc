@@ -1,5 +1,5 @@
 import classNames from "classnames/bind";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import style from './DropDown.module.scss';
 import { Item } from "./Item";
@@ -26,6 +26,8 @@ type DropDownProps = {
 }
 
 export const DropDown = ({ dropDownRef, title, data, onItemClick, className, placement, visible, style }: DropDownProps) => {
+    const [dataOwn, setDataOwn] = useState<any[]>([] as any[]);
+
     const divRef = useRef<HTMLUListElement>(null);
 
     if (!className)
@@ -38,11 +40,15 @@ export const DropDown = ({ dropDownRef, title, data, onItemClick, className, pla
         [placement]: placement,
     });
 
+    useEffect(() => {
+        setDataOwn(data.filter(item => item.title !== ''));
+    }, [data]);
+
     const handleShowDropDown = (ref: any) => {
         if (ref.current) {
             const idTimeoutActive = setTimeout(() => {
                 if (ref.current) {
-                    ref.current.style.height = `calc(4.4rem * ${data.length})`;
+                    ref.current.style.height = `calc(4.4rem * ${dataOwn.length})`;
                     ref.current.style.border = '1px solid transparent';
                 }
             }, 150);

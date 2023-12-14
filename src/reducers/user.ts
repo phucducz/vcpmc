@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-import { changeInfoUserById, changePassword, login } from "../thunk/userThunk";
+import { changeInfoUserById, changePassword, changePasswordStatusUser, login } from "../thunk/userThunk";
 import { User } from "~/api/userAPI";
 
 type Status = '' | 'Sai tên tài khoản hoặc mật khẩu' | 'Đăng nhập thành công'
@@ -96,6 +96,16 @@ const userSlice = createSlice({
                 }
             })
             .addCase(changeInfoUserById.rejected, (state, action) => {
+                state.loading = false;
+                console.log(new Error(`${action.error.name}: ${action.error.message}`));
+            })
+            .addCase(changePasswordStatusUser.pending, (state) => {
+                state.loading = true;
+            })
+            .addCase(changePasswordStatusUser.fulfilled, (state, action) => {
+                state.loading = false;
+            })
+            .addCase(changePasswordStatusUser.rejected, (state, action) => {
                 state.loading = false;
                 console.log(new Error(`${action.error.name}: ${action.error.message}`));
             })

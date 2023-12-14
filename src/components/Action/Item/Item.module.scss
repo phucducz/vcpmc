@@ -38,10 +38,15 @@
 }
 
 .action__item.disable {
-    cursor: auto;
-    
-    & p,
-    & svg {
+    pointer-events: none;
+
+    & p, & svg {
         color: var(--color-gray);
+    }
+}
+
+.action__item__title {
+    &>p {
+        width: calc(11rem - 36px);
     }
 }

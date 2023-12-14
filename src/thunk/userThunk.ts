@@ -1,16 +1,16 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 
-import { User, changePasswordUserById, getUserById, saveUserAPI, updateUserById } from "../api/userAPI";
+import { User, changePasswordStatusUserById, changePasswordUserById, getUserById, saveUserAPI, updateUserById } from "../api/userAPI";
 import { Role } from "~/reducers/role";
 import { checkLogin } from "~/api/loginAPI";
 
 export const changePassword = createAsyncThunk(
     'user/changePassword',
-    async ({ email, password, navigate }
-        : Pick<User, 'email' | 'password'> & { navigate?: () => void }
+    async ({ email = '', password, userId = '', navigate }
+        : Pick<User, 'password'> & { userId?: string, email?: string, navigate?: () => void }
     ) => {
         if (email !== '') {
-            await changePasswordUserById({ email: email, password: password });
+            await changePasswordUserById({ email: email, id: userId, password: password });
             navigate && navigate();
 
             return {
@@ -60,5 +60,14 @@ export const saveUser = createAsyncThunk(
     'user/saveUser',
     async ({ user }: SaveUserParamsType) => {
         await saveUserAPI(user);
+    }
+);
+
+export const changePasswordStatusUser = createAsyncThunk(
+    'user/changePasswordStatusUserById',
+    async ({ id, password, status, navigate }: Pick<User, 'password' | 'id'> & { status: string, navigate: () => void }) => {
+        await changePasswordStatusUserById({ id, password, status });
+
+        navigate();
     }
 )

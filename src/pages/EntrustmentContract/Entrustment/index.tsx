@@ -1,12 +1,11 @@
 import classNames from "classnames/bind";
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useContext, useEffect, useState } from 'react';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router";
 import { useSelector } from "react-redux";
 
 import style from './Entrustment.module.scss';
-import { CommonPage } from "../CommonPage";
 import { PagingItemType } from "~/components/Paging";
 import { TabItemProps } from "~/components/Tab";
 import { routes } from "~/config/routes";
@@ -14,6 +13,8 @@ import { Table } from "~/components/Table";
 import { RootState, useAppDispatch } from "~/store";
 import { getEtmContractList } from "~/thunk/etmContractThunk";
 import { EtmContract } from "~/api/etmContractAPI";
+import { CommonPage } from "~/pages/CommonPage";
+import { MenuContext } from "~/context/Menu/MenuContext";
 
 const cx = classNames.bind(style);
 
@@ -29,8 +30,10 @@ const PAGING_ITEMS: Array<PagingItemType> = [
     }
 ];
 
-export const EntrusmentPage = () => {
+function EntrusmentPage() {
     const etmContract = useSelector((state: RootState) => state.etmContract);
+
+    const { setActive } = useContext(MenuContext);
 
     const navigate = useNavigate();
     const dispatch = useAppDispatch();
@@ -43,7 +46,7 @@ export const EntrusmentPage = () => {
         {
             icon: <FontAwesomeIcon icon={faPlus} />,
             title: 'Thêm hợp đồng',
-            onClick: () => navigate(routes.AddETMContract)
+            onClick: () => { navigate(routes.AddETMContract); setActive(false) },
         }
     ]);
     const [tab, setTab] = useState<TabItemProps[]>([
@@ -119,8 +122,8 @@ export const EntrusmentPage = () => {
                                 status = 'new';
                             if (item.status === 'Đang hiệu lực')
                                 status = 'still';
-                                if (item.status === 'Hết hiệu lực')
-                                    status = 'expiration';
+                            if (item.status === 'Hết hiệu lực')
+                                status = 'expiration';
 
                             return (
                                 <tr key={index} style={{ height: '47px' }} className={cx('content')}>
@@ -142,3 +145,5 @@ export const EntrusmentPage = () => {
         </div>
     );
 };
+
+export default EntrusmentPage;

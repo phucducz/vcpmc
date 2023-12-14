@@ -32,6 +32,8 @@ export const Toast = memo(({ duration, icon, message, type, visible }: ToastProp
 
             return () => clearTimeout(id);
         }
+        else  if (toastRef.current)
+            toastRef.current.setAttribute('class', cx('toast-container'));
     }, [visible]);
 
     return (

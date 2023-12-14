@@ -22,7 +22,7 @@ import style from './AddRecord.module.scss';
 
 const cx = classNames.bind(style);
 
-export const AddRecordPlaylistPage = () => {
+function AddRecordPlaylistPage() {
     const { id } = useParams();
     const navigate = useNavigate();
     const dispath = useAppDispatch();
@@ -174,3 +174,5 @@ export const AddRecordPlaylistPage = () => {
         </div>
     );
 }
+
+export default AddRecordPlaylistPage;
