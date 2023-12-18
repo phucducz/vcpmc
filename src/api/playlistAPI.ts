@@ -48,7 +48,7 @@ export const getPlaylists = async () => {
                 rolesId: user?.data().rolesId || '',
                 taxCode: user?.data().taxCode || '',
                 userName: user?.data().userName || '',
-                role: role ? { id: role.id, role: role.data().role } : { id: '', role: '' },
+                role: role ? { id: role.id, name: role.data().name } : { id: '', name: '' },
                 id: user?.id || ''
             },
             description: doc.data().description,

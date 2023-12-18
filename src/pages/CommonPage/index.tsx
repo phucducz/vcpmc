@@ -33,10 +33,10 @@ export const CommonPage = memo(({ contentHeader, title, actionFilter, pagingData
         <div className={cx('common-page', className)}>
             {pagingData && <Paging data={pagingData} />}
             <header><h3>{title}</h3></header>
-            {tab.length > 0 && <Tab data={tab} />}
             <div className={cx('content-container')}>
                 {contentHeader && contentHeader}
                 <div className={cx('content-container__filter-box')}>
+                    {tab.length > 0 && <Tab data={tab} />}
                     {search && <Input
                         large
                         name='search'
@@ -45,10 +45,10 @@ export const CommonPage = memo(({ contentHeader, title, actionFilter, pagingData
                         placeholder={search.placeHolder}
                         rightIcon={<Icon icon={searchIcon} style={{ color: 'var(--white)' }} />}
                     />}
-                    <div className={cx('content__action')}>
+                    {(actionFilter || actionType) && <div className={cx('content__action')}>
                         {actionFilter && <div>{actionFilter}</div>}
                         {actionType && <div className={cx('action-type-container')}>{actionType}</div>}
-                    </div>
+                    </div>}
                 </div>
                 <div className={cx('content')}>
                     {children}

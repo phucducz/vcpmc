@@ -120,7 +120,7 @@ export const CommonPlaylistPage = memo(({ titlePage, type, paging, actionData, p
                                     <p>Tổng thời lượng:</p>
                                 </div>
                                 <div className={cx('item__right')}>
-                                    <p>{Object.keys(playlistDetail.createdBy).length > 0 && playlistDetail.createdBy.role.role}</p>
+                                    <p>{Object.keys(playlistDetail.createdBy).length > 0 && playlistDetail.createdBy.role.name}</p>
                                     <p>{playlistDetail.quantity} bản ghi</p>
                                     <p>{playlistDetail.totalTime}</p>
                                 </div>

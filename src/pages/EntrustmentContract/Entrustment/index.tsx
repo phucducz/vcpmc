@@ -1,20 +1,20 @@
+import { faPlus } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import classNames from "classnames/bind";
 import { useCallback, useContext, useEffect, useState } from 'react';
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPlus } from "@fortawesome/free-solid-svg-icons";
-import { useNavigate } from "react-router";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router";
 
-import style from './Entrustment.module.scss';
+import { EtmContract } from "~/api/etmContractAPI";
 import { PagingItemType } from "~/components/Paging";
 import { TabItemProps } from "~/components/Tab";
-import { routes } from "~/config/routes";
 import { Table } from "~/components/Table";
+import { routes } from "~/config/routes";
+import { MenuContext } from "~/context/Menu/MenuContext";
+import { CommonPage } from "~/pages/CommonPage";
 import { RootState, useAppDispatch } from "~/store";
 import { getEtmContractList } from "~/thunk/etmContractThunk";
-import { EtmContract } from "~/api/etmContractAPI";
-import { CommonPage } from "~/pages/CommonPage";
-import { MenuContext } from "~/context/Menu/MenuContext";
+import style from './Entrustment.module.scss';
 
 const cx = classNames.bind(style);
 
@@ -91,58 +91,57 @@ function EntrusmentPage() {
     }, []);
 
     return (
-        <div className={cx('entrusment-contract-container')}>
-            <CommonPage
-                title='Danh sách hợp đồng khai thác'
-                pagingData={PAGING_ITEMS}
-                actionData={actionData}
-                tab={tab}
-                search={{
-                    placeHolder: 'Tên hợp đồng, tác giả,...',
-                    searchValue: searchValue,
-                    setSearchValue: (e: any) => setSearchValue(e.target.value)
-                }}
-            >
-                <div className={cx('container-table-data')}>
-                    <Table
-                        paginate={{
-                            dataForPaginate: searchResult,
-                            setCurrentItems: handleSetCurrentItems
-                        }}
-                        loading={etmContract.loading}
-                        itemsPerPage={itemsPerPage}
-                        setItemsPerPage={handleChange}
-                        thead={['STT', 'Số hợp đồng', 'Khách hàng', 'Ngày tạo', 'Ngày hiệu lực', 'Ngày hết hạn', 'Hiệu lực hợp đồng', '', '']}
-                    >
-                        {itemsCurrent.map((item, index) => {
-                            if (index > parseInt(itemsPerPage) - 1) return null;
+        <CommonPage
+            title='Danh sách hợp đồng khai thác'
+            pagingData={PAGING_ITEMS}
+            actionData={actionData}
+            tab={tab}
+            search={{
+                placeHolder: 'Tên hợp đồng, tác giả,...',
+                searchValue: searchValue,
+                setSearchValue: (e: any) => setSearchValue(e.target.value)
+            }}
+            className={cx('entrusment-contract-container')}
+        >
+            <div className={cx('container-table-data')}>
+                <Table
+                    paginate={{
+                        dataForPaginate: searchResult,
+                        setCurrentItems: handleSetCurrentItems
+                    }}
+                    loading={etmContract.loading}
+                    itemsPerPage={itemsPerPage}
+                    setItemsPerPage={handleChange}
+                    thead={['STT', 'Số hợp đồng', 'Khách hàng', 'Ngày tạo', 'Ngày hiệu lực', 'Ngày hết hạn', 'Hiệu lực hợp đồng', '', '']}
+                >
+                    {itemsCurrent.map((item, index) => {
+                        if (index > parseInt(itemsPerPage) - 1) return null;
 
-                            let status = 'cancelled';
-                            if (item.status === 'Mới')
-                                status = 'new';
-                            if (item.status === 'Đang hiệu lực')
-                                status = 'still';
-                            if (item.status === 'Hết hiệu lực')
-                                status = 'expiration';
+                        let status = 'cancelled';
+                        if (item.status === 'Mới')
+                            status = 'new';
+                        if (item.status === 'Đang hiệu lực')
+                            status = 'still';
+                        if (item.status === 'Hết hiệu lực')
+                            status = 'expiration';
 
-                            return (
-                                <tr key={index} style={{ height: '47px' }} className={cx('content')}>
-                                    <td><p>{index + 1}</p></td>
-                                    <td><p>{item.code}</p></td>
-                                    <td><p>{item.name}</p></td>
-                                    <td><p>{item.createdDate}</p></td>
-                                    <td><p>{item.effectiveDate}</p></td>
-                                    <td><p>{item.expirationDate}</p></td>
-                                    <td><p className={cx('status', status)}>{item.status}</p></td>
-                                    <td><p className={cx('action')} onClick={() => navigate(`/contract-detail/${item.id}`)}>Xem chi tiết</p></td>
-                                    <td><p className={cx('action')} onClick={() => navigate(`/entrustment-contract/copy/${item.id}`)}>Sao chép hợp đồng</p></td>
-                                </tr>
-                            );
-                        })}
-                    </Table>
-                </div>
-            </CommonPage>
-        </div>
+                        return (
+                            <tr key={index} style={{ height: '47px' }} className={cx('content')}>
+                                <td><p>{index + 1}</p></td>
+                                <td><p>{item.code}</p></td>
+                                <td><p>{item.name}</p></td>
+                                <td><p>{item.createdDate}</p></td>
+                                <td><p>{item.effectiveDate}</p></td>
+                                <td><p>{item.expirationDate}</p></td>
+                                <td><p className={cx('status', status)}>{item.status}</p></td>
+                                <td><p className={cx('action')} onClick={() => navigate(`/contract-detail/${item.id}`)}>Xem chi tiết</p></td>
+                                <td><p className={cx('action')} onClick={() => navigate(`/entrustment-contract/copy/${item.id}`)}>Sao chép hợp đồng</p></td>
+                            </tr>
+                        );
+                    })}
+                </Table>
+            </div>
+        </CommonPage>
     );
 };
 

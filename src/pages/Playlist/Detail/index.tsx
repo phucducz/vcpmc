@@ -1,25 +1,24 @@
+import { faEdit } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import classNames from "classnames/bind";
 import { useCallback, useContext, useEffect, useState } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEdit } from "@fortawesome/free-solid-svg-icons";
-import { useNavigate, useParams } from "react-router";
 import { useSelector } from "react-redux";
+import { useNavigate, useParams } from "react-router";
 
-import style from './PlaylistDetail.module.scss';
-import { Table } from "~/components/Table";
-import { ActionDataType } from "~/components/Action";
-import { RootState, useAppDispatch } from "~/store";
-import { PlaylistRecordDetail } from "~/api/playlistsRecords";
 import { Record } from "~/api/recordAPI";
-import { Icon, trashIcon } from "~/icons";
-import { MenuContext } from "~/context/Menu/MenuContext";
-import { PagingItemType } from "~/components/Paging";
-import { routes } from "~/config/routes";
-import { getPlaylistsRecordsList, removeRecord } from "~/thunk/playlistsRecordsThunk";
-import { getPlaylistsRecordsDetail } from "~/reducers/playlistsRecords";
-import { CommonPlaylistPage, PlaylistValue } from "../CommonPage";
-import { deletePlaylist } from "~/thunk/playlistThunk";
+import { ActionDataType } from "~/components/Action";
 import Loading from "~/components/Loading";
+import { PagingItemType } from "~/components/Paging";
+import { Table } from "~/components/Table";
+import { routes } from "~/config/routes";
+import { MenuContext } from "~/context/Menu/MenuContext";
+import { Icon, trashIcon } from "~/icons";
+import { getPlaylistsRecordsDetail } from "~/reducers/playlistsRecords";
+import { RootState, useAppDispatch } from "~/store";
+import { deletePlaylist } from "~/thunk/playlistThunk";
+import { getPlaylistsRecordsList, removeRecord } from "~/thunk/playlistsRecordsThunk";
+import { CommonPlaylistPage, PlaylistValue } from "../CommonPage";
+import style from './PlaylistDetail.module.scss';
 
 const cx = classNames.bind(style);
 

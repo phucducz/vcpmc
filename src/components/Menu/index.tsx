@@ -15,7 +15,7 @@ export type ItemProps = {
     title: string;
     className?: string;
     onClick: () => void;
-    children?: Array<ItemProps>
+    children?: Array<ItemProps>;
 }
 
 const Item = memo(({ icon, title, children, className, onClick }: ItemProps) => {

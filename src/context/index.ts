@@ -75,3 +75,15 @@ export const getMoment = (array: Array<any>) => {
 
     return momentTime.toISOString();
 }
+
+export const formatMoney = (money: number) => {
+    const config = {
+        style: 'currency',
+        currency: 'VND',
+        maximumFractionDigist: 9
+    }
+
+    const formated = new Intl.NumberFormat('vi-VN', config).format(money);
+
+    return formated;
+}

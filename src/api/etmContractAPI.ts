@@ -95,7 +95,7 @@ export const getEtmContractsDetail = async () => {
                 rolesId: createdBy?.data().rolesId || '',
                 taxCode: createdBy?.data().taxCode || '',
                 userName: createdBy?.data().userName || '',
-                role: roleCreatedBy ? { id: roleCreatedBy.id, role: roleCreatedBy.data().role } : { id: '', role: '' },
+                role: roleCreatedBy ? { id: roleCreatedBy.id, name: roleCreatedBy.data().role } : { id: '', name: '' },
                 id: createdBy?.id || ''
             },
             createdDate: doc.data().createdDate,
@@ -127,7 +127,7 @@ export const getEtmContractsDetail = async () => {
                 rolesId: authorizedUser?.data().rolesId || '',
                 taxCode: authorizedUser?.data().taxCode || '',
                 userName: authorizedUser?.data().userName || '',
-                role: roleAuthorizedUser ? { id: roleAuthorizedUser.id, role: roleAuthorizedUser.data().role } : { id: '', role: '' },
+                role: roleAuthorizedUser ? { id: roleAuthorizedUser.id, name: roleAuthorizedUser.data().role } : { id: '', name: '' },
                 id: authorizedUser?.id || '',
                 status: authorizedUser?.data().status
             },

@@ -6,7 +6,8 @@ export type MenuType = {
     icon?: any;
     title: string;
     onClick: () => void;
-    children?: Array<Omit<ItemProps, 'className'>>
+    children?: Array<Omit<ItemProps, 'className'> & { functionalCode: Array<string> }>;
+    functionalCode: Array<string>;
 }
 
 export type ContextType = {

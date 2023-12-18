@@ -26,5 +26,13 @@ export const routes = {
     EidtAuthorizedContract: '/authorized-contract-management/edit/:id',
     DeviceManagement: '/device-management',
     DeviceDetail: '/device-management/detail/:id',
-    AddDevice: '/device-management/add'
+    AddDevice: '/device-management/add',
+    RevenueManagement: '/revenue-management',
+    RevenueDetail: '/revenue-management/detail/:id',
+    UserAuthorizationManagement: '/user-authorization-management',
+    UserRoleManagemet: '/user-role-management',
+    EditUser: '/user-management/edit/:id',
+    AddUser: '/user-management/add',
+    EditRole: '/user-role-edit/:id',
+    AddRole: '/user-role-add',
 }

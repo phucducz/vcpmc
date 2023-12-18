@@ -1,9 +1,9 @@
 import { ReactNode, useState } from "react";
 import { useNavigate } from "react-router";
 
-import { MenuContext, MenuType } from "./MenuContext";
-import { MENU_ICONS } from "~/images";
 import { routes } from "~/config/routes";
+import { MENU_ICONS } from "~/images";
+import { MenuContext, MenuType } from "./MenuContext";
 
 type MenuProviderProps = {
     children: ReactNode;
@@ -24,7 +24,8 @@ export const MenuProvider = ({ children }: MenuProviderProps) => {
             onClick: () => {
                 setMenuActive(1);
                 navigate(routes.RecordPage);
-            }
+            },
+            functionalCode: ['nguoidung_xoa', 'nguoidung_pheduyet', 'nguoidung_capnhat'],
         }, {
             id: 2,
             icon: MENU_ICONS.playlistIcon,
@@ -32,42 +33,49 @@ export const MenuProvider = ({ children }: MenuProviderProps) => {
             onClick: () => {
                 setMenuActive(2);
                 navigate(routes.PlaylistManagement);
-            }
+            },
+            functionalCode: ['nguoidung_xemdanhsach', 'nguoidung_xemchitiet', 'nguoidung_tao', 'nguoidung_xoa', 'nguoidung_chinhsua'],
         }, {
             id: 3,
             icon: MENU_ICONS.calendarIcon,
             title: 'Lập lịch phát',
-            onClick: () => navigate(routes.PlaylistSchedule)
+            onClick: () => navigate(routes.PlaylistSchedule),
+            functionalCode: ['nguoidung_xemdanhsach', 'nguoidung_xemchitiet', 'nguoidung_tao', 'nguoidung_xoa', 'nguoidung_chinhsua'],
         }, {
             id: 4,
             icon: MENU_ICONS.managementIcon,
             title: 'Quản lý',
             onClick: () => { },
+            functionalCode: [],
             children: [
                 {
                     title: 'Quản lý hợp đồng',
                     onClick: () => {
                         setMenuActive(4);
                         navigate(routes.Entrustment);
-                    }
+                    },
+                    functionalCode: [],
                 }, {
                     title: 'Quản lý thiết bị',
                     onClick: () => {
                         setMenuActive(4);
                         navigate(routes.DeviceManagement);
-                    }
+                    },
+                    functionalCode: [],
                 }, {
                     title: 'Đơn vị ủy quyền',
                     onClick: () => {
                         setMenuActive(4);
                         navigate(routes.AuthorizedContract);
-                    }
+                    },
+                    functionalCode: [],
                 }, {
                     title: 'Đơn vị sử dụng',
                     onClick: () => {
                         setMenuActive(4);
                         navigate(routes.Unit);
-                    }
+                    },
+                    functionalCode: [],
                 }
             ]
         }, {
@@ -75,16 +83,23 @@ export const MenuProvider = ({ children }: MenuProviderProps) => {
             icon: MENU_ICONS.revenueIcon,
             title: 'Doanh thu',
             onClick: () => { },
+            functionalCode: [],
             children: [
                 {
                     title: 'Báo cáo doanh thu',
-                    onClick: () => { }
+                    onClick: () => { },
+                    functionalCode: [],
                 }, {
                     title: 'Lịch sử đối soát',
-                    onClick: () => { }
+                    onClick: () => { },
+                    functionalCode: [],
                 }, {
                     title: 'Phân phối doanh thu',
-                    onClick: () => { }
+                    onClick: () => {
+                        setMenuActive(5);
+                        navigate(routes.RevenueManagement)
+                    },
+                    functionalCode: [],
                 }
             ]
         }, {
@@ -92,22 +107,31 @@ export const MenuProvider = ({ children }: MenuProviderProps) => {
             icon: MENU_ICONS.settingIcon,
             title: 'Cài đặt',
             onClick: () => { },
+            functionalCode: [],
             children: [
                 {
                     title: 'Phân quyền người dùng',
-                    onClick: () => { }
+                    onClick: () => {
+                        navigate(routes.UserAuthorizationManagement);
+                        setMenuActive(6);
+                    },
+                    functionalCode: [],
                 }, {
                     title: 'Cấu hình',
-                    onClick: () => { }
+                    onClick: () => { },
+                    functionalCode: [],
                 }, {
                     title: 'Quản lý hợp đồng',
-                    onClick: () => { }
+                    onClick: () => { },
+                    functionalCode: [],
                 }, {
                     title: 'Thông tin tác phẩm',
-                    onClick: () => { }
+                    onClick: () => { },
+                    functionalCode: [],
                 }, {
                     title: 'Chu kỳ đối soát',
-                    onClick: () => { }
+                    onClick: () => { },
+                    functionalCode: [],
                 }
             ]
         }, {
@@ -115,16 +139,20 @@ export const MenuProvider = ({ children }: MenuProviderProps) => {
             icon: MENU_ICONS.supportIcon,
             title: 'Hỗ trợ',
             onClick: () => { },
+            functionalCode: [],
             children: [
                 {
                     title: 'Hướng dẫn sử dụng',
-                    onClick: () => { }
+                    onClick: () => { },
+                    functionalCode: [],
                 }, {
                     title: 'Tải app',
-                    onClick: () => { }
+                    onClick: () => { },
+                    functionalCode: [],
                 }, {
                     title: 'Feedback',
-                    onClick: () => { }
+                    onClick: () => { },
+                    functionalCode: [],
                 }
             ]
         }

@@ -1,22 +1,30 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-import { AuthorizedContractDetailt } from "~/api/authorizedContract";
+import { AuthorizedContractDetailt, ContractDetail } from "~/api/authorizedContract";
+import { Record } from "~/api/recordAPI";
+import { RecordPlays } from "~/api/recordPlay";
 import { getAuthorizedContracts } from "~/thunk/authorizedContractThunk";
 
 type InitialStateType = {
     contracts: Array<AuthorizedContractDetailt>;
     loading: boolean;
+    contractDetails: Array<ContractDetail>;
 }
 
 const initialState: InitialStateType = {
     contracts: [],
-    loading: false
+    loading: false,
+    contractDetails: []
 }
 
 const authorizedContractSlice = createSlice({
     name: 'authorizedContractSlice',
     initialState,
-    reducers: {},
+    reducers: {
+        setContractsDetail: (state, action) => {
+            state.contractDetails = action.payload;
+        }
+    },
     extraReducers: builder => {
         builder.addCase(getAuthorizedContracts.pending, state => {
             state.loading = true;
@@ -33,3 +41,4 @@ const authorizedContractSlice = createSlice({
 });
 
 export const { reducer: authorizedContractReducer } = authorizedContractSlice;
+export const { setContractsDetail } = authorizedContractSlice.actions;

@@ -19,7 +19,7 @@ export const Sidebar = memo(() => {
     }
 
     return (
-        <div className={cx('sidebar-container', 'dynamic', active && 'active')}>
+        <div className={cx('sidebar-container', 'dynamic', active && 'active')} onClick={() => setActive(true)}>
             {active ? <>
                 <nav className={cx('sidebar-container')}>
                     <Image src='https://res.cloudinary.com/dvlzvsyxs/image/upload/v1701141410/logo_ul3efy.png' alt='logo-vcpmc' width={96} height={96} />

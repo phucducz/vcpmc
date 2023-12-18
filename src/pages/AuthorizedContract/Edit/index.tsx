@@ -147,9 +147,9 @@ function EditAuthorizedContract() {
                 input: <ComboBox
                     data={role.roleList.map(role => ({
                         id: role.id,
-                        title: role.role
+                        title: role.name
                     }))}
-                    active={role.roleList.find(role => role.id === userFormik.values.rolesId)?.role || 'qc'}
+                    active={role.roleList.find(role => role.id === userFormik.values.rolesId)?.name || 'qc'}
                     visible={false}
                     onClick={() => { }}
                     style={{ width: '256px' }}

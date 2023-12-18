@@ -1,19 +1,19 @@
 import classNames from "classnames/bind";
-import { ReactNode, useContext, useEffect } from "react";
+import { ReactNode, useEffect } from "react";
 import { useSelector } from "react-redux";
-import { RootState, useAppDispatch } from "~/store";
 import { useNavigate } from "react-router";
+import { RootState, useAppDispatch } from "~/store";
 
-import style from './DefaultLayout.module.scss';
-import { Language } from "~/components/Language";
-import { LANGUAGE_ITEMS } from "~/constants";
 import { Account } from "~/components/Account";
-import avtNoFound from '~/images/no-found-avt.jpg';
-import { MenuProvider } from "~/context/Menu/MenuProvider";
+import { Language } from "~/components/Language";
 import { Sidebar } from "~/components/Sidebar";
-import { getCategories } from "~/thunk/categoryThunk";
-import { getApprovalList } from "~/thunk/approvalThunk";
 import { routes } from "~/config/routes";
+import { LANGUAGE_ITEMS } from "~/constants";
+import { MenuProvider } from "~/context/Menu/MenuProvider";
+import avtNoFound from '~/images/no-found-avt.jpg';
+import { getApprovalList } from "~/thunk/approvalThunk";
+import { getCategories } from "~/thunk/categoryThunk";
+import style from './DefaultLayout.module.scss';
 
 const cx = classNames.bind(style);
 
@@ -53,7 +53,7 @@ export const DefaultLayout = ({ children }: DefaultLayoutProps) => {
                             <Language languages={LANGUAGE_ITEMS} placement='top-right' />
                             <Account
                                 displayName={displayName}
-                                role={role && role.role}
+                                role={role && role.name}
                                 image={{
                                     src: typeof avatar !== 'undefined' ? `${avatar}` : avtNoFound,
                                     alt: 'avt-acc'

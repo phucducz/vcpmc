@@ -1,5 +1,8 @@
 import { collection, getDocs } from "firebase/firestore";
+
 import { firestoreDatabase } from "~/config/firebase";
+import { Record } from "./recordAPI";
+import { RecordPlays } from "./recordPlay";
 import { User } from "./userAPI";
 
 export type AuthorizedContract = {
@@ -18,7 +21,26 @@ export type AuthorizedContract = {
     ownerShips: Array<string> | string;
     reason: string;
     status: string;
+    royalties: string;
+    CPM: string;
+    administrativeFee: string;
 };
+
+export type RecordDetail = {
+    records: Record;
+    recordPlays: Array<RecordPlays>;
+    totalPlays: number;
+}
+
+export type ContractDetail = {
+    contract: AuthorizedContractDetailt;
+    records: RecordDetail[];
+    totalPlays: number;
+    revenue: number;
+    royalties: number;
+    date: string;
+    administrativeFee: number;
+}
 
 export type AuthorizedContractDetailt = Omit<AuthorizedContract, 'authorizedPerson' | 'createdBy'> & {
     authorizedPerson: User & { status: string };
@@ -58,7 +80,7 @@ export const getAuthorizedContract = async () => {
                 rolesId: authorizedUser?.data().rolesId || '',
                 taxCode: authorizedUser?.data().taxCode || '',
                 userName: authorizedUser?.data().userName || '',
-                role: roleAuthorizedUser ? { id: roleAuthorizedUser.id, role: roleAuthorizedUser.data().role } : { id: '', role: '' },
+                role: roleAuthorizedUser ? { id: roleAuthorizedUser.id, name: roleAuthorizedUser.data().name } : { id: '', name: '' },
                 id: authorizedUser?.id || '',
                 status: authorizedUser?.data().status
             },
@@ -85,7 +107,7 @@ export const getAuthorizedContract = async () => {
                 rolesId: createdBy?.data().rolesId || '',
                 taxCode: createdBy?.data().taxCode || '',
                 userName: createdBy?.data().userName || '',
-                role: roleCreatedBy ? { id: roleCreatedBy.id, role: roleCreatedBy.data().role } : { id: '', role: '' },
+                role: roleCreatedBy ? { id: roleCreatedBy.id, name: roleCreatedBy.data().name } : { id: '', name: '' },
                 id: createdBy?.id || ''
             },
             customer: doc.data().customer,
@@ -94,7 +116,10 @@ export const getAuthorizedContract = async () => {
             expirationDate: doc.data().expirationDate,
             ownerShips: doc.data().ownerShips,
             reason: doc.data().reason,
-            status: doc.data().status
+            status: doc.data().status,
+            royalties: doc.data().royalties,
+            CPM: doc.data().CPM,
+            administrativeFee: doc.data().administrativeFee
         }
     });
 }

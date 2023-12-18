@@ -56,7 +56,7 @@ function ProfilePage() {
 
     useEffect(() => {
         try {
-            profileFormik.setFieldValue('role', role.role);
+            profileFormik.setFieldValue('role', role.name);
         }
         catch {
             navigate('/login');
@@ -71,7 +71,7 @@ function ProfilePage() {
             firstName: firstName,
             lastName: lastName,
             phoneNumber: phoneNumber,
-            role: (role && role.role) || '',
+            role: (role && role.name) || '',
             userName: userName
         },
         validationSchema: Yup.object({

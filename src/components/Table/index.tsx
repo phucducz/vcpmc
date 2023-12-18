@@ -1,12 +1,11 @@
+import { faChevronLeft, faChevronRight } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import classNames from "classnames/bind";
 import { ChangeEvent, ReactNode, memo, useEffect, useState } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faChevronLeft, faChevronRight } from "@fortawesome/free-solid-svg-icons";
 import ReactPaginate from "react-paginate";
 
-import style from './Table.module.scss';
 import { Input } from "../Input";
-import { Paging } from "../Paging";
+import style from './Table.module.scss';
 
 const cx = classNames.bind(style);
 
@@ -23,9 +22,16 @@ type TableProps = {
     tableRef?: React.RefObject<HTMLTableElement>;
     setItemsPerPage?(number: string): void;
     paginateClass?: string;
+    className?: string;
+    border?: number;
+    cellPadding?: string;
+    cellSpacing?: string;
 }
 
-export const Table = memo(({ tableRef, paginate, paginateClass, headerChildren, children, thead, loading = false, itemsPerPage: per = '1', setItemsPerPage }: TableProps) => {
+export const Table = memo(({ tableRef, paginate, paginateClass, headerChildren, children,
+    thead, loading = false, itemsPerPage: per = '1', setItemsPerPage, className, border,
+    cellPadding, cellSpacing, ...passProp }: TableProps
+) => {
     const [itemOffset, setItemOffset] = useState(0);
     const [pageCount, setPageCount] = useState<number>(0);
 
@@ -62,7 +68,13 @@ export const Table = memo(({ tableRef, paginate, paginateClass, headerChildren, 
     };
 
     return (
-        <table className={cx('table-container')} ref={tableRef}>
+        <table
+            className={cx('table-container', className)}
+            ref={tableRef}
+            border={border || 0}
+            cellSpacing={cellSpacing}
+            cellPadding={cellPadding}
+        >
             <thead>
                 <tr>
                     {headerChildren && headerChildren}

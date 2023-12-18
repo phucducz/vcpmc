@@ -13,12 +13,12 @@ import { Table } from "~/components/Table";
 import { routes } from "~/config/routes";
 import { MenuContext } from "~/context/Menu/MenuContext";
 import { CommonPage } from "~/pages/CommonPage";
+import { GridItemProps } from "~/pages/Record/Record";
 import { getPlaylistsRecordsDetail, setPlaylistsRecordsDetail } from "~/reducers/playlistsRecords";
 import { RootState, useAppDispatch } from "~/store";
 import { getPlaylistList } from "~/thunk/playlistThunk";
 import { getPlaylistsRecordsList } from "~/thunk/playlistsRecordsThunk";
 import style from './PlaylistPage.module.scss';
-import { GridItemProps } from "~/pages/Record/Record";
 
 const cx = classNames.bind(style);
 

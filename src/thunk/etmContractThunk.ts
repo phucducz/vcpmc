@@ -2,7 +2,7 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 
 import { getEtmContracts, getEtmContractById, saveETMContract, EtmContract, getEtmContractsDetail } from "~/api/etmContractAPI";
 import { saveUser } from "./userThunk";
-import { User, addUser } from "~/api/userAPI";
+import { User, addUserAPI } from "~/api/userAPI";
 
 export const getEtmContractList = createAsyncThunk(
     'etmContract/getEtmContractList',
@@ -20,7 +20,6 @@ export const getETMContractById = createAsyncThunk(
 
 type SaveEntrustmentContractParamsType = {
     contract: EtmContract;
-    // contract: EtmContract | Omit<EtmContract, 'id'>;
     user: Omit<User, 'role'>;
     navigate: () => void;
 }
@@ -34,7 +33,7 @@ export const saveEntrustmentContract = createAsyncThunk(
         let newUser;
 
         if (user.id === '') {
-            newUser = await addUser(user);
+            newUser = await addUserAPI(user);
             await saveETMContract({ contract: { ...contract, usersId: newUser.id } });
         }
         else {

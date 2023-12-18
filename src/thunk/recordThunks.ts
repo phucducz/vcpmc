@@ -9,16 +9,18 @@ import { Approval } from "~/api/approvalAPI";
 export const getRecords = createAsyncThunk(
     'record/getList',
     async ({ categoryList, approvalList }: {
-        categoryList: Array<Category>;
-        approvalList: Array<Approval>;
+        categoryList?: Array<Category>;
+        approvalList?: Array<Approval>;
     }) => {
+        if (typeof categoryList === 'undefined' || typeof approvalList === 'undefined') return;
+
         let q = query(collection(firestoreDatabase, 'records'));
 
         const querySnapshot = await getDocs(q);
 
         return querySnapshot.docs.map(doc => {
             let approval = approvalList.find(approval => approval.recordsId === doc.id);
-            
+
             return {
                 approvalsId: approval ? approval.id : '',
                 id: doc.id,

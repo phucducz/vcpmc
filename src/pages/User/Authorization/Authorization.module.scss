@@ -1,0 +1,29 @@
+.authorization-user-container,
+.user-role-container {
+    &>div:last-child {
+        &>div:nth-child(1) {
+            width: 1541px;
+            height: auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+    }
+
+    & table {
+        display: none;
+
+        & p {
+            white-space: nowrap;
+        }
+
+        &.active {
+            display: block;
+        }
+
+        & .table__col__description {
+            max-width: 776px;
+            white-space: wrap;
+        }
+    }
+}

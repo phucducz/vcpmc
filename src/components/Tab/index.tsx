@@ -28,7 +28,7 @@ export const Tab = memo(({ data, className }: TabProps) => {
     const [activeTab, setActiveTab] = useState<string>('');
 
     useEffect(() => {
-        data.length > 0 && setActiveTab(data[1].title);
+        data.length > 0 && setActiveTab(data[0].title);
     }, [data]);
 
     const handleOnTabClick = (item: TabItemProps) => {

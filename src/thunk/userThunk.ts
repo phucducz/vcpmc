@@ -1,8 +1,8 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 
-import { User, changePasswordStatusUserById, changePasswordUserById, getUserById, saveUserAPI, updateUserById } from "../api/userAPI";
-import { Role } from "~/reducers/role";
+import { User, addUserAPI, changePasswordStatusUserById, changePasswordUserById, deleteUserById, getUserById, getUserList, saveUserAPI, updateUserById } from "../api/userAPI";
 import { checkLogin } from "~/api/loginAPI";
+import { Role } from "~/api/roleAPI";
 
 export const changePassword = createAsyncThunk(
     'user/changePassword',
@@ -22,7 +22,14 @@ export const changePassword = createAsyncThunk(
 
         return null;
     }
-)
+);
+
+export const getUsers = createAsyncThunk(
+    'user/getUsers',
+    async () => {
+        return await getUserList();
+    }
+);
 
 export const login = createAsyncThunk(
     'user/login',
@@ -53,13 +60,16 @@ export const changeInfoUserById = createAsyncThunk(
 )
 
 type SaveUserParamsType = {
-    user: Omit<User, 'role'>
+    user: Omit<User, 'role'>;
+    navigate?: () => void;
 }
 
 export const saveUser = createAsyncThunk(
     'user/saveUser',
-    async ({ user }: SaveUserParamsType) => {
+    async ({ user, navigate }: SaveUserParamsType) => {
         await saveUserAPI(user);
+
+        navigate && navigate();
     }
 );
 
@@ -70,4 +80,20 @@ export const changePasswordStatusUser = createAsyncThunk(
 
         navigate();
     }
-)
+);
+
+export const addUser = createAsyncThunk(
+    'user/addUser',
+    async ({ user, navigate }: SaveUserParamsType) => {
+        await addUserAPI(user);
+        navigate && navigate();
+    }
+);
+
+export const deleteUser = createAsyncThunk(
+    'user/deleteUser',
+    async ({ id, navigate }: { id: string, navigate: () => void }) => {
+        await deleteUserById(id);
+        navigate();
+    }
+);

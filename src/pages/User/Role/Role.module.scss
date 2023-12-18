@@ -1,0 +1,26 @@
+.user-role-container {
+    &>div:last-child {
+        &>div:nth-child(1) {
+            width: 1541px;
+            height: auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+    }
+
+    & table {
+        & .table__row__paginate {
+            position: relative;
+        }
+
+        & p {
+            white-space: nowrap;
+        }
+
+        & .table__col__description {
+            width: 534px;
+            white-space: wrap;
+        }
+    }
+}

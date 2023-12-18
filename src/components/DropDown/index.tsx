@@ -22,7 +22,6 @@ type DropDownProps = {
     visible?: boolean;
     style?: any;
     dropDownRef?: any;
-    // onClick?: any;
 }
 
 export const DropDown = ({ dropDownRef, title, data, onItemClick, className, placement, visible, style }: DropDownProps) => {

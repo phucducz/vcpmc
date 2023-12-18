@@ -21,13 +21,21 @@ import AppySchedulePage from "~/pages/PlaylistSchedule/ApplySchedule";
 import PlaylistScheduleDetailPage from "~/pages/PlaylistSchedule/Detail";
 import PlaylistScheduleEditPage from "~/pages/PlaylistSchedule/Edit";
 import PlaylistSchedulePage from "~/pages/PlaylistSchedule/Schedule";
-import ProfilePage from "~/pages/ProfilePage";
 import ApprovePage from "~/pages/Record/Approve";
 import EditRecord from "~/pages/Record/Edit";
 import RecordPage from "~/pages/Record/Record";
 import ResetPassPage from "~/pages/ResetPassPage";
 import NoFoundPage from "~/pages/ResetPassPage/NoFound";
+import RevenueDetailPage from "~/pages/Revenue/Detail";
+import RevenueManagementPage from "~/pages/Revenue/Revenue";
 import UnitManagementPage from "~/pages/UnitUsed/UnitManagement";
+import AddRolePage from "~/pages/User/AddRole";
+import AddUserPage from "~/pages/User/AddUser";
+import UserAuthorizationPage from "~/pages/User/Authorization";
+import EditRolePage from "~/pages/User/EditRole";
+import EditUserPage from "~/pages/User/EditUser";
+import ProfilePage from "~/pages/User/ProfilePage";
+import UserRolePage from "~/pages/User/Role";
 
 export const publicRoutes = [
     { path: routes.ProfilePage, Component: ProfilePage },
@@ -57,5 +65,13 @@ export const publicRoutes = [
     { path: routes.EidtAuthorizedContract, Component: EditAuthorizedContract },
     { path: routes.DeviceManagement, Component: DeviceManagementPage },
     { path: routes.DeviceDetail, Component: DeviceDetailPage },
-    { path: routes.AddDevice, Component: AddDevicePage }
+    { path: routes.AddDevice, Component: AddDevicePage },
+    { path: routes.RevenueManagement, Component: RevenueManagementPage },
+    { path: routes.RevenueDetail, Component: RevenueDetailPage },
+    { path: routes.UserAuthorizationManagement, Component: UserAuthorizationPage },
+    { path: routes.UserRoleManagemet, Component: UserRolePage },
+    { path: routes.EditUser, Component: EditUserPage },
+    { path: routes.AddUser, Component: AddUserPage },
+    { path: routes.EditRole, Component: EditRolePage },
+    { path: routes.AddRole, Component: AddRolePage },
 ];

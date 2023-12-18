@@ -1,10 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getRoles } from "~/thunk/roleThunk";
-
-export type Role = {
-    id: string;
-    role: string;
-}
+import { Role } from "~/api/roleAPI";
+import { addRole, deleteRole, getRoles, updateRole } from "~/thunk/roleThunk";
 
 type InitialStateType = {
     roleList: Array<Role>;
@@ -33,7 +29,37 @@ const roleSlice = createSlice({
             })
             .addCase(getRoles.rejected, (state, action) => {
                 state.loading = false;
-                console.log(new Error(`${action.error.name}: ${action.error.message}`));
+                throw new Error(`${action.error.name}: ${action.error.message}`);
+            })
+            .addCase(updateRole.pending, (state) => {
+                state.loading = true;
+            })
+            .addCase(updateRole.fulfilled, (state: InitialStateType, action) => {
+                state.loading = false;
+            })
+            .addCase(updateRole.rejected, (state, action) => {
+                state.loading = false;
+                throw new Error(`${action.error.name}: ${action.error.message}`);
+            })
+            .addCase(addRole.pending, (state) => {
+                state.loading = true;
+            })
+            .addCase(addRole.fulfilled, (state: InitialStateType, action) => {
+                state.loading = false;
+            })
+            .addCase(addRole.rejected, (state, action) => {
+                state.loading = false;
+                throw new Error(`${action.error.name}: ${action.error.message}`);
+            })
+            .addCase(deleteRole.pending, (state) => {
+                state.loading = true;
+            })
+            .addCase(deleteRole.fulfilled, (state: InitialStateType, action) => {
+                state.loading = false;
+            })
+            .addCase(deleteRole.rejected, (state, action) => {
+                state.loading = false;
+                throw new Error(`${action.error.name}: ${action.error.message}`);
             })
     }
 });

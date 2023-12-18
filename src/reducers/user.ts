@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-import { changeInfoUserById, changePassword, changePasswordStatusUser, login } from "../thunk/userThunk";
+import { addUser, changeInfoUserById, changePassword, changePasswordStatusUser, deleteUser, getUsers, login, saveUser } from "../thunk/userThunk";
 import { User } from "~/api/userAPI";
 
 type Status = '' | 'Sai tên tài khoản hoặc mật khẩu' | 'Đăng nhập thành công'
@@ -9,13 +9,15 @@ type Status = '' | 'Sai tên tài khoản hoặc mật khẩu' | 'Đăng nhập 
 type InitialStateType = {
     currentUser: User;
     loading: boolean;
-    status: Status
+    status: Status;
+    users: Array<User>;
 }
 
 const initialState: InitialStateType = {
     currentUser: {} as User,
     loading: false,
-    status: ''
+    status: '',
+    users: []
 }
 
 const userSlice = createSlice({
@@ -56,6 +58,17 @@ const userSlice = createSlice({
                 state.loading = false;
                 console.log(new Error(`${action.error.name}: ${action.error.message}`));
             })
+            .addCase(getUsers.pending, (state) => {
+                state.loading = true;
+            })
+            .addCase(getUsers.fulfilled, (state, action) => {
+                state.users = action.payload;
+                state.loading = false;
+            })
+            .addCase(getUsers.rejected, (state, action) => {
+                state.loading = false;
+                console.log(new Error(`${action.error.name}: ${action.error.message}`));
+            })
             .addCase(login.pending, (state) => {
                 state.loading = true;
                 state.status = '';
@@ -67,7 +80,7 @@ const userSlice = createSlice({
                     if (action.payload.user)
                         state.currentUser = {
                             ...action.payload.user,
-                            role: action.payload.user.role || { id: '', role: '' }
+                            role: action.payload.user.role || { id: '', name: '' }
                         }
                     state.status = 'Đăng nhập thành công';
 
@@ -106,6 +119,36 @@ const userSlice = createSlice({
                 state.loading = false;
             })
             .addCase(changePasswordStatusUser.rejected, (state, action) => {
+                state.loading = false;
+                console.log(new Error(`${action.error.name}: ${action.error.message}`));
+            })
+            .addCase(saveUser.pending, (state) => {
+                state.loading = true;
+            })
+            .addCase(saveUser.fulfilled, (state, action) => {
+                state.loading = false;
+            })
+            .addCase(saveUser.rejected, (state, action) => {
+                state.loading = false;
+                console.log(new Error(`${action.error.name}: ${action.error.message}`));
+            })
+            .addCase(addUser.pending, (state) => {
+                state.loading = true;
+            })
+            .addCase(addUser.fulfilled, (state, action) => {
+                state.loading = false;
+            })
+            .addCase(addUser.rejected, (state, action) => {
+                state.loading = false;
+                console.log(new Error(`${action.error.name}: ${action.error.message}`));
+            })
+            .addCase(deleteUser.pending, (state) => {
+                state.loading = true;
+            })
+            .addCase(deleteUser.fulfilled, (state, action) => {
+                state.loading = false;
+            })
+            .addCase(deleteUser.rejected, (state, action) => {
                 state.loading = false;
                 console.log(new Error(`${action.error.name}: ${action.error.message}`));
             })
