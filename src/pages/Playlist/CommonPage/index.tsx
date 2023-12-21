@@ -1,24 +1,23 @@
-import classNames from "classnames/bind";
-import { ReactNode, memo, useContext, useEffect, useState } from "react";
 import { faEarthAmericas, faRepeat, faShuffle, faXmark } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import classNames from "classnames/bind";
+import { ReactNode, memo, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router";
 
-import style from './CommonPage.module.scss';
+import { Record } from "~/api/recordAPI";
+import { User } from "~/api/userAPI";
 import { ActionDataType } from "~/components/Action";
 import { AudioDialog } from "~/components/AudioDialog";
 import Image from "~/components/Image";
+import { Input } from "~/components/Input";
 import { PagingItemType } from "~/components/Paging";
-import { MenuContext } from "~/context/Menu/MenuContext";
+import { Switch } from "~/components/Switch";
+import { Upload } from "~/components/Upload";
+import { useMenu } from "~/context/hooks";
 import { CommonPage } from "~/pages/CommonPage";
 import { RootState } from "~/store";
-import { Record } from "~/api/recordAPI";
-import { User } from "~/api/userAPI";
-import { Input } from "~/components/Input";
-import { Switch } from "~/components/Switch";
-import { Button } from "~/components/Button";
-import { Upload } from "~/components/Upload";
+import style from './CommonPage.module.scss';
 
 const cx = classNames.bind(style);
 
@@ -42,7 +41,7 @@ type PlaylistProps = {
         formik: any
     };
     paging?: Array<PagingItemType>;
-    actionData?: Array<ActionDataType>;
+    actionData?: Array<any>;
     playlistDetail: PlaylistValue;
     audio?: {
         audioLink: string;
@@ -65,7 +64,7 @@ const CategoryBoxItem = memo(({ title, onClick }: { title?: string, onClick: () 
 });
 
 export const CommonPlaylistPage = memo(({ titlePage, type, paging, actionData, playlistDetail, audio, children }: PlaylistProps) => {
-    const { setActive, setType } = useContext(MenuContext);
+    const { setActive, setType } = useMenu();
     const navigate = useNavigate();
 
     const category = useSelector((state: RootState) => state.category);

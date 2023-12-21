@@ -1,9 +1,8 @@
 import classNames from "classnames/bind";
-import { useContext } from "react";
 
-import style from './Account.module.scss';
+import { useMenu } from "~/context/hooks";
 import Image, { ImageProps } from "../Image";
-import { MenuContext } from "~/context/Menu/MenuContext";
+import style from './Account.module.scss';
 
 const cx = classNames.bind(style);
 
@@ -15,10 +14,10 @@ type AccountProps = {
 }
 
 export const Account = ({ displayName, role, image, onClick }: AccountProps) => {
-    const { setMenuActive } = useContext(MenuContext);
+    const { setMenuActive } = useMenu();
 
     const { src, alt } = image;
-    
+
     let nameList = displayName.split(' ');
     let sureName = nameList[0].charAt(0);
     let name = nameList[nameList.length - 1];

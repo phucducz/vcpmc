@@ -27,7 +27,7 @@ function UserRolePage() {
     const [paging, setPaging] = useState<Array<PagingItemType>>([] as Array<PagingItemType>);
     const [tab, setTab] = useState<TabItemProps[]>([] as Array<TabItemProps>);
     const [searchValue, setSearchValue] = useState<string>('');
-    const [actionData, setActionData] = useState<ActionDataType[]>([] as ActionDataType[]);
+    const [actionData, setActionData] = useState<any[]>([] as any[]);
     const [searchResult, setSearchResult] = useState<Array<Role>>([] as Array<Role>);
     const [currentItems, setCurrentItems] = useState<Array<Role>>([] as Array<Role>);
     const [itemsPerPage, setItemsPerPage] = useState<string>('8');
@@ -104,7 +104,7 @@ function UserRolePage() {
                 thead={['STT', 'Tên nhóm người dùng', 'Số lượng người dùng', 'Vai trò', 'Mô tả', '', '']}
             >
                 {currentItems.map((item, index) => (
-                    <tr>
+                    <tr key={index}>
                         <td><p>{index + 1}</p></td>
                         <td><p>{item.name}</p></td>
                         <td><p>{1}</p></td>

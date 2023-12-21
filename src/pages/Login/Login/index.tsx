@@ -9,7 +9,7 @@ import { useSelector } from "react-redux";
 import style from './Login.module.scss';
 import { RootState, useAppDispatch } from "~/store";
 import { Yup } from "~/constants";
-import { login } from "~/thunk/userThunk";
+import { getUsers, login } from "~/thunk/userThunk";
 import { Form } from "~/components/Form";
 import { CheckBox } from "~/components/CheckBox";
 import { Button } from "~/components/Button";

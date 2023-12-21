@@ -35,7 +35,7 @@ function AddPlaylistSchedulePage() {
 
     const [itemActive, setItemActive] = useState<Array<PlaylistScheduleDetail>>([] as Array<PlaylistScheduleDetail>);
     const [paging, setPaging] = useState<Array<PagingItemType>>([] as Array<PagingItemType>);
-    const [actionData, setActionData] = useState<ActionDataType[]>([] as ActionDataType[]);
+    const [actionData, setActionData] = useState<any[]>([] as any[]);
 
     const scheduleFormik = useFormik({
         initialValues: {

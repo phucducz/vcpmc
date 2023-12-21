@@ -1,24 +1,24 @@
 import { faEdit } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import classNames from "classnames/bind";
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router";
 
 import { Playlist } from "~/api/playlistAPI";
 import { PlaybackCycle, PlaylistSchedule, SchedulePlaylist, SchedulePlaylistDetail } from "~/api/playlistScheduleAPI";
 import { ActionDataType } from "~/components/Action";
+import Loading from "~/components/Loading";
 import { PagingItemType } from "~/components/Paging";
 import { Table } from "~/components/Table";
 import { routes } from "~/config/routes";
-import { MenuContext } from "~/context/Menu/MenuContext";
+import { useMenu } from "~/context/hooks";
 import { CommonPage } from "~/pages/CommonPage";
 import { setPlaylistScheduleDetail } from "~/reducers/playlistSchedule";
 import { RootState, useAppDispatch } from "~/store";
 import { getPlaylistList } from "~/thunk/playlistThunk";
 import { getPlaylistsRecordsList } from "~/thunk/playlistsRecordsThunk";
 import style from './Detail.module.scss';
-import Loading from "~/components/Loading";
 
 const cx = classNames.bind(style);
 
@@ -27,13 +27,13 @@ function PlaylistScheduleDetailPage() {
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
 
-    const { setType } = useContext(MenuContext);
+    const { setType } = useMenu();
 
     const playlistSchedule = useSelector((state: RootState) => state.playlistSchedule);
     const playlist = useSelector((state: RootState) => state.playlist);
     const playlistsRecords = useSelector((state: RootState) => state.playlistsRecords);
 
-    const [actionData, setActionData] = useState<ActionDataType[]>([] as ActionDataType[]);
+    const [actionData, setActionData] = useState<any[]>([] as any[]);
     const [currentItems, setCurrentItems] = useState<Array<any>>([]);
     const [itemsPerPage, setItemsPerPage] = useState<string>('8');
     const [scheduleDetail, setScheduleDetail] = useState<SchedulePlaylistDetail>({

@@ -2,7 +2,7 @@ import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import classNames from "classnames/bind";
 import { useFormik } from "formik";
-import { useCallback, useContext, useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useNavigate } from "react-router";
 
 import moment from "moment";
@@ -16,7 +16,7 @@ import { PagingItemType } from "~/components/Paging";
 import { Table } from "~/components/Table";
 import { routes } from "~/config/routes";
 import { getCurrentDate } from "~/context";
-import { MenuContext } from "~/context/Menu/MenuContext";
+import { useMenu } from "~/context/hooks";
 import { setRecordsOfPlaylist } from "~/reducers/playlistsRecords";
 import { RootState, useAppDispatch } from "~/store";
 import { savePlaylistRecords } from "~/thunk/playlistsRecordsThunk";
@@ -29,13 +29,13 @@ function AddPlaylistPage() {
     const dispath = useAppDispatch();
     const navigate = useNavigate();
 
-    const { setActive } = useContext(MenuContext);
+    const { setActive } = useMenu();
 
     const playlistsRecords = useSelector((state: RootState) => state.playlistsRecords);
     const user = useSelector((state: RootState) => state.user);
 
     const [paging, setPaging] = useState<Array<PagingItemType>>([] as Array<PagingItemType>);
-    const [actionData, setActionData] = useState<ActionDataType[]>([] as ActionDataType[]);
+    const [actionData, setActionData] = useState<any[]>([] as any[]);
     const [audioLink, setAudioLink] = useState<string>('');
     const [audioActive, setAudioActive] = useState<boolean>(false);
     const [currentItems, setCurrentItems] = useState<Array<Record>>([] as Array<Record>);

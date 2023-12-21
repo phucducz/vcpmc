@@ -10,7 +10,8 @@
     }
 
     &.invalid {
-        &>input {
+        &>input,
+        &>textarea {
             border-color: var(--color-red);
         }
     }

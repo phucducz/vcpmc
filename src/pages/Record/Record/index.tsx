@@ -1,7 +1,7 @@
 import { faEdit, faPlay } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import classNames from "classnames/bind";
-import { ReactNode, memo, useCallback, useContext, useEffect, useState } from "react";
+import { ReactNode, memo, useCallback, useEffect, useState } from "react";
 import { RootState, useAppDispatch } from "~/store";
 
 import { useSelector } from "react-redux";
@@ -13,7 +13,7 @@ import { ComboBox, ComboData } from "~/components/ComboBox";
 import { Grid } from "~/components/Grid";
 import { Table } from "~/components/Table";
 import { formatDateMDY, getCurrentDate } from "~/context";
-import { MenuContext } from "~/context/Menu/MenuContext";
+import { useMenu } from "~/context/hooks";
 import { Icon, listTabGridIcon, listTabListIcon } from "~/icons";
 import { CommonPage } from "~/pages/CommonPage";
 import { getRecords } from "~/thunk/recordThunks";
@@ -86,7 +86,7 @@ function RecordPage() {
     const approval = useSelector((state: RootState) => state.approval);
 
     const navigate = useNavigate();
-    const { setMenuActive } = useContext(MenuContext);
+    const { setMenuActive } = useMenu();
 
     const [audioLink, setAudioLink] = useState<string>('');
     const [audioActive, setAudioActive] = useState<boolean>(false);

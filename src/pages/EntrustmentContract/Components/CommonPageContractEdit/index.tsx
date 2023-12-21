@@ -21,7 +21,7 @@ type CommonPageContractEditProps = {
     data: Array<any>;
     pagingData: Array<PagingItemType>;
     formikData: any;
-    actionData?: Array<ActionDataType>;
+    actionData?: Array<any>;
     children?: ReactNode;
 }
 

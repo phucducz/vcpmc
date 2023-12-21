@@ -1,6 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 
-import { getEtmContracts, getEtmContractById, saveETMContract, EtmContract, getEtmContractsDetail } from "~/api/etmContractAPI";
+import { getEtmContracts, getEtmContractById, saveETMContract, EtmContract, getEtmContractsDetail, getETMContractTypes, ETMContractType, updateContractTypesById, addContractTypesAPI, deleteContractTypesAPI } from "~/api/etmContractAPI";
 import { saveUser } from "./userThunk";
 import { User, addUserAPI } from "~/api/userAPI";
 
@@ -56,5 +56,36 @@ export const getEtmContractListDetail = createAsyncThunk(
     'etmContract/getEtmContractListDetail',
     async () => {
         return await getEtmContractsDetail();
+    }
+)
+
+export const getEtmContractTypes = createAsyncThunk(
+    'etmContract/getEtmContractTypes',
+    async () => {
+        return await getETMContractTypes();
+    }
+)
+
+export const updateEtmContractTypes = createAsyncThunk(
+    'etmContract/updateEtmContractTypes',
+    async ({ types, navigate }: { types: Array<ETMContractType>, navigate: () => void }, thunkAPI) => {
+        await updateContractTypesById(types);
+        navigate();
+    }
+)
+
+export const addEtmContractType = createAsyncThunk(
+    'etmContract/addEtmContractTypes',
+    async ({ type }: { type: ETMContractType }, thunkAPI) => {
+        await addContractTypesAPI(type);
+        thunkAPI.dispatch(getEtmContractTypes());
+    }
+)
+
+export const deleteEtmContractType = createAsyncThunk(
+    'etmContract/deleteEtmContractType',
+    async ({ id }: { id: string }, thunkAPI) => {
+        await deleteContractTypesAPI(id);
+        thunkAPI.dispatch(getEtmContractTypes());
     }
 )

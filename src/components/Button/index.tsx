@@ -43,7 +43,7 @@ export const Button = memo(<E extends React.ElementType>({
     ...passProps
 }: ButtonProps<E>): any => {
     const Component = as || 'button';
-    
+
     const props = {
         onClick,
         ...passProps
@@ -70,7 +70,7 @@ export const Button = memo(<E extends React.ElementType>({
         <Component
             className={classes}
             {...props}
-            onClick={onClick}
+            onClick={!disable ? onClick : () => { }}
         >
             {leftIcon && <span className={cx('button_icon')}>{leftIcon}</span>}
             {children && <span className={cx('title')}>{children}</span>}

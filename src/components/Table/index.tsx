@@ -83,7 +83,7 @@ export const Table = memo(({ tableRef, paginate, paginateClass, headerChildren, 
             </thead>
             <tbody>
                 {children}
-                {paginate ? <tr className={cx('table__option', paginateClass)}>
+                {typeof paginate !== 'undefined' ? <tr className={cx('table__option', paginateClass)}>
                     <td colSpan={11}>
                         <div className={cx('table__option__container')}>
                             <span>
@@ -113,7 +113,8 @@ export const Table = memo(({ tableRef, paginate, paginateClass, headerChildren, 
                         </div>
                     </td>
                 </tr>
-                    : <tr><td colSpan={11}></td></tr>
+                    : <></>
+                    // : <tr><td colSpan={11}></td></tr>
                 }
                 <tr className={cx('table__loading__tr', loading && 'active')}><td>
                     <div className={cx('tr__loading-container')}>

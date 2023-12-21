@@ -84,7 +84,8 @@ export const changePasswordStatusUser = createAsyncThunk(
 
 export const addUser = createAsyncThunk(
     'user/addUser',
-    async ({ user, navigate }: SaveUserParamsType) => {
+    async ({ user, navigate }: { user: Omit<User, 'role' | 'id'>; navigate?: () => void; }
+    ) => {
         await addUserAPI(user);
         navigate && navigate();
     }

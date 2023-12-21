@@ -33,7 +33,7 @@ function AppySchedulePage() {
     const [paging, setPaging] = useState<Array<PagingItemType>>([] as Array<PagingItemType>);
     const [deviceList, setDeviceList] = useState<Array<Device>>([] as Array<Device>);
     const [checkedAll, setCheckedAll] = useState<boolean>(false);
-    const [actionData, setActionData] = useState<ActionDataType[]>([] as ActionDataType[]);
+    const [actionData, setActionData] = useState<any[]>([] as any[]);
     const [loading, setLoading] = useState<boolean>(false);
 
     const handleAppyDevice = useCallback((deviceList: Array<Device>, scheduleDevice: ScheduleDeviceInitialStateType) => {

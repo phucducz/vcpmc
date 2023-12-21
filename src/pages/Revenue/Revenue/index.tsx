@@ -1,7 +1,7 @@
 import { faFileExport } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import classNames from "classnames/bind";
-import { useCallback, useContext, useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router";
 
@@ -13,7 +13,7 @@ import { PagingItemType } from "~/components/Paging";
 import { Table } from "~/components/Table";
 import { routes } from "~/config/routes";
 import { formatDateDMYHPTS, formatDateYMD, formatMoney } from "~/context";
-import { MenuContext } from "~/context/Menu/MenuContext";
+import { useMenu } from "~/context/hooks";
 import { CommonPage } from "~/pages/CommonPage";
 import { setContractsDetail } from "~/reducers/authorizedContract";
 import { RootState, useAppDispatch } from "~/store";
@@ -28,7 +28,7 @@ function RevenueManagementPage() {
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
 
-    const { setActive } = useContext(MenuContext);
+    const { setActive } = useMenu();
 
     const authorized = useSelector((state: RootState) => state.authorized);
     const recordPlay = useSelector((state: RootState) => state.recordPlay);
@@ -38,7 +38,7 @@ function RevenueManagementPage() {
     const [searchValue, setSearchValue] = useState<string>('');
     const [searchResult, setSearchResult] = useState<Array<ContractDetail>>([] as Array<ContractDetail>);
     const [currentItems, setCurrentItems] = useState<Array<ContractDetail>>([] as Array<ContractDetail>);
-    const [actionData, setActionData] = useState<ActionDataType[]>([] as ActionDataType[]);
+    const [actionData, setActionData] = useState<any[]>([] as any[]);
     const [itemsPerPage, setItemsPerPage] = useState<string>('8');
     const [contractDetailList, setContractDetailList] = useState<Array<ContractDetail>>([] as Array<ContractDetail>);
     const [loading, setLoading] = useState<boolean>(false);
@@ -117,7 +117,8 @@ function RevenueManagementPage() {
         let searchFilterDate = contractDetailList.filter(prev =>
             prev.records.some(record =>
                 record.recordPlays.some(recordPlay =>
-                    +new Date(formatDateYMD(recordPlay.date)) === +new Date(date)
+                    +new Date(formatDateYMD(recordPlay.date)).getMonth() === +new Date(date).getMonth() &&
+                    +new Date(formatDateYMD(recordPlay.date)).getFullYear() === +new Date(date).getFullYear()
                 )
             )
         );
@@ -153,7 +154,7 @@ function RevenueManagementPage() {
         setActive(false);
     }
 
-    console.log(searchResult);
+    console.log(contractDetailList);
 
     return (
         <CommonPage
@@ -193,7 +194,7 @@ function RevenueManagementPage() {
                         <td><p>{formatMoney(item.revenue).split('₫')[0]}</p></td>
                         <td><p>{formatMoney(item.royalties).split('₫')[0]}</p></td>
                         <td><p>{formatMoney(item.royalties).split('₫')[0]}</p></td>
-                        <td><p>{item.records.length}</p></td>
+                        <td><p>{item.contract.forControlDate === '' ? '-' : item.contract.forControlDate}</p></td>
                         <td><p className={cx('action')} onClick={() => handleDetailClick(item.contract.id)}>Chi tiết</p></td>
                     </tr>
                 ))}

@@ -1,9 +1,8 @@
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import classNames from "classnames/bind";
-import { useCallback, useContext, useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { useNavigate } from "react-router";
 
 import { EtmContractDetail } from "~/api/etmContractAPI";
 import { ActionDataType } from "~/components/Action";
@@ -11,7 +10,7 @@ import { CheckBox } from "~/components/CheckBox";
 import { PagingItemType } from "~/components/Paging";
 import { Switch } from "~/components/Switch";
 import { Table } from "~/components/Table";
-import { MenuContext } from "~/context/Menu/MenuContext";
+import { useMenu } from "~/context/hooks";
 import { CommonPage } from "~/pages/CommonPage";
 import { RootState, useAppDispatch } from "~/store";
 import { getEtmContractListDetail } from "~/thunk/etmContractThunk";
@@ -22,14 +21,14 @@ const cx = classNames.bind(style);
 function UnitManagementPage() {
     const dispatch = useAppDispatch();
 
-    const { setActive, setMenuActive } = useContext(MenuContext);
+    const { setActive, setMenuActive } = useMenu();
 
     const entrustmentContract = useSelector((state: RootState) => state.etmContract);
 
     const { etmContractsDetail } = entrustmentContract;
 
     const [searchValue, setSearchValue] = useState<string>('');
-    const [actionData, setActionData] = useState<ActionDataType[]>([] as ActionDataType[]);
+    const [actionData, setActionData] = useState<any[]>([] as any[]);
     const [searchResult, setSearchResult] = useState<Array<EtmContractDetail>>([] as Array<EtmContractDetail>);
     const [itemsPerPage, setItemsPerPage] = useState<string>('8');
     const [currentItems, setCurrentItems] = useState<Array<EtmContractDetail>>([] as Array<EtmContractDetail>);

@@ -1,10 +1,9 @@
-import classNames from "classnames/bind";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronRight } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import classNames from "classnames/bind";
 import { Link } from "react-router-dom";
-import { useContext } from "react";
-import { MenuContext } from "~/context/Menu/MenuContext";
 
+import { useMenu } from "~/context/hooks";
 import style from './Paging.module.scss';
 
 const cx = classNames.bind(style);
@@ -21,7 +20,7 @@ type PagingProps = {
 }
 
 export const Paging = ({ className, data }: PagingProps) => {
-    const { setActive } = useContext(MenuContext);
+    const { setActive } = useMenu();
 
     return (
         <div className={cx('paging-container', className)}>

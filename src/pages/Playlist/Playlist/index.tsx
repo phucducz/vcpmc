@@ -1,5 +1,5 @@
 import classNames from "classnames/bind";
-import { ReactNode, memo, useCallback, useContext, useEffect, useState } from "react";
+import { ReactNode, memo, useCallback, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router";
 import { Icon, circleExclaminationIcon, listTabGridIcon, listTabListIcon, playlistAddIcon } from "~/icons";
@@ -11,7 +11,7 @@ import { BoxItem } from "~/components/BoxItem";
 import { Grid } from "~/components/Grid";
 import { Table } from "~/components/Table";
 import { routes } from "~/config/routes";
-import { MenuContext } from "~/context/Menu/MenuContext";
+import { useMenu } from "~/context/hooks";
 import { CommonPage } from "~/pages/CommonPage";
 import { GridItemProps } from "~/pages/Record/Record";
 import { getPlaylistsRecordsDetail, setPlaylistsRecordsDetail } from "~/reducers/playlistsRecords";
@@ -91,7 +91,7 @@ function PlaylistPage() {
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
 
-    const { setMenuActive, setActive, active } = useContext(MenuContext);
+    const { setMenuActive, setActive, active } = useMenu();
 
     const playlist = useSelector((state: RootState) => state.playlist);
     const playlistsRecords = useSelector((state: RootState) => state.playlistsRecords);
@@ -100,7 +100,7 @@ function PlaylistPage() {
 
     const [searchValue, setSearchValue] = useState<string>('');
     const [typeLoad, setTypeLoad] = useState<'table' | 'grid'>('table');
-    const [actionData, setActionData] = useState<ActionDataType[]>([] as ActionDataType[]);
+    const [actionData, setActionData] = useState<any[]>([] as any[]);
     const [searchResult, setSearchResult] = useState<Array<PlaylistRecordDetail>>([] as Array<PlaylistRecordDetail>);
     const [currentItems, setCurrentItems] = useState<Array<PlaylistRecordDetail>>([] as Array<PlaylistRecordDetail>);
     const [itemsPerPage, setItemsPerPage] = useState<string>('8');

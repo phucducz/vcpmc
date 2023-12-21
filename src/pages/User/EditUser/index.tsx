@@ -4,29 +4,29 @@ import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router";
 
+import { faEye } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Role } from "~/api/roleAPI";
+import { User } from "~/api/userAPI";
 import { ActionDataType } from "~/components/Action";
+import { Button } from "~/components/Button";
+import { ComboBox } from "~/components/ComboBox";
 import { Form } from "~/components/Form";
 import { Input, InputProps } from "~/components/Input";
+import Loading from "~/components/Loading";
 import { PagingItemType } from "~/components/Paging";
+import { RadioButton } from "~/components/RadioButton";
 import { routes } from "~/config/routes";
+import { Yup } from "~/constants";
+import { formatDateDMYHPTS, formatDateYMD } from "~/context";
 import { Icon } from "~/icons";
 import keySkeletonAltIcon from "~/icons/key-skeleton-alt";
 import userXIcon from "~/icons/user-x-icon";
 import { CommonPage } from "~/pages/CommonPage";
 import { RootState, useAppDispatch } from "~/store";
-import style from './Edit.module.scss';
-import { User } from "~/api/userAPI";
-import { ComboBox } from "~/components/ComboBox";
 import { getRoles } from "~/thunk/roleThunk";
-import { Role } from "~/api/roleAPI";
-import { RadioButton } from "~/components/RadioButton";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEye } from "@fortawesome/free-solid-svg-icons";
-import { Button } from "~/components/Button";
-import { formatDateDMYHPTS, formatDateYMD } from "~/context";
 import { deleteUser, saveUser } from "~/thunk/userThunk";
-import Loading from "~/components/Loading";
-import { Yup } from "~/constants";
+import style from './Edit.module.scss';
 
 const cx = classNames.bind(style);
 
@@ -39,7 +39,7 @@ function EditUserPage() {
     const role = useSelector((state: RootState) => state.role);
 
     const [paging, setPaging] = useState<Array<PagingItemType>>([] as Array<PagingItemType>);
-    const [actionData, setActionData] = useState<ActionDataType[]>([] as ActionDataType[]);
+    const [actionData, setActionData] = useState<any[]>([] as any[]);
     const [userInputs, setUserInputs] = useState<InputProps[]>([] as InputProps[]);
     const [visibleComboBox, setVisibleComboBox] = useState<boolean>(false);
     const [type, setType] = useState<string>('password');
@@ -58,11 +58,15 @@ function EditUserPage() {
             role: {} as Pick<Role, 'id' | 'name'>
         } as User & { fullName: string },
         validationSchema: Yup.object({
-            email: Yup.string().required(),
+            email: Yup.string()
+                .required("Không được để trống")
+                .matches(/^\S+@\S+\.\S+$/, "Vui lòng nhập địa chỉ đúng định dạng"),
             password: Yup.string().required(),
-            phoneNumber: Yup.string().required(),
+            phoneNumber: Yup.string().required().matches(/(84|0[3|5|7|8|9])+([0-9]{8})\b/g),
             rolesId: Yup.string().required(),
-            userName: Yup.string().required(),
+            userName: Yup.string()
+                .required("Không được để trống")
+                .matches(/^\S+@\S+\.\S+$/, "Vui lòng nhập địa chỉ đúng định dạng"),
             fullName: Yup.string().required()
         }),
         onSubmit: async values => {

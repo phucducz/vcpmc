@@ -147,7 +147,7 @@ type CommonPlaylistSchedulePageProps = {
     data: Array<PlaylistScheduleDetail>;
     setData: React.Dispatch<React.SetStateAction<PlaylistScheduleDetail[]>>;
     formik: any;
-    action: Array<ActionDataType>;
+    action: Array<any>;
     paging: Array<PagingItemType>;
     newPlaylist: Array<PlaylistRecordDetail>;
 }

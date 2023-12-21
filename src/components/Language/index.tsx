@@ -4,6 +4,7 @@ import { useState } from "react";
 import style from './Language.module.scss';
 import { Item } from "./Item";
 import { DropDown } from "../DropDown";
+import { useLanguage } from "~/context/hooks";
 
 const cx = classNames.bind(style);
 
@@ -21,11 +22,10 @@ type LanguagesProps = {
 };
 
 export const Language = ({ languages, placement }: LanguagesProps) => {
-    const [language, setLanguage] = useState<LanguageProps>(languages[0]);
-    const [activeDropDow, setActiveDropDown] = useState<boolean>(false);
+    const { language, setLanguage } = useLanguage();
 
-    let langs: Array<Omit<LanguageProps, 'icon'>> = [];
-    languages.map(lang => lang.title !== language.title && langs.push({ title: lang.title }));
+    // const [language, setLanguage] = useState<LanguageProps>(languages[0]);
+    const [activeDropDow, setActiveDropDown] = useState<boolean>(false);
 
     let handleSetLang: (item: LanguageProps) => void = function (item: LanguageProps) {
         setLanguage(item);

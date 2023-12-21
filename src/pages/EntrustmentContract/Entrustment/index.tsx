@@ -1,7 +1,7 @@
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import classNames from "classnames/bind";
-import { useCallback, useContext, useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router";
 
@@ -10,7 +10,7 @@ import { PagingItemType } from "~/components/Paging";
 import { TabItemProps } from "~/components/Tab";
 import { Table } from "~/components/Table";
 import { routes } from "~/config/routes";
-import { MenuContext } from "~/context/Menu/MenuContext";
+import { useMenu } from "~/context/hooks";
 import { CommonPage } from "~/pages/CommonPage";
 import { RootState, useAppDispatch } from "~/store";
 import { getEtmContractList } from "~/thunk/etmContractThunk";
@@ -33,7 +33,7 @@ const PAGING_ITEMS: Array<PagingItemType> = [
 function EntrusmentPage() {
     const etmContract = useSelector((state: RootState) => state.etmContract);
 
-    const { setActive } = useContext(MenuContext);
+    const { setActive } = useMenu();
 
     const navigate = useNavigate();
     const dispatch = useAppDispatch();

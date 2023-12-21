@@ -1,4 +1,4 @@
-import { faCheckCircle, faEdit, faEye, faLock, faSignOut } from "@fortawesome/free-solid-svg-icons";
+import { faEdit, faEye, faLock, faSignOut } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import classNames from "classnames/bind";
 import { useFormik } from "formik";
@@ -6,13 +6,14 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router";
 
-import { Action } from "~/components/Action";
+import { Action, ActionDataType } from "~/components/Action";
 import { Button } from "~/components/Button";
 import { Form } from "~/components/Form";
 import Image from "~/components/Image";
 import { Input } from "~/components/Input";
 import Loading from "~/components/Loading";
 import { Toast } from "~/components/Toast";
+import { routes } from "~/config/routes";
 import { Yup } from "~/constants";
 import { RootState, useAppDispatch } from "~/store";
 import { changeInfoUserById, changePassword } from "~/thunk/userThunk";
@@ -35,21 +36,7 @@ function ProfilePage() {
     });
     const [toastActive, setToastActive] = useState<boolean>(false);
     const [actionActive, setActionAcitve] = useState<boolean>(true);
-    const [actionData, setActionData] = useState([
-        {
-            icon: <FontAwesomeIcon icon={faEdit} />,
-            title: 'Sửa thông tin',
-            onClick: () => handleActiveEditProfile()
-        }, {
-            icon: <FontAwesomeIcon icon={faLock} />,
-            title: 'Đổi mật khẩu',
-            onClick: () => handleActiveChangePassword()
-        }, {
-            icon: <FontAwesomeIcon icon={faSignOut} />,
-            title: 'Đăng xuất',
-            onClick: () => handleActiveChangePassword()
-        }
-    ]);
+    const [actionData, setActionData] = useState<Array<any>>([] as any[]);
 
     const { avatar, userName, lastName, firstName,
         dateOfBirth, phoneNumber, email, role, id } = user.currentUser;
@@ -61,6 +48,24 @@ function ProfilePage() {
         catch {
             navigate('/login');
         }
+
+        setActionData([
+            {
+                icon: <FontAwesomeIcon icon={faEdit} />,
+                title: 'Sửa thông tin',
+                onClick: () => handleActiveEditProfile()
+            }, {
+                icon: <FontAwesomeIcon icon={faLock} />,
+                title: 'Đổi mật khẩu',
+                onClick: () => handleActiveChangePassword()
+            }, {
+                icon: <FontAwesomeIcon icon={faSignOut} />,
+                title: 'Đăng xuất',
+                as: 'a',
+                href: routes.LoginPage,
+                onClick: () => { }
+            }
+        ]);
     }, []);
 
     const profileFormik = useFormik({
@@ -378,7 +383,7 @@ function ProfilePage() {
                 visible={toastActive}
                 type='success'
                 message='Đổi mật khẩu thành công!'
-                icon={<FontAwesomeIcon icon={faCheckCircle} />}
+                setVisible={setToastActive}
             />
         </div>
     );

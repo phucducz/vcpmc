@@ -1,26 +1,56 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-import { EtmContract, EtmContractDetail } from "~/api/etmContractAPI";
-import { cancelEntrustmentContract, getETMContractById, getEtmContractList, getEtmContractListDetail, saveEntrustmentContract } from "~/thunk/etmContractThunk";
+import { ETMContractType, EtmContract, EtmContractDetail } from "~/api/etmContractAPI";
+import { QUARTERLY } from "~/constants";
+import { addEtmContractType, cancelEntrustmentContract, deleteEtmContractType, getETMContractById, getEtmContractList, getEtmContractListDetail, getEtmContractTypes, saveEntrustmentContract, updateEtmContractTypes } from "~/thunk/etmContractThunk";
+
+export type Quarterly = {
+    quarter: string;
+    time: string;
+}
+
+export type Monthly = {
+    start: string;
+    end: string;
+}
 
 type InitialState = {
     etmContractList: Array<EtmContract>;
     loading: boolean;
     etmContract: EtmContract;
     etmContractsDetail: Array<EtmContractDetail>;
+    expiredWarningDate: number;
+    types: Array<ETMContractType>;
+    forControlCircle:
+    { type: string, controlCircle: Array<Quarterly> } |
+    { type: string, controlCircle: Monthly };
 }
 
 const initialState: InitialState = {
     etmContractList: [],
     loading: false,
     etmContract: {} as EtmContract,
-    etmContractsDetail: [] as EtmContractDetail[]
+    etmContractsDetail: [] as EtmContractDetail[],
+    expiredWarningDate: 365,
+    types: [] as Array<ETMContractType>,
+    forControlCircle: {
+        type: 'quarterly',
+        controlCircle: QUARTERLY
+    }
 }
 
 const etmContractSlice = createSlice({
     name: 'etmContract',
     initialState,
-    reducers: {},
+    reducers: {
+        setExpiredWarningDate: (state, action) => {
+            state.expiredWarningDate = action.payload.expirationDate;
+            action.payload.navigate();
+        },
+        setForControlCircle: (state, action) => {
+            state.forControlCircle = action.payload;
+        }
+    },
     extraReducers: builder => {
         builder.addCase(getEtmContractList.pending, state => {
             state.loading = true;
@@ -79,7 +109,49 @@ const etmContractSlice = createSlice({
             state.loading = false;
             throw new Error(`${action.error.name}: ${action.error.message}`);
         });
+        builder.addCase(getEtmContractTypes.pending, state => {
+            state.loading = true;
+        });
+        builder.addCase(getEtmContractTypes.fulfilled, (state, action) => {
+            state.loading = false;
+            state.types = action.payload;
+        });
+        builder.addCase(getEtmContractTypes.rejected, (state, action) => {
+            state.loading = false;
+            throw new Error(`${action.error.name}: ${action.error.message}`);
+        });
+        builder.addCase(updateEtmContractTypes.pending, state => {
+            state.loading = true;
+        });
+        builder.addCase(updateEtmContractTypes.fulfilled, (state) => {
+            state.loading = false;
+        });
+        builder.addCase(updateEtmContractTypes.rejected, (state, action) => {
+            state.loading = false;
+            throw new Error(`${action.error.name}: ${action.error.message}`);
+        });
+        builder.addCase(addEtmContractType.pending, state => {
+            state.loading = true;
+        });
+        builder.addCase(addEtmContractType.fulfilled, (state) => {
+            state.loading = false;
+        });
+        builder.addCase(addEtmContractType.rejected, (state, action) => {
+            state.loading = false;
+            throw new Error(`${action.error.name}: ${action.error.message}`);
+        });
+        builder.addCase(deleteEtmContractType.pending, state => {
+            state.loading = true;
+        });
+        builder.addCase(deleteEtmContractType.fulfilled, (state) => {
+            state.loading = false;
+        });
+        builder.addCase(deleteEtmContractType.rejected, (state, action) => {
+            state.loading = false;
+            throw new Error(`${action.error.name}: ${action.error.message}`);
+        });
     }
 });
 
 export const { reducer: etmContractReducer } = etmContractSlice;
+export const { setExpiredWarningDate, setForControlCircle } = etmContractSlice.actions;

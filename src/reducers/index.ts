@@ -14,6 +14,7 @@ import { scheduleDeviceReducer } from "./scheduleDevice";
 import { authorizedContractReducer } from "./authorizedContract";
 import { recordPlaysReducer } from "./recordPlay";
 import { functionalReducer } from "./functional";
+import { feedBackReducer } from "./feedback";
 
 export const rootReducer = combineReducers({
     user: userReducer,
@@ -30,4 +31,5 @@ export const rootReducer = combineReducers({
     authorized: authorizedContractReducer,
     recordPlay: recordPlaysReducer,
     functional: functionalReducer,
+    feedback: feedBackReducer,
 });

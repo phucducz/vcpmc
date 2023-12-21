@@ -10,6 +10,7 @@ import { Sidebar } from "~/components/Sidebar";
 import { routes } from "~/config/routes";
 import { LANGUAGE_ITEMS } from "~/constants";
 import { MenuProvider } from "~/context/Menu/MenuProvider";
+import { ThemeProvider } from "~/context/Theme/ThemeProvider";
 import avtNoFound from '~/images/no-found-avt.jpg';
 import { getApprovalList } from "~/thunk/approvalThunk";
 import { getCategories } from "~/thunk/categoryThunk";
@@ -43,30 +44,32 @@ export const DefaultLayout = ({ children }: DefaultLayoutProps) => {
 
     return (
         <MenuProvider>
-            <div className={cx('container-layout')}>
-                <div className={cx('container-layout__left')}>
-                    <Sidebar />
-                </div>
-                <div className={cx('container-layout__right')}>
-                    <div className={cx('cn-header')}>
-                        <header className={cx('header')}>
-                            <Language languages={LANGUAGE_ITEMS} placement='top-right' />
-                            <Account
-                                displayName={displayName}
-                                role={role && role.name}
-                                image={{
-                                    src: typeof avatar !== 'undefined' ? `${avatar}` : avtNoFound,
-                                    alt: 'avt-acc'
-                                }}
-                                onClick={() => navigate(`/profile/id/${id}`)}
-                            />
-                        </header>
+            <ThemeProvider>
+                <div className={cx('container-layout')}>
+                    <div className={cx('container-layout__left')}>
+                        <Sidebar />
                     </div>
-                    <div className={cx('container-layout__body')}>
-                        {children}
+                    <div className={cx('container-layout__right')}>
+                        <div className={cx('cn-header')}>
+                            <header className={cx('header')}>
+                                <Language languages={LANGUAGE_ITEMS} placement='top-right' />
+                                <Account
+                                    displayName={displayName}
+                                    role={role && role.name}
+                                    image={{
+                                        src: typeof avatar !== 'undefined' ? `${avatar}` : avtNoFound,
+                                        alt: 'avt-acc'
+                                    }}
+                                    onClick={() => navigate(`/profile/id/${id}`)}
+                                />
+                            </header>
+                        </div>
+                        <div className={cx('container-layout__body')}>
+                            {children}
+                        </div>
                     </div>
                 </div>
-            </div>
+            </ThemeProvider>
         </MenuProvider>
     );
 }

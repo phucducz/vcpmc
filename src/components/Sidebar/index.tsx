@@ -1,17 +1,17 @@
-import classNames from "classnames/bind";
-import { memo, useContext, useEffect, useRef, useState } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronRight } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import classNames from "classnames/bind";
+import { memo } from "react";
 
-import style from './Sidebar.module.scss';
+import { useMenu } from "~/context/hooks";
 import Image from "../Image";
 import { Menu } from "../Menu";
-import { MenuContext } from "~/context/Menu/MenuContext";
+import style from './Sidebar.module.scss';
 
 const cx = classNames.bind(style);
 
 export const Sidebar = memo(() => {
-    const { data, menuActive, active, setActive, type } = useContext(MenuContext);
+    const { data, menuActive, active, setActive, type } = useMenu();
 
     const handleClick = () => {
         if (type === 'dynamic')

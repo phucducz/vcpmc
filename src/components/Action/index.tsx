@@ -1,5 +1,5 @@
 import classNames from "classnames/bind";
-import { ReactNode, memo } from "react";
+import { ReactNode, memo, useState } from "react";
 
 import style from './Action.module.scss';
 import { Item } from "./Item";
@@ -9,24 +9,25 @@ const cx = classNames.bind(style);
 type HorizontalPosition = 'center' | 'top' | 'bottom';
 type VerticalPosition = 'center' | 'left' | 'right';
 
-export type ActionDataType = {
+export type ActionDataType<E extends React.ElementType<any>> = {
     icon: ReactNode;
     title: string;
-    // title: ReactNode;
+    to?: string;
     onClick(title?: string): void;
+    as?: E;
+    href?: string;
     disable?: boolean;
 }
 
-type ActionProps = {
-    data: Array<ActionDataType>;
+type ActionProps<E extends React.ElementType<any>> = {
+    data: Array<ActionDataType<E>>;
     className?: string;
-    href?: string;
     placement?: Exclude<`${HorizontalPosition}-${VerticalPosition}`, 'center-center'> | 'center';
     visible?: boolean;
     onClick?: () => void;
 }
 
-export const Action = memo(({ data, className, placement = 'center', visible, onClick }: ActionProps) => {
+export const Action = memo(<E extends React.ElementType<any>>({ data, className, placement = 'center', visible, onClick }: ActionProps<E>) => {
     if (!className) className = '';
 
     return (
@@ -37,7 +38,7 @@ export const Action = memo(({ data, className, placement = 'center', visible, on
             })}
             onClick={onClick}
         >
-            {data.map((item: ActionDataType, index: number) => {
+            {data.map((item, index: number) => {
                 const { icon, title, onClick } = item;
 
                 return (
@@ -46,6 +47,8 @@ export const Action = memo(({ data, className, placement = 'center', visible, on
                         icon={icon}
                         title={title}
                         onClick={onClick}
+                        as={item.as || 'div'}
+                        href={item.href}
                         className={cx(item.disable && 'disable')}
                     />
                 )

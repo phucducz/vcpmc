@@ -1,26 +1,25 @@
-import classNames from "classnames/bind";
-import { useNavigate, useParams } from "react-router";
-import { useCallback, useContext, useEffect, useState } from "react";
-import { useSelector } from "react-redux";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import classNames from "classnames/bind";
+import { useCallback, useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import { useNavigate, useParams } from "react-router";
 
-import style from './Edit.module.scss';
-import { RootState, useAppDispatch } from "~/store";
-import { MenuContext } from "~/context/Menu/MenuContext";
-import { ActionDataType } from "~/components/Action";
-import { Icon, trashIcon } from "~/icons";
+import { useFormik } from "formik";
+import moment from "moment";
 import { Record } from "~/api/recordAPI";
+import { User } from "~/api/userAPI";
+import { ActionDataType } from "~/components/Action";
+import { Button } from "~/components/Button";
+import { PagingItemType } from "~/components/Paging";
+import { Table } from "~/components/Table";
+import { routes } from "~/config/routes";
+import { useMenu } from "~/context/hooks";
 import { getPlaylistsRecordsDetail } from "~/reducers/playlistsRecords";
+import { RootState, useAppDispatch } from "~/store";
 import { editPlaylist } from "~/thunk/playlistsRecordsThunk";
 import { CommonPlaylistPage, PlaylistValue } from "../CommonPage";
-import { PagingItemType } from "~/components/Paging";
-import { routes } from "~/config/routes";
-import { Table } from "~/components/Table";
-import { useFormik } from "formik";
-import { User } from "~/api/userAPI";
-import moment from "moment";
-import { Button } from "~/components/Button";
+import style from './Edit.module.scss';
 
 const cx = classNames.bind(style);
 
@@ -29,7 +28,7 @@ function EditPlaylistDetailPage() {
     const navigate = useNavigate();
     const dispatch = useAppDispatch();
 
-    const { setActive, setType } = useContext(MenuContext);
+    const { setActive, setType } = useMenu();
 
     const playlist = useSelector((state: RootState) => state.playlist);
     const record = useSelector((state: RootState) => state.record);
@@ -38,7 +37,7 @@ function EditPlaylistDetailPage() {
     const [paging, setPaging] = useState<Array<PagingItemType>>([] as Array<PagingItemType>);
     const [audioLink, setAudioLink] = useState<string>('');
     const [audioActive, setAudioActive] = useState<boolean>(false);
-    const [actionData, setActionData] = useState<ActionDataType[]>([] as ActionDataType[]);
+    const [actionData, setActionData] = useState<any[]>([] as any[]);
     const [currentItems, setCurrentItems] = useState<Array<Record>>([] as Array<Record>);
     const [itemsPerPage, setItemsPerPage] = useState<string>('8');
 

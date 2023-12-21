@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 import { Category } from "~/api/categoryAPI";
-import { getCategories } from "~/thunk/categoryThunk";
+import { addCategory, getCategories, updateCategories } from "~/thunk/categoryThunk";
 
 type InitialStateType = {
     categoryList: Array<Category>;
@@ -28,6 +28,26 @@ const categorySlice = createSlice({
                 state.categoryList = action.payload;
         });
         builder.addCase(getCategories.rejected, (state, action) => {
+            state.loading = false;
+            throw new Error(`${action.error.name}: ${action.error.message}`);
+        });
+        builder.addCase(updateCategories.pending, state => {
+            state.loading = true;
+        });
+        builder.addCase(updateCategories.fulfilled, (state, action) => {
+            state.loading = false;
+        });
+        builder.addCase(updateCategories.rejected, (state, action) => {
+            state.loading = false;
+            throw new Error(`${action.error.name}: ${action.error.message}`);
+        });
+        builder.addCase(addCategory.pending, state => {
+            state.loading = true;
+        });
+        builder.addCase(addCategory.fulfilled, (state, action) => {
+            state.loading = false;
+        });
+        builder.addCase(addCategory.rejected, (state, action) => {
             state.loading = false;
             throw new Error(`${action.error.name}: ${action.error.message}`);
         });

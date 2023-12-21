@@ -25,7 +25,7 @@ function RevenueDetailPage() {
     const contract = useSelector((state: RootState) => state.authorized);
 
     const [paging, setPaging] = useState<Array<PagingItemType>>([] as Array<PagingItemType>);
-    const [actionData, setActionData] = useState<ActionDataType[]>([] as ActionDataType[]);
+    const [actionData, setActionData] = useState<any[]>([] as any[]);
     const [searchValue, setSearchValue] = useState<string>('');
     const [contractDetail, setContractDetail] = useState<ContractDetail>({} as ContractDetail);
     const [searchResult, setSearchResult] = useState<Array<RecordDetail>>([] as Array<RecordDetail>);

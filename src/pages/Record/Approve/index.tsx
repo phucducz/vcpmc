@@ -158,7 +158,7 @@ function ApprovePage() {
         reasonInputRef.current?.focus();
     }, [approveRecords]);
 
-    const [actionData, setActionData] = useState<Array<ActionDataType>>([]);
+    const [actionData, setActionData] = useState<Array<any>>([]);
 
     useEffect(() => {
         setActionData([

@@ -39,7 +39,7 @@ function DeviceDetailPage() {
     const device = useSelector((state: RootState) => state.device);
 
     const [paging, setPaging] = useState<Array<PagingItemType>>([] as Array<PagingItemType>);
-    const [actionData, setActionData] = useState<ActionDataType[]>([] as ActionDataType[]);
+    const [actionData, setActionData] = useState<any[]>([] as any[]);
     const [activeDialog, setActiveDialog] = useState<boolean>(false);
     const [activeDialogPassword, setActiveDialogPassword] = useState<boolean>(false);
     const [deviceInputs, setDeviceInputs] = useState<Array<InputProps>>([] as Array<InputProps>);
@@ -288,7 +288,7 @@ function DeviceDetailPage() {
     }
 
     console.log(deviceFormik.values);
-    
+
     return (
         <CommonPage
             title={`Thông tin thiết bị - ${title}`}
@@ -407,7 +407,7 @@ function DeviceDetailPage() {
                 visible={toastActive}
                 type='success'
                 message='Đổi mật khẩu thành công!'
-                icon={<FontAwesomeIcon icon={faCheckCircle} />}
+                setVisible={setToastActive}
             />
         </CommonPage>
     );

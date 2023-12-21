@@ -1,8 +1,20 @@
-import { addDoc, collection, doc, getDoc, getDocs } from "firebase/firestore";
+import { addDoc, collection, doc, getDoc, getDocs, writeBatch } from "firebase/firestore";
 
 import { firestoreDatabase } from "~/config/firebase";
-import { saveService } from "~/service";
+import { deleteService, saveService } from "~/service";
 import { User } from "./userAPI";
+
+export type ETMContractType = {
+    id: string;
+    name: string;
+    revenuePercent: number;
+    applyDate: string;
+}
+
+export type Quarterly = {
+    quarter: string;
+    time: string;
+}
 
 export type EtmContract = {
     id: string;
@@ -166,3 +178,32 @@ export const saveETMContract = async ({ contract }: { contract: EtmContract }) =
 
     return await addDoc(collection(firestoreDatabase, 'entrustmentContract'), { ...contract });
 }
+
+export const getETMContractTypes = async () => {
+    const resultSnapshot = await getDocs(collection(firestoreDatabase, 'entrustmentContractTypes'));
+
+    return resultSnapshot.docs.map(doc => ({
+        id: doc.id,
+        name: doc.data().name,
+        revenuePercent: doc.data().revenuePercent,
+        applyDate: doc.data().applyDate
+    }));
+}
+
+export const updateContractTypesById = async (types: Array<ETMContractType>) => {
+    const batch = writeBatch(firestoreDatabase);
+
+    types.forEach(type => {
+        batch.set(doc(firestoreDatabase, "entrustmentContractTypes", type.id), type);
+    });
+
+    await batch.commit();
+}
+
+export const addContractTypesAPI = async (type: ETMContractType) => {
+    await addDoc(collection(firestoreDatabase, 'entrustmentContractTypes'), type);
+} 
+
+export const deleteContractTypesAPI = async (id: string) => {
+    await deleteService('entrustmentContractTypes', id);
+} 

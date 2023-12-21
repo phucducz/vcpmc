@@ -1,12 +1,12 @@
 import classNames from "classnames/bind";
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router";
 
 import { PlaylistSchedule } from "~/api/playlistScheduleAPI";
 import { ActionDataType } from "~/components/Action";
 import { Table } from "~/components/Table";
-import { MenuContext } from "~/context/Menu/MenuContext";
+import { useMenu } from "~/context/hooks";
 import { Icon, playlistAddIcon } from "~/icons";
 import { CommonPage } from "~/pages/CommonPage";
 import { RootState, useAppDispatch } from "~/store";
@@ -19,11 +19,11 @@ function PlaylistSchedulePage() {
     const navigate = useNavigate();
     const dispatch = useAppDispatch();
 
-    const { setActive, setMenuActive } = useContext(MenuContext);
+    const { setActive, setMenuActive } = useMenu();
 
     const playlistSchedule = useSelector((state: RootState) => state.playlistSchedule);
 
-    const [actionData, setActionData] = useState<ActionDataType[]>([] as ActionDataType[]);
+    const [actionData, setActionData] = useState<any[]>([] as any[]);
     const [currentItems, setCurrentItems] = useState<Array<any>>([]);
     const [itemsPerPage, setItemsPerPage] = useState<string>('8');
 

@@ -35,4 +35,13 @@ export const routes = {
     AddUser: '/user-management/add',
     EditRole: '/user-role-edit/:id',
     AddRole: '/user-role-add',
+    Config: '/config-setting',
+    ConfigCategories: '/config/categories',
+    EditCategories: '/config/categories/edit',
+    ConfigContract: '/config/contract',
+    ConfigEditContract: '/config/contract/edit-expired-warning-date',
+    ConfigEditTypeContract: '/config/contract/edit-type-contract',
+    ConfigForControlCircle: '/config/for-control-circle',
+    SupportDownload: '/support/download',
+    SupportFeedback: '/support/feedback',
 }

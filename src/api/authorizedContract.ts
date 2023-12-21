@@ -24,6 +24,7 @@ export type AuthorizedContract = {
     royalties: string;
     CPM: string;
     administrativeFee: string;
+    forControlDate: string;
 };
 
 export type RecordDetail = {
@@ -119,7 +120,8 @@ export const getAuthorizedContract = async () => {
             status: doc.data().status,
             royalties: doc.data().royalties,
             CPM: doc.data().CPM,
-            administrativeFee: doc.data().administrativeFee
+            administrativeFee: doc.data().administrativeFee,
+            forControlDate: doc.data().forControlDate
         }
     });
 }

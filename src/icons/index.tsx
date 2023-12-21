@@ -14,6 +14,13 @@ export { default as uploadIcon } from './upload-icon';
 export { default as playlistAddIcon } from './play-list-icon';
 export { default as circleExclaminationIcon } from './circle-exclamination-icon';
 export { default as trashIcon } from './trash-icon';
+export { default as editAltIcon } from './edit-alt-icon';
+export { default as editCalendarIcon } from './edit-calendar-icon';
+export { default as windows10Icon } from './windows-10-icon';
+export { default as vector1Icon } from './vector-1-icon';
+export { default as vector2Icon } from './vector-2-icon';
+export { default as vector3Icon } from './vector-3-icon';
+export { default as vector4Icon } from './vector-4-icon';
 
 export type IconProps = {
     icon: any;

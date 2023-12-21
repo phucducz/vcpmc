@@ -118,19 +118,31 @@ export const MenuProvider = ({ children }: MenuProviderProps) => {
                     functionalCode: [],
                 }, {
                     title: 'Cấu hình',
-                    onClick: () => { },
+                    onClick: () => {
+                        navigate(routes.Config);
+                        setMenuActive(6);
+                    },
                     functionalCode: [],
                 }, {
                     title: 'Quản lý hợp đồng',
-                    onClick: () => { },
+                    onClick: () => {
+                        navigate(routes.ConfigContract);
+                        setMenuActive(6);
+                    },
                     functionalCode: [],
                 }, {
                     title: 'Thông tin tác phẩm',
-                    onClick: () => { },
+                    onClick: () => {
+                        navigate(routes.ConfigCategories);
+                        setMenuActive(6);
+                    },
                     functionalCode: [],
                 }, {
                     title: 'Chu kỳ đối soát',
-                    onClick: () => { },
+                    onClick: () => {
+                        navigate(routes.ConfigForControlCircle);
+                        setMenuActive(6);
+                    },
                     functionalCode: [],
                 }
             ]
@@ -147,11 +159,17 @@ export const MenuProvider = ({ children }: MenuProviderProps) => {
                     functionalCode: [],
                 }, {
                     title: 'Tải app',
-                    onClick: () => { },
+                    onClick: () => {
+                        navigate(routes.SupportDownload);
+                        setMenuActive(7);
+                    },
                     functionalCode: [],
                 }, {
                     title: 'Feedback',
-                    onClick: () => { },
+                    onClick: () => {
+                        navigate(routes.SupportFeedback);
+                        setMenuActive(7);
+                    },
                     functionalCode: [],
                 }
             ]

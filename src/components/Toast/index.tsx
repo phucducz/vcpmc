@@ -14,25 +14,29 @@ type ToastProps = {
     message: string;
     type?: Type;
     visible: boolean;
+    setVisible: React.Dispatch<React.SetStateAction<boolean>>;
     duration: number;
 }
 
-export const Toast = memo(({ duration, icon, message, type, visible }: ToastProps) => {
+export const Toast = memo(({ duration, icon, message, type = 'success', visible, setVisible }: ToastProps) => {
     const toastRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
         if (visible) {
+            let durationTime = duration + 200;
+
             if (toastRef.current)
                 toastRef.current.setAttribute('class', cx('toast-container', `${type}`, 'active'));
 
             const id = setTimeout(() => {
                 if (toastRef.current)
                     toastRef.current.setAttribute('class', cx('toast-container', `${type}`));
-            }, 1000);
+                    setVisible && setVisible(false);
+            }, durationTime);
 
             return () => clearTimeout(id);
         }
-        else  if (toastRef.current)
+        else if (toastRef.current)
             toastRef.current.setAttribute('class', cx('toast-container'));
     }, [visible]);
 

@@ -45,7 +45,7 @@ function ETMContractDetailPage() {
     const etmContract = useSelector((state: RootState) => state.etmContract);
     const role = useSelector((state: RootState) => state.role);
 
-    const [actionData, setActionData] = useState<Array<ActionDataType>>([]);
+    const [actionData, setActionData] = useState<Array<any>>([]);
     const [edit, setEdit] = useState<boolean>(false);
 
     const contractFormik = useFormik({

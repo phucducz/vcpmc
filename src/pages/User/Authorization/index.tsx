@@ -1,5 +1,5 @@
 import classNames from "classnames/bind";
-import { useCallback, useContext, useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router";
 
@@ -11,7 +11,7 @@ import { Switch } from "~/components/Switch";
 import { TabItemProps } from "~/components/Tab";
 import { Table } from "~/components/Table";
 import { routes } from "~/config/routes";
-import { MenuContext } from "~/context/Menu/MenuContext";
+import { useMenu } from "~/context/hooks";
 import { Icon } from "~/icons";
 import userPlusIcon from "~/icons/user-plus-icon";
 import usersIcon from "~/icons/users-icon";
@@ -28,7 +28,7 @@ function UserAuthorizationPage() {
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
 
-    const { setActive } = useContext(MenuContext);
+    const { setActive } = useMenu();
 
     const user = useSelector((state: RootState) => state.user);
     const role = useSelector((state: RootState) => state.role);
@@ -37,7 +37,7 @@ function UserAuthorizationPage() {
     const [paging, setPaging] = useState<Array<PagingItemType>>([] as Array<PagingItemType>);
     const [tab, setTab] = useState<TabItemProps[]>([] as Array<TabItemProps>);
     const [searchValue, setSearchValue] = useState<string>('');
-    const [actionData, setActionData] = useState<ActionDataType[]>([] as ActionDataType[]);
+    const [actionData, setActionData] = useState<any[]>([] as any[]);
     const [searchResult, setSearchResult] = useState<Array<User>>([] as Array<User>);
     const [currentItems, setCurrentItems] = useState<Array<User>>([] as Array<User>);
     const [searchRoleResult, setSearchRoleResult] = useState<Array<Role>>([] as Array<Role>);
@@ -168,7 +168,7 @@ function UserAuthorizationPage() {
                 loading={loading}
                 itemsPerPage={itemsPerPage}
                 setItemsPerPage={handleChange}
-                thead={['STT', 'Tên nhóm người dùng', 'Số lượng người dùng', 'Vai trò', 'Trạng thái', 'Email', 'Số điện thoại', 'Ngày hết hạn', '']}
+                thead={['STT', 'Họ tên', 'Tên đăng nhập', 'Vai trò', 'Trạng thái', 'Email', 'Số điện thoại', 'Ngày hết hạn', '']}
             >
                 {currentItems.map((item, index) => (
                     <tr key={index}>
@@ -210,7 +210,7 @@ function UserAuthorizationPage() {
                         <td><p className={cx('table__col__description')}>{item.description}</p></td>
                         <td><p className={cx('action')} onClick={() => { navigate(`/user-role-edit/${item.id}`); setActive(false); }}>Cập nhật</p></td>
                         <td>{item.allowDelete
-                            && <p className={cx('action')} onClick={() => dispatch(deleteRole(item.id))}>Xóa</p>
+                            && <p className={cx('action')} onClick={() => { dispatch(deleteRole(item.id)); console.log(item.id); }}>Xóa</p>
                         }</td>
                     </tr>
                 ))}

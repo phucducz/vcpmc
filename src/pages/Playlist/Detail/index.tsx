@@ -1,7 +1,7 @@
 import { faEdit } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import classNames from "classnames/bind";
-import { useCallback, useContext, useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router";
 
@@ -11,7 +11,7 @@ import Loading from "~/components/Loading";
 import { PagingItemType } from "~/components/Paging";
 import { Table } from "~/components/Table";
 import { routes } from "~/config/routes";
-import { MenuContext } from "~/context/Menu/MenuContext";
+import { useMenu } from "~/context/hooks";
 import { Icon, trashIcon } from "~/icons";
 import { getPlaylistsRecordsDetail } from "~/reducers/playlistsRecords";
 import { RootState, useAppDispatch } from "~/store";
@@ -38,7 +38,7 @@ function PlaylistDetailPage() {
     const navigate = useNavigate();
     const dispatch = useAppDispatch();
 
-    const { setActive, setType } = useContext(MenuContext);
+    const { setActive, setType } = useMenu();
 
     const playlist = useSelector((state: RootState) => state.playlist);
     const record = useSelector((state: RootState) => state.record);
@@ -46,7 +46,7 @@ function PlaylistDetailPage() {
 
     const [audioLink, setAudioLink] = useState<string>('');
     const [audioActive, setAudioActive] = useState<boolean>(false);
-    const [actionData, setActionData] = useState<ActionDataType[]>([] as ActionDataType[]);
+    const [actionData, setActionData] = useState<any[]>([] as any[]);
     const [playlistDetail, setPlaylistDetail] = useState<PlaylistValue>({} as PlaylistValue);
     const [currentItems, setCurrentItems] = useState<Array<Record>>([] as Array<Record>);
     const [itemsPerPage, setItemsPerPage] = useState<string>('8');

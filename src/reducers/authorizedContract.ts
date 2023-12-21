@@ -1,8 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 import { AuthorizedContractDetailt, ContractDetail } from "~/api/authorizedContract";
-import { Record } from "~/api/recordAPI";
-import { RecordPlays } from "~/api/recordPlay";
 import { getAuthorizedContracts } from "~/thunk/authorizedContractThunk";
 
 type InitialStateType = {

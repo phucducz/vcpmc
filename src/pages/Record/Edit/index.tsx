@@ -1,25 +1,26 @@
 import classNames from "classnames/bind";
-import { useCallback, useEffect, useRef, useState } from "react";
 import { useFormik } from "formik";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router";
 
-import style from './EditRecord.module.scss';
-import { Paging, PagingItemType } from "~/components/Paging";
-import Image from "~/components/Image";
-import { Icon, musicIcon } from "~/icons";
-import { Input } from "~/components/Input";
-import { ComboBox } from "~/components/ComboBox";
-import { routes } from "~/config/routes";
-import { Button } from "~/components/Button";
-import { RootState, useAppDispatch } from "~/store";
-import { Record } from "~/api/recordAPI";
-import { Contract, getContractById } from "~/api/contractAPI";
-import { formatDateMDY } from "~/context";
-import { saveRecord } from "~/thunk/recordThunks";
 import { Category } from "~/api/categoryAPI";
-import Loading from "~/components/Loading";
+import { Contract, getContractById } from "~/api/contractAPI";
+import { Record } from "~/api/recordAPI";
 import { User, getUserById } from "~/api/userAPI";
+import { Button } from "~/components/Button";
+import { ComboBox } from "~/components/ComboBox";
+import Image from "~/components/Image";
+import { Input } from "~/components/Input";
+import Loading from "~/components/Loading";
+import { Paging, PagingItemType } from "~/components/Paging";
+import { routes } from "~/config/routes";
+import { formatDateMDY } from "~/context";
+import { Icon, musicIcon } from "~/icons";
+import { RootState, useAppDispatch } from "~/store";
+import { saveRecord } from "~/thunk/recordThunks";
+import style from './EditRecord.module.scss';
+import { useMenu } from "~/context/hooks";
 
 const cx = classNames.bind(style);
 
@@ -27,16 +28,6 @@ type ComboBoxItemType = {
     title: string;
     onItemClick: () => void;
 }
-
-const PAGING_ITEMS: Array<PagingItemType> = [
-    {
-        title: 'Kho bản ghi',
-        to: routes.RecordPage
-    }, {
-        title: 'Cập nhật thông tin',
-        to: "#"
-    }
-];
 
 const COMBOBOX_DATA: Array<Pick<ComboBoxItemType, 'title'>> = [
     {
@@ -52,6 +43,7 @@ const COMBOBOX_DATA: Array<Pick<ComboBoxItemType, 'title'>> = [
 
 function EditRecord() {
     const { id } = useParams();
+
     const navigate = useNavigate();
     const dispatch = useAppDispatch();
 
@@ -111,6 +103,7 @@ function EditRecord() {
     const [comboBoxDataActive, setComboBoxDataActive] = useState<string>('');
     const [visibleComboBox, setVisibleComboBox] = useState<boolean>(false);
     const [recordName, setRecordName] = useState<string>('');
+    const [paging, setPaging] = useState<Array<PagingItemType>>([] as Array<PagingItemType>);
 
     const { ISRCCode, author, approvalBy, createdDate, approvalDate,
         nameRecord, producer, singer, contract } = recordFormik.values;
@@ -157,6 +150,20 @@ function EditRecord() {
             onBlur: () => recordFormik.setFieldTouched('producer', false)
         }
     ];
+
+    useEffect(() => {
+        setPaging([
+            {
+                title: 'Kho bản ghi',
+                to: routes.RecordPage,
+                active: true
+            }, {
+                title: 'Cập nhật thông tin',
+                to: "#",
+                active: true
+            }
+        ]);
+    }, []);
 
     useEffect(() => {
         if (!record.recordList.length) return;
@@ -222,7 +229,7 @@ function EditRecord() {
 
     return (
         <div className={cx('edit-record')}>
-            <Paging data={PAGING_ITEMS} />
+            <Paging data={paging} />
             <header><h3>Bản ghi - {recordName}</h3></header>
             <form className={cx('edit-record-form')} onSubmit={recordFormik.handleSubmit}>
                 <div className={cx('edit-record-container')}>

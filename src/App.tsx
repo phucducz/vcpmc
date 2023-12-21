@@ -4,6 +4,7 @@ import { BrowserRouter } from 'react-router-dom';
 
 import { publicRoutes } from './routes';
 import { DefaultLayout } from './layouts/DefaultLayout';
+import { LanguageProvider } from './context/Language/LanguageProvider';
 
 function App() {
   return (
@@ -22,9 +23,11 @@ function App() {
                 key={index}
                 path={path}
                 element={
-                  <Layout>
-                    <Page />
-                  </Layout>
+                  <LanguageProvider>
+                    <Layout>
+                      <Page />
+                    </Layout>
+                  </LanguageProvider>
                 }
               />
             )

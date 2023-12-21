@@ -2,7 +2,7 @@ import { faLock, faPlus, faPowerOff } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import classNames from "classnames/bind";
 import { useFormik } from "formik";
-import { useCallback, useContext, useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router";
 
@@ -14,7 +14,7 @@ import { ComboBox, ComboData } from "~/components/ComboBox";
 import { Form } from "~/components/Form";
 import { Table } from "~/components/Table";
 import { routes } from "~/config/routes";
-import { MenuContext } from "~/context/Menu/MenuContext";
+import { useMenu } from "~/context/hooks";
 import { Icon, trashIcon } from "~/icons";
 import { CommonPage } from "~/pages/CommonPage";
 import { RootState, useAppDispatch } from "~/store";
@@ -27,13 +27,13 @@ function DeviceManagementPage() {
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
 
-    const { setActive } = useContext(MenuContext);
+    const { setActive } = useMenu();
 
     const device = useSelector((state: RootState) => state.device);
 
     const [searchValue, setSearchValue] = useState<string>('');
     const [comboBoxData, setComboBoxData] = useState<Array<ComboData>>([] as Array<ComboData>);
-    const [actionData, setActionData] = useState<Array<ActionDataType>>([] as Array<ActionDataType>);
+    const [actionData, setActionData] = useState<Array<any>>([] as Array<any>);
     const [searchResult, setSearchResult] = useState<Array<Device>>([] as Array<Device>);
     const [currentItems, setCurrentItems] = useState<Array<Device>>([] as Array<Device>);
     const [itemsPerPage, setItemsPerPage] = useState<string>('8');
@@ -42,7 +42,7 @@ function DeviceManagementPage() {
     const [headerColumn, setHeaderColumn] = useState<string[]>([]);
     const [statusDevice, setStatusDevice] = useState<string>('');
     const [activeConfirmDialog, setActiveConfirmDialog] = useState<boolean>(false);
-    
+
     const deviceFormik = useFormik({
         initialValues: {
             ids: [] as Array<Pick<Device, 'id'>>

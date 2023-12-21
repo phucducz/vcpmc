@@ -2,6 +2,13 @@ import { routes } from "~/config/routes";
 import { LoginLayout } from "~/layouts/LoginLayout";
 import AuthorizedContract from "~/pages/AuthorizedContract/AuthorizedContract";
 import EditAuthorizedContract from "~/pages/AuthorizedContract/Edit";
+import ConfigCategoriesPage from "~/pages/Configuration/Categories/Categories";
+import EditCategoriesPage from "~/pages/Configuration/Categories/EditCategories";
+import ConfigPage from "~/pages/Configuration/Config";
+import ConfigContractPage from "~/pages/Configuration/Contract/Contract";
+import EditContractPage from "~/pages/Configuration/Contract/EditExpirationDate";
+import EditTypeContractPage from "~/pages/Configuration/Contract/EditTypeContract";
+import ForControlCirclePage from "~/pages/Configuration/ForControlCircle";
 import AddDevicePage from "~/pages/Device/Add";
 import DeviceDetailPage from "~/pages/Device/Detail";
 import DeviceManagementPage from "~/pages/Device/Device";
@@ -28,6 +35,8 @@ import ResetPassPage from "~/pages/ResetPassPage";
 import NoFoundPage from "~/pages/ResetPassPage/NoFound";
 import RevenueDetailPage from "~/pages/Revenue/Detail";
 import RevenueManagementPage from "~/pages/Revenue/Revenue";
+import SupportDownloadPage from "~/pages/Support/Download";
+import SupportFeedbackPage from "~/pages/Support/Feedback";
 import UnitManagementPage from "~/pages/UnitUsed/UnitManagement";
 import AddRolePage from "~/pages/User/AddRole";
 import AddUserPage from "~/pages/User/AddUser";
@@ -74,4 +83,13 @@ export const publicRoutes = [
     { path: routes.AddUser, Component: AddUserPage },
     { path: routes.EditRole, Component: EditRolePage },
     { path: routes.AddRole, Component: AddRolePage },
+    { path: routes.Config, Component: ConfigPage },
+    { path: routes.ConfigCategories, Component: ConfigCategoriesPage },
+    { path: routes.EditCategories, Component: EditCategoriesPage },
+    { path: routes.ConfigEditContract, Component: EditContractPage },
+    { path: routes.ConfigContract, Component: ConfigContractPage },
+    { path: routes.ConfigEditTypeContract, Component: EditTypeContractPage },
+    { path: routes.ConfigForControlCircle, Component: ForControlCirclePage },
+    { path: routes.SupportDownload, Component: SupportDownloadPage },
+    { path: routes.SupportFeedback, Component: SupportFeedbackPage }
 ];
