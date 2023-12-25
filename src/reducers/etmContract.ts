@@ -1,8 +1,24 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-import { ETMContractType, EtmContract, EtmContractDetail } from "~/api/etmContractAPI";
+import { ETMContractType, EtmContract, EtmContractDetail, EtmContractForControl } from "~/api/etmContractAPI";
 import { QUARTERLY } from "~/constants";
-import { addEtmContractType, cancelEntrustmentContract, deleteEtmContractType, getETMContractById, getEtmContractList, getEtmContractListDetail, getEtmContractTypes, saveEntrustmentContract, updateEtmContractTypes } from "~/thunk/etmContractThunk";
+import {
+    addEmployee,
+    addEtmContractType,
+    cancelEntrustmentContract,
+    checkpointAllContract,
+    deleteContracts,
+    deleteEmployees,
+    deleteEtmContractType,
+    getETMContractById,
+    getEtmContractForControls,
+    getEtmContractList,
+    getEtmContractListDetail,
+    getEtmContractTypes,
+    saveEntrustmentContract,
+    updateEmployee,
+    updateEtmContractTypes
+} from "~/thunk/etmContractThunk";
 
 export type Quarterly = {
     quarter: string;
@@ -19,11 +35,13 @@ type InitialState = {
     loading: boolean;
     etmContract: EtmContract;
     etmContractsDetail: Array<EtmContractDetail>;
+    etmContractForControl: Array<EtmContractForControl>;
     expiredWarningDate: number;
     types: Array<ETMContractType>;
     forControlCircle:
     { type: string, controlCircle: Array<Quarterly> } |
     { type: string, controlCircle: Monthly };
+    status: string;
 }
 
 const initialState: InitialState = {
@@ -31,12 +49,14 @@ const initialState: InitialState = {
     loading: false,
     etmContract: {} as EtmContract,
     etmContractsDetail: [] as EtmContractDetail[],
+    etmContractForControl: [] as EtmContractForControl[],
     expiredWarningDate: 365,
     types: [] as Array<ETMContractType>,
     forControlCircle: {
         type: 'quarterly',
         controlCircle: QUARTERLY
-    }
+    },
+    status: ''
 }
 
 const etmContractSlice = createSlice({
@@ -49,6 +69,9 @@ const etmContractSlice = createSlice({
         },
         setForControlCircle: (state, action) => {
             state.forControlCircle = action.payload;
+        },
+        setStatus: (state, action) => {
+            state.status = action.payload;
         }
     },
     extraReducers: builder => {
@@ -150,8 +173,73 @@ const etmContractSlice = createSlice({
             state.loading = false;
             throw new Error(`${action.error.name}: ${action.error.message}`);
         });
+        builder.addCase(getEtmContractForControls.pending, state => {
+            state.loading = true;
+        });
+        builder.addCase(getEtmContractForControls.fulfilled, (state, action) => {
+            state.loading = false;
+
+            if (action.payload) state.etmContractForControl = action.payload;
+        });
+        builder.addCase(getEtmContractForControls.rejected, (state, action) => {
+            state.loading = false;
+            throw new Error(`${action.error.name}: ${action.error.message}`);
+        });
+        builder.addCase(addEmployee.pending, state => {
+            state.loading = true;
+            state.status = 'adding...';
+        });
+        builder.addCase(addEmployee.fulfilled, (state) => {
+            state.loading = false;
+            state.status = 'add successfully';
+        });
+        builder.addCase(addEmployee.rejected, (state, action) => {
+            state.loading = false;
+            state.status = 'add failure';
+            throw new Error(`${action.error.name}: ${action.error.message}`);
+        });
+        builder.addCase(deleteEmployees.pending, state => {
+            state.loading = true;
+        });
+        builder.addCase(deleteEmployees.fulfilled, (state) => {
+            state.loading = false;
+        });
+        builder.addCase(deleteEmployees.rejected, (state, action) => {
+            state.loading = false;
+            throw new Error(`${action.error.name}: ${action.error.message}`);
+        });
+        builder.addCase(updateEmployee.pending, state => {
+            state.loading = true;
+        });
+        builder.addCase(updateEmployee.fulfilled, (state) => {
+            state.loading = false;
+        });
+        builder.addCase(updateEmployee.rejected, (state, action) => {
+            state.loading = false;
+            throw new Error(`${action.error.name}: ${action.error.message}`);
+        });
+        builder.addCase(deleteContracts.pending, state => {
+            state.loading = true;
+        });
+        builder.addCase(deleteContracts.fulfilled, (state) => {
+            state.loading = false;
+        });
+        builder.addCase(deleteContracts.rejected, (state, action) => {
+            state.loading = false;
+            throw new Error(`${action.error.name}: ${action.error.message}`);
+        });
+        builder.addCase(checkpointAllContract.pending, state => {
+            state.loading = true;
+        });
+        builder.addCase(checkpointAllContract.fulfilled, (state) => {
+            state.loading = false;
+        });
+        builder.addCase(checkpointAllContract.rejected, (state, action) => {
+            state.loading = false;
+            throw new Error(`${action.error.name}: ${action.error.message}`);
+        });
     }
 });
 
 export const { reducer: etmContractReducer } = etmContractSlice;
-export const { setExpiredWarningDate, setForControlCircle } = etmContractSlice.actions;
+export const { setExpiredWarningDate, setForControlCircle, setStatus } = etmContractSlice.actions;

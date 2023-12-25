@@ -6,7 +6,7 @@ import { useNavigate, useParams } from "react-router";
 import { faEye } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useFormik } from "formik";
-import { User } from "~/api/userAPI";
+import { User, UserInfo } from "~/api/userAPI";
 import { BlockInput } from "~/components/Block";
 import { Button } from "~/components/Button";
 import { ComboBox } from "~/components/ComboBox";
@@ -22,8 +22,6 @@ import { changePasswordStatusUser } from "~/thunk/userThunk";
 import style from './Edit.module.scss';
 
 const cx = classNames.bind(style);
-
-type UserInfo = Pick<User, 'id' | 'userName' | 'email' | 'phoneNumber' | 'rolesId' | 'firstName' | 'lastName' | 'password'> & { fullName: string, confirmPassword: string, status: string };
 
 function EditAuthorizedContract() {
     const { id } = useParams();

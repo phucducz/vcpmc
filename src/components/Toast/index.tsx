@@ -14,11 +14,12 @@ type ToastProps = {
     message: string;
     type?: Type;
     visible: boolean;
-    setVisible: React.Dispatch<React.SetStateAction<boolean>>;
+    setVisible?: React.Dispatch<React.SetStateAction<boolean>>;
+    onSuccess?: () => void;
     duration: number;
 }
 
-export const Toast = memo(({ duration, icon, message, type = 'success', visible, setVisible }: ToastProps) => {
+export const Toast = memo(({ duration, icon, message, type = 'success', visible, setVisible, onSuccess }: ToastProps) => {
     const toastRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
@@ -31,7 +32,9 @@ export const Toast = memo(({ duration, icon, message, type = 'success', visible,
             const id = setTimeout(() => {
                 if (toastRef.current)
                     toastRef.current.setAttribute('class', cx('toast-container', `${type}`));
-                    setVisible && setVisible(false);
+
+                setVisible && setVisible(false);
+                onSuccess && onSuccess();
             }, durationTime);
 
             return () => clearTimeout(id);

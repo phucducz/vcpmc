@@ -4,6 +4,11 @@ import { firestoreDatabase } from "../config/firebase";
 import { deleteService, saveService, updateService } from "../service";
 import { Role, getListRole } from "./roleAPI";
 
+export type UserInfo = Pick<
+    User, 'id' | 'userName' | 'email' | 'phoneNumber'
+    | 'rolesId' | 'firstName' | 'lastName' | 'password'
+> & { fullName: string, confirmPassword: string, status: string };
+
 export type User = {
     avatar: string;
     bank: string;
@@ -151,6 +156,6 @@ export const changePasswordStatusUserById = async ({ id, password, status }: Pic
     });
 }
 
-export const deleteUserById =async (id: string) => {
-    await deleteService('users', id);    
+export const deleteUserById = async (id: string) => {
+    await deleteService('users', id);
 }

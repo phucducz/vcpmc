@@ -1,0 +1,98 @@
+.revenue-report {
+    &>div:last-child>div:first-child {
+        &>div>div {
+            margin-top: 0;
+        }
+    }
+}
+
+.renvenue-report__filter {
+    display: flex;
+    align-items: center;
+
+    &>p {
+        margin-right: 12px;
+    }
+
+    &>div {
+        height: 48px;
+
+        & input {
+            width: 264px !important;
+            height: 48px;
+        }
+
+        &>li {
+            margin-top: 0 !important;
+
+            &>div {
+                border-radius: 8px;
+                border: 1px solid var(--text-stroke-text-and-stroke-2, #727288);
+                background: var(--Background-BG, #1E1E2E);
+            }
+
+            &>ul {
+                width: 264px !important;
+                z-index: 1 !important;
+            }
+        }
+
+        &+div {
+            margin-left: 32px;
+        }
+    }
+}
+
+.revenue-report__box {
+    width: 1541px;
+    height: auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-radius: 16px;
+    background: rgba(47, 47, 65, 0.70);
+    margin-top: 24px;
+    padding: 20px 0;
+
+    &>.box__item {
+        width: 308px;
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        gap: 4px;
+
+        &>p:first-child {
+            font-size: 18px;
+            font-weight: 700;
+            line-height: 24px;
+            letter-spacing: -0.036px;
+            opacity: .5;
+            white-space: nowrap;
+        }
+
+        &>p:last-child {
+            color: var(--orange-3, #FFAC69);
+            font-size: 24px;
+            font-weight: 700;
+            line-height: 24px;
+            letter-spacing: -0.048px;
+            margin-top: 4px;
+        }
+
+        &+div {
+            border-left: 1px solid var(--white);
+        }
+    }
+}
+
+.revenue-report-chart {
+    &>p {
+        color: #FFF9F4;
+        font-size: 24px;
+        font-weight: 700;
+        line-height: 24px;
+        letter-spacing: -0.048px;
+        margin: 48px 0 24px 0;
+        text-align: start;
+    }
+}

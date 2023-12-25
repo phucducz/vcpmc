@@ -30,13 +30,13 @@ export type AuthorizedContract = {
 export type RecordDetail = {
     records: Record;
     recordPlays: Array<RecordPlays>;
-    totalPlays: number;
+    totalPlay: number;
 }
 
 export type ContractDetail = {
     contract: AuthorizedContractDetailt;
     records: RecordDetail[];
-    totalPlays: number;
+    totalPlay: number;
     revenue: number;
     royalties: number;
     date: string;

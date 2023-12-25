@@ -7,7 +7,6 @@ import { useNavigate } from "react-router";
 
 import { ContractDetail, RecordDetail } from "~/api/authorizedContract";
 import { Category } from "~/api/categoryAPI";
-import { ActionDataType } from "~/components/Action";
 import { Input } from "~/components/Input";
 import { PagingItemType } from "~/components/Paging";
 import { Table } from "~/components/Table";
@@ -87,19 +86,19 @@ function RevenueManagementPage() {
                 return {
                     records: record,
                     recordPlays: recordPlayItem,
-                    totalPlays: recordPlayItem.reduce((sum, item) => sum + parseInt(item.playsCount), 0)
+                    totalPlay: recordPlayItem.reduce((sum, item) => sum + parseInt(item.playsCount), 0)
                 }
             });
-            const totalPlays = records.reduce((sum, item) => sum + item.totalPlays, 0);
-
+            const totalPlay = records.reduce((sum, item) => sum + item.totalPlay, 0);
+            
             return {
                 contract: contract,
                 records: records,
-                totalPlays: totalPlays,
-                revenue: totalPlays * (parseInt(contract.CPM) / 1000),
-                royalties: (totalPlays * (parseInt(contract.CPM) / 1000) * parseInt(contract.royalties)) / 100,
+                totalPlay: totalPlay,
+                revenue: totalPlay * (parseInt(contract.CPM) / 1000),
+                royalties: (totalPlay * (parseInt(contract.CPM) / 1000) * parseFloat(contract.royalties)) / 100,
                 date: formatDateDMYHPTS(date),
-                administrativeFee: (totalPlays * (parseInt(contract.CPM) / 1000) * parseInt(contract.administrativeFee)) / 100,
+                administrativeFee: (totalPlay * (parseInt(contract.CPM) / 1000) * parseInt(contract.administrativeFee)) / 100,
             }
         });
 
@@ -153,8 +152,6 @@ function RevenueManagementPage() {
         dispatch(setContractsDetail(contractDetailList));
         setActive(false);
     }
-
-    console.log(contractDetailList);
 
     return (
         <CommonPage

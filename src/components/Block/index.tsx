@@ -35,8 +35,8 @@ type BlockInfoProps = {
 export const BlockInfo = memo(({ data, className }: BlockInfoProps) => {
     return (
         <div className={cx('block-info-container', className)}>
-            {data.map(item =>
-                <BlockInfoItem key={item.title} data={item.children} />
+            {data.map((item, index) =>
+                <BlockInfoItem key={index} data={item.children} />
             )}
         </div>
     );

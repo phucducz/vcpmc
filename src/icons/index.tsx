@@ -21,6 +21,8 @@ export { default as vector1Icon } from './vector-1-icon';
 export { default as vector2Icon } from './vector-2-icon';
 export { default as vector3Icon } from './vector-3-icon';
 export { default as vector4Icon } from './vector-4-icon';
+export { default as ecreiptIcon } from './ecreipt-icon';
+export { default as fileCheckAltIcon } from './file-check-alt';
 
 export type IconProps = {
     icon: any;

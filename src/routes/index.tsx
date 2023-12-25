@@ -34,10 +34,19 @@ import RecordPage from "~/pages/Record/Record";
 import ResetPassPage from "~/pages/ResetPassPage";
 import NoFoundPage from "~/pages/ResetPassPage/NoFound";
 import RevenueDetailPage from "~/pages/Revenue/Detail";
+import HistoryForControlDetailPage from "~/pages/Revenue/ForControl/Detail";
+import HistoryForControlPage from "~/pages/Revenue/ForControl/History";
+import RevenueReportDetailPage from "~/pages/Revenue/Report/Detail";
+import RevenueReportPage from "~/pages/Revenue/Report/Report";
+import RevenueContractReportDetailPage from "~/pages/Revenue/Report/RevenueContractDetail";
 import RevenueManagementPage from "~/pages/Revenue/Revenue";
 import SupportDownloadPage from "~/pages/Support/Download";
 import SupportFeedbackPage from "~/pages/Support/Feedback";
+import UnitUsedDetailPage from "~/pages/UnitUsed/Detail";
 import UnitManagementPage from "~/pages/UnitUsed/UnitManagement";
+import AddUserOfUnitPage from "~/pages/UnitUsed/User/AddUser";
+import UserOfUnitDetailPage from "~/pages/UnitUsed/User/Detail";
+import EditUserOfUnitPage from "~/pages/UnitUsed/User/EditUser";
 import AddRolePage from "~/pages/User/AddRole";
 import AddUserPage from "~/pages/User/AddUser";
 import UserAuthorizationPage from "~/pages/User/Authorization";
@@ -68,15 +77,22 @@ export const publicRoutes = [
     { path: routes.PlaylistScheduleDetail, Component: PlaylistScheduleDetailPage },
     { path: routes.PlaylistScheduleEdit, Component: PlaylistScheduleEditPage },
     { path: routes.ApplySchedule, Component: AppySchedulePage },
+    { path: routes.EditUserOfUnit, Component: EditUserOfUnitPage },
     { path: routes.AddPlaylistSchedule, Component: AddPlaylistSchedulePage },
     { path: routes.Unit, Component: UnitManagementPage },
+    { path: routes.EditUnit, Component: UnitUsedDetailPage },
+    { path: routes.AddUserOfUnit, Component: AddUserOfUnitPage },
+    { path: routes.UserOfUnitDetail, Component: UserOfUnitDetailPage },
     { path: routes.AuthorizedContract, Component: AuthorizedContract },
     { path: routes.EidtAuthorizedContract, Component: EditAuthorizedContract },
     { path: routes.DeviceManagement, Component: DeviceManagementPage },
     { path: routes.DeviceDetail, Component: DeviceDetailPage },
     { path: routes.AddDevice, Component: AddDevicePage },
     { path: routes.RevenueManagement, Component: RevenueManagementPage },
+    { path: routes.RevenueReport, Component: RevenueReportPage },
+    { path: routes.RevenueReportDetail, Component: RevenueReportDetailPage },
     { path: routes.RevenueDetail, Component: RevenueDetailPage },
+    { path: routes.RevenueContractReportDetail, Component: RevenueContractReportDetailPage },
     { path: routes.UserAuthorizationManagement, Component: UserAuthorizationPage },
     { path: routes.UserRoleManagemet, Component: UserRolePage },
     { path: routes.EditUser, Component: EditUserPage },
@@ -91,5 +107,7 @@ export const publicRoutes = [
     { path: routes.ConfigEditTypeContract, Component: EditTypeContractPage },
     { path: routes.ConfigForControlCircle, Component: ForControlCirclePage },
     { path: routes.SupportDownload, Component: SupportDownloadPage },
-    { path: routes.SupportFeedback, Component: SupportFeedbackPage }
+    { path: routes.SupportFeedback, Component: SupportFeedbackPage },
+    { path: routes.HistoryForControl, Component: HistoryForControlPage },
+    { path: routes.HistoryForControlDetail, Component: HistoryForControlDetailPage }
 ];

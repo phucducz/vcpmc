@@ -87,17 +87,23 @@ export const MenuProvider = ({ children }: MenuProviderProps) => {
             children: [
                 {
                     title: 'Báo cáo doanh thu',
-                    onClick: () => { },
+                    onClick: () => {
+                        setMenuActive(5);
+                        navigate(routes.RevenueReport);
+                    },
                     functionalCode: [],
                 }, {
                     title: 'Lịch sử đối soát',
-                    onClick: () => { },
+                    onClick: () => {
+                        setMenuActive(5);
+                        navigate(routes.HistoryForControl);
+                    },
                     functionalCode: [],
                 }, {
                     title: 'Phân phối doanh thu',
                     onClick: () => {
                         setMenuActive(5);
-                        navigate(routes.RevenueManagement)
+                        navigate(routes.RevenueManagement);
                     },
                     functionalCode: [],
                 }

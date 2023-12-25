@@ -52,10 +52,3 @@ export const saveRecord = createAsyncThunk(
         await addRecord(data);
     }
 );
-
-// export const approveRecordList = createAsyncThunk(
-//     'record/approveRecordList',
-//     async (approvals: Array<Approval>) => {
-//         await approveRecords(approvals);
-//     }
-// );

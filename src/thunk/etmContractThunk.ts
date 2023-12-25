@@ -1,7 +1,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 
-import { getEtmContracts, getEtmContractById, saveETMContract, EtmContract, getEtmContractsDetail, getETMContractTypes, ETMContractType, updateContractTypesById, addContractTypesAPI, deleteContractTypesAPI } from "~/api/etmContractAPI";
-import { saveUser } from "./userThunk";
+import { getEtmContracts, getEtmContractById, saveETMContract, EtmContract, getEtmContractsDetail, getETMContractTypes, ETMContractType, updateContractTypesById, addContractTypesAPI, deleteContractTypesAPI, getEtmContractForControlList, addEmployeeToContract, deleteEmployeesById, deleteContractById, EtmContractDetail, EtmContractForControl, checkpointContracts } from "~/api/etmContractAPI";
+import { addUser, getUsers, saveUser } from "./userThunk";
 import { User, addUserAPI } from "~/api/userAPI";
 
 export const getEtmContractList = createAsyncThunk(
@@ -57,14 +57,21 @@ export const getEtmContractListDetail = createAsyncThunk(
     async () => {
         return await getEtmContractsDetail();
     }
-)
+);
+
+export const getEtmContractForControls = createAsyncThunk(
+    'etmContract/getEtmContractForControls',
+    async () => {
+        return await getEtmContractForControlList();
+    }
+);
 
 export const getEtmContractTypes = createAsyncThunk(
     'etmContract/getEtmContractTypes',
     async () => {
         return await getETMContractTypes();
     }
-)
+);
 
 export const updateEtmContractTypes = createAsyncThunk(
     'etmContract/updateEtmContractTypes',
@@ -72,7 +79,7 @@ export const updateEtmContractTypes = createAsyncThunk(
         await updateContractTypesById(types);
         navigate();
     }
-)
+);
 
 export const addEtmContractType = createAsyncThunk(
     'etmContract/addEtmContractTypes',
@@ -80,7 +87,7 @@ export const addEtmContractType = createAsyncThunk(
         await addContractTypesAPI(type);
         thunkAPI.dispatch(getEtmContractTypes());
     }
-)
+);
 
 export const deleteEtmContractType = createAsyncThunk(
     'etmContract/deleteEtmContractType',
@@ -88,4 +95,66 @@ export const deleteEtmContractType = createAsyncThunk(
         await deleteContractTypesAPI(id);
         thunkAPI.dispatch(getEtmContractTypes());
     }
-)
+);
+
+export const addEmployee = createAsyncThunk(
+    'etmContract/addEmployee',
+    async ({ user, employeeIds, navigate, entrustmentContractId }: {
+        user: Omit<User, 'role' | 'id'>;
+        navigate: () => void;
+        employeeIds: Array<string>;
+        entrustmentContractId: string;
+    }, thunkAPI) => {
+        await addEmployeeToContract({ user, employeeIds, entrustmentContractId });
+
+        await thunkAPI.dispatch(getEtmContractListDetail());
+        await thunkAPI.dispatch(getUsers());
+
+        navigate();
+    }
+);
+
+export const updateEmployee = createAsyncThunk(
+    'etmContract/updateEmployee',
+    async ({ user, navigate }: {
+        user: Omit<User, 'role'>;
+        navigate: () => void;
+    }, thunkAPI) => {
+        await thunkAPI.dispatch(saveUser({ user }));
+
+        await thunkAPI.dispatch(getUsers());
+
+        navigate();
+    }
+);
+
+export const deleteEmployees = createAsyncThunk(
+    'etmContract/deleteEmployees',
+    async ({ currentEmployees, employeeIds, id }: { currentEmployees: Array<string>, id: string, employeeIds: Array<string> }, thunkAPI) => {
+        if (id === '') return;
+
+        await deleteEmployeesById({ currentEmployees, id, employeeIds });
+
+        await thunkAPI.dispatch(getEtmContractListDetail());
+        await thunkAPI.dispatch(getUsers());
+    }
+);
+
+export const deleteContracts = createAsyncThunk(
+    'etmContract/deleteContracts',
+    async (contracts: Array<EtmContractDetail>, thunkAPI) => {
+        await deleteContractById(contracts);
+
+        await thunkAPI.dispatch(getEtmContractListDetail());
+        await thunkAPI.dispatch(getUsers());
+    }
+);
+
+export const checkpointAllContract = createAsyncThunk(
+    'etmContract/checkpointAllContract',
+    async ({ contracts, checkpointDate }: { contracts: Array<EtmContractForControl>; checkpointDate: string }, thunkAPI) => {
+        await checkpointContracts({ contracts, checkpointDate });
+
+        thunkAPI.dispatch(getEtmContractForControls());
+    }
+);

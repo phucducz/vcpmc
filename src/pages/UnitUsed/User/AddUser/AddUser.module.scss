@@ -1,0 +1,23 @@
+.form__body__combobox-role {
+    & li {
+        padding-top: 0 !important;
+
+        &>div {
+            width: 256px;
+            height: 48px;
+            background-color: var(--bg-input);
+            outline: none;
+            color: var(--white);
+            border: 1px solid rgb(114, 114, 136);
+
+            & input {
+                text-transform: capitalize;
+            }
+        }
+
+        &>ul {
+            width: 256px!important;
+            z-index: 1!important;
+        }
+    }
+}

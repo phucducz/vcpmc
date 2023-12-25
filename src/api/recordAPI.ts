@@ -23,11 +23,12 @@ export type Record = {
     time: string;
     expirationDate: string;
     status: string;
+    etmContractsId?: string;
 }
 
 export const getRecordList = async () => {
     const resultSnapshot = getDocs(collection(firestoreDatabase, 'records'));
-
+    
     return (await resultSnapshot).docs.map(doc => ({
         id: doc.id,
         imageURL: doc.data().imageURL,
@@ -45,7 +46,8 @@ export const getRecordList = async () => {
         nameRecord: doc.data().nameRecord,
         producer: doc.data().producer,
         singer: doc.data().singer,
-        time: doc.data().time
+        time: doc.data().time,
+        etmContractsId: doc.data().etmContractsId
     }));
 }
 

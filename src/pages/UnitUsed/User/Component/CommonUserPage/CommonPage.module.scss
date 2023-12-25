@@ -1,0 +1,47 @@
+.form__body {
+    display: flex;
+    gap: 173px;
+}
+
+.form__body__combobox-role {
+    & li {
+        padding-top: 0 !important;
+
+        &>div {
+            width: 256px;
+            height: 48px;
+            background-color: var(--bg-input);
+            outline: none;
+            color: var(--white);
+            border: 1px solid rgb(114, 114, 136);
+
+            & input {
+                text-transform: capitalize;
+            }
+        }
+
+        &>ul {
+            width: 256px !important;
+        }
+    }
+}
+
+.form__note {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    margin-top: 40px;
+
+    &>p:first-child {
+        color: var(--color-red);
+    }
+
+    &>p {
+        color: var(--text-stroke-text-and-stroke, #F5F5FF);
+        font-size: 12px;
+        font-weight: 500;
+        line-height: 18px;
+        letter-spacing: 0.06px;
+        opacity: .5;
+    }
+}

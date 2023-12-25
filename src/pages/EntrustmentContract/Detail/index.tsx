@@ -8,7 +8,6 @@ import { useNavigate, useParams } from "react-router";
 
 import { EtmContract } from "~/api/etmContractAPI";
 import { User, getUserById } from "~/api/userAPI";
-import { ActionDataType } from "~/components/Action";
 import { Button } from "~/components/Button";
 import Loading from "~/components/Loading";
 import { PagingItemType } from "~/components/Paging";
@@ -16,8 +15,8 @@ import { routes } from "~/config/routes";
 import { Yup } from "~/constants";
 import { RootState, useAppDispatch } from "~/store";
 import { cancelEntrustmentContract, getETMContractById, saveEntrustmentContract } from "~/thunk/etmContractThunk";
-import style from './ETMContractDetail.module.scss';
 import { CommonPageContractEdit } from "../Components/CommonPageContractEdit";
+import style from './ETMContractDetail.module.scss';
 
 const cx = classNames.bind(style);
 

@@ -2,20 +2,19 @@ import { faFileExport } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import classNames from "classnames/bind";
 import { useCallback, useEffect, useState } from "react";
-import { useParams } from "react-router";
 import { useSelector } from "react-redux";
+import { useParams } from "react-router";
 
 import { ContractDetail, RecordDetail } from "~/api/authorizedContract";
 import { Record } from "~/api/recordAPI";
-import { ActionDataType } from "~/components/Action";
+import { RecordPlays } from "~/api/recordPlay";
 import { PagingItemType } from "~/components/Paging";
 import { Table } from "~/components/Table";
 import { routes } from "~/config/routes";
+import { formatMoney } from "~/context";
 import { CommonPage } from "~/pages/CommonPage";
 import { RootState } from "~/store";
 import style from './Detail.module.scss';
-import { formatMoney } from "~/context";
-import { RecordPlays } from "~/api/recordPlay";
 
 const cx = classNames.bind(style);
 
@@ -32,12 +31,12 @@ function RevenueDetailPage() {
     const [loading, setLoading] = useState<boolean>(false);
     const [currentItems, setCurrentItems] = useState<Array<RecordDetail>>([] as Array<RecordDetail>);
     const [itemsPerPage, setItemsPerPage] = useState<string>('8');
-    const [itemActive, setItemActive] = useState<RecordDetail & { totalPlays: number, revenue: number }>({
+    const [itemActive, setItemActive] = useState<RecordDetail & { totalPlay: number, revenue: number }>({
         records: {} as Record,
         recordPlays: [] as Array<RecordPlays>,
-        totalPlays: 0,
+        totalPlay: 0,
         revenue: 0
-    } as RecordDetail & { totalPlays: number, revenue: number });
+    } as RecordDetail & { totalPlay: number, revenue: number });
 
     useEffect(() => {
         setPaging([
@@ -65,8 +64,6 @@ function RevenueDetailPage() {
         ]);
 
         const contractDetail = contract.contractDetails.find(contractDetail => contractDetail.contract.id === id) || {} as ContractDetail
-
-        console.log(contractDetail);
 
         setContractDetail(contractDetail);
         setSearchResult(contractDetail.records);
@@ -96,7 +93,7 @@ function RevenueDetailPage() {
     }, []);
 
     const handleRecordItemClick = (item: RecordDetail) => {
-        let revenue = item.totalPlays * parseInt(contractDetail.contract.CPM) / 1000;
+        let revenue = item.totalPlay * parseInt(contractDetail.contract.CPM) / 1000;
 
         setItemActive({ ...item, revenue: revenue });
     }
@@ -133,13 +130,13 @@ function RevenueDetailPage() {
                         <tr style={{ height: '56px' }}>
                             <td><p>Tổng</p></td>
                             <td><p>{currentItems.length}</p></td>
-                            <td><p>{currentItems.reduce((sum, item) => sum + item.totalPlays, 0)}</p></td>
-                            <td><p>{formatMoney(currentItems.reduce((sum, item) => sum + item.totalPlays, 0) * parseInt(contractDetail.contract.CPM) / 1000).split('₫')[0]}</p></td>
-                            <td><p>{formatMoney(currentItems.reduce((sum, item) => sum + item.totalPlays, 0) * parseInt(contractDetail.contract.CPM) / 1000 * parseInt(contractDetail.contract.administrativeFee) / 100).split('₫')[0]}</p></td>
-                            <td><p>{formatMoney(currentItems.reduce((sum, item) => sum + item.totalPlays, 0) * parseInt(contractDetail.contract.CPM) / 1000 * parseInt(contractDetail.contract.royalties) / 100).split('₫')[0]}</p></td>
+                            <td><p>{currentItems.reduce((sum, item) => sum + item.totalPlay, 0)}</p></td>
+                            <td><p>{formatMoney(currentItems.reduce((sum, item) => sum + item.totalPlay, 0) * parseInt(contractDetail.contract.CPM) / 1000).split('₫')[0]}</p></td>
+                            <td><p>{formatMoney(currentItems.reduce((sum, item) => sum + item.totalPlay, 0) * parseInt(contractDetail.contract.CPM) / 1000 * parseInt(contractDetail.contract.administrativeFee) / 100).split('₫')[0]}</p></td>
+                            <td><p>{formatMoney(currentItems.reduce((sum, item) => sum + item.totalPlay, 0) * parseInt(contractDetail.contract.CPM) / 1000 * parseInt(contractDetail.contract.royalties) / 100).split('₫')[0]}</p></td>
                         </tr>
                         {currentItems.map((item, index) => {
-                            let revenue = item.totalPlays * parseInt(contractDetail.contract.CPM) / 1000;
+                            let revenue = item.totalPlay * parseInt(contractDetail.contract.CPM) / 1000;
                             let royalties = revenue * parseInt(contractDetail.contract.royalties) / 100;
                             let administrativeFee = revenue * parseInt(contractDetail.contract.administrativeFee) / 100;
 
@@ -147,7 +144,7 @@ function RevenueDetailPage() {
                                 <tr key={item.records.id} style={{ height: '56px' }} className={cx('table-record__tr__item')} onClick={() => handleRecordItemClick(item)}>
                                     <td><p style={{ textAlign: 'center' }}>{index + 1}</p></td>
                                     <td><p>{item.records.nameRecord}</p></td>
-                                    <td><p>{item.totalPlays}</p></td>
+                                    <td><p>{item.totalPlay}</p></td>
                                     <td><p>{formatMoney(revenue).split('₫')[0]}</p></td>
                                     <td><p>{formatMoney(administrativeFee).split('₫')[0]}</p></td>
                                     <td><p>{formatMoney(royalties).split('₫')[0]}</p></td>
@@ -169,7 +166,7 @@ function RevenueDetailPage() {
                             cellSpacing="0"
                             className={cx('table__record-plays')}
                         >
-                            <tr style={{ height: '56px' }}>
+                            <tr style={{ height: '47px' }}>
                                 <td><p>Tổng</p></td>
                                 <td><p>{itemActive.recordPlays.reduce((sum, item) => sum + parseInt(item.playsCount), 0)}</p></td>
                                 <td><p>{formatMoney(itemActive.revenue).split('₫')[0]}</p></td>
@@ -178,7 +175,7 @@ function RevenueDetailPage() {
                                 let revenue = parseInt(item.playsCount) * parseInt(contractDetail.contract.CPM) / 1000;
 
                                 return (
-                                    <tr key={item.id} style={{ height: '56px' }} className={cx('table-record__tr__item')}>
+                                    <tr key={item.id} style={{ height: '47px' }} className={cx('table-record__tr__item')}>
                                         <td><p>CTy TNHH A</p></td>
                                         <td><p>{item.playsCount}</p></td>
                                         <td><p>{formatMoney(revenue).split('₫')[0]}</p></td>

@@ -32,18 +32,23 @@ export {
     LANGUAGE_ITEMS, ROLES, Yup
 };
 
-export const QUARTERLY = [
+export interface Quarter {
+    quarter: string;
+    time: string;
+}
+
+export const QUARTERLY: Array<Quarter> = [
     {
-        quarter: 'Quý 1:',
+        quarter: 'Quý 1',
         time: '01/06 - 30/07'
     }, {
-        quarter: 'Quý 2:',
+        quarter: 'Quý 2',
         time: '01/08 - 30/09'
     }, {
-        quarter: 'Quý 3:',
+        quarter: 'Quý 3',
         time: '01/10 - 30/11'
     }, {
-        quarter: 'Quý 4:',
+        quarter: 'Quý 4',
         time: '01/12 - 31/12'
     }
 ];

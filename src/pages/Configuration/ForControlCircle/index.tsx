@@ -116,7 +116,7 @@ function ForControlCirclePage() {
                             <div className={cx('quarterly__content', forControlFormik.values.type === 'quarterly' && 'active')}>
                                 {quarterly.map((quarter, index) =>
                                     <div key={index} className={cx('quarterly__content__item')}>
-                                        <p>{quarter.quarter}</p>
+                                        <p>{quarter.quarter}:</p>
                                         <p>{quarter.time}</p>
                                     </div>
                                 )}
