@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import classNames from "classnames/bind";
 import { useCallback, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router";
 
 import { EtmContractForControl } from "~/api/etmContractAPI";
 import { Button } from "~/components/Button";
@@ -13,14 +14,13 @@ import { Table } from "~/components/Table";
 import { routes } from "~/config/routes";
 import { QUARTERLY, Quarter } from "~/constants";
 import { formatDateYMD } from "~/context";
+import { useMenu } from "~/context/hooks";
 import { Icon, fileCheckAltIcon } from "~/icons";
 import { CommonPage } from "~/pages/CommonPage";
 import { RootState, useAppDispatch } from "~/store";
 import { checkpointAllContract, getEtmContractForControls } from "~/thunk/etmContractThunk";
 import { Filter } from "../Report";
 import style from './Detail.module.scss';
-import { useNavigate } from "react-router";
-import { useMenu } from "~/context/hooks";
 
 const cx = classNames.bind(style);
 

@@ -157,7 +157,6 @@ function RevenueDetailPage() {
                         <p className={cx('table-right__record-name')}>{itemActive.records.nameRecord || 'Tên bản ghi'}</p>
                         <Table
                             paginateClass={cx('table__paginate')}
-                            loading={loading}
                             itemsPerPage={itemsPerPage}
                             setItemsPerPage={handleChange}
                             thead={['Đơn vị khai thác', 'Số lượt phát', 'Doanh thu (VNĐ)']}

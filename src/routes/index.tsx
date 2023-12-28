@@ -12,12 +12,14 @@ import ForControlCirclePage from "~/pages/Configuration/ForControlCircle";
 import AddDevicePage from "~/pages/Device/Add";
 import DeviceDetailPage from "~/pages/Device/Detail";
 import DeviceManagementPage from "~/pages/Device/Device";
-import AddETMContractPage from "~/pages/EntrustmentContract/Add";
-import ETMEntrustmentCopyPage from "~/pages/EntrustmentContract/Copy";
-import ETMContractDetailPage from "~/pages/EntrustmentContract/Detail";
-import EntrusmentPage from "~/pages/EntrustmentContract/Entrustment";
 import LoginPage from "~/pages/Login/Login";
 import RecoverPage from "~/pages/Login/RecoverPage";
+import AuthorizedContractManagementPage from "~/pages/ManagementContract/AuthorizedContract";
+import AuthorizedContractDetailPage from "~/pages/ManagementContract/AuthorizedContract/Detail";
+import AddETMContractPage from "~/pages/ManagementContract/EntrustmentContract/Add";
+import ETMEntrustmentCopyPage from "~/pages/ManagementContract/EntrustmentContract/Copy";
+import ETMContractDetailPage from "~/pages/ManagementContract/EntrustmentContract/Detail";
+import EntrusmentPage from "~/pages/ManagementContract/ManagementList";
 import AddPlaylistPage from "~/pages/Playlist/AddPlaylist";
 import AddRecordPlaylistPage from "~/pages/Playlist/AddRecord";
 import PlaylistDetailPage from "~/pages/Playlist/Detail";
@@ -64,10 +66,12 @@ export const publicRoutes = [
     { path: routes.RecordPage, Component: RecordPage },
     { path: routes.EditRecord, Component: EditRecord },
     { path: routes.ApproveRecord, Component: ApprovePage },
-    { path: routes.Entrustment, Component: EntrusmentPage },
+    { path: routes.ManagementList, Component: EntrusmentPage },
     { path: routes.ETMContractDetail, Component: ETMContractDetailPage },
     { path: routes.AddETMContract, Component: AddETMContractPage },
     { path: routes.ETMContractCopy, Component: ETMEntrustmentCopyPage },
+    { path: routes.AuthorizedManagement, Component: AuthorizedContractManagementPage },
+    { path: routes.AuthorizedContractDetail, Component: AuthorizedContractDetailPage },
     { path: routes.PlaylistManagement, Component: PlaylistPage },
     { path: routes.PlaylistDetail, Component: PlaylistDetailPage },
     { path: routes.EditPlaylistDetail, Component: EditPlaylistDetailPage },

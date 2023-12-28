@@ -1,80 +1,72 @@
-import { faEdit, faXmark } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import classNames from "classnames/bind";
-import { useFormik } from "formik";
-import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router";
+import { useFormik } from "formik";
+import { useSelector } from "react-redux";
 
-import { EtmContract } from "~/api/etmContractAPI";
-import { User, getUserById } from "~/api/userAPI";
-import { Button } from "~/components/Button";
-import Loading from "~/components/Loading";
+import style from './EntrusmentCopy.module.scss';
 import { PagingItemType } from "~/components/Paging";
 import { routes } from "~/config/routes";
-import { Yup } from "~/constants";
+import { Button } from "~/components/Button";
+import { User, getUserById } from "~/api/userAPI";
+import { EtmContract } from "~/api/etmContractAPI";
 import { RootState, useAppDispatch } from "~/store";
-import { cancelEntrustmentContract, getETMContractById, saveEntrustmentContract } from "~/thunk/etmContractThunk";
+import { getETMContractById, saveEntrustmentContract } from "~/thunk/etmContractThunk";
+import { Yup } from "~/constants";
+import Loading from "~/components/Loading";
+import { formatToLocalStringCurrentDate } from "~/context";
+import { useEffect } from "react";
 import { CommonPageContractEdit } from "../Components/CommonPageContractEdit";
-import style from './ETMContractDetail.module.scss';
 
 const cx = classNames.bind(style);
 
 const PAGING_ITEMS: Array<PagingItemType> = [
     {
         title: 'Quản lý',
-        to: routes.Entrustment,
-        active: true
+        to: '#'
     }, {
         title: 'Quản lý hợp đồng',
-        to: routes.Entrustment,
-        active: true
+        to: routes.ManagementList
     }, {
         title: 'Chi tiết',
-        to: "#",
-        active: true
+        to: "#"
     }
 ];
 
-function ETMContractDetailPage() {
+function ETMEntrustmentCopyPage() {
     const { id } = useParams();
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
 
     const etmContract = useSelector((state: RootState) => state.etmContract);
+    const user = useSelector((state: RootState) => state.user);
     const role = useSelector((state: RootState) => state.role);
-
-    const [actionData, setActionData] = useState<Array<any>>([]);
-    const [edit, setEdit] = useState<boolean>(false);
 
     const contractFormik = useFormik({
         initialValues: {
             id: '',
             code: '',
-            contractCode: '',
             createdBy: '',
             createdDate: '',
             distributionValue: '',
             effectiveDate: '',
             expirationDate: '',
             name: '',
-            status: '',
-            type: '',
+            status: 'Mới',
+            type: 'Trọn gói',
             value: '',
             companyName: '',
+            contractCode: '',
             position: '',
-            usersId: '',
+            usersId: user.currentUser.id,
             avatar: '',
             bank: '',
             bankNumber: '',
             dateOfBirth: '',
             dateRange: '',
             email: '',
-            firstName: '',
-            gender: '',
+            gender: 'Nam',
             idNumber: '',
             issuedBy: '',
-            lastName: '',
             nationality: '',
             password: '',
             phoneNumber: '',
@@ -83,50 +75,45 @@ function ETMContractDetailPage() {
             taxCode: '',
             userName: '',
             fullName: '',
-            playValue: ''
+            playValue: '',
         },
         validationSchema: Yup.object({
-            id: Yup.string().required(),
             code: Yup.string().required(),
-            createdDate: Yup.string().required(),
-            distributionValue: Yup.string().required(),
             effectiveDate: Yup.string().required(),
             expirationDate: Yup.string().required(),
             name: Yup.string().required(),
-            status: Yup.string().required(),
             type: Yup.string().required(),
-            value: Yup.string().required(),
             companyName: Yup.string().required(),
             position: Yup.string().required(),
-            usersId: Yup.string().required(),
             bank: Yup.string().required(),
             bankNumber: Yup.string().required(),
             dateOfBirth: Yup.string().required(),
             dateRange: Yup.string().required(),
-            email: Yup.string().required(),
-            firstName: Yup.string().required(),
+            email: Yup.string()
+                .required("Không được để trống")
+                .matches(/^\S+@\S+\.\S+$/, "Vui lòng nhập địa chỉ đúng định dạng"),
             gender: Yup.string().required(),
-            idNumber: Yup.string().required(),
+            idNumber: Yup.number().required(),
             issuedBy: Yup.string().required(),
-            lastName: Yup.string().required(),
             nationality: Yup.string().required(),
             password: Yup.string().required(),
-            phoneNumber: Yup.string().required(),
+            phoneNumber: Yup.string().required().matches(/(84|0[3|5|7|8|9])+([0-9]{8})\b/g),
             residence: Yup.string().required(),
-            rolesId: Yup.string().required(),
-            taxCode: Yup.string().required(),
-            userName: Yup.string().required(),
-            fullName: Yup.string().required()
+            taxCode: Yup.number().required(),
+            usersId: Yup.string().required(),
+            userName: Yup.string()
+                .required("Không được để trống")
+                .matches(/^\S+@\S+\.\S+$/, "Vui lòng nhập đúng định dạng"),
+            distributionValue: Yup.number().required(),
+            value: Yup.number().required(),
+            playValue: Yup.number().required(),
         }),
         onSubmit: values => {
-            const { code, distributionValue, effectiveDate, expirationDate, id, name, playValue,
-                status, type, value, companyName, position, createdBy, createdDate, usersId } = values;
+            const { code, distributionValue, effectiveDate, expirationDate, name,
+                playValue, fullName, type, value, companyName, position } = values;
 
-            const { avatar, bank, bankNumber, dateOfBirth, dateRange, email, gender,
-                idNumber, issuedBy, nationality, password, phoneNumber, residence,
-                rolesId, taxCode, userName, fullName } = values;
-
-            const fullNameList = fullName.split(' ');
+            const { avatar, bank, bankNumber, dateOfBirth, dateRange, email, gender, idNumber, usersId,
+                issuedBy, nationality, password, phoneNumber, residence, taxCode, userName } = values;
 
             const formatToDMY = (date: string) => {
                 const dateArray = date.split('-');
@@ -134,11 +121,12 @@ function ETMContractDetailPage() {
                 return `${dateArray[2]}/${dateArray[1]}/${dateArray[0]}`;
             }
 
+            const fullNameList = fullName.split(' ');
+
             const user: Omit<User, 'role'> = {
                 avatar: avatar,
                 bank: bank,
                 bankNumber: bankNumber,
-                companyName: companyName,
                 dateOfBirth: formatToDMY(dateOfBirth),
                 dateRange: formatToDMY(dateRange),
                 email: email,
@@ -151,41 +139,40 @@ function ETMContractDetailPage() {
                 password: password,
                 phoneNumber: phoneNumber,
                 residence: residence,
-                rolesId: rolesId,
+                rolesId: 'JhKyWdxCPbLtOSAboKZD',
                 taxCode: taxCode,
                 userName: userName,
-                id: usersId
+                id: ''
             }
 
             const contract: EtmContract = {
-                id: id,
+                id: '',
                 code: code,
-                createdBy: createdBy,
-                createdDate: createdDate,
+                createdBy: usersId,
+                createdDate: formatToLocalStringCurrentDate(),
                 companyName: companyName,
                 distributionValue: distributionValue,
                 effectiveDate: formatToDMY(effectiveDate),
                 expirationDate: formatToDMY(expirationDate),
                 name: name,
-                status: status,
+                status: 'Mới',
                 type: type,
                 value: value,
                 position: position,
-                usersId: usersId,
-                playValue: playValue
+                usersId: '',
+                playValue: playValue,
             }
 
-            dispatch(saveEntrustmentContract({
-                contract,
-                user,
-                navigate: () => navigate(routes.Entrustment)
-            }));
+            // dispatch(saveEntrustmentContract({
+            //     contract,
+            //     user,
+            //     navigate: () => navigate(routes.ManagementList)
+            // }));
         }
     });
 
-    const { code, distributionValue, effectiveDate, expirationDate, playValue,
+    const { code, distributionValue, effectiveDate, expirationDate,
         name, status, type, value, companyName, position } = contractFormik.values;
-    console.log(contractFormik.errors);
 
     useEffect(() => {
         if (id === '') return;
@@ -222,69 +209,13 @@ function ETMContractDetailPage() {
         getUser();
     }, [etmContract.etmContract]);
 
-    const handleCancelContract = async () => {
-        const formatToDMY = (date: string) => {
-            const dateArray = date.split('-');
-
-            return `${dateArray[2]}/${dateArray[1]}/${dateArray[0]}`;
-        }
-
-        const { code, distributionValue, effectiveDate, expirationDate, name, usersId, id,
-            playValue, type, value, companyName, position, createdBy, createdDate } = contractFormik.values;
-
-        const contract: EtmContract = {
-            id: id,
-            code: code,
-            createdBy: createdBy,
-            createdDate: createdDate,
-            companyName: companyName,
-            distributionValue: distributionValue,
-            effectiveDate: formatToDMY(effectiveDate),
-            expirationDate: formatToDMY(expirationDate),
-            name: name,
-            status: 'Đã hủy',
-            type: type,
-            value: value,
-            position: position,
-            usersId: usersId,
-            playValue: playValue,
-        }
-
-        await dispatch(cancelEntrustmentContract({ contract }));
-        navigate(routes.Entrustment);
-    }
-
-    useEffect(() => {
-        let statusCancel = false;
-
-        if (status === 'Hết hiệu lực')
-            statusCancel = true;
-        if (status === 'Đã hủy')
-            statusCancel = true;
-
-        setActionData([
-            {
-                icon: <FontAwesomeIcon icon={faEdit} className={cx('edit-icon')} />,
-                title: 'Chỉnh sửa',
-                onClick: () => setEdit(true),
-                disable: status === 'Mới' ? false : true
-            }, {
-                icon: <FontAwesomeIcon icon={faXmark} />,
-                title: 'Huỷ hợp đồng',
-                onClick: () => handleCancelContract(),
-                disable: statusCancel
-            }
-        ]);
-    }, [status]);
-
     return (
-        <div className={cx('entrustment-detail-container')}>
+        <div className={cx('entrustment-contract-container')}>
             <CommonPageContractEdit
                 pagingData={PAGING_ITEMS}
-                title={`Hợp đồng khai thác - ${contractFormik.values.contractCode}`}
-                edit={edit}
+                title='Thêm hợp đồng khai thác mới'
+                edit={true}
                 formikData={contractFormik}
-                actionData={actionData}
                 data={
                     [
                         {
@@ -319,11 +250,11 @@ function ETMContractDetailPage() {
                                     title: 'Loại hợp đồng:',
                                     content: type
                                 }, {
-                                    title: type === 'Trọn gói' ? 'Giá trị hợp đồng (VNĐ):' : 'Giá trị lượt phát (VNĐ)/lượt',
-                                    content: type === 'Trọn gói' ? value : playValue
+                                    title: 'Giá trị hợp đồng (VNĐ):',
+                                    content: value
                                 }, {
-                                    title: type === 'Trọn gói' ? 'Giá trị phân phối (VNĐ/ngày):' : '',
-                                    content: type === 'Trọn gói' ? distributionValue : '',
+                                    title: 'Giá trị phân phối (VNĐ/ngày):',
+                                    content: distributionValue
                                 }, {
                                     title: 'Tình trạng:',
                                     content: status
@@ -398,7 +329,7 @@ function ETMContractDetailPage() {
                         }
                     ]}
             >
-                <Button outline type='button' onClick={() => setEdit(false)}>Hủy</Button>
+                <Button outline type='button' onClick={() => navigate(routes.ManagementList)}>Hủy</Button>
                 <Button type='submit'>Lưu</Button>
             </CommonPageContractEdit>
             <Loading visible={etmContract.loading} />
@@ -406,4 +337,4 @@ function ETMContractDetailPage() {
     );
 };
 
-export default ETMContractDetailPage;
+export default ETMEntrustmentCopyPage

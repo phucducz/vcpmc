@@ -1,25 +1,30 @@
-import classNames from "classnames/bind";
-import { memo, useCallback, useEffect, useMemo, useState } from "react";
-
 import { faFileExport } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { CategoryScale, Chart as ChartJS, Legend, LineElement, LinearScale, PointElement, Tooltip } from "chart.js";
+import classNames from "classnames/bind";
+import { memo, useCallback, useEffect, useRef, useState } from "react";
+import { Line } from "react-chartjs-2";
+import { ChartJSOrUndefined, ForwardedRef } from "react-chartjs-2/dist/types";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router";
+
 import { EtmContractForControl } from "~/api/etmContractAPI";
+import { RecordPlays } from "~/api/recordPlay";
 import { ComboBox } from "~/components/ComboBox";
+import Loading from "~/components/Loading";
 import { PagingItemType } from "~/components/Paging";
 import { routes } from "~/config/routes";
 import { QUARTERLY, Quarter } from "~/constants";
 import { formatDateYMD, formatMoney } from "~/context";
+import { useMenu } from "~/context/hooks";
 import { Icon, ecreiptIcon } from "~/icons";
 import { CommonPage } from "~/pages/CommonPage";
 import { RootState, useAppDispatch } from "~/store";
 import { getEtmContractForControls } from "~/thunk/etmContractThunk";
-import style from './Report.module.scss';
-import { useNavigate } from "react-router";
-import { useMenu } from "~/context/hooks";
-import Loading from "~/components/Loading";
 import { getRecordPlays } from "~/thunk/recordPlayThunk";
-import { RecordPlays } from "~/api/recordPlay";
+import style from './Report.module.scss';
+
+ChartJS.register(LineElement, PointElement, CategoryScale, LinearScale, Tooltip, Legend);
 
 const cx = classNames.bind(style);
 
@@ -40,6 +45,19 @@ type RevenueInfo = {
 type RevenueInfoBox = {
     data: { key: string; value: number | string };
     className?: string;
+}
+
+type ChartDataSet = {
+    label: string;
+    data: Array<any>;
+    borderColor: string;
+    tension: number;
+    backgroundColor?: any;
+}
+
+type ChartType = {
+    labels: Array<any>;
+    datasets: Array<ChartDataSet>;
 }
 
 const RevenueInfoBoxItem = memo(({ data, className }: RevenueInfoBox) => {
@@ -74,8 +92,153 @@ function RevenueReportPage() {
         unDistributedRevenue: '',
         administrativeFee: ''
     } as RevenueInfo);
+    const [chartData, setChartData] = useState<ChartType>({
+        labels: [],
+        datasets: [{
+            label: 'Lượt nghe',
+            data: [],
+            borderColor: 'orange',
+            tension: 0.1,
+            backgroundColor: ''
+        }],
+    });
 
     const REVENUE_INFO_KEYS = ['Tổng số bài hát', 'Tổng số lượt phát', 'Doanh thu trên lượt phát', 'Doanh thu chưa phân phối', 'Hành chính phí'];
+    const options = {
+        plugins: {
+            tooltip: {
+                enabled: false,
+                external: (context: any) => {
+                    let linesSplit = context.tooltip.body && context.tooltip.body[0].lines[0].split(':');
+                    let tooltipEl = document.getElementById('chartjs-tooltip');
+
+                    if (!tooltipEl) {
+                        tooltipEl = document.createElement('div');
+                        tooltipEl.id = 'chartjs-tooltip';
+                        tooltipEl.innerHTML = `<div></div>`;
+                        document.body.appendChild(tooltipEl);
+                    }
+
+                    const tooltipModel = context.tooltip;
+
+                    if (tooltipModel.body)
+                        tooltipEl.innerHTML = `
+                            <p id='chartjs-tooltip__title'>${linesSplit[0]}</p>
+                            <p id='chartjs-tooltip__content'>${linesSplit[1].trim()}</p>
+                            <div id='chartjs-tooltip__arrow'></div>
+                        `;
+
+                    const position = context.chart.canvas.getBoundingClientRect();
+
+                    tooltipEl.style.opacity = '0.7';
+                    tooltipEl.style.backgroundColor = 'rgba(62, 62, 91)';
+                    tooltipEl.style.borderRadius = '10px';
+                    tooltipEl.style.paddingTop = '8px';
+                    tooltipEl.style.position = 'absolute';
+                    tooltipEl.style.left = position.left + window.pageXOffset + tooltipModel.caretX - 80 + 'px';
+                    tooltipEl.style.top = position.top + window.pageYOffset + tooltipModel.caretY - 105 + 'px';
+                    tooltipEl.style.padding = tooltipModel.padding + 'px ' + tooltipModel.padding + 'px';
+                    tooltipEl.style.width = '156.566px';
+                    tooltipEl.style.height = '80px';
+                    tooltipEl.style.transition = 'opacity .2s linear';
+                    tooltipEl.style.boxShadow = 'rgba(0, 0, 0, 0.7) 0px 7px 15px 1px';
+
+                    let tooltipElTitle = document.getElementById('chartjs-tooltip__title');
+                    if (tooltipElTitle) {
+                        tooltipElTitle.style.color = 'rgba(235, 235, 245, 0.60)';
+                        tooltipElTitle.style.textAlign = 'center';
+                        tooltipElTitle.style.fontSize = '14px';
+                        tooltipElTitle.style.fontWeight = '500';
+                        tooltipElTitle.style.lineHeight = 'normal';
+                        tooltipElTitle.style.letterSpacing = '0.21px';
+
+                    }
+
+                    let tooltipElContent = document.getElementById('chartjs-tooltip__content');
+                    if (tooltipElContent) {
+                        tooltipElContent.style.color = '#FFF';
+                        tooltipElContent.style.textAlign = 'center';
+                        tooltipElContent.style.fontSize = '16px';
+                        tooltipElContent.style.fontWeight = '700';
+                        tooltipElContent.style.lineHeight = '24px';
+                        tooltipElContent.style.letterSpacing = '-0.032px';
+                    }
+
+                    let tooltipElArrow = document.getElementById('chartjs-tooltip__arrow');
+                    if (tooltipElArrow) {
+                        tooltipElArrow.style.height = '1rem';
+                        tooltipElArrow.style.width = '1rem';
+                        tooltipElArrow.style.position = 'absolute';
+                        tooltipElArrow.style.left = '45%';
+                        tooltipElArrow.style.bottom = '-5px';
+                        tooltipElArrow.style.borderLeft = '20px solid rgba(62, 62, 91, 0.70)';
+                        tooltipElArrow.style.borderTop = '20px solid transparent';
+                        tooltipElArrow.style.transform = 'rotate(135deg)';
+                        tooltipElArrow.style.zIndex = '1';
+                        tooltipElArrow.style.backgroundColor = 'rgba(62, 62, 91)';
+                    }
+
+                    if (tooltipModel.opacity === 0)
+                        tooltipEl.style.opacity = '0';
+                }
+            },
+            legend: { display: false },
+            interaction: {
+                intersect: false,
+                mode: 'point'
+            }
+        },
+        elements: {
+            point: {
+                hitRadius: 10,
+                hoverRadius: 10,
+                hoverBorderWidth: 4,
+                hoverBorderColor: 'white',
+            },
+            legend: {
+                display: false
+            }
+        },
+        onHover: (event: any, chartElement: any) => {
+            event.native.target.style.cursor = chartElement[0] ? 'pointer' : 'default';
+        }
+    }
+
+    useEffect(() => {
+        if (!contracts.length) return;
+
+        let daysOfMonth: Array<number> = [];
+        let dataOfDatasets: Array<number> = [];
+
+        for (let i = 0; i < 31; i++)
+            daysOfMonth.push(i + 1);
+        for (let i = 0; i < 9; i++)
+            dataOfDatasets.push(i + 1);
+
+        type RecordPlayOfMonth = { date: Date; playsCount: number };
+        let recordPlayOfMonth: Array<RecordPlayOfMonth> = [];
+        contracts.map(contract => {
+            return contract.recordPlay.map(recordPlay => {
+                recordPlayOfMonth.push({
+                    date: new Date(formatDateYMD(recordPlay.date)),
+                    playsCount: +recordPlay.playsCount
+                });
+            })
+        });
+
+        setChartData({
+            labels: daysOfMonth,
+            datasets: [{
+                label: 'Lượt nghe',
+                data: recordPlayOfMonth
+                    .sort((a: RecordPlayOfMonth, b: RecordPlayOfMonth) =>
+                        a.date.getMonth() - b.date.getMonth()).map(item => item.playsCount),
+                borderColor: 'orange',
+                backgroundColor: 'orange',
+                tension: 1,
+            }],
+        });
+    }, [contracts]);
 
     useEffect(() => {
         setPaging([
@@ -224,7 +387,6 @@ function RevenueReportPage() {
                         active={filter.type}
                         visible={filterTypeActive}
                         className={cx('renvenue-report__filter__type')}
-                        style={{ width: '264px' }}
                         onClick={() => setFilterTypeActive(!filterTypeActive)}
                         onItemClick={handleItemTypeClick}
                     />
@@ -233,7 +395,6 @@ function RevenueReportPage() {
                         active={filter.dataActive}
                         visible={filterDataActive}
                         className={cx('renvenue-report__filter__data')}
-                        style={{ width: '264px' }}
                         onClick={() => setFilterDataActive(!filterDataActive)}
                         onItemClick={handleItemDataClick}
                     />
@@ -252,6 +413,7 @@ function RevenueReportPage() {
                         ? `${currentDate?.getDate()}/${filter.dataActive.split(' ')[1]}`
                         : filter.dataActive
                 }</p>
+                <div style={{ color: 'white' }}><Line data={chartData} options={options}></Line></div>
             </div>
             <Loading visible={etmContract.loading} />
         </CommonPage>

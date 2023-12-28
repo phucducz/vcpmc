@@ -1,5 +1,5 @@
 .renvenue-report-detail {
-    &>div:last-child>div:first-child {
+    &>div:last-child>div:first-child>div {
         width: 1690px;
         display: flex;
         align-items: center;
@@ -24,7 +24,7 @@
         height: 48px;
 
         & input {
-            width: 264px !important;
+            width: calc(264px - 16px - 24px) !important;
             height: 48px;
         }
 
@@ -35,6 +35,8 @@
                 border-radius: 8px;
                 border: 1px solid var(--text-stroke-text-and-stroke-2, #727288);
                 background: var(--Background-BG, #1E1E2E);
+                position: relative;
+                z-index: 2;
             }
 
             &>ul {

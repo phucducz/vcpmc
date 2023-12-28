@@ -52,7 +52,7 @@ export const MenuProvider = ({ children }: MenuProviderProps) => {
                     title: 'Quản lý hợp đồng',
                     onClick: () => {
                         setMenuActive(4);
-                        navigate(routes.Entrustment);
+                        navigate(routes.ManagementList);
                     },
                     functionalCode: [],
                 }, {

@@ -75,7 +75,7 @@ export const getEtmContractTypes = createAsyncThunk(
 
 export const updateEtmContractTypes = createAsyncThunk(
     'etmContract/updateEtmContractTypes',
-    async ({ types, navigate }: { types: Array<ETMContractType>, navigate: () => void }, thunkAPI) => {
+    async ({ types, navigate }: { types: Array<ETMContractType>, navigate: () => void }) => {
         await updateContractTypesById(types);
         navigate();
     }

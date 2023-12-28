@@ -1,45 +1,35 @@
 import classNames from "classnames/bind";
-import { useNavigate, useParams } from "react-router";
-import { useFormik } from "formik";
+import { useNavigate } from "react-router";
+import { ErrorMessage, useFormik } from "formik";
 import { useSelector } from "react-redux";
 
-import style from './EntrusmentCopy.module.scss';
+import style from './AddETMContract.module.scss';
 import { PagingItemType } from "~/components/Paging";
 import { routes } from "~/config/routes";
 import { Button } from "~/components/Button";
-import { User, getUserById } from "~/api/userAPI";
+import { User } from "~/api/userAPI";
 import { EtmContract } from "~/api/etmContractAPI";
 import { RootState, useAppDispatch } from "~/store";
-import { getETMContractById, saveEntrustmentContract } from "~/thunk/etmContractThunk";
+import { saveEntrustmentContract } from "~/thunk/etmContractThunk";
 import { Yup } from "~/constants";
 import Loading from "~/components/Loading";
 import { formatToLocalStringCurrentDate } from "~/context";
-import { useEffect } from "react";
 import { CommonPageContractEdit } from "../Components/CommonPageContractEdit";
+import { useEffect, useState } from "react";
+import { useMenu } from "~/context/hooks";
 
 const cx = classNames.bind(style);
 
-const PAGING_ITEMS: Array<PagingItemType> = [
-    {
-        title: 'Quản lý',
-        to: '#'
-    }, {
-        title: 'Quản lý hợp đồng',
-        to: routes.Entrustment
-    }, {
-        title: 'Chi tiết',
-        to: "#"
-    }
-];
-
-function ETMEntrustmentCopyPage() {
-    const { id } = useParams();
+function AddETMContractPage() {
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
 
+    const { setActive } = useMenu();
+
     const etmContract = useSelector((state: RootState) => state.etmContract);
     const user = useSelector((state: RootState) => state.user);
-    const role = useSelector((state: RootState) => state.role);
+
+    const [paging, setPaging] = useState<Array<PagingItemType>>([] as Array<PagingItemType>);
 
     const contractFormik = useFormik({
         initialValues: {
@@ -55,7 +45,6 @@ function ETMEntrustmentCopyPage() {
             type: 'Trọn gói',
             value: '',
             companyName: '',
-            contractCode: '',
             position: '',
             usersId: user.currentUser.id,
             avatar: '',
@@ -103,7 +92,7 @@ function ETMEntrustmentCopyPage() {
             usersId: Yup.string().required(),
             userName: Yup.string()
                 .required("Không được để trống")
-                .matches(/^\S+@\S+\.\S+$/, "Vui lòng nhập đúng định dạng"),
+                .matches(/^\S+@\S+\.\S+$/, "Vui lòng nhập địa chỉ đúng định dạng"),
             distributionValue: Yup.number().required(),
             value: Yup.number().required(),
             playValue: Yup.number().required(),
@@ -127,6 +116,7 @@ function ETMEntrustmentCopyPage() {
                 avatar: avatar,
                 bank: bank,
                 bankNumber: bankNumber,
+                companyName: companyName,
                 dateOfBirth: formatToDMY(dateOfBirth),
                 dateRange: formatToDMY(dateRange),
                 email: email,
@@ -163,56 +153,39 @@ function ETMEntrustmentCopyPage() {
                 playValue: playValue,
             }
 
-            // dispatch(saveEntrustmentContract({
-            //     contract,
-            //     user,
-            //     navigate: () => navigate(routes.Entrustment)
-            // }));
+            dispatch(saveEntrustmentContract({
+                contract,
+                user,
+                navigate: () => navigate(routes.ManagementList)
+            }));
         }
     });
+
+    useEffect(() => {
+        setPaging([
+            {
+                title: 'Quản lý',
+                to: routes.ManagementList,
+                active: true
+            }, {
+                title: 'Quản lý hợp đồng',
+                to: routes.ManagementList,
+                active: true
+            }, {
+                title: 'Chi tiết',
+                to: "#",
+                active: false
+            }
+        ]);
+    }, []);
 
     const { code, distributionValue, effectiveDate, expirationDate,
         name, status, type, value, companyName, position } = contractFormik.values;
 
-    useEffect(() => {
-        if (id === '') return;
-
-        dispatch(getETMContractById(id || ''));
-    }, [id]);
-
-    const formatYMDToMDY = (date: string) => {
-        let dateArray = date.split('/');
-
-        return `${dateArray[2]}-${dateArray[1]}-${dateArray[0]}`;
-    }
-
-    useEffect(() => {
-        if (Object.keys(etmContract.etmContract).length <= 0) return;
-
-        const getUser = async () => {
-            const { usersId } = etmContract.etmContract;
-            const user = await getUserById(usersId, role.roleList);
-
-            contractFormik.setValues({
-                ...user,
-                ...etmContract.etmContract,
-                fullName: `${user.firstName} ${user.lastName}`,
-                playValue: etmContract.etmContract.playValue,
-                dateOfBirth: formatYMDToMDY(user.dateOfBirth),
-                expirationDate: formatYMDToMDY(etmContract.etmContract.expirationDate),
-                effectiveDate: formatYMDToMDY(etmContract.etmContract.effectiveDate),
-                dateRange: formatYMDToMDY(user.dateRange),
-                contractCode: etmContract.etmContract.code
-            });
-        }
-
-        getUser();
-    }, [etmContract.etmContract]);
-
     return (
         <div className={cx('entrustment-contract-container')}>
             <CommonPageContractEdit
-                pagingData={PAGING_ITEMS}
+                pagingData={paging}
                 title='Thêm hợp đồng khai thác mới'
                 edit={true}
                 formikData={contractFormik}
@@ -329,7 +302,10 @@ function ETMEntrustmentCopyPage() {
                         }
                     ]}
             >
-                <Button outline type='button' onClick={() => navigate(routes.Entrustment)}>Hủy</Button>
+                <Button outline type='button' onClick={() => {
+                    navigate(routes.ManagementList);
+                    setActive(true);
+                }}>Hủy</Button>
                 <Button type='submit'>Lưu</Button>
             </CommonPageContractEdit>
             <Loading visible={etmContract.loading} />
@@ -337,4 +313,4 @@ function ETMEntrustmentCopyPage() {
     );
 };
 
-export default ETMEntrustmentCopyPage
+export default AddETMContractPage;

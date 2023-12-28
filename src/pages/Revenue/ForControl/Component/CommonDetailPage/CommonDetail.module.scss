@@ -38,7 +38,7 @@
 
     &>div {
         display: flex;
-        gap: 16px;
+        justify-content: space-between;
 
         &>div {
             &.contract-info__left {

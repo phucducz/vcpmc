@@ -34,7 +34,7 @@ export type RecordDetail = {
 }
 
 export type ContractDetail = {
-    contract: AuthorizedContractDetailt;
+    contract: AuthorizedContractDetail;
     records: RecordDetail[];
     totalPlay: number;
     revenue: number;
@@ -43,7 +43,7 @@ export type ContractDetail = {
     administrativeFee: number;
 }
 
-export type AuthorizedContractDetailt = Omit<AuthorizedContract, 'authorizedPerson' | 'createdBy'> & {
+export type AuthorizedContractDetail = Omit<AuthorizedContract, 'authorizedPerson' | 'createdBy'> & {
     authorizedPerson: User & { status: string };
     createdBy: User;
 }
@@ -83,7 +83,8 @@ export const getAuthorizedContract = async () => {
                 userName: authorizedUser?.data().userName || '',
                 role: roleAuthorizedUser ? { id: roleAuthorizedUser.id, name: roleAuthorizedUser.data().name } : { id: '', name: '' },
                 id: authorizedUser?.id || '',
-                status: authorizedUser?.data().status
+                status: authorizedUser?.data().status,
+                companyName: authorizedUser?.data().companyName
             },
             authorizingLegalEntity: doc.data().authorizingLegalEntity,
             censored: doc.data().censored,
@@ -109,7 +110,8 @@ export const getAuthorizedContract = async () => {
                 taxCode: createdBy?.data().taxCode || '',
                 userName: createdBy?.data().userName || '',
                 role: roleCreatedBy ? { id: roleCreatedBy.id, name: roleCreatedBy.data().name } : { id: '', name: '' },
-                id: createdBy?.id || ''
+                id: createdBy?.id || '',
+                companyName: createdBy?.data().companyName
             },
             customer: doc.data().customer,
             dateCreated: doc.data().dateCreated,

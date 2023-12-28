@@ -9,7 +9,7 @@ import { CommonPage } from "~/pages/CommonPage";
 import style from './AuthorizedContract.module.scss';
 import { RootState, useAppDispatch } from "~/store";
 import { getAuthorizedContracts } from "~/thunk/authorizedContractThunk";
-import { AuthorizedContractDetailt } from "~/api/authorizedContract";
+import { AuthorizedContractDetail } from "~/api/authorizedContract";
 import { Switch } from "~/components/Switch";
 import { getCurrentDate } from "~/context";
 
@@ -23,8 +23,8 @@ function AuthorizedContract() {
 
     const [paging, setPaging] = useState<Array<PagingItemType>>([] as Array<PagingItemType>);
     const [searchValue, setSearchValue] = useState<string>('');
-    const [searchResult, setSearchResult] = useState<Array<AuthorizedContractDetailt>>([] as Array<AuthorizedContractDetailt>);
-    const [currentItems, setCurrentItems] = useState<Array<AuthorizedContractDetailt>>([] as Array<AuthorizedContractDetailt>);
+    const [searchResult, setSearchResult] = useState<Array<AuthorizedContractDetail>>([] as Array<AuthorizedContractDetail>);
+    const [currentItems, setCurrentItems] = useState<Array<AuthorizedContractDetail>>([] as Array<AuthorizedContractDetail>);
     const [itemsPerPage, setItemsPerPage] = useState<string>('8');
 
     useEffect(() => {

@@ -38,14 +38,14 @@ export const Tab = memo(({ data, className }: TabProps) => {
 
     return (
         <div className={cx('tab-container', className)}>
-            {data.map(item =>
+            {data.map(item => (
                 <TabItem
                     key={item.title}
                     title={item.title}
                     onClick={() => handleOnTabClick(item)}
                     className={cx(activeTab === item.title && 'active')}
                 />
-            )}
+            ))}
         </div>
     );
 });

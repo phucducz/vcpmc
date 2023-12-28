@@ -23,6 +23,8 @@ export { default as vector3Icon } from './vector-3-icon';
 export { default as vector4Icon } from './vector-4-icon';
 export { default as ecreiptIcon } from './ecreipt-icon';
 export { default as fileCheckAltIcon } from './file-check-alt';
+export { default as tooltipIcon } from './tooltip-icon';
+export { default as clipboardNoteIcon } from './clipboard-note-icon';
 
 export type IconProps = {
     icon: any;

@@ -1,10 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-import { AuthorizedContractDetailt, ContractDetail } from "~/api/authorizedContract";
+import { AuthorizedContractDetail, ContractDetail } from "~/api/authorizedContract";
 import { getAuthorizedContracts } from "~/thunk/authorizedContractThunk";
 
 type InitialStateType = {
-    contracts: Array<AuthorizedContractDetailt>;
+    contracts: Array<AuthorizedContractDetail>;
     loading: boolean;
     contractDetails: Array<ContractDetail>;
 }
