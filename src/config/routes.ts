@@ -29,6 +29,7 @@ export const routes = {
     UserOfUnitDetail: '/unit/management/detail/:contractId/user-detail/:userId',
     EditUserOfUnit: '/unit/management/detail/:contractId/user-detail/:userId/edit',
     AuthorizedContract: '/authorized-contract-management',
+    AddAuthorizedContract: '/authorized-contract-management/add',
     EidtAuthorizedContract: '/authorized-contract-management/edit/:id',
     DeviceManagement: '/device-management',
     DeviceDetail: '/device-management/detail/:id',
@@ -53,6 +54,7 @@ export const routes = {
     ConfigForControlCircle: '/config/for-control-circle',
     SupportDownload: '/support/download',
     SupportFeedback: '/support/feedback',
+    SupportUserManual: '/support/user-manual',
     HistoryForControl: '/revenue/history-for-control',
     HistoryForControlDetail: '/revenue/history-for-control/detail/:id',
 }

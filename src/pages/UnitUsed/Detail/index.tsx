@@ -10,17 +10,17 @@ import { User } from "~/api/userAPI";
 import { CheckBox } from "~/components/CheckBox";
 import { PagingItemType } from "~/components/Paging";
 import { Table } from "~/components/Table";
+import { Toast } from "~/components/Toast";
 import { routes } from "~/config/routes";
 import { useMenu } from "~/context/hooks";
 import { Icon } from "~/icons";
 import usersIcon from "~/icons/users-icon";
 import { CommonPage } from "~/pages/CommonPage";
+import { setStatus } from "~/reducers/etmContract";
 import { RootState, useAppDispatch } from "~/store";
+import { deleteEmployees } from "~/thunk/etmContractThunk";
 import { getUsers } from "~/thunk/userThunk";
 import style from './Detail.module.scss';
-import { deleteEmployees } from "~/thunk/etmContractThunk";
-import { Toast } from "~/components/Toast";
-import { setStatus } from "~/reducers/etmContract";
 
 const cx = classNames.bind(style);
 

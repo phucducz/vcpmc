@@ -1,4 +1,4 @@
-import { faInfoCircle } from "@fortawesome/free-solid-svg-icons";
+import { faEye, faInfoCircle } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import classNames from "classnames/bind";
 import { ReactNode, memo, useCallback, useEffect, useState } from "react";
@@ -13,8 +13,10 @@ import { RadioButton } from "~/components/RadioButton";
 import { TabItemProps } from "~/components/Tab";
 import { Upload } from "~/components/Upload";
 import { CommonPage } from "~/pages/CommonPage";
-import style from './CommonPage.module.scss';
+import style from './EditAuthorizedCommonPage.module.scss';
 import { useMenu } from "~/context/hooks";
+import Loading from "~/components/Loading";
+import { OwnerShip } from "~/api/authorizedContract";
 
 const cx = classNames.bind(style);
 
@@ -22,18 +24,21 @@ type CommonPageAuthorizedContractEditProps = {
     title: string;
     edit: boolean;
     setEdit: React.Dispatch<React.SetStateAction<boolean>>;
-    data: Array<any>;
+    data?: Array<any>;
     pagingData: Array<PagingItemType>;
     formikData: any;
     actionData?: Array<any>;
     children?: ReactNode;
+    loading?: boolean;
+    className?: string;
 }
 
-export const CommonPageAuthorizedContractEdit = memo(({ title, edit, setEdit, data, pagingData, formikData, actionData = [], children }: CommonPageAuthorizedContractEditProps) => {
+export const CommonPageAuthorizedContractEdit = memo(({ className, title, edit, setEdit, data, pagingData, formikData, loading = false, actionData = [], children }: CommonPageAuthorizedContractEditProps) => {
     const { setActive } = useMenu();
 
     const [tab, setTab] = useState<TabItemProps[]>([]);
     const [visibleComboBox, setVisibleComboBox] = useState<boolean>(false);
+    const [type, setType] = useState<string>('password');
 
     useEffect(() => {
         setTab([
@@ -501,19 +506,20 @@ export const CommonPageAuthorizedContractEdit = memo(({ title, edit, setEdit, da
             fieldName: 'Mật khẩu:',
             isRequired: true,
             input: <Input
-                type='password'
+                type={type}
                 name='password'
                 value={formikData.values.password}
                 onChange={formikData.handleChange}
                 errorMessage={formikData.errors.password}
                 touched={formikData.touched.password}
                 onFocus={() => formikData.setFieldTouched('password', true)}
+                rightIcon={<FontAwesomeIcon icon={faEye} onClick={() => setType(type === 'password' ? 'text' : 'password')} />}
                 onBlur={() => formikData.setFieldTouched('password', false)}
             />
         }, {
             fieldName: 'Số tài khoản:',
             input: <Input
-                type='password'
+                type='text'
                 name='bankNumber'
                 value={formikData.values.bankNumber}
                 onChange={formikData.handleChange}
@@ -554,7 +560,7 @@ export const CommonPageAuthorizedContractEdit = memo(({ title, edit, setEdit, da
             fieldName: 'Email:',
             isRequired: true,
             input: <Input
-                type='date'
+                type='text'
                 name='email'
                 value={formikData.values.email}
                 onChange={formikData.handleChange}
@@ -580,17 +586,22 @@ export const CommonPageAuthorizedContractEdit = memo(({ title, edit, setEdit, da
             fieldName: 'Mật khẩu:',
             isRequired: true,
             input: <Input
-                type='password'
+                type={type}
                 name='password'
                 value={formikData.values.password}
                 onChange={formikData.handleChange}
                 errorMessage={formikData.errors.password}
                 touched={formikData.touched.password}
                 onFocus={() => formikData.setFieldTouched('password', true)}
+                rightIcon={<FontAwesomeIcon icon={faEye} onClick={() => setType(type === 'password' ? 'text' : 'password')} />}
                 onBlur={() => formikData.setFieldTouched('password', false)}
             />
         }
     ];
+
+    useEffect(() => {
+        setType('password');
+    }, [formikData.values.authorizingLegalEntity]);
 
     return (
         <CommonPage
@@ -598,12 +609,16 @@ export const CommonPageAuthorizedContractEdit = memo(({ title, edit, setEdit, da
             pagingData={pagingData}
             actionData={!edit ? actionData : []}
             tab={tab}
+            className={className}
         >
-            <form className={cx('form')} onSubmit={() => { }}>
+            <form className={cx('form')} onSubmit={formikData.handleSubmit}>
                 {edit
                     ? <div className={cx('form__edit')}>
                         <div className={cx('form__edit-top')}>
-                            <BlockInput data={BLOCK_INPUTS_1} />
+                            {formikData.values.status
+                                ? <BlockInput data={BLOCK_INPUTS_1} />
+                                : <BlockInput data={BLOCK_INPUTS_1.slice(0, BLOCK_INPUTS_1.length - 1)} />
+                            }
                             <BlockInput data={[{
                                 fieldName: 'Đính kèm tệp:',
                                 isRequired: true,
@@ -622,10 +637,10 @@ export const CommonPageAuthorizedContractEdit = memo(({ title, edit, setEdit, da
                                         <p>Quyền của nhà sản xuất: (Bản ghi/video)</p>
                                     </div>
                                     <div className={cx('own-block__right')}>
-                                        <p>0%</p>
-                                        <p>0%</p>
-                                        <p>50%</p>
-                                        <p>50%</p>
+                                        <p>{formikData.values.ownerShips.find((ownerShip: OwnerShip) => ownerShip.name === 'Tác giả')?.value || 0}%</p>
+                                        <p>%</p>
+                                        <p>{formikData.values.ownerShips.find((ownerShip: OwnerShip) => ownerShip.name === 'Người biểu diễn')?.value || 0}%</p>
+                                        <p>{formikData.values.ownerShips.find((ownerShip: OwnerShip) => ownerShip.name === 'Nhà sản xuất')?.value || 0}%</p>
                                     </div>
                                 </div>
                             </div>
@@ -644,7 +659,7 @@ export const CommonPageAuthorizedContractEdit = memo(({ title, edit, setEdit, da
                     </div>
                     : <div className={cx('from__information')}>
                         <div className={cx('form__information__block-top')}>
-                            <BlockInfo data={data.slice(0, 2)} className={cx('form__information__block-info')} />
+                            {typeof data !== 'undefined' && <BlockInfo data={data.slice(0, 2)} className={cx('form__information__block-info')} />}
                             <div className={cx('form__information__block')}>
                                 <div className={cx('block__title')}>
                                     <FontAwesomeIcon icon={faInfoCircle} />
@@ -658,17 +673,17 @@ export const CommonPageAuthorizedContractEdit = memo(({ title, edit, setEdit, da
                                         <p>Quyền của nhà sản xuất: (Bản ghi/video)</p>
                                     </div>
                                     <div className={cx('own-block__right')}>
-                                        <p>0%</p>
-                                        <p>0%</p>
-                                        <p>50%</p>
-                                        <p>50%</p>
+                                        <p>{formikData.values.ownerShips.find((ownerShip: OwnerShip) => ownerShip.name === 'Tác giả')?.value || 0}%</p>
+                                        <p>%</p>
+                                        <p>{formikData.values.ownerShips.find((ownerShip: OwnerShip) => ownerShip.name === 'Người biểu diễn')?.value || 0}%</p>
+                                        <p>{formikData.values.ownerShips.find((ownerShip: OwnerShip) => ownerShip.name === 'Nhà sản xuất')?.value || 0}%</p>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div className={cx('from__information__block-bottom')}>
                             <p className={cx('title')}>Thông tin pháp nhân uỷ quyền</p>
-                            <BlockInfo data={data.slice(2, data.length)} className={cx('form__information__block-info')} />
+                            {typeof data !== 'undefined' && <BlockInfo data={data.slice(2, data.length)} className={cx('form__information__block-info')} />}
                         </div>
                     </div>
                 }
@@ -676,10 +691,13 @@ export const CommonPageAuthorizedContractEdit = memo(({ title, edit, setEdit, da
                     <Button outline type='button' onClick={() => {
                         setEdit(!edit);
                         setActive(false);
+                        console.log(setEdit)
                     }}>Hủy</Button>
                     <Button type='submit'>Lưu</Button>
                 </div>}
             </form>
+            {children}
+            <Loading visible={loading} />
         </CommonPage >
     );
 });

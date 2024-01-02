@@ -40,7 +40,6 @@ function EditUserPage() {
 
     const [paging, setPaging] = useState<Array<PagingItemType>>([] as Array<PagingItemType>);
     const [actionData, setActionData] = useState<any[]>([] as any[]);
-    const [userInputs, setUserInputs] = useState<InputProps[]>([] as InputProps[]);
     const [visibleComboBox, setVisibleComboBox] = useState<boolean>(false);
     const [type, setType] = useState<string>('password');
 
@@ -64,9 +63,7 @@ function EditUserPage() {
             password: Yup.string().required(),
             phoneNumber: Yup.string().required().matches(/(84|0[3|5|7|8|9])+([0-9]{8})\b/g),
             rolesId: Yup.string().required(),
-            userName: Yup.string()
-                .required("Không được để trống")
-                .matches(/^\S+@\S+\.\S+$/, "Vui lòng nhập địa chỉ đúng định dạng"),
+            userName: Yup.string().required("Không được để trống"),
             fullName: Yup.string().required()
         }),
         onSubmit: async values => {
@@ -118,7 +115,7 @@ function EditUserPage() {
             }
         ]);
 
-        role.roleList.length <= 0 && dispatch(getRoles);
+        role.roleList.length <= 0 && dispatch(getRoles());
     }, []);
 
     useEffect(() => {
@@ -151,75 +148,73 @@ function EditUserPage() {
         ]);
     }, [userFormik.values]);
 
-    useEffect(() => {
-        setUserInputs([
-            {
-                fieldName: 'Tên người dùng:',
-                type: 'text',
-                name: 'fullName',
-                errorMessage: userFormik.errors.fullName,
-                value: userFormik.values.fullName,
-                touched: userFormik.touched.fullName,
-                onChange: userFormik.handleChange,
-                onFocus: () => userFormik.setFieldTouched('fullName', true),
-                onBlur: () => userFormik.setFieldTouched('fullName', false)
-            }, {
-                fieldName: 'Số điện thoại:',
-                type: 'text',
-                name: 'phoneNumber',
-                errorMessage: userFormik.errors.phoneNumber,
-                value: userFormik.values.phoneNumber,
-                touched: userFormik.touched.phoneNumber,
-                onChange: userFormik.handleChange,
-                onFocus: () => userFormik.setFieldTouched('phoneNumber', true),
-                onBlur: () => userFormik.setFieldTouched('phoneNumber', false)
-            }, {
-                fieldName: 'Ngày hết hạn:',
-                type: 'date',
-                name: 'expirationDate',
-                errorMessage: userFormik.errors.expirationDate,
-                value: userFormik.values.expirationDate || '',
-                touched: userFormik.touched.expirationDate,
-                onChange: userFormik.handleChange,
-                onFocus: () => userFormik.setFieldTouched('expirationDate', true),
-                onBlur: () => userFormik.setFieldTouched('expirationDate', false)
-            }, {
-                fieldName: 'Email:',
-                type: 'text',
-                name: 'email',
-                errorMessage: userFormik.errors.email,
-                value: userFormik.values.email,
-                touched: userFormik.touched.email,
-                onChange: userFormik.handleChange,
-                onFocus: () => userFormik.setFieldTouched('email', true),
-                onBlur: () => userFormik.setFieldTouched('email', false)
-            }, {
-                fieldName: 'Tên đăng nhập:',
-                type: 'text',
-                name: 'userName',
-                errorMessage: userFormik.errors.userName,
-                value: userFormik.values.userName,
-                touched: userFormik.touched.userName,
-                onChange: userFormik.handleChange,
-                onFocus: () => userFormik.setFieldTouched('userName', true),
-                onBlur: () => userFormik.setFieldTouched('userName', false)
-            }, {
-                fieldName: 'Mật khẩu:',
-                type: type,
-                name: 'password',
-                errorMessage: userFormik.errors.password,
-                value: userFormik.values.password,
-                touched: userFormik.touched.password,
-                onChange: userFormik.handleChange,
-                rightIcon: <FontAwesomeIcon
-                    icon={faEye}
-                    onClick={() => setType(type === 'password' ? 'text' : 'password')}
-                />,
-                onFocus: () => userFormik.setFieldTouched('password', true),
-                onBlur: () => userFormik.setFieldTouched('password', false)
-            }
-        ]);
-    }, [userFormik.values, type, userFormik.errors, userFormik.touched]);
+    const USER_INPUTS = [
+        {
+            fieldName: 'Tên người dùng:',
+            type: 'text',
+            name: 'fullName',
+            errorMessage: userFormik.errors.fullName,
+            value: userFormik.values.fullName,
+            touched: userFormik.touched.fullName,
+            onChange: userFormik.handleChange,
+            onFocus: () => userFormik.setFieldTouched('fullName', true),
+            onBlur: () => userFormik.setFieldTouched('fullName', false)
+        }, {
+            fieldName: 'Số điện thoại:',
+            type: 'text',
+            name: 'phoneNumber',
+            errorMessage: userFormik.errors.phoneNumber,
+            value: userFormik.values.phoneNumber,
+            touched: userFormik.touched.phoneNumber,
+            onChange: userFormik.handleChange,
+            onFocus: () => userFormik.setFieldTouched('phoneNumber', true),
+            onBlur: () => userFormik.setFieldTouched('phoneNumber', false)
+        }, {
+            fieldName: 'Ngày hết hạn:',
+            type: 'date',
+            name: 'expirationDate',
+            errorMessage: userFormik.errors.expirationDate,
+            value: userFormik.values.expirationDate || '',
+            touched: userFormik.touched.expirationDate,
+            onChange: userFormik.handleChange,
+            onFocus: () => userFormik.setFieldTouched('expirationDate', true),
+            onBlur: () => userFormik.setFieldTouched('expirationDate', false)
+        }, {
+            fieldName: 'Email:',
+            type: 'text',
+            name: 'email',
+            errorMessage: userFormik.errors.email,
+            value: userFormik.values.email,
+            touched: userFormik.touched.email,
+            onChange: userFormik.handleChange,
+            onFocus: () => userFormik.setFieldTouched('email', true),
+            onBlur: () => userFormik.setFieldTouched('email', false)
+        }, {
+            fieldName: 'Tên đăng nhập:',
+            type: 'text',
+            name: 'userName',
+            errorMessage: userFormik.errors.userName,
+            value: userFormik.values.userName,
+            touched: userFormik.touched.userName,
+            onChange: userFormik.handleChange,
+            onFocus: () => userFormik.setFieldTouched('userName', true),
+            onBlur: () => userFormik.setFieldTouched('userName', false)
+        }, {
+            fieldName: 'Mật khẩu:',
+            type: type,
+            name: 'password',
+            errorMessage: userFormik.errors.password,
+            value: userFormik.values.password,
+            touched: userFormik.touched.password,
+            onChange: userFormik.handleChange,
+            rightIcon: <FontAwesomeIcon
+                icon={faEye}
+                onClick={() => setType(type === 'password' ? 'text' : 'password')}
+            />,
+            onFocus: () => userFormik.setFieldTouched('password', true),
+            onBlur: () => userFormik.setFieldTouched('password', false)
+        }
+    ];
 
     const handleItemClick = (item: Role) => {
         let currentRole = role.roleList.find(role => role.id === item.id);
@@ -246,7 +241,7 @@ function EditUserPage() {
             >
                 <div className={cx('form__body')}>
                     <div className={cx('form__left')}>
-                        {userInputs.slice(0, 3).map(input => <Input key={input.fieldName} {...input} isRequired />)}
+                        {USER_INPUTS.slice(0, 3).map(input => <Input key={input.fieldName} {...input} isRequired />)}
                         <div className={cx('form__left__role')}>
                             <p>Vai trò: <span>*</span></p>
                             <ComboBox
@@ -263,7 +258,7 @@ function EditUserPage() {
                         </div>
                     </div>
                     <div className={cx('form__right')}>
-                        {userInputs.slice(3, 6).map(input => <Input key={input.fieldName} {...input} isRequired />)}
+                        {USER_INPUTS.slice(3, 6).map(input => <Input key={input.fieldName} {...input} isRequired />)}
                         <div>
                             <p>Trạng thái <span>*</span></p>
                             <div className={cx('form__right__group-checkbox')}>

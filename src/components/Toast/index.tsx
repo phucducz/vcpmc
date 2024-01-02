@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import style from './Toast.module.scss';
 import { faCheckCircle, faCircleExclamation } from "@fortawesome/free-solid-svg-icons";
+import { Icon, checkIcon } from "~/icons";
 
 const cx = classNames.bind(style);
 
@@ -46,7 +47,7 @@ export const Toast = memo(({ duration, icon, message, type = 'success', visible,
     return (
         <div ref={toastRef} className={cx('toast-container', type)}>
             <div className={cx('toast-content')}>
-                {icon || <FontAwesomeIcon icon={faCheckCircle} />}
+                {icon || <Icon icon={checkIcon} />}
                 <p>{message}</p>
             </div>
         </div>

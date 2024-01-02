@@ -1,10 +1,7 @@
-import { faFileExport } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { CategoryScale, Chart as ChartJS, Legend, LineElement, LinearScale, PointElement, Tooltip } from "chart.js";
 import classNames from "classnames/bind";
-import { memo, useCallback, useEffect, useRef, useState } from "react";
+import { memo, useCallback, useEffect, useState } from "react";
 import { Line } from "react-chartjs-2";
-import { ChartJSOrUndefined, ForwardedRef } from "react-chartjs-2/dist/types";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router";
 
@@ -238,7 +235,7 @@ function RevenueReportPage() {
                 tension: 1,
             }],
         });
-    }, [contracts]);
+    }, [contracts, recordPlay.recordPlays]);
 
     useEffect(() => {
         setPaging([
@@ -253,21 +250,14 @@ function RevenueReportPage() {
             }
         ]);
 
-        setActionData([
-            {
-                icon: <Icon icon={ecreiptIcon} />,
-                title: 'Báo cáo chi tiết',
-                onClick: () => {
-                    navigate(routes.RevenueReportDetail);
-                    setActive(false);
-                }
-            },
-            {
-                icon: <FontAwesomeIcon icon={faFileExport} />,
-                title: 'Xuất dữ liệu',
-                onClick: () => { }
+        setActionData([{
+            icon: <Icon icon={ecreiptIcon} />,
+            title: 'Báo cáo chi tiết',
+            onClick: () => {
+                navigate(routes.RevenueReportDetail);
+                setActive(false);
             }
-        ]);
+        }]);
 
         let currentDate = new Date();
         let months = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].map(month => `Tháng ${month}`);
@@ -276,7 +266,7 @@ function RevenueReportPage() {
             ...filter,
             data: months,
             type: 'Theo tháng',
-            dataActive: `Tháng ${currentDate.getMonth() + 1}/${currentDate.getFullYear()}`
+            dataActive: `Tháng ${currentDate.getMonth() + 1}/${currentDate.getFullYear() - 1}`
         });
 
         setCurrentDate(currentDate);
@@ -308,10 +298,10 @@ function RevenueReportPage() {
                 let recordPlayArray = contract.recordPlay
                     .filter(recordPlay => {
                         let recordPlayDate = new Date(formatDateYMD(recordPlay.date));
-
                         if (filter.type === 'Theo tháng') {
                             let filterDate = new Date(formatDateYMD(`${currentDate.getDate()}/${filter.dataActive.split(' ')[1]}`));
-                            return recordPlayDate.getMonth() === filterDate.getMonth() && recordPlayDate.getFullYear() === filterDate.getFullYear();
+
+                            return recordPlayDate.getMonth() === filterDate.getMonth() && recordPlayDate.getFullYear() === filterDate.getFullYear() - 1;
                         }
                         else {
                             let timeSplit = quarter.time.split('-');

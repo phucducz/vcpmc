@@ -1,6 +1,5 @@
 import { addDoc, collection, doc, getDocs, query, writeBatch } from "firebase/firestore";
 import { firestoreDatabase } from "~/config/firebase";
-import { saveService } from "~/service";
 
 export type Category = {
     id: string;

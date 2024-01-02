@@ -16,7 +16,7 @@
     }
 
     &>div:last-child {
-        &>div:first-child {
+        &>div:first-child>div {
             width: 1541px;
             display: flex;
             flex-direction: row-reverse;
@@ -30,9 +30,11 @@
     }
 }
 
-input[type='date'] {
-    width: 264px;
-    margin-left: 4px;
+.revenue-management-container {
+    input[type='date'] {
+        width: 264px;
+        margin-left: 4px;
+    }
 }
 
 .table__title {

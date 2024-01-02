@@ -5,9 +5,12 @@ import { useCallback, useEffect, useState } from 'react';
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router";
 
-import { AuthorizedContractDetail } from "~/api/authorizedContract";
+import { AuthorizedContractDetail, OwnerShip } from "~/api/authorizedContract";
 import { EtmContract } from "~/api/etmContractAPI";
+import { Button } from "~/components/Button";
 import { ComboBox, ComboData } from "~/components/ComboBox";
+import { Form } from "~/components/Form";
+import { Input } from "~/components/Input";
 import { PagingItemType } from "~/components/Paging";
 import { TabItemProps } from "~/components/Tab";
 import { Table } from "~/components/Table";
@@ -51,16 +54,10 @@ function ManagementList() {
     const [tab, setTab] = useState<TabItemProps[]>([]);
     const [entrustmentActive, setEntrustmentActive] = useState<boolean>(false);
     const [comboBoxData, setComboBoxData] = useState<Array<ComboData>>([] as Array<ComboData>);
+    const [reasonCancelContractActive, setReasonCancelContractActive] = useState<boolean>(false);
+    const [contractCancelled, setContractCancelled] = useState<{ code: string; reason: string; }>({ code: '', reason: '' });
 
     useEffect(() => {
-        setActionData([
-            {
-                icon: <FontAwesomeIcon icon={faPlus} />,
-                title: 'Thêm hợp đồng',
-                onClick: () => { navigate(routes.AddETMContract); setActive(false) },
-            }
-        ]);
-
         setTab([
             {
                 title: 'Hợp đồng uỷ quyền',
@@ -73,7 +70,23 @@ function ManagementList() {
 
         dispatch(getEtmContractList());
         dispatch(getAuthorizedContracts());
+        setActive(true);
     }, []);
+
+    useEffect(() => {
+        setActionData([
+            {
+                icon: <FontAwesomeIcon icon={faPlus} />,
+                title: 'Thêm hợp đồng',
+                onClick: () => {
+                    entrustmentActive
+                        ? navigate(routes.AddETMContract)
+                        : navigate(routes.AddAuthorizedContract);
+                    setActive(false);
+                },
+            }
+        ]);
+    }, [entrustmentActive]);
 
     useEffect(() => {
         setComboBoxData([
@@ -122,34 +135,28 @@ function ManagementList() {
             result = result.filter((item: AuthorizedContractDetail) => {
                 let contract: AuthorizedContractDetail | null = {} as AuthorizedContractDetail | null;
 
-                switch (typeof item.ownerShips) {
-                    case 'string':
+                switch (owner) {
+                    case 'Tất cả':
                         if (owner === 'Tất cả')
                             contract = item;
-                        else
-                            contract = item.ownerShips === owner ? item : null;
                         break;
-
                     default:
-                        if (owner === 'Tất cả')
-                            contract = item;
-                        else
-                            contract = item.ownerShips
-                                .find((ownerItem: string) => ownerItem === owner) ? item : null;
+                        contract = item.ownerShips
+                            .find((ownerItem: OwnerShip) => ownerItem.name === owner) ? item : null;
                         break;
                 }
-                
+
                 if (contract !== null)
                     switch (effectiveContract) {
                         case 'Còn thời hạn':
                             contract = +new Date(formatDateYMD(contract.expirationDate)) > +new Date() ? contract : null;
-                            if (contract?.status === 'Đã huỷ') contract = null;
+                            if (contract?.status === 'Đã hủy') contract = null;
                             break;
                         case 'Hết hạn':
                             contract = +new Date(formatDateYMD(contract.expirationDate)) < +new Date() ? contract : null;
                             break;
                         case 'Huỷ':
-                            contract = contract.status === 'Đã huỷ' ? contract : null;
+                            contract = contract.status === 'Đã hủy' ? contract : null;
                             break;
                         case 'Mới':
                             contract = contract.status === 'Mới' ? contract : null;
@@ -281,14 +288,13 @@ function ManagementList() {
                     className={cx('container-table-data', !entrustmentActive && 'active')}
                 >
                     {itemsCurrent.map((item, index) => {
-                        let status = 'Đã huỷ';
+                        let status = 'cancelled';
 
-                        if (item.status === 'Mới')
+                        if (item.expirationDate === '')
                             status = 'new';
-                        if (item.status === 'Còn thời hạn')
-                            status = 'still';
-                        if (item.status === 'Đã huỷ')
+                        else if (item.status === 'Đã hủy')
                             status = 'cancelled';
+                        else status = +new Date(formatDateYMD(item.expirationDate)) > +new Date() ? 'still' : 'expiration';
 
                         return (
                             <tr key={index} style={{ height: '47px' }} className={cx('content')}>
@@ -297,12 +303,12 @@ function ManagementList() {
                                 <td><p>{item.customer}</p></td>
                                 <td><p>{item.authorizedPerson && item.authorizedPerson.firstName} {item.authorizedPerson && item.authorizedPerson.lastName}</p></td>
                                 <td>{typeof item.ownerShips !== 'undefined'
-                                    && (typeof item.ownerShips === 'string' ? <p>{item.ownerShips}</p> : item.ownerShips.map((owner: string) => <p key={owner}>{owner}</p>))
+                                    && item.ownerShips.map((item: OwnerShip) => <p key={item.name}>{item.name}</p>)
                                 }</td>
                                 <td><p className={cx('status', status)}>{
                                     item.status === 'Đã hủy' ? item.status : (
-                                        item.status === 'Mới'
-                                            ? item.status
+                                        item.expirationDate === ''
+                                            ? 'Mới'
                                             : +new Date(formatDateYMD(item.expirationDate)) > +new Date() ? 'Còn thời hạn' : 'Hết thời hạn'
                                     )
                                 }</p></td>
@@ -311,11 +317,29 @@ function ManagementList() {
                                     navigate(`/authorized-contract/detail/${item.id}`);
                                     setActive(false);
                                 }}>Xem chi tiết</p></td>
-                                {status === 'cancelled' && <td><p className={cx('action')} onClick={() => navigate(`/contract-detail/${item.id}`)}>Lý do hủy</p></td>}
+                                {status === 'cancelled' && <td><p className={cx('action')} onClick={() => {
+                                    setContractCancelled({ code: item.contractCode, reason: item.reason });
+                                    setReasonCancelContractActive(true);
+                                }}>Lý do hủy</p></td>}
                             </tr>
                         );
                     })}
                 </Table>
+                <Form
+                    title={`Lý do hủy hợp đồng uỷ quyền ${contractCancelled.code}`}
+                    visible={reasonCancelContractActive}
+                    type="dialog"
+                    className={cx('reason-cancel-contract-form')}
+                >
+                    <div className={cx("form__body")}>
+                        <Input value={contractCancelled.reason} />
+                    </div>
+                    <div className={cx("form__action")}>
+                        <Button small type="button" onClick={() => setReasonCancelContractActive(false)}>
+                            Đóng
+                        </Button>
+                    </div>
+                </Form>
             </div>
         </CommonPage>
     );

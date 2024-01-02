@@ -29,3 +29,21 @@
 .history-for-control__table {
     width: 1541px;
 }
+
+.history-for-control {
+    &>div:last-child>div:first-child>div {
+        width: 1541px;
+        display: flex;
+        flex-direction: row-reverse;
+        align-items: center;
+        justify-content: space-between;
+
+        &>div:last-child {
+            width: max-content;
+
+            &>div {
+                margin-top: 0;
+            }
+        }
+    }
+}

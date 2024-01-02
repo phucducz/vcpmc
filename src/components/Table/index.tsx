@@ -114,7 +114,6 @@ export const Table = memo(({ tableRef, paginate, paginateClass, headerChildren, 
                     </td>
                 </tr>
                     : <></>
-                    // : <tr><td colSpan={11}></td></tr>
                 }
                 <tr className={cx('table__loading__tr', loading && 'active')}><td>
                     <div className={cx('tr__loading-container')}>

@@ -61,6 +61,11 @@
 
 .renvenue-report-detail__form {
     & h3 {
+        color: var(--text-stroke-text-and-stroke, #F5F5FF);
+        font-size: 24px;
+        font-weight: 700;
+        line-height: 24px;
+        letter-spacing: -0.048px;
         padding-top: 0;
     }
 

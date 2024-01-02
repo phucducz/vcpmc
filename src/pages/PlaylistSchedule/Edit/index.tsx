@@ -6,7 +6,6 @@ import { useNavigate, useParams } from "react-router";
 
 import { PlaybackCycle } from "~/api/playlistScheduleAPI";
 import { PlaylistRecordDetail } from "~/api/playlistsRecords";
-import { ActionDataType } from "~/components/Action";
 import { PagingItemType } from "~/components/Paging";
 import { routes } from "~/config/routes";
 import { Yup } from "~/constants";
@@ -72,7 +71,7 @@ function PlaylistScheduleEditPage() {
             }));
         }
     });
-
+    
     useEffect(() => {
         setActionData([
             {
@@ -130,11 +129,13 @@ function PlaylistScheduleEditPage() {
             startDate: formatDateYMD(playbackTimeSplit[0].trim()),
             endDate: formatDateYMD(playbackTimeSplit[1].trim()),
         });
-
+        
         setTitle(playlistSchedule.playlistScheduleDetail.name);
     }, [playlistsRecords.playlistsRecordsDetail]);
 
     useEffect(() => {
+        console.log('render');
+        
         scheduleFormik.setFieldValue('playlist', itemActive);
     }, [itemActive]);
 

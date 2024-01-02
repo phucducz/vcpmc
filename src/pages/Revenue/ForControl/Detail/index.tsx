@@ -1,20 +1,16 @@
 import { faFileExport } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import classNames from "classnames/bind";
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router";
 
 import { useSelector } from "react-redux";
-import { EtmContractForControl, OwnRecord } from "~/api/etmContractAPI";
-import { Input } from "~/components/Input";
+import { EtmContractForControl } from "~/api/etmContractAPI";
 import { PagingItemType } from "~/components/Paging";
-import { Table } from "~/components/Table";
 import { routes } from "~/config/routes";
-import { formatDateYMD, formatMoney } from "~/context";
-import { CommonPage } from "~/pages/CommonPage";
 import { RootState } from "~/store";
-import style from './Detail.module.scss';
 import { CommonDetailPage } from "../Component/CommonDetailPage";
+import style from './Detail.module.scss';
 
 const cx = classNames.bind(style);
 

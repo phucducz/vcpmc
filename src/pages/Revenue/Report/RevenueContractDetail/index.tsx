@@ -1,4 +1,3 @@
-import classNames from "classnames/bind";
 import { faFileExport } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect, useState } from "react";
@@ -6,9 +5,6 @@ import { useEffect, useState } from "react";
 import { PagingItemType } from "~/components/Paging";
 import { routes } from "~/config/routes";
 import { CommonDetailPage } from "../../ForControl/Component/CommonDetailPage";
-import style from './RevenueContractReportDetail.module.scss';
-
-const cx = classNames.bind(style);
 
 function RevenueContractReportDetailPage() {
     const [paging, setPaging] = useState<Array<PagingItemType>>([] as Array<PagingItemType>);

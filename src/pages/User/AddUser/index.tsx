@@ -8,11 +8,10 @@ import { faEye } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Role } from "~/api/roleAPI";
 import { User } from "~/api/userAPI";
-import { ActionDataType } from "~/components/Action";
 import { Button } from "~/components/Button";
 import { ComboBox } from "~/components/ComboBox";
 import { Form } from "~/components/Form";
-import { Input, InputProps } from "~/components/Input";
+import { Input } from "~/components/Input";
 import Loading from "~/components/Loading";
 import { PagingItemType } from "~/components/Paging";
 import { routes } from "~/config/routes";
@@ -133,12 +132,6 @@ function AddUserPage() {
             }
         ]);
     }, [userFormik.values]);
-
-    // useEffect(() => {
-    //     setUserInputs([
-
-    //     ]);
-    // }, [userFormik.values, type]);
 
     const INPUTS = [
         {

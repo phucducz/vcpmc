@@ -7,7 +7,6 @@ import { useNavigate, useParams } from "react-router";
 
 import { Playlist } from "~/api/playlistAPI";
 import { PlaybackCycle, PlaylistSchedule, SchedulePlaylist, SchedulePlaylistDetail } from "~/api/playlistScheduleAPI";
-import { ActionDataType } from "~/components/Action";
 import Loading from "~/components/Loading";
 import { PagingItemType } from "~/components/Paging";
 import { Table } from "~/components/Table";
@@ -69,10 +68,14 @@ function PlaylistScheduleDetailPage() {
         ]);
 
         if (playlist.playlist.length <= 0 ||
-            playlistsRecords.playlistsRecords.length <= 0) return;
+            playlistsRecords.playlistsRecords.length <= 0) {
+            // dispatch(getPlaylistList());
+            // dispatch(getPlaylistsRecordsList());
+
+            return;
+        }
 
         let schedule: PlaylistSchedule = playlistSchedule.listSchedule.find(schedule => schedule.id === id) || {} as PlaylistSchedule;
-        console.log(schedule);
 
         const scheduleDetail: SchedulePlaylistDetail = {
             id: schedule.id,

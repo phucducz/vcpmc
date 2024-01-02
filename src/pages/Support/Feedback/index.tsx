@@ -2,7 +2,6 @@ import classNames from "classnames/bind";
 import { useFormik } from "formik";
 import { ReactNode, memo, useCallback, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { useNavigate } from "react-router";
 
 import { Feedback } from "~/api/feedbackAPI";
 import { Button } from "~/components/Button";
@@ -10,6 +9,7 @@ import { ComboBox } from "~/components/ComboBox";
 import { Form } from "~/components/Form";
 import Image from "~/components/Image";
 import { Input } from "~/components/Input";
+import Loading from "~/components/Loading";
 import { PagingItemType } from "~/components/Paging";
 import { Table } from "~/components/Table";
 import { Toast } from "~/components/Toast";
@@ -17,8 +17,8 @@ import { Yup } from "~/constants";
 import { CommonPage } from "~/pages/CommonPage";
 import { RootState, useAppDispatch } from "~/store";
 import { getFeedbacks, sendFeedback } from "~/thunk/feedbackThunk";
+import emailCampaign from '~/images/email-campaign-pana.svg';
 import style from './Feedback.module.scss';
-import Loading from "~/components/Loading";
 
 const cx = classNames.bind(style);
 
@@ -221,8 +221,8 @@ function SupportFeedbackPage() {
                         )}
                     </Table>
                     <div className={cx('container__feedbacks-detail')}>
-                        {feedbackActive && feedbackActive.user 
-                            && <>
+                        {feedbackActive && feedbackActive.user
+                            ? <>
                                 <div className={cx('container__feedbacks-detail__header')}>
                                     <div className={cx('feedbacks-detail__header__account')}>
                                         <Image src={feedbackActive.user.avatar} alt={feedbackActive.userName} width={56} height={56} />
@@ -235,6 +235,7 @@ function SupportFeedbackPage() {
                                     <p>{feedbackActive.content}</p>
                                 </div>
                             </>
+                            : <div className={cx('container__feedbacks-detail__image')}><Image src={emailCampaign} alt='support page' width={750} height={500} /></div>
                         }
                     </div>
                 </div>

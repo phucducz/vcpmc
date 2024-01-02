@@ -161,7 +161,10 @@ export const MenuProvider = ({ children }: MenuProviderProps) => {
             children: [
                 {
                     title: 'Hướng dẫn sử dụng',
-                    onClick: () => { },
+                    onClick: () => {
+                        navigate('/support/user-manual');
+                        setMenuActive(7);
+                    },
                     functionalCode: [],
                 }, {
                     title: 'Tải app',

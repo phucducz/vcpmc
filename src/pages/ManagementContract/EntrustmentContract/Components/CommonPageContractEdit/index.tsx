@@ -1,17 +1,16 @@
-import classNames from "classnames/bind";
-import { ReactNode, memo, useEffect, useState, useCallback } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import classNames from "classnames/bind";
+import { ReactNode, memo, useCallback, useEffect, useState } from "react";
 
-import style from './CommonPageContractEdit.module.scss';
-import { PagingItemType } from "~/components/Paging";
 import { BlockInfo, BlockInput } from "~/components/Block";
-import { ActionDataType } from "~/components/Action";
+import { ComboBox } from "~/components/ComboBox";
 import { Input } from "~/components/Input";
+import { PagingItemType } from "~/components/Paging";
 import { RadioButton } from "~/components/RadioButton";
 import { Upload } from "~/components/Upload";
-import { ComboBox } from "~/components/ComboBox";
 import { CommonPage } from "~/pages/CommonPage";
+import style from './CommonPageContractEdit.module.scss';
 
 const cx = classNames.bind(style);
 
@@ -167,13 +166,16 @@ export const CommonPageContractEdit = memo(({ title, edit, data, pagingData, for
                 isRequired: true,
                 input: <Input
                     name='residence'
-                    type='textarea'
+                    as='textarea'
+                    rows={4}
+                    cols={32}
                     value={formikData.values.residence}
                     errorMessage={formikData.errors.residence}
                     touched={formikData.touched.residence}
                     onChange={formikData.handleChange}
                     onFocus={() => formikData.setFieldTouched('residence', true)}
                     onBlur={() => formikData.setFieldTouched('residence', false)}
+                    style={{ width: 'auto', height: 'auto', resize: 'none' }}
                 />
             }
         ]);
@@ -343,7 +345,7 @@ export const CommonPageContractEdit = memo(({ title, edit, data, pagingData, for
             }
         ]);
     }, [formikData.values, formikData.errors, formikData.touched, passwordType]);
-    
+
     useEffect(() => {
         setBlockInput5([
             {
@@ -380,13 +382,15 @@ export const CommonPageContractEdit = memo(({ title, edit, data, pagingData, for
     }, [formikData.values, formikData.errors, formikData.touched, type]);
 
     useEffect(() => {
+        if (!edit) return;
+
         if (type === 'Trọn gói') {
             formikData.setFieldValue('playValue', 0);
             formikData.setFieldValue('distributionValue', '');
             formikData.setFieldValue('value', '');
             return;
         }
-        
+
         formikData.setFieldValue('playValue', '');
         formikData.setFieldValue('distributionValue', 0);
         formikData.setFieldValue('value', 0);

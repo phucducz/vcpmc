@@ -1,8 +1,10 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 
-import { getEtmContracts, getEtmContractById, saveETMContract, EtmContract, getEtmContractsDetail, getETMContractTypes, ETMContractType, updateContractTypesById, addContractTypesAPI, deleteContractTypesAPI, getEtmContractForControlList, addEmployeeToContract, deleteEmployeesById, deleteContractById, EtmContractDetail, EtmContractForControl, checkpointContracts } from "~/api/etmContractAPI";
-import { addUser, getUsers, saveUser } from "./userThunk";
+import { ETMContractType, EtmContract, EtmContractDetail, EtmContractForControl, addContractTypesAPI, addEmployeeToContract, checkpointContracts, deleteContractById, deleteContractTypesAPI, deleteEmployeesById, getETMContractTypes, getEtmContractById, getEtmContractForControlList, getEtmContracts, getEtmContractsDetail, saveETMContract, updateContractTypesById } from "~/api/etmContractAPI";
 import { User, addUserAPI } from "~/api/userAPI";
+import { getUsers, saveUser } from "./userThunk";
+import { firestoreDatabase } from "~/config/firebase";
+import { doc, updateDoc } from "firebase/firestore";
 
 export const getEtmContractList = createAsyncThunk(
     'etmContract/getEtmContractList',
@@ -31,14 +33,25 @@ export const saveEntrustmentContract = createAsyncThunk(
         thunkAPI
     ) => {
         let newUser;
+        const etmContract = {
+            ...contract,
+            checkpointDate: '',
+            CPM: 2280000,
+            performanceRight: 40,
+            productionRight: 40,
+            royalties: 0.5,
+            unDistributedRevenue: 0,
+            vcpmcRight: 20,
+            employeeIds: []
+        }
 
         if (user.id === '') {
             newUser = await addUserAPI(user);
-            await saveETMContract({ contract: { ...contract, usersId: newUser.id } });
+            await saveETMContract({ contract: { ...etmContract, usersId: newUser.id } });
         }
         else {
             thunkAPI.dispatch(saveUser({ user }));
-            await saveETMContract({ contract: { ...contract } });
+            await saveETMContract({ contract: { ...etmContract } });
         }
 
         navigate();
@@ -47,8 +60,9 @@ export const saveEntrustmentContract = createAsyncThunk(
 
 export const cancelEntrustmentContract = createAsyncThunk(
     'etmContract/cancelEntrustmentContract',
-    async ({ contract }: { contract: EtmContract }) => {
-        await saveETMContract({ contract });
+    async (contract: { id: string, status: string }) => {
+        await updateDoc(doc(firestoreDatabase, 'entrustmentContract', `${contract.id}`), { ...contract });
+        // await saveETMContract({ contract });
     }
 );
 

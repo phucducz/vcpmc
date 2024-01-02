@@ -14,7 +14,7 @@ import DeviceDetailPage from "~/pages/Device/Detail";
 import DeviceManagementPage from "~/pages/Device/Device";
 import LoginPage from "~/pages/Login/Login";
 import RecoverPage from "~/pages/Login/RecoverPage";
-import AuthorizedContractManagementPage from "~/pages/ManagementContract/AuthorizedContract";
+import AddAuthorizedContractPage from "~/pages/ManagementContract/AuthorizedContract/Add";
 import AuthorizedContractDetailPage from "~/pages/ManagementContract/AuthorizedContract/Detail";
 import AddETMContractPage from "~/pages/ManagementContract/EntrustmentContract/Add";
 import ETMEntrustmentCopyPage from "~/pages/ManagementContract/EntrustmentContract/Copy";
@@ -44,6 +44,7 @@ import RevenueContractReportDetailPage from "~/pages/Revenue/Report/RevenueContr
 import RevenueManagementPage from "~/pages/Revenue/Revenue";
 import SupportDownloadPage from "~/pages/Support/Download";
 import SupportFeedbackPage from "~/pages/Support/Feedback";
+import SupportUserManualPage from "~/pages/Support/UserManual";
 import UnitUsedDetailPage from "~/pages/UnitUsed/Detail";
 import UnitManagementPage from "~/pages/UnitUsed/UnitManagement";
 import AddUserOfUnitPage from "~/pages/UnitUsed/User/AddUser";
@@ -70,8 +71,8 @@ export const publicRoutes = [
     { path: routes.ETMContractDetail, Component: ETMContractDetailPage },
     { path: routes.AddETMContract, Component: AddETMContractPage },
     { path: routes.ETMContractCopy, Component: ETMEntrustmentCopyPage },
-    { path: routes.AuthorizedManagement, Component: AuthorizedContractManagementPage },
     { path: routes.AuthorizedContractDetail, Component: AuthorizedContractDetailPage },
+    { path: routes.AddAuthorizedContract, Component: AddAuthorizedContractPage },
     { path: routes.PlaylistManagement, Component: PlaylistPage },
     { path: routes.PlaylistDetail, Component: PlaylistDetailPage },
     { path: routes.EditPlaylistDetail, Component: EditPlaylistDetailPage },
@@ -112,6 +113,7 @@ export const publicRoutes = [
     { path: routes.ConfigForControlCircle, Component: ForControlCirclePage },
     { path: routes.SupportDownload, Component: SupportDownloadPage },
     { path: routes.SupportFeedback, Component: SupportFeedbackPage },
+    { path: routes.SupportUserManual, Component: SupportUserManualPage },
     { path: routes.HistoryForControl, Component: HistoryForControlPage },
     { path: routes.HistoryForControlDetail, Component: HistoryForControlDetailPage }
 ];

@@ -33,12 +33,18 @@
 }
 
 .common-page-container {
-    &>div>div:first-child>div:nth-child(2)>div {
-        width: 100%;
+    &>div>div:first-child>div {
+        width: 1541px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
 
-        &>div {
-            width: 100%;
-            justify-content: flex-end;
+        &>div:nth-child(2) {
+            width: max-content;
+
+            &>div {
+                margin: 0;
+            }
         }
     }
 }

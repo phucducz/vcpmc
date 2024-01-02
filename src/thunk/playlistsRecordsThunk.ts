@@ -2,10 +2,8 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import { Playlist, editPlaylistAPI, savePlaylist } from "~/api/playlistAPI";
 
 import { PlaylistsRecords, RemoveRecordParam, deletePlaylistRecordsAPI, editRecordsInPlaylist, getPlaylistsRecords, removeRecordAPI, savePlaylistRecordsAPI } from "~/api/playlistsRecords";
-import { getPlaylistList, savePlaylistList } from "./playlistThunk";
-import { addDoc, collection } from "firebase/firestore";
-import { firestoreDatabase } from "~/config/firebase";
 import { setRecordsOfPlaylist } from "~/reducers/playlistsRecords";
+import { getPlaylistList } from "./playlistThunk";
 
 export const getPlaylistsRecordsList = createAsyncThunk(
     'playlistsRecords/getPlaylistsRecordsList',

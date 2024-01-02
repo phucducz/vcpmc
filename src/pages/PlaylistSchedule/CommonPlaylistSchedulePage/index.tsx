@@ -155,7 +155,7 @@ type CommonPlaylistSchedulePageProps = {
 export const CommonPlaylistSchedulePage = ({ title, data, setData, formik, action, paging, newPlaylist }: CommonPlaylistSchedulePageProps) => {
     const { id } = useParams();
     const navigate = useNavigate();
-
+    
     const playlistSchedule = useSelector((state: RootState) => state.playlistSchedule);
 
     const [scheduleInput, setScheduleInput] = useState<Array<InputProps>>([] as Array<InputProps>);
@@ -211,27 +211,6 @@ export const CommonPlaylistSchedulePage = ({ title, data, setData, formik, actio
     }
 
     const handleSaveChange = useCallback((dayActive: { title: string, checked: boolean }) => {
-        // setData(data.map(item => {
-        //     if (item.playlist.playlistId === timeActive.id)
-        //         return {
-        //             ...item,
-        //             playbackCycle: dayActive.checked === true
-        //                 ? item.playbackCycle.filter(playbackCycle => playbackCycle.day !== dayActive.title)
-        //                 : item.playbackCycle.map(playbackCycle => {
-        //                     return {
-        //                         ...playbackCycle,
-        //                         time: playbackCycle.time.filter(time => time !== timeActive.time)
-        //                     }
-        //                 })
-        //         }
-        //     return {
-        //         ...item,
-        //         playbackCycle: dayActive.checked === true
-        //             ? item.playbackCycle.filter(playbackCycle => playbackCycle.day !== dayActive.title)
-        //             : item.playbackCycle
-        //     }
-        // }));
-
         setData(data.map(item => {
             if (item.playlist.playlistId === timeActive.id)
                 return {

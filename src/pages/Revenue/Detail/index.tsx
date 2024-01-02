@@ -31,6 +31,8 @@ function RevenueDetailPage() {
     const [loading, setLoading] = useState<boolean>(false);
     const [currentItems, setCurrentItems] = useState<Array<RecordDetail>>([] as Array<RecordDetail>);
     const [itemsPerPage, setItemsPerPage] = useState<string>('8');
+    const [currentItemsActive, setCurrentItemsActive] = useState<Array<RecordPlays>>([] as Array<RecordPlays>);
+    const [itemsActivePerPage, setItemsActivePerPage] = useState<string>('8');
     const [itemActive, setItemActive] = useState<RecordDetail & { totalPlay: number, revenue: number }>({
         records: {} as Record,
         recordPlays: [] as Array<RecordPlays>,
@@ -90,6 +92,14 @@ function RevenueDetailPage() {
 
     const handleChange = useCallback((value: string) => {
         setItemsPerPage(value);
+    }, []);
+
+    const handleSetCurrentItemActive = useCallback((items: Array<any>) => {
+        setCurrentItemsActive(items);
+    }, []);
+
+    const handleChangeItemActive = useCallback((value: string) => {
+        setItemsActivePerPage(value);
     }, []);
 
     const handleRecordItemClick = (item: RecordDetail) => {
@@ -156,13 +166,15 @@ function RevenueDetailPage() {
                         <p className={cx('table-right__title')}>Doanh thu bản ghi</p>
                         <p className={cx('table-right__record-name')}>{itemActive.records.nameRecord || 'Tên bản ghi'}</p>
                         <Table
+                            paginate={{
+                                dataForPaginate: itemActive.recordPlays,
+                                setCurrentItems: handleSetCurrentItemActive
+                            }}
                             paginateClass={cx('table__paginate')}
-                            itemsPerPage={itemsPerPage}
-                            setItemsPerPage={handleChange}
+                            loading={loading}
+                            itemsPerPage={itemsActivePerPage}
+                            setItemsPerPage={handleChangeItemActive}
                             thead={['Đơn vị khai thác', 'Số lượt phát', 'Doanh thu (VNĐ)']}
-                            border={0}
-                            cellPadding="0"
-                            cellSpacing="0"
                             className={cx('table__record-plays')}
                         >
                             <tr style={{ height: '47px' }}>
@@ -170,7 +182,7 @@ function RevenueDetailPage() {
                                 <td><p>{itemActive.recordPlays.reduce((sum, item) => sum + parseInt(item.playsCount), 0)}</p></td>
                                 <td><p>{formatMoney(itemActive.revenue).split('₫')[0]}</p></td>
                             </tr>
-                            {itemActive.recordPlays.map((item) => {
+                            {currentItemsActive.map((item) => {
                                 let revenue = parseInt(item.playsCount) * parseInt(contractDetail.contract.CPM) / 1000;
 
                                 return (

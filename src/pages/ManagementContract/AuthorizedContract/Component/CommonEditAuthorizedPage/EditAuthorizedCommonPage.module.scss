@@ -187,12 +187,14 @@
     padding-bottom: 80px;
 }
 
-input[type='text'],
-input[type='password'] {
-    width: 325px !important;
-}
+.form {
+    input[type='text'],
+    input[type='password'] {
+        width: 325px !important;
+    }
 
-textarea {
-    resize: none;
-    width: auto;
+    textarea {
+        resize: none;
+        width: auto;
+    }
 }

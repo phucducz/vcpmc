@@ -160,9 +160,7 @@ function UnitManagementPage() {
                                 <td><p className={cx('action')} onClick={() => {
                                     navigate(`/unit/management/detail/${item.id}`);
                                     setActive(false);
-                                }}>
-                                    Chỉnh sửa
-                                </p></td>
+                                }}>Xem chi tiết</p></td>
                             </tr>
                         )
                     })}

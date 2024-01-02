@@ -116,7 +116,8 @@ function ETMContractDetailPage() {
             rolesId: Yup.string().required(),
             taxCode: Yup.string().required(),
             userName: Yup.string().required(),
-            fullName: Yup.string().required()
+            fullName: Yup.string().required(),
+            playValue: Yup.string().required()
         }),
         onSubmit: values => {
             const { code, distributionValue, effectiveDate, expirationDate, id, name, playValue,
@@ -223,34 +224,7 @@ function ETMContractDetailPage() {
     }, [etmContract.etmContract]);
 
     const handleCancelContract = async () => {
-        const formatToDMY = (date: string) => {
-            const dateArray = date.split('-');
-
-            return `${dateArray[2]}/${dateArray[1]}/${dateArray[0]}`;
-        }
-
-        const { code, distributionValue, effectiveDate, expirationDate, name, usersId, id,
-            playValue, type, value, companyName, position, createdBy, createdDate } = contractFormik.values;
-
-        const contract: EtmContract = {
-            id: id,
-            code: code,
-            createdBy: createdBy,
-            createdDate: createdDate,
-            companyName: companyName,
-            distributionValue: distributionValue,
-            effectiveDate: formatToDMY(effectiveDate),
-            expirationDate: formatToDMY(expirationDate),
-            name: name,
-            status: 'Đã hủy',
-            type: type,
-            value: value,
-            position: position,
-            usersId: usersId,
-            playValue: playValue,
-        }
-
-        await dispatch(cancelEntrustmentContract({ contract }));
+        await dispatch(cancelEntrustmentContract({ id: contractFormik.values.id, status: 'Đã hủy' }));
         navigate(routes.ManagementList);
     }
 
@@ -267,7 +241,7 @@ function ETMContractDetailPage() {
                 icon: <FontAwesomeIcon icon={faEdit} className={cx('edit-icon')} />,
                 title: 'Chỉnh sửa',
                 onClick: () => setEdit(true),
-                disable: status === 'Mới' ? false : true
+                disable: (status === 'Mới' || status === 'Đang hiệu lực') ? false : true
             }, {
                 icon: <FontAwesomeIcon icon={faXmark} />,
                 title: 'Huỷ hợp đồng',

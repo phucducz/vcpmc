@@ -5,7 +5,6 @@ import { useNavigate } from "react-router";
 
 import { Role } from "~/api/roleAPI";
 import { User } from "~/api/userAPI";
-import { ActionDataType } from "~/components/Action";
 import { PagingItemType } from "~/components/Paging";
 import { Switch } from "~/components/Switch";
 import { TabItemProps } from "~/components/Tab";
@@ -73,6 +72,8 @@ function UserAuthorizationPage() {
         dispatch(getRoles());
         dispatch(getFunctionalTypes())
         dispatch(getFunctionals());
+
+        setActive(true);
     }, []);
 
     useEffect(() => {

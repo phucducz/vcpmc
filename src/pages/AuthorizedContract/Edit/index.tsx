@@ -2,11 +2,11 @@ import classNames from "classnames/bind";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router";
-
 import { faEye } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useFormik } from "formik";
-import { User, UserInfo } from "~/api/userAPI";
+
+import { UserInfo } from "~/api/userAPI";
 import { BlockInput } from "~/components/Block";
 import { Button } from "~/components/Button";
 import { ComboBox } from "~/components/ComboBox";

@@ -25,6 +25,7 @@ export { default as ecreiptIcon } from './ecreipt-icon';
 export { default as fileCheckAltIcon } from './file-check-alt';
 export { default as tooltipIcon } from './tooltip-icon';
 export { default as clipboardNoteIcon } from './clipboard-note-icon';
+export { default as checkIcon } from './check-icon';
 
 export type IconProps = {
     icon: any;

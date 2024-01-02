@@ -20,4 +20,4 @@ export const Switch = memo(({ status, title, onClick }: SwitchProps) => {
             <p className={cx('title')}>{title}</p>
         </div>
     );
-})
+});

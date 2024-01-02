@@ -1,7 +1,6 @@
 import * as yup from 'yup';
 
-import { ReactNode } from 'react';
-import { windows10Icon } from '~/icons';
+import windows10 from '~/images/windows-10-image.png';
 import { LANGUAGE_ICONS } from '../images';
 import android from '../images/android.png';
 import upload from '../images/toolUpload.png';
@@ -65,9 +64,9 @@ export const DOWNLOAD_ITEMS: Array<DownloadItem> = [
         title: 'Tool Upload',
         format: 'image'
     }, {
-        image: windows10Icon,
+        image: windows10,
         title: 'Tải App Windows',
-        format: 'icon'
+        format: 'image'
     }, {
         image: android,
         title: 'Tải App Android',

@@ -172,11 +172,17 @@ export const getEtmContractForControlList = async () => {
                 totalPlay: 0
             };
         });
+
         let recordsOfContract = recordList.filter(record => record.etmContractsId === doc.id);
         let recordPlay = recordPlays.
             filter(recordPlay => recordsOfContract.
                 some(record => record.id === recordPlay.recordsId)
             );
+
+        console.log(recordPlays);
+        console.log(recordsOfContract);
+        console.log(recordPlay);
+
         let totalPlay = recordPlay.reduce((sum, item) => sum + parseInt(item.playsCount), 0);
 
         return {
@@ -236,7 +242,17 @@ export const getEtmContractById = async (id: string) => {
     }
 }
 
-export const saveETMContract = async ({ contract }: { contract: EtmContract }) => {
+export const saveETMContract = async ({ contract }: {
+    contract: EtmContract & {
+        checkpointDate: string;
+        CPM: number;
+        performanceRight: number;
+        productionRight: number;
+        royalties: number;
+        unDistributedRevenue: number;
+        vcpmcRight: number;
+    }
+}) => {
     if (contract.id !== '')
         return await saveService('entrustmentContract', contract);
 

@@ -66,6 +66,8 @@ function ForControlCirclePage() {
         }
     });
 
+    console.log(forControlFormik.values);
+    
     useEffect(() => {
         setPaging([
             {
@@ -107,10 +109,10 @@ function ForControlCirclePage() {
                                 title="Đối soát theo quý"
                                 onChange={() => forControlFormik.setValues({
                                     ...forControlFormik.values,
-                                    startDate: new Date(),
-                                    endDate: new Date(),
+                                    // startDate: new Date(),
+                                    // endDate: new Date(),
                                     type: 'quarterly',
-                                    controlCircle: quarterly
+                                    // controlCircle: quarterly
                                 })}
                             />
                             <div className={cx('quarterly__content', forControlFormik.values.type === 'quarterly' && 'active')}>

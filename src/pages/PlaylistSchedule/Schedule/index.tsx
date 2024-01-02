@@ -4,7 +4,6 @@ import { useSelector } from "react-redux";
 import { useNavigate } from "react-router";
 
 import { PlaylistSchedule } from "~/api/playlistScheduleAPI";
-import { ActionDataType } from "~/components/Action";
 import { Table } from "~/components/Table";
 import { useMenu } from "~/context/hooks";
 import { Icon, playlistAddIcon } from "~/icons";

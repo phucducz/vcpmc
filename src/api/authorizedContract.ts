@@ -1,9 +1,15 @@
-import { collection, getDocs } from "firebase/firestore";
+import { addDoc, collection, getDocs } from "firebase/firestore";
 
 import { firestoreDatabase } from "~/config/firebase";
 import { Record } from "./recordAPI";
 import { RecordPlays } from "./recordPlay";
 import { User } from "./userAPI";
+import { updateService } from "~/service";
+
+export type OwnerShip = {
+    name: string;
+    value: number;
+}
 
 export type AuthorizedContract = {
     id: string;
@@ -18,7 +24,7 @@ export type AuthorizedContract = {
     dateCreated: string;
     effectiveDate: string;
     expirationDate: string;
-    ownerShips: Array<string> | string;
+    ownerShips: Array<OwnerShip>;
     reason: string;
     status: string;
     royalties: string;
@@ -126,4 +132,23 @@ export const getAuthorizedContract = async () => {
             forControlDate: doc.data().forControlDate
         }
     });
+}
+
+export const updateAuthorizedContractById = async (contract: AuthorizedContract) => {
+    updateService('contract', contract);
+}
+
+export const addAuthorizedContractById = async (contract: Omit<AuthorizedContract, 'id'> & { id?: string }) => {
+    if (contract.id === '')
+        delete contract.id;
+
+    return await addDoc(collection(firestoreDatabase, 'contract'), { ...contract });
+}
+
+export const cancelAuthorizedContractById = async ({ id, reason }: { id: string, reason: string }) => {
+    updateService('contract', { id: id, status: 'Đã hủy', reason: reason });
+}
+
+export const renewAuthorizedContractById = async ({ id, expirationDate, ownerShips }: { id: string, expirationDate: string, ownerShips: OwnerShip[] }) => {
+    updateService('contract', { id: id, expirationDate: expirationDate, ownerShips: ownerShips });
 }

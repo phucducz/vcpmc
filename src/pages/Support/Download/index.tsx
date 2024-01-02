@@ -66,7 +66,7 @@ function SupportDownloadPage() {
                         let imageTag: ReactNode = <></>;
 
                         if (item.format === 'image')
-                            imageTag = <Image src={item.image} alt={item.title} width={189} height={104} />
+                            imageTag = <Image src={item.image} alt={item.title} height={142} className={cx('content__download__image')} />
                         else imageTag = <Icon icon={item.image} />
 
                         return <DownloadBoxItem key={item.title} data={{

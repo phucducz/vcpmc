@@ -37,4 +37,8 @@
             }
         }
     }
+
+    & input {
+        width: calc(256px - 16px - 24px);
+    }
 }

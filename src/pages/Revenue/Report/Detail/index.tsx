@@ -239,7 +239,7 @@ function RevenueReportDetailPage() {
             className={cx('renvenue-report-detail')}
         >
             <Table
-                thead={['STT', 'Số hợp đồng', 'Dơn vị khai thác', 'Thời hạn hợp đồng', 'Loại hợp đồng',
+                thead={['STT', 'Số hợp đồng', 'Đơn vị khai thác', 'Thời hạn hợp đồng', 'Loại hợp đồng',
                     'Số thiết bị đã đồng bộ', 'Tổng số lượt phát', 'Ngày chốt đối soát', '', '']}
                 paginate={{
                     dataForPaginate: searchResult,

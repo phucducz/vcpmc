@@ -56,6 +56,12 @@
     justify-content: center;
     gap: 111px;
     margin-top: 73px;
+
+    &>div:nth-child(2)>div {
+        &>img {
+            width: auto!important;
+        }
+    }
 }
 
 .download__box-item {

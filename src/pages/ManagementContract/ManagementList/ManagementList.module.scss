@@ -78,6 +78,10 @@
             &>div:last-child {
                 width: max-content;
 
+                &>div {
+                    margin-top: 0;
+                }
+
                 &>div>div>li {
                     margin-top: 0;
 
@@ -86,10 +90,25 @@
                     }
 
                     &>ul {
-                        width: calc(146px + 16px + 24px)!important;
+                        width: calc(146px + 16px + 24px) !important;
                     }
                 }
             }
         }
+    }
+}
+
+.reason-cancel-contract-form {
+    width: 720px;
+
+    & h3 {
+        padding: 0;
+        margin: 0 auto 40px auto;
+        white-space: nowrap;
+    }
+
+    & input {
+        width: 640px;
+        height: 208px;
     }
 }
