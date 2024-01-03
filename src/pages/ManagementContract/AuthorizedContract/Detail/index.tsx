@@ -312,6 +312,10 @@ function AuthorizedContractDetailPage() {
     });
 
     useEffect(() => {
+        document.title = edit ? 'Chỉnh sửa hợp đồng ủy quyền' : 'Chi tiết hợp đồng ủy quyền';
+    }, [edit]);
+
+    useEffect(() => {
         setPaging([
             {
                 title: 'Quản lý',

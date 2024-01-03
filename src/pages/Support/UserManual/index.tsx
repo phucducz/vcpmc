@@ -17,6 +17,8 @@ function SupportUserManualPage() {
     const [userManualActive, setUserManualActive] = useState<UserManualItem>({ title: '', content: '' });
 
     useEffect(() => {
+        document.title = 'Hướng dẫn sử dụng';
+        
         setPaging([
             {
                 title: 'Hỗ trợ',

@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router";
 
-import { ActionDataType } from "~/components/Action";
 import { PagingItemType } from "~/components/Paging";
 import { Table } from "~/components/Table";
 import { routes } from "~/config/routes";
@@ -25,6 +24,8 @@ function ConfigContractPage() {
     const [actionData, setActionData] = useState<any[]>([] as any[]);
 
     useEffect(() => {
+        document.title = 'Quản lý hợp đồng';
+        
         setPaging([
             {
                 title: 'Cài đặt',

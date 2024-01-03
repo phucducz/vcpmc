@@ -46,6 +46,8 @@ function UserAuthorizationPage() {
     const [loading, setLoading] = useState<boolean>(false);
 
     useEffect(() => {
+        document.title = 'Phân quyền người dùng';
+        
         setPaging([
             {
                 title: 'Cài đặt',

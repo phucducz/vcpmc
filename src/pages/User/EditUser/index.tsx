@@ -99,6 +99,8 @@ function EditUserPage() {
     });
 
     useEffect(() => {
+        document.title = 'Chỉnh sửa thông tin người dùng';
+
         setPaging([
             {
                 title: 'Cài đặt',

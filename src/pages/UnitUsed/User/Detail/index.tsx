@@ -38,6 +38,8 @@ function UserOfUnitDetailPage() {
     const [actionData, setActionData] = useState<any[]>([] as any[]);
 
     useEffect(() => {
+        document.title = 'Chi tiết đơn vị sử dụng | Chi tiết người dùng';
+
         setPaging([
             {
                 title: 'Quản lý',

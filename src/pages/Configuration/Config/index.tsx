@@ -64,6 +64,8 @@ function ConfigPage() {
     const [activeToast, setActiveToast] = useState<boolean>(false);
 
     useEffect(() => {
+        document.title = 'Cài đặt cấu hình';
+
         setPaging([
             {
                 title: 'Cài đặt',

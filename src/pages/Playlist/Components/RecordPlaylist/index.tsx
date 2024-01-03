@@ -1,5 +1,5 @@
 import classNames from "classnames/bind";
-import { memo, useCallback, useEffect, useState, useRef } from 'react';
+import { memo, useCallback, useEffect, useState } from 'react';
 
 import style from './RecordPlaylist.module.scss';
 import { ComboBox, ComboData } from "~/components/ComboBox";
@@ -38,6 +38,8 @@ export const RecordPlaylist = memo(({ data, onItemRemoveClick }: RecordPlaylistP
                 activeData: 'Tất cả'
             }
         ]);
+
+        document.title = 'Thêm bản ghi';
     }, []);
 
     useEffect(() => {
@@ -145,6 +147,7 @@ export const RecordPlaylist = memo(({ data, onItemRemoveClick }: RecordPlaylistP
                         </div>
                     </div>
                 }
+                className={cx('record-playlist-container__common-page')}
             >
                 <Table
                     paginate={{

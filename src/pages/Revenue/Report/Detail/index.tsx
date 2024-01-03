@@ -45,6 +45,8 @@ function RevenueReportDetailPage() {
     const [toastActive, setToastActive] = useState<boolean>(false);
 
     useEffect(() => {
+        document.title = 'Báo cáo chi tiết doanh thu';
+
         setPaging([
             {
                 title: 'Doanh thu',
@@ -81,7 +83,7 @@ function RevenueReportDetailPage() {
             ...filter,
             data: months,
             type: 'Theo tháng',
-            dataActive: `Tháng ${currentDate.getMonth() + 1}/${currentDate.getFullYear()}`
+            dataActive: `Tháng ${currentDate.getMonth() + 1}/${currentDate.getFullYear() - 1}`
         });
 
         setCurrentDate(currentDate);
@@ -105,13 +107,13 @@ function RevenueReportDetailPage() {
                 ...filter,
                 data: months,
                 type: 'Theo tháng',
-                dataActive: `Tháng ${currentDate.getMonth() + 1}/${currentDate.getFullYear()}`
+                dataActive: `Tháng ${currentDate.getMonth() + 1}/${currentDate.getFullYear() - 1}`
             })
             : setFilter({
                 ...filter,
                 data: quarters,
                 type: 'Theo quý',
-                dataActive: `${quarters[0]}/${currentDate.getFullYear()}`
+                dataActive: `${quarters[0]}/${currentDate.getFullYear() - 1}`
             });
     }, [filter]);
 
@@ -181,7 +183,7 @@ function RevenueReportDetailPage() {
     const handleItemDataClick = useCallback((item: any) => {
         if (typeof currentDate === 'undefined') return;
 
-        setFilter({ ...filter, dataActive: `${item.title}/${currentDate.getFullYear()}` });
+        setFilter({ ...filter, dataActive: `${item.title}/${currentDate.getFullYear() - 1}` });
     }, [filter]);
 
     const handleSetCurrentItems = useCallback((items: Array<any>) => {

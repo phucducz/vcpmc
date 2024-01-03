@@ -1,15 +1,14 @@
 import { faEdit } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import classNames from "classnames/bind";
+import { useFormik } from "formik";
 import { useCallback, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router";
 
-import { useFormik } from "formik";
 import moment from "moment";
 import { Record } from "~/api/recordAPI";
 import { User } from "~/api/userAPI";
-import { ActionDataType } from "~/components/Action";
 import { Button } from "~/components/Button";
 import { PagingItemType } from "~/components/Paging";
 import { Table } from "~/components/Table";
@@ -73,6 +72,8 @@ function EditPlaylistDetailPage() {
     });
 
     useEffect(() => {
+        document.title = 'Chỉnh sửa Playlist';
+        
         setActive(false);
         setType('dynamic');
 

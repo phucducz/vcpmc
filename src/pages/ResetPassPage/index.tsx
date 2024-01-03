@@ -4,8 +4,8 @@ import { useFormik } from "formik";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router";
-
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
 import { getUserById } from "~/api/userAPI";
 import { Button } from "~/components/Button";
 import { Form } from "~/components/Form";
@@ -59,7 +59,10 @@ function ResetPassPage() {
             }));
         }
     });
-    console.log(resetPassFormik.errors);
+    
+    useEffect(() => {
+        document.title = 'Khôi phục mật khẩu';
+    }, []);
 
     const RESETPASS_INPUTS = [
         {

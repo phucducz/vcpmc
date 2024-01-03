@@ -42,6 +42,10 @@ const GridItem = memo(({ data, action, categories, onGridItemClick, quantity, to
     { categories: Array<Category> } &
     { quantity: number, totalTime: string }
 ) => {
+    useEffect(() => {
+        document.title = 'Quản lý Playlist';
+    }, []);
+
     return (
         <div className={cx('grid-container__item')} onClick={onGridItemClick}>
             <div
@@ -107,6 +111,8 @@ function PlaylistPage() {
     const [playlistRecords, setPlaylistRecords] = useState<Array<PlaylistRecordDetail>>([] as Array<PlaylistRecordDetail>);
 
     useEffect(() => {
+        document.title = 'Quản lý Playlist';
+        
         setActionData([
             {
                 icon: <Icon icon={playlistAddIcon} />,

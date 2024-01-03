@@ -35,6 +35,8 @@ function SupportDownloadPage() {
     const [paging, setPaging] = useState<Array<PagingItemType>>([] as Array<PagingItemType>);
 
     useEffect(() => {
+        document.title = 'Tải app';
+
         setPaging([
             {
                 title: 'Hỗ trợ',

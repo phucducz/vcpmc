@@ -59,6 +59,10 @@ function LoginPage() {
             }));
         }
     });
+
+    useEffect(() => {
+        document.title = 'VCPMC - Trang đăng nhập';
+    }, []);
     
     const handleRightIconClick = () => {
         passwordType === 'password'

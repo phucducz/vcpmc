@@ -69,6 +69,8 @@ function EditRolePage() {
     });
 
     useEffect(() => {
+        document.title = 'Chỉnh sửa vai trò';
+        
         setPaging([
             {
                 title: 'Cài đặt',

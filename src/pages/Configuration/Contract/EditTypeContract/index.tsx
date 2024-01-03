@@ -7,7 +7,6 @@ import { useSelector } from "react-redux";
 import { useNavigate } from "react-router";
 
 import { ETMContractType } from "~/api/etmContractAPI";
-import { ActionDataType } from "~/components/Action";
 import { Button } from "~/components/Button";
 import { Form } from "~/components/Form";
 import { Input } from "~/components/Input";
@@ -85,6 +84,8 @@ function EditTypeContractPage() {
     }, []);
 
     useEffect(() => {
+        document.title = 'Chỉnh sửa loại hợp đồng';
+        
         setPaging([
             {
                 title: 'Cài đặt',

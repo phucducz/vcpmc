@@ -27,6 +27,8 @@ function PlaylistSchedulePage() {
     const [itemsPerPage, setItemsPerPage] = useState<string>('8');
 
     useEffect(() => {
+        document.title= 'Danh sách lịch phát';
+        
         setActionData([
             {
                 icon: <Icon icon={playlistAddIcon} />,

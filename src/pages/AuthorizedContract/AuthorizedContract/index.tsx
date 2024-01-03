@@ -28,6 +28,8 @@ function AuthorizedContract() {
     const [itemsPerPage, setItemsPerPage] = useState<string>('8');
 
     useEffect(() => {
+        document.title = 'Danh sách đối tác ủy quyền';
+        
         setPaging([
             {
                 title: 'Quản lý',

@@ -1,23 +1,21 @@
 import classNames from "classnames/bind";
 import { useCallback, useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router";
 import { useSelector } from "react-redux";
+import { useNavigate, useParams } from "react-router";
 
-import style from './ApplySchedule.module.scss';
-import { CommonPage } from "~/pages/CommonPage";
+import { faCheck, faXmark } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Device } from "~/api/deviceAPI";
+import { CheckBox } from "~/components/CheckBox";
 import { PagingItemType } from "~/components/Paging";
+import { Table } from "~/components/Table";
 import { routes } from "~/config/routes";
+import { CommonPage } from "~/pages/CommonPage";
+import { ScheduleDeviceInitialStateType } from "~/reducers/scheduleDevice";
 import { RootState, useAppDispatch } from "~/store";
 import { getDeviceList } from "~/thunk/deviceThunk";
-import Loading from "~/components/Loading";
-import { Table } from "~/components/Table";
-import { CheckBox } from "~/components/CheckBox";
-import { Device } from "~/api/deviceAPI";
-import { ActionDataType } from "~/components/Action";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCheck, faXmark } from "@fortawesome/free-solid-svg-icons";
 import { getScheduleDeviceList, saveScheduleDevice } from "~/thunk/scheduleDeviceThunk";
-import { ScheduleDeviceInitialStateType } from "~/reducers/scheduleDevice";
+import style from './ApplySchedule.module.scss';
 
 const cx = classNames.bind(style);
 
@@ -53,6 +51,8 @@ function AppySchedulePage() {
     }, []);
 
     useEffect(() => {
+        document.title = 'Áp lịch phát cho thiết bị';
+        
         setPaging([
             {
                 title: 'Lập lịch phát',

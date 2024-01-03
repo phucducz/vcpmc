@@ -36,6 +36,8 @@ function UnitManagementPage() {
     const [itemsChosen, setItemsChosen] = useState<Array<EtmContractDetail>>([] as Array<EtmContractDetail>);
 
     useEffect(() => {
+        document.title = 'Danh sách đơn vị sử dụng';
+        
         setMenuActive(4);
         setActive(true);
 
@@ -149,7 +151,7 @@ function UnitManagementPage() {
                                 <td><p>{item.createdBy.userName}</p></td>
                                 <td><p>{item.code}</p></td>
                                 <td><p>{item.createdBy.id}</p></td>
-                                <td><p>{item.user.id}</p></td>
+                                <td><p>{item.employeeIds?.length}</p></td>
                                 <td><p>{1}</p></td>
                                 <td><p>{item.expirationDate}</p></td>
                                 <td>{<Switch

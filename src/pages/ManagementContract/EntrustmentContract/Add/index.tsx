@@ -162,6 +162,7 @@ function AddETMContractPage() {
     });
 
     useEffect(() => {
+        document.title='Thêm hợp đồng khai thác';
         setPaging([
             {
                 title: 'Quản lý',

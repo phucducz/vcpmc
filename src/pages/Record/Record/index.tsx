@@ -150,6 +150,7 @@ function RecordPage() {
 
     useEffect(() => {
         setMenuActive(1);
+        document.title = 'Kho bản ghi';
     }, []);
 
     useEffect(() => {

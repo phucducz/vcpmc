@@ -112,6 +112,10 @@ function SupportFeedbackPage() {
     }, []);
 
     useEffect(() => {
+        document.title = 'Feeback';
+    }, []);
+
+    useEffect(() => {
         setFeedbacks(feedback.feedbacks);
     }, [feedback]);
 
@@ -170,8 +174,6 @@ function SupportFeedbackPage() {
     const handleSetCurrentItems = useCallback((items: Array<any>) => {
         setCurrentItems(items);
     }, []);
-
-    console.log(feedbacks);
 
     return (
         <CommonPage

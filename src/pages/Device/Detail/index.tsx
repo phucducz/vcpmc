@@ -3,25 +3,24 @@ import classNames from "classnames/bind";
 import { useCallback, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router";
-
-import { faCheckCircle, faEdit, faEye, faLock, faRefresh } from "@fortawesome/free-solid-svg-icons";
+import { faEdit, faEye, faLock, faRefresh } from "@fortawesome/free-solid-svg-icons";
 import { useFormik } from "formik";
+
 import { Device } from "~/api/deviceAPI";
-import { ActionDataType } from "~/components/Action";
 import { Button } from "~/components/Button";
 import { Form } from "~/components/Form";
 import Image from "~/components/Image";
 import { Input, InputProps } from "~/components/Input";
+import Loading from "~/components/Loading";
 import { PagingItemType } from "~/components/Paging";
 import { RadioButton } from "~/components/RadioButton";
+import { Toast } from "~/components/Toast";
 import { routes } from "~/config/routes";
+import { Yup } from "~/constants";
 import { CommonPage } from "~/pages/CommonPage";
 import { RootState, useAppDispatch } from "~/store";
-import style from './Detail.module.scss';
-import { Yup } from "~/constants";
 import { changePasswordDevice, restoreMemory, updateDevice } from "~/thunk/deviceThunk";
-import Loading from "~/components/Loading";
-import { Toast } from "~/components/Toast";
+import style from './Detail.module.scss';
 
 const cx = classNames.bind(style);
 
@@ -126,6 +125,8 @@ function DeviceDetailPage() {
     });
 
     useEffect(() => {
+        document.title = 'Chi tiết thiết bị';
+
         setPaging([
             {
                 title: 'Danh sách thiết bị',

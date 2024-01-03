@@ -63,6 +63,8 @@ function PlaylistDetailPage() {
     }, []);
 
     useEffect(() => {
+        document.title = 'Chi tiết Playlist';
+        
         setActive(false);
         setType('dynamic');
 

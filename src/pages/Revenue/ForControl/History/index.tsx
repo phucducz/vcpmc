@@ -35,6 +35,8 @@ function HistoryForControlPage() {
     const [itemsPerPage, setItemsPerPage] = useState<string>('8');
 
     useEffect(() => {
+        document.title = 'Lịch sử đối soát doanh thu';
+
         setPaging([
             {
                 title: 'Doanh thu',
@@ -58,7 +60,13 @@ function HistoryForControlPage() {
         dispatch(getEtmContractForControls());
 
         const currentDate = new Date();
-        setDate(`${currentDate.getFullYear()}-${currentDate.getMonth() + 1}-${currentDate.getDate()}`)
+        let month = `${currentDate.getMonth() + 1}`;
+        let date = `${currentDate.getDate() + 1}`;
+
+        if ((currentDate.getMonth() + 1) < 10) month = `0${currentDate.getMonth() + 1}`;
+        if ((currentDate.getDate()) < 10) date = `0${currentDate.getDate()}`;
+
+        setDate(`${currentDate.getFullYear()}-${month}-${date}`);
     }, []);
 
     useEffect(() => {
@@ -66,11 +74,11 @@ function HistoryForControlPage() {
     }, [etmContract.etmContractForControl]);
 
     useEffect(() => {
-        setSearchResult(etmContract.etmContractForControl.filter(contract =>
-            contract.checkpointDate &&
+        setSearchResult(etmContract.etmContractForControl.filter(contract => (
+            (contract.checkpointDate !== '' && typeof contract.checkpointDate !== 'undefined') &&
             +new Date(formatDateYMD(contract.checkpointDate)).getMonth() === +new Date(date).getMonth() &&
             +new Date(formatDateYMD(contract.checkpointDate)).getFullYear() === +new Date(date).getFullYear()
-        ));
+        )));
     }, [date]);
 
     useEffect(() => {

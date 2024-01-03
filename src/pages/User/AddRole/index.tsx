@@ -67,6 +67,8 @@ function AddRolePage() {
     });
 
     useEffect(() => {
+        document.title = 'Thêm mới vai trò';
+        
         setPaging([
             {
                 title: 'Cài đặt',

@@ -46,6 +46,8 @@ function UnitUsedDetailPage() {
     const [toastVisible, setToastVisible] = useState<boolean>(false);
 
     useEffect(() => {
+        document.title = 'Chi tiết đơn vị sử dụng';
+        
         setPaging([
             {
                 title: 'Quản lý',

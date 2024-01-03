@@ -92,6 +92,8 @@ function PlaylistScheduleDetailPage() {
     }, [playlist.playlist, playlistsRecords.playlistsRecords]);
 
     useEffect(() => {
+        document.title = 'Chi tiết lịch phát';
+        
         playlistsRecords.playlistsRecords.length <= 0 && dispatch(getPlaylistsRecordsList());
         playlist.playlist.length <= 0 && dispatch(getPlaylistList());
     }, []);

@@ -198,6 +198,8 @@ function AddAuthorizedContractPage() {
     });
 
     useEffect(() => {
+        document.title = 'Thêm hợp đồng ủy quyền';
+        
         setPaging([
             {
                 title: 'Quản lý',

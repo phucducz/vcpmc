@@ -102,6 +102,10 @@ function EditAuthorizedContract() {
     }, [authorizedContract.contracts]);
 
     useEffect(() => {
+        document.title = 'Danh sách đối tác ủy quyền | Cập nhật thông tin';
+    }, []);
+
+    useEffect(() => {
         setUserInputs([
             {
                 fieldName: 'Tên người dùng',

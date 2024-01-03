@@ -1,31 +1,30 @@
-import classNames from "classnames/bind";
-import { useCallback, useEffect, useRef, useState } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheck, faXmark } from "@fortawesome/free-solid-svg-icons";
-import { routes } from "~/config/routes";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import classNames from "classnames/bind";
 import { useFormik } from "formik";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
+import { routes } from "~/config/routes";
 
-import style from './ApprovePage.module.scss';
-import { PagingItemType } from "~/components/Paging";
-import { Icon, listTabGridIcon, listTabListIcon } from "~/icons";
-import { ComboBox, ComboData } from "~/components/ComboBox";
-import { Table } from "~/components/Table";
-import { Grid } from "~/components/Grid";
-import { RootState, useAppDispatch } from "~/store";
-import { Record, getContractList } from "~/api/recordAPI";
-import { getRecords } from "~/thunk/recordThunks";
 import { Contract } from "~/api/contractAPI";
-import { CheckBox } from "~/components/CheckBox";
-import { ActionDataType } from "~/components/Action";
-import { formatToLocalStringCurrentDate } from "~/context";
-import { approveRecordList, getApprovalList } from "~/thunk/approvalThunk";
-import { Form } from "~/components/Form";
-import { Button } from "~/components/Button";
-import { Input } from "~/components/Input";
+import { Record, getContractList } from "~/api/recordAPI";
 import { AudioDialog } from "~/components/AudioDialog";
+import { Button } from "~/components/Button";
+import { CheckBox } from "~/components/CheckBox";
+import { ComboBox, ComboData } from "~/components/ComboBox";
+import { Form } from "~/components/Form";
+import { Grid } from "~/components/Grid";
+import { Input } from "~/components/Input";
+import { PagingItemType } from "~/components/Paging";
+import { Table } from "~/components/Table";
+import { formatToLocalStringCurrentDate } from "~/context";
+import { Icon, listTabGridIcon, listTabListIcon } from "~/icons";
 import { CommonPage } from "~/pages/CommonPage";
+import { RootState, useAppDispatch } from "~/store";
+import { approveRecordList, getApprovalList } from "~/thunk/approvalThunk";
+import { getRecords } from "~/thunk/recordThunks";
 import { GridItem } from "../Record";
+import style from './ApprovePage.module.scss';
 
 const cx = classNames.bind(style);
 
@@ -87,6 +86,7 @@ function ApprovePage() {
                 active: true
             }
         ]);
+        document.title = 'Quản lý phê duyệt';
     }, []);
 
     const handleApprove = async (status: string, reason: string) => {

@@ -44,6 +44,8 @@ function RevenueManagementPage() {
     const [date, setDate] = useState<string>('');
 
     useEffect(() => {
+        document.title = 'Quản lý phân phối doanh thu';
+
         setPaging([
             {
                 title: 'Doanh thu',
@@ -71,7 +73,13 @@ function RevenueManagementPage() {
         dispatch(getRecordPlays());
 
         let dateList = new Date().toLocaleString().split(',')[0].split('/');
-        setDate(`${dateList[dateList.length - 1]}-${dateList[0]}-${dateList[1]}`);
+        let month = dateList[0];
+        let date = dateList[1];
+
+        if (parseInt(dateList[0]) < 10) month = `0${dateList[0]}`;
+        if (parseInt(dateList[1]) < 10) date = `0${dateList[1]}`;
+
+        setDate(`${dateList[dateList.length - 1]}-${month}-${date}`);
     }, []);
 
     useEffect(() => {
@@ -90,7 +98,7 @@ function RevenueManagementPage() {
                 }
             });
             const totalPlay = records.reduce((sum, item) => sum + item.totalPlay, 0);
-            
+
             return {
                 contract: contract,
                 records: records,
@@ -108,11 +116,12 @@ function RevenueManagementPage() {
     useEffect(() => {
         let value = searchValue.trim().toLowerCase();
 
+        
         if (date === '') {
             setSearchResult(contractDetailList);
             return;
         }
-
+        
         let searchFilterDate = contractDetailList.filter(prev =>
             prev.records.some(record =>
                 record.recordPlays.some(recordPlay =>

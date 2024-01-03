@@ -97,6 +97,8 @@ function AddUserPage() {
     });
 
     useEffect(() => {
+        document.title = 'Thêm mới người dùng';
+
         setPaging([
             {
                 title: 'Cài đặt',

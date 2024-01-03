@@ -186,7 +186,10 @@ function ETMContractDetailPage() {
 
     const { code, distributionValue, effectiveDate, expirationDate, playValue,
         name, status, type, value, companyName, position } = contractFormik.values;
-    console.log(contractFormik.errors);
+
+    useEffect(() => {
+        document.title = !edit ? 'Chi tiết hợp đồng khai thác' : 'Chỉnh sửa hợp đồng khai thác';
+    }, [edit]);
 
     useEffect(() => {
         if (id === '') return;

@@ -209,6 +209,8 @@ function HistoryForControlDetailPage() {
     const [monthPeriod, setMonthPeriod] = useState<string>('');
 
     useEffect(() => {
+        document.title = 'Chi tiết lịch sử đối soát doanh thu';
+
         setPaging([
             {
                 title: 'Doanh thu',

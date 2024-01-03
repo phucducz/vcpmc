@@ -58,6 +58,8 @@ function ManagementList() {
     const [contractCancelled, setContractCancelled] = useState<{ code: string; reason: string; }>({ code: '', reason: '' });
 
     useEffect(() => {
+        document.title = 'Danh sách hợp đồng';
+
         setTab([
             {
                 title: 'Hợp đồng uỷ quyền',

@@ -73,6 +73,8 @@ function PlaylistScheduleEditPage() {
     });
     
     useEffect(() => {
+        document.title = 'Chỉnh sửa lịch phát';
+        
         setActionData([
             {
                 icon: <Icon icon={calendarIcon} />,

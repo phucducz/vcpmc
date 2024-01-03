@@ -100,6 +100,8 @@ function AddUserOfUnitPage() {
     }, [etmContract.etmContractsDetail]);
 
     useEffect(() => {
+        document.title = 'Chi tiết đơn vị sử dụng | Thêm người dùng';
+
         setPaging([
             {
                 title: 'Quản lý',

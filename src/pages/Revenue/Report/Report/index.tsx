@@ -238,6 +238,8 @@ function RevenueReportPage() {
     }, [contracts, recordPlay.recordPlays]);
 
     useEffect(() => {
+        document.title = 'Báo cáo doanh thu';
+        
         setPaging([
             {
                 title: 'Doanh thu',
@@ -301,7 +303,7 @@ function RevenueReportPage() {
                         if (filter.type === 'Theo tháng') {
                             let filterDate = new Date(formatDateYMD(`${currentDate.getDate()}/${filter.dataActive.split(' ')[1]}`));
 
-                            return recordPlayDate.getMonth() === filterDate.getMonth() && recordPlayDate.getFullYear() === filterDate.getFullYear() - 1;
+                            return recordPlayDate.getMonth() === filterDate.getMonth() && recordPlayDate.getFullYear() === filterDate.getFullYear();
                         }
                         else {
                             let timeSplit = quarter.time.split('-');
@@ -348,20 +350,20 @@ function RevenueReportPage() {
                 ...filter,
                 data: months,
                 type: 'Theo tháng',
-                dataActive: `Tháng ${currentDate.getMonth() + 1}/${currentDate.getFullYear()}`
+                dataActive: `Tháng ${currentDate.getMonth() + 1}/${currentDate.getFullYear() - 1}`
             })
             : setFilter({
                 ...filter,
                 data: quarters,
                 type: 'Theo quý',
-                dataActive: `${quarters[0]}/${currentDate.getFullYear()}`
+                dataActive: `${quarters[0]}/${currentDate.getFullYear() - 1}`
             });
     }, [filter]);
 
     const handleItemDataClick = useCallback((item: any) => {
         if (typeof currentDate === 'undefined') return;
 
-        setFilter({ ...filter, dataActive: `${item.title}/${currentDate.getFullYear()}` });
+        setFilter({ ...filter, dataActive: `${item.title}/${currentDate.getFullYear() - 1}` });
     }, [filter]);
 
     return (

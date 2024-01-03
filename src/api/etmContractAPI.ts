@@ -179,10 +179,6 @@ export const getEtmContractForControlList = async () => {
                 some(record => record.id === recordPlay.recordsId)
             );
 
-        console.log(recordPlays);
-        console.log(recordsOfContract);
-        console.log(recordPlay);
-
         let totalPlay = recordPlay.reduce((sum, item) => sum + parseInt(item.playsCount), 0);
 
         return {

@@ -1,8 +1,8 @@
 import classNames from "classnames/bind";
 import { useFormik } from "formik";
-import { useCallback, useEffect, useState } from "react";
-import { useNavigate } from "react-router";
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router";
 
 import { Device } from "~/api/deviceAPI";
 import { BlockInput } from "~/components/Block";
@@ -15,9 +15,8 @@ import { routes } from "~/config/routes";
 import { Yup } from "~/constants";
 import { CommonPage } from "~/pages/CommonPage";
 import { RootState, useAppDispatch } from "~/store";
-import style from './Add.module.scss';
 import { addDevice } from "~/thunk/deviceThunk";
-import image from '~/images/Frame 534.png';
+import style from './Add.module.scss';
 
 const cx = classNames.bind(style);
 
@@ -81,6 +80,8 @@ function AddDevicePage() {
     });
 
     useEffect(() => {
+        document.title = 'Thêm thiết bị';
+
         setPaging([
             {
                 title: 'Danh sách thiết bị',

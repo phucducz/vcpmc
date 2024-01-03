@@ -7,7 +7,6 @@ import { useSelector } from "react-redux";
 import { useNavigate } from "react-router";
 
 import { Device } from "~/api/deviceAPI";
-import { ActionDataType } from "~/components/Action";
 import { Button } from "~/components/Button";
 import { CheckBox } from "~/components/CheckBox";
 import { ComboBox, ComboData } from "~/components/ComboBox";
@@ -55,6 +54,8 @@ function DeviceManagementPage() {
     })
 
     useEffect(() => {
+        document.title = 'Quản lý thiết bị';
+
         setHeaderColumn(['STT', 'Tên thiết bị', 'Trạng thái', 'Địa điểm', 'Hạn hợp đồng', 'MAC Addresss', 'Memory']);
 
         !device.devices.length && dispatch(getDeviceList());
