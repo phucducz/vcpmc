@@ -1,17 +1,17 @@
 import classNames from "classnames/bind";
-import { useEffect, useState } from "react";
 import { useFormik } from "formik";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
-import style from './Recover.module.scss';
-import { Form } from "~/components/Form";
-import { Yup } from "~/constants";
-import { Input } from "~/components/Input";
-import { Button } from "~/components/Button";
-import Image from "~/components/Image";
-import logo from '~/images/logo.png';
 import { sendPasswordToResetEmail } from "~/api/loginAPI";
+import { Button } from "~/components/Button";
+import { Form } from "~/components/Form";
+import Image from "~/components/Image";
+import { Input } from "~/components/Input";
 import Loading from "~/components/Loading";
+import { Yup } from "~/constants";
+import logo from '~/images/logo.png';
+import style from './Recover.module.scss';
 
 const cx = classNames.bind(style);
 
@@ -34,7 +34,7 @@ function RecoverPage() {
             setLoading(false);
             setConfirmSuccess(false);
         }
-    }); 
+    });
 
     useEffect(() => {
         document.title = 'Quên mật khẩu | Không thể đăng nhập';
@@ -52,9 +52,9 @@ function RecoverPage() {
                     <p>Vui lòng nhập địa chỉ email đã đăng ký để yêu cầu khôi phục mật khẩu</p>
                     <div className={cx('recover-form__container__input')}>
                         <Input
-                            medium
                             name="emailAddress"
                             fieldName="Email"
+                            style={{ width: '59.8rem' }}
                             value={recoverFormik.values.emailAddress}
                             touched={recoverFormik.touched.emailAddress}
                             errorMessage={recoverFormik.errors.emailAddress}

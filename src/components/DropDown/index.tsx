@@ -1,10 +1,9 @@
 import classNames from "classnames/bind";
 import { useEffect, useRef, useState } from "react";
 
+import { Position } from "~/types";
 import style from './DropDown.module.scss';
 import { Item } from "./Item";
-import { Position } from "~/types";
-import { LanguageProps } from "../Language";
 
 const cx = classNames.bind(style);
 

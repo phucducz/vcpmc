@@ -24,7 +24,6 @@ type LanguagesProps = {
 export const Language = ({ languages, placement }: LanguagesProps) => {
     const { language, setLanguage } = useLanguage();
 
-    // const [language, setLanguage] = useState<LanguageProps>(languages[0]);
     const [activeDropDow, setActiveDropDown] = useState<boolean>(false);
 
     let handleSetLang: (item: LanguageProps) => void = function (item: LanguageProps) {

@@ -1,10 +1,8 @@
 import classNames from "classnames/bind";
 import { ReactNode, memo, useEffect, useRef } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-import style from './Toast.module.scss';
-import { faCheckCircle, faCircleExclamation } from "@fortawesome/free-solid-svg-icons";
 import { Icon, checkIcon } from "~/icons";
+import style from './Toast.module.scss';
 
 const cx = classNames.bind(style);
 

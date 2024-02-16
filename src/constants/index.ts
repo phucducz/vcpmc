@@ -9,7 +9,7 @@ const Yup = yup;
 
 const LANGUAGE_ITEMS = [
     {
-        title: 'Tiếng Việt',
+        title: 'Việt Nam',
         icon: LANGUAGE_ICONS.VN
     }, {
         title: 'English',

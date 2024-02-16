@@ -1,22 +1,22 @@
+import { faEye } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import classNames from "classnames/bind";
 import { useFormik } from "formik";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEye } from "@fortawesome/free-solid-svg-icons";
 import { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
 
-import style from './Login.module.scss';
-import { RootState, useAppDispatch } from "~/store";
-import { Yup } from "~/constants";
-import { getUsers, login } from "~/thunk/userThunk";
-import { Form } from "~/components/Form";
-import { CheckBox } from "~/components/CheckBox";
 import { Button } from "~/components/Button";
-import Loading from "~/components/Loading";
+import { CheckBox } from "~/components/CheckBox";
+import { Form } from "~/components/Form";
 import Image from "~/components/Image";
-import { routes } from "~/config/routes";
 import { Input, InputProps } from "~/components/Input";
+import Loading from "~/components/Loading";
+import { routes } from "~/config/routes";
+import { Yup } from "~/constants";
+import { RootState, useAppDispatch } from "~/store";
+import { login } from "~/thunk/userThunk";
+import style from './Login.module.scss';
 
 const cx = classNames.bind(style);
 
@@ -36,10 +36,10 @@ function LoginPage() {
     
     const loginFormik = useFormik({
         initialValues: {
-            // userName: '',
-            // password: '',
-            userName: user.currentUser.userName || 'phucducduongvinh05102003@gmail.com',
-            password: user.currentUser.password || 'duc05102003',
+            userName: user.currentUser.userName || '',
+            password: user.currentUser.password || '',
+            //userName: user.currentUser.userName || 'phucducduongvinh05102003@gmail.com',
+            //password: user.currentUser.password || 'duc05102003',
             status: user.status
         },
         validationSchema: Yup.object({
