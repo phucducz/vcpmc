@@ -93,8 +93,6 @@ function EditUserPage() {
                 expirationDate: formatDateDMYHPTS(values.expirationDate || 'yyyy/MM/dd'),
             };
 
-            console.log(user);
-
             dispatch(saveUser({ user: user, navigate: () => navigate(routes.UserAuthorizationManagement) }));
         }
     });
