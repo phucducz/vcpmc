@@ -1,6 +1,6 @@
 export const routes = {
     ProfilePage: '/profile/id/:id',
-    LoginPage: '/login',
+    LoginPage: '/',
     RecoverPage: '/recover-password',
     ResetPage: '/reset-password',
     ResetNoFoundPage: '/reset-password/*',
