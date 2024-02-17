@@ -1,10 +1,10 @@
-import './App.css';
 import { Route, Routes } from 'react-router';
 import { BrowserRouter } from 'react-router-dom';
+import './App.css';
 
-import { publicRoutes } from './routes';
-import { DefaultLayout } from './layouts/DefaultLayout';
 import { LanguageProvider } from './context/Language/LanguageProvider';
+import { DefaultLayout } from './layouts/DefaultLayout';
+import { publicRoutes } from './routes';
 
 function App() {
   return (
@@ -17,7 +17,7 @@ function App() {
 
             if (layout)
               Layout = layout;
-
+            
             return (
               <Route
                 key={index}

@@ -54,7 +54,7 @@ function LoginPage() {
             dispatch(login({
                 userName: userName,
                 password: password,
-                navigate: () => navigate(`/record-management`),
+                navigate: () => navigate(routes.RecordPage),
                 role: role.roleList
             }));
         }

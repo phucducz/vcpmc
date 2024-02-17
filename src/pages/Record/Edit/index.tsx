@@ -96,7 +96,7 @@ function EditRecord() {
                 status: 'Đã phê duyệt'
             }));
 
-            navigate('/record-management');
+            navigate(routes.RecordPage);
         }
     });
 
@@ -305,7 +305,7 @@ function EditRecord() {
                     </div>
                 </div>
                 <div className={cx('form__action')}>
-                    <Button type='button' outline onClick={() => navigate('/record-management')}>Hủy</Button>
+                    <Button type='button' outline onClick={() => navigate(routes.RecordPage)}>Hủy</Button>
                     <Button as='button' type='submit'>Lưu</Button>
                 </div>
             </form>
