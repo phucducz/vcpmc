@@ -176,11 +176,11 @@ function UserAuthorizationPage() {
                 {currentItems.map((item, index) => (
                     <tr key={index} style={{ height: '47px' }}>
                         <td><p>{index + 1}</p></td>
-                        <td style={{ minWidth: '14.7rem' }}><p>{item.firstName} {item.lastName}</p></td>
-                        <td style={{ minWidth: '22.3rem' }}><p>{item.userName}</p></td>
-                        <td style={{ minWidth: '14.2rem' }}><p>{item.role.name}</p></td>
+                        <td><p>{item.firstName} {item.lastName}</p></td>
+                        <td><p>{item.userName}</p></td>
+                        <td><p>{item.role.name}</p></td>
                         <td><Switch status={item.status === 'active'} title='Đang kích hoạt' /></td>
-                        <td style={{ minWidth: '34.2rem' }}><p>{item.email}</p></td>
+                        <td><p>{item.email}</p></td>
                         <td><p>{item.phoneNumber}</p></td>
                         <td><p>{item.expirationDate}</p></td>
                         <td><p
