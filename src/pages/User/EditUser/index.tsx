@@ -1,18 +1,17 @@
+import { faEye } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import classNames from "classnames/bind";
 import { useFormik } from "formik";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router";
 
-import { faEye } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Role } from "~/api/roleAPI";
 import { User } from "~/api/userAPI";
-import { ActionDataType } from "~/components/Action";
 import { Button } from "~/components/Button";
 import { ComboBox } from "~/components/ComboBox";
 import { Form } from "~/components/Form";
-import { Input, InputProps } from "~/components/Input";
+import { Input } from "~/components/Input";
 import Loading from "~/components/Loading";
 import { PagingItemType } from "~/components/Paging";
 import { RadioButton } from "~/components/RadioButton";
@@ -70,29 +69,31 @@ function EditUserPage() {
             const fullNameArray = values.fullName.split(' ');
 
             const user = {
-                avatar: values.avatar,
-                bank: values.bank,
-                bankNumber: values.bankNumber,
-                dateOfBirth: values.dateOfBirth,
-                dateRange: values.dateRange,
-                email: values.email,
-                gender: values.gender,
-                idNumber: values.idNumber,
-                issuedBy: values.issuedBy,
-                nationality: values.nationality,
-                password: values.password,
-                phoneNumber: values.phoneNumber,
-                residence: values.residence,
-                rolesId: values.rolesId,
-                taxCode: values.taxCode,
-                userName: values.userName,
-                id: values.id,
+                avatar: values.avatar || '',
+                bank: values.bank || '',
+                bankNumber: values.bankNumber || '',
+                dateOfBirth: values.dateOfBirth || '',
+                dateRange: values.dateRange || '',
+                email: values.email || '',
+                gender: values.gender || '',
+                idNumber: values.idNumber || '',
+                issuedBy: values.issuedBy || '',
+                nationality: values.nationality || '',
+                password: values.password || '',
+                phoneNumber: values.phoneNumber || '',
+                residence: values.residence || '',
+                rolesId: values.rolesId || '',
+                taxCode: values.taxCode || '',
+                userName: values.userName || '',
+                id: values.id || '',
                 companyName: values.companyName || '',
-                status: values.status,
-                firstName: fullNameArray[0],
-                lastName: fullNameArray[fullNameArray.length - 1],
+                status: values.status || '',
+                firstName: fullNameArray[0] || '',
+                lastName: fullNameArray[fullNameArray.length - 1] || '',
                 expirationDate: formatDateDMYHPTS(values.expirationDate || 'yyyy/MM/dd'),
             };
+
+            console.log(user);
 
             dispatch(saveUser({ user: user, navigate: () => navigate(routes.UserAuthorizationManagement) }));
         }
