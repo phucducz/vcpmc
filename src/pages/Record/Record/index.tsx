@@ -281,28 +281,28 @@ function RecordPage() {
                 searchValue: searchValue,
                 setSearchValue: (e: any) => setSearchValue(e.target.value)
             }}
-            actionFilter={<>
-                {comboBoxData?.length && comboBoxData.map((item, index) => (
-                    <ComboBox
-                        key={index}
-                        title={item.title}
-                        active={item.activeData}
-                        visible={item.visible}
-                        data={item.data}
-                        className={cx('combo-data')}
-                        onClick={() => handleComboBoxClick(item)}
-                        onItemClick={handleSetCategory}
-                        onBlur={() => handleBlurComboBox(item)}
-                    />
-                ))}
-            </>}
-            actionType={
-                <div className={cx('action__type-load', typeLoad === 'table' ? 'table-visible' : 'grid-visible')}>
-                    <Icon icon={listTabListIcon} onClick={() => setTypeLoad('table')} />
-                    <Icon icon={listTabGridIcon} onClick={() => setTypeLoad('grid')} />
-                </div>
-            }
-            actionData={actionData}
+            // actionFilter={<>
+            //     {comboBoxData?.length && comboBoxData.map((item, index) => (
+            //         <ComboBox
+            //             key={index}
+            //             title={item.title}
+            //             active={item.activeData}
+            //             visible={item.visible}
+            //             data={item.data}
+            //             className={cx('combo-data')}
+            //             onClick={() => handleComboBoxClick(item)}
+            //             onItemClick={handleSetCategory}
+            //             onBlur={() => handleBlurComboBox(item)}
+            //         />
+            //     ))}
+            // </>}
+            // actionType={
+            //     <div className={cx('action__type-load', typeLoad === 'table' ? 'table-visible' : 'grid-visible')}>
+            //         <Icon icon={listTabListIcon} onClick={() => setTypeLoad('table')} />
+            //         <Icon icon={listTabGridIcon} onClick={() => setTypeLoad('grid')} />
+            //     </div>
+            // }
+            // actionData={actionData}
         >
             <div className={cx('container-table-data')}>
                 {typeLoad === 'grid'

@@ -6,11 +6,11 @@ import { Link } from "react-router-dom";
 import { sendPasswordToResetEmail } from "~/api/loginAPI";
 import { Button } from "~/components/Button";
 import { Form } from "~/components/Form";
-import Image from "~/components/Image";
 import { Input } from "~/components/Input";
 import Loading from "~/components/Loading";
+import { Logo } from "~/components/Logo";
+import { routes } from "~/config/routes";
 import { Yup } from "~/constants";
-import logo from '~/images/logo.png';
 import style from './Recover.module.scss';
 
 const cx = classNames.bind(style);
@@ -42,7 +42,8 @@ function RecoverPage() {
 
     return (
         <div className={cx('recover-container')}>
-            <Image src={logo} alt='logo' width={240} />
+            {/* <Image src={logo} alt='logo' width={240} /> */}
+            <Logo width={240} />
             <Form
                 visible={true}
                 title="Khôi phục mật khẩu"
@@ -54,6 +55,7 @@ function RecoverPage() {
                         <Input
                             name="emailAddress"
                             fieldName="Email"
+                            type='text'
                             style={{ width: '59.8rem' }}
                             value={recoverFormik.values.emailAddress}
                             touched={recoverFormik.touched.emailAddress}
@@ -78,7 +80,7 @@ function RecoverPage() {
                 </div>
                 <Link
                     className={cx('recover-form__back-login')}
-                    to='/login'
+                    to={routes.LoginPage}
                 >
                     Quay lại đăng nhập
                 </Link>

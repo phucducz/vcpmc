@@ -5,3 +5,43 @@
         margin-top: 6rem;
     }
 }
+
+a {
+    display: flex;
+    justify-content: center;
+    margin-top: 2rem;
+    color: var(--color-orange);
+}
+
+@media screen and (max-width: 600px) {
+    .container-layout {
+        padding: 2rem;
+
+        &>div+div {
+            margin-top: 2rem;
+        }
+    }
+}
+
+@media screen and (max-width: 620px) {
+    button[type='submit'] {
+        padding: 1rem 2rem;
+    }
+
+    button {
+        max-width: 90% !important;
+    }
+
+    form div:has(>input) {
+        width: 90% !important;
+        margin: 0 auto;
+
+        & p {
+            max-width: 90%;
+        }
+
+        & input[type='text'] {
+            width: 100% !important;
+        }
+    }
+}

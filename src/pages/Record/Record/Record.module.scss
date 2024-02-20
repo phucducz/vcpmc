@@ -30,8 +30,8 @@ $topPlayIcon: (
 }
 
 .table-data__expiry-date {
-        display: flex;
-        flex-direction: column;
+    display: flex;
+    flex-direction: column;
 
     &>p {
         padding: 0;
@@ -206,4 +206,24 @@ $topPlayIcon: (
     display: flex;
     justify-content: space-between;
     gap: 8px;
+}
+
+div:has(>input[name='search']) {
+    width: 100%;
+    max-width: 571px;
+}
+
+@media screen and (max-width: '650px') {
+    div:has(>input[name='search']) {
+        width: 75%;
+        max-width: 571px;
+
+        &>input[name='search'] {
+            width: 100% !important;
+        }
+
+        &>div {
+            display: none;
+        }
+    }
 }

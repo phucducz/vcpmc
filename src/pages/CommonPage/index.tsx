@@ -1,12 +1,12 @@
 import classNames from "classnames/bind";
 import { ReactNode, memo } from "react";
 
-import style from './CommonPage.module.scss';
-import { Input } from "~/components/Input";
-import { Icon, searchIcon } from "~/icons";
 import { Action } from "~/components/Action";
+import { Input } from "~/components/Input";
 import { Paging, PagingItemType } from "~/components/Paging";
 import { Tab, TabItemProps } from "~/components/Tab";
+import { Icon, searchIcon } from "~/icons";
+import style from './CommonPage.module.scss';
 
 const cx = classNames.bind(style);
 

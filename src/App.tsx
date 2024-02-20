@@ -5,6 +5,7 @@ import './App.css';
 import { LanguageProvider } from './context/Language/LanguageProvider';
 import { DefaultLayout } from './layouts/DefaultLayout';
 import { publicRoutes } from './routes';
+import { MenuProvider } from './context/Menu/MenuProvider';
 
 function App() {
   return (
@@ -17,17 +18,19 @@ function App() {
 
             if (layout)
               Layout = layout;
-            
+
             return (
               <Route
                 key={index}
                 path={path}
                 element={
-                  <LanguageProvider>
-                    <Layout>
-                      <Page />
-                    </Layout>
-                  </LanguageProvider>
+                  <MenuProvider>
+                    <LanguageProvider>
+                      <Layout>
+                        <Page />
+                      </Layout>
+                    </LanguageProvider>
+                  </MenuProvider>
                 }
               />
             )

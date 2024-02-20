@@ -17,6 +17,7 @@ import { Yup } from "~/constants";
 import { RootState, useAppDispatch } from "~/store";
 import { login } from "~/thunk/userThunk";
 import style from './Login.module.scss';
+import { Logo } from "~/components/Logo";
 
 const cx = classNames.bind(style);
 
@@ -33,13 +34,13 @@ function LoginPage() {
     const [errorMessage, setErrorMessage] = useState('');
     const [toggleLogin, setToggleLogin] = useState(true);
     const [loading, setLoading] = useState<boolean>(false);
-    
+
     const loginFormik = useFormik({
         initialValues: {
-            userName: user.currentUser.userName || '',
-            password: user.currentUser.password || '',
-            //userName: user.currentUser.userName || 'phucducduongvinh05102003@gmail.com',
-            //password: user.currentUser.password || 'duc05102003',
+            // userName: user.currentUser.userName || '',
+            // password: user.currentUser.password || '',
+            userName: user.currentUser.userName || 'phucduc05102003',
+            password: user.currentUser.password || 'duc05102003',
             status: user.status
         },
         validationSchema: Yup.object({
@@ -63,7 +64,7 @@ function LoginPage() {
     useEffect(() => {
         document.title = 'VCPMC - Trang đăng nhập';
     }, []);
-    
+
     const handleRightIconClick = () => {
         passwordType === 'password'
             ? setPasswordType('text')
@@ -123,14 +124,15 @@ function LoginPage() {
 
     return (
         <div className={cx('login-container')}>
-            <Image src='https://res.cloudinary.com/dvlzvsyxs/image/upload/v1701141410/logo_ul3efy.png' alt='logo' width={240} />
+            <Logo className={cx('login-container__logo')} width={240} />
+            {/* <Image className={cx('login-container__logo')} src='https://res.cloudinary.com/dvlzvsyxs/image/upload/v1701141410/logo_ul3efy.png' alt='logo' width={240} /> */}
             <Form
                 visible={toggleLogin}
                 title='Đăng nhập'
                 onSubmit={loginFormik.handleSubmit}
             >
                 {LOGIN_INPUTS.map(item => (
-                    <Input key={item.name} medium {...item} />
+                    <Input key={item.name} medium {...item} type='text' />
                 ))}
                 <p className={cx('error-message')}>{errorMessage}</p>
                 <CheckBox

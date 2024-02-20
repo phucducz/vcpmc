@@ -34,6 +34,7 @@ export const Table = memo(({ tableRef, paginate, paginateClass, headerChildren, 
 ) => {
     const [itemOffset, setItemOffset] = useState(0);
     const [pageCount, setPageCount] = useState<number>(0);
+    const [screenWidth, setScreenWidth] = useState<number>(window.screen.width);
 
     const itemsPerPage = parseInt(per);
 
@@ -57,6 +58,21 @@ export const Table = memo(({ tableRef, paginate, paginateClass, headerChildren, 
         setCurrentItems && setCurrentItems(paginate.dataForPaginate.slice(0, itemsPerPage));
     }, [itemsPerPage]);
 
+    useEffect(() => {
+        const handleWindowResize = () => {
+            if(!window.matchMedia('(max-width: 1600px)').matches)  {
+                setScreenWidth(0);
+                return;
+            }
+            
+            console.log('match');
+            setScreenWidth(window.screen.width);
+        }
+        window.addEventListener('resize', handleWindowResize);
+
+        return () => window.removeEventListener('resize', handleWindowResize);
+    }, []);
+
     const handlePageClick = (event: { selected: number }) => {
         if (typeof paginate === 'undefined')
             return;
@@ -68,61 +84,66 @@ export const Table = memo(({ tableRef, paginate, paginateClass, headerChildren, 
     };
 
     return (
-        <table
-            className={cx('table-container', className)}
-            ref={tableRef}
-            border={border || 0}
-            cellSpacing={cellSpacing}
-            cellPadding={cellPadding}
+        <div
+            className={cx('table-responsive')}
+            style={{ width: `${screenWidth === 0 ? '1541px' : `${screenWidth * 90 / 100}px`}` }}
         >
-            <thead>
-                <tr>
-                    {headerChildren && headerChildren}
-                    {thead.map((th, index) => <th key={index}><p>{th}</p></th>)}
-                </tr>
-            </thead>
-            <tbody>
-                {children}
-                {typeof paginate !== 'undefined' ? <tr className={cx('table__option', paginateClass)}>
-                    <td colSpan={11}>
-                        <div className={cx('table__option__container')}>
-                            <span>
-                                <p>Hiển thị</p>
-                                <Input
-                                    tiny
-                                    value={per}
-                                    name='number'
-                                    onChange={(e: ChangeEvent<HTMLInputElement>) => setItemsPerPage && setItemsPerPage(e.target.value)}
+            <table
+                className={cx('table-container', className)}
+                ref={tableRef}
+                border={border || 0}
+                cellSpacing={cellSpacing}
+                cellPadding={cellPadding}
+            >
+                <thead>
+                    <tr>
+                        {headerChildren && headerChildren}
+                        {thead.map((th, index) => <th key={index}><p>{th}</p></th>)}
+                    </tr>
+                </thead>
+                <tbody>
+                    {children}
+                    {typeof paginate !== 'undefined' ? <tr className={cx('table__option', paginateClass)}>
+                        <td colSpan={11}>
+                            <div className={cx('table__option__container')}>
+                                <span>
+                                    <p>Hiển thị</p>
+                                    <Input
+                                        tiny
+                                        value={per}
+                                        name='number'
+                                        onChange={(e: ChangeEvent<HTMLInputElement>) => setItemsPerPage && setItemsPerPage(e.target.value)}
+                                    />
+                                    <p>hàng trong mỗi trang</p>
+                                </span>
+                                <ReactPaginate
+                                    breakLabel="..."
+                                    nextLabel={<FontAwesomeIcon icon={faChevronRight} />}
+                                    onPageChange={handlePageClick}
+                                    pageRangeDisplayed={3}
+                                    pageCount={pageCount}
+                                    previousLabel={<FontAwesomeIcon icon={faChevronLeft} />}
+                                    renderOnZeroPageCount={null}
+                                    containerClassName={cx("pagination")}
+                                    pageLinkClassName={cx("page-num")}
+                                    previousClassName={cx("page-num")}
+                                    nextLinkClassName={cx("page-num")}
+                                    activeClassName="active"
                                 />
-                                <p>hàng trong mỗi trang</p>
-                            </span>
-                            <ReactPaginate
-                                breakLabel="..."
-                                nextLabel={<FontAwesomeIcon icon={faChevronRight} />}
-                                onPageChange={handlePageClick}
-                                pageRangeDisplayed={3}
-                                pageCount={pageCount}
-                                previousLabel={<FontAwesomeIcon icon={faChevronLeft} />}
-                                renderOnZeroPageCount={null}
-                                containerClassName={cx("pagination")}
-                                pageLinkClassName={cx("page-num")}
-                                previousClassName={cx("page-num")}
-                                nextLinkClassName={cx("page-num")}
-                                activeClassName="active"
-                            />
+                            </div>
+                        </td>
+                    </tr>
+                        : <></>
+                    }
+                    <tr className={cx('table__loading__tr', loading && 'active')}><td>
+                        <div className={cx('tr__loading-container')}>
+                            <div></div>
+                            <div></div>
+                            <div></div>
                         </div>
-                    </td>
-                </tr>
-                    : <></>
-                }
-                <tr className={cx('table__loading__tr', loading && 'active')}><td>
-                    <div className={cx('tr__loading-container')}>
-                        <div></div>
-                        <div></div>
-                        <div></div>
-                    </div>
-                </td></tr>
-            </tbody>
-        </table>
+                    </td></tr>
+                </tbody>
+            </table>
+        </div>
     );
 });
