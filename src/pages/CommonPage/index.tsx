@@ -62,7 +62,7 @@ export const CommonPage = memo(({ contentHeader, title, actionFilter, pagingData
                         {(actionFilter || actionType) &&
                             <div
                                 className={cx('content__action')}
-                                style={{ width: window.matchMedia('(max-width: 1600px)').matches ? '85vw' : '1541px' }}
+                                style={{ width: window.matchMedia('(max-width: 1600px)').matches ? '90vw' : '1541px' }}
                             >
                                 {actionFilter && actionFilter}
                                 {actionType && <div className={cx('action-type-container')}>{actionType}</div>}

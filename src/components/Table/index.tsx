@@ -85,7 +85,7 @@ export const Table = memo(({ tableRef, paginate, paginateClass, headerChildren, 
     return (
         <div
             className={cx('table-responsive')}
-            style={{ width: window.matchMedia('(max-width: 1600px)').matches ? '85vw' : '1541px' }}
+            style={{ width: window.matchMedia('(max-width: 1600px)').matches ? '90vw' : '1541px' }}
         // style={{ width: `${screenWidth === 0 ? '1541px' : `${screenWidth * 90 / 100}px`}` }}
         >
             <table
