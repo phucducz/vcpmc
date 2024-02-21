@@ -9,7 +9,6 @@ import { Language } from "~/components/Language";
 import { Sidebar } from "~/components/Sidebar";
 import { routes } from "~/config/routes";
 import { LANGUAGE_ITEMS } from "~/constants";
-import { MenuProvider } from "~/context/Menu/MenuProvider";
 import { ThemeProvider } from "~/context/Theme/ThemeProvider";
 import { useMenu } from "~/context/hooks";
 import avtNoFound from '~/images/no-found-avt.jpg';
@@ -57,7 +56,7 @@ export const DefaultLayout = ({ children }: DefaultLayoutProps) => {
                 <div className={cx('container-layout__right')}>
                     <div className={cx('cn-header')}>
                         <header className={cx('header')}>
-                            <Language languages={LANGUAGE_ITEMS} placement='top-right' />
+                            <Language className={cx('header__language')} languages={LANGUAGE_ITEMS} placement='top-right' />
                             <Account
                                 displayName={displayName}
                                 role={role && role.name}

@@ -1,5 +1,5 @@
 import classNames from "classnames/bind";
-import { memo, useMemo, useRef } from "react";
+import { memo, useEffect, useMemo, useRef, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronDown } from "@fortawesome/free-solid-svg-icons";
 
@@ -30,8 +30,11 @@ type ComboBoxProps = {
     style?: any;
 }
 
-export const ComboBox = memo(({ width: widthOut, comboBoxRef, title, data, className, active, visible, onClick, onBlur, onItemClick, style }: ComboBoxProps) => {
+export const ComboBox = ({ width: widthOut, comboBoxRef, title, data, className, active, visible, onClick, onBlur, onItemClick, style }: ComboBoxProps) => {
     const ownRef = useRef<HTMLUListElement>(null);
+    const contentRef = useRef<HTMLDivElement>(null);
+
+    const [activeBox, setActiveBox] = useState<boolean>(false);
 
     const width = useMemo(() => {
         if (comboBoxRef && comboBoxRef.current)
@@ -40,16 +43,28 @@ export const ComboBox = memo(({ width: widthOut, comboBoxRef, title, data, class
             return ownRef.current.offsetWidth + 20;
     }, [ownRef.current]);
 
+    useEffect(() => {
+        const handleMouseDown = (e: any) => {
+            if (contentRef.current?.contains(e.target))
+                setActiveBox(true);
+            else
+                setActiveBox(false);
+        }
+        window.addEventListener('mousedown', handleMouseDown);
+
+        return () => window.removeEventListener('mousedown', handleMouseDown);
+    }, []);
+
     return (
         <div className={cx('combo-box-container', className)}>
             <div className={cx('combo-box__title')}>
                 {title && <p>{title}</p>}
             </div>
             <li
-                className={cx('combo-box__content', visible && 'active')}
+                className={cx('combo-box__content', activeBox && 'active')}
                 onClick={onClick}
             >
-                <div className={cx('content__active')} >
+                <div ref={contentRef} className={cx('content__active')}>
                     <Input
                         spellCheck={false}
                         value={active}
@@ -64,11 +79,11 @@ export const ComboBox = memo(({ width: widthOut, comboBoxRef, title, data, class
                     title={title}
                     data={data}
                     placement="bottom-left"
-                    visible={visible}
+                    visible={activeBox}
                     onItemClick={onItemClick}
                     style={{ width: widthOut || `${width}px` }}
                 />
             </li>
         </div>
     );
-});
+}

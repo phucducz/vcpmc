@@ -40,7 +40,7 @@ function LoginPage() {
             // userName: user.currentUser.userName || '',
             // password: user.currentUser.password || '',
             userName: user.currentUser.userName || 'phucduc05102003',
-            password: user.currentUser.password || 'duc05102003',
+            password: user.currentUser.password || '05102003',
             status: user.status
         },
         validationSchema: Yup.object({

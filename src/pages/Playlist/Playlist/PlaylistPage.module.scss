@@ -34,13 +34,13 @@
 
 .common-page-container {
     &>div>div:first-child>div {
-        width: 1541px;
+        max-width: 1541px;
         display: flex;
         justify-content: space-between;
         align-items: center;
 
         &>div:nth-child(2) {
-            width: max-content;
+            width: max-content !important;
 
             &>div {
                 margin: 0;
@@ -184,5 +184,13 @@
 
     &>div+div {
         margin-top: 8px;
+    }
+}
+
+@media screen and (max-width: '1600px') {
+    .common-page-container {
+        &>div>div>div {
+            width: calc(100vw * 90 / 100);
+        }
     }
 }

@@ -120,7 +120,7 @@ export const RecordPlaylist = memo(({ data, onItemRemoveClick }: RecordPlaylistP
                     searchValue: searchValue,
                     setSearchValue: (e: any) => setSearchValue(e.target.value)
                 }}
-                actionFilter={<>
+                actionFilter={<div>
                     {comboBoxData?.length && comboBoxData.map((item, index) => (
                         <ComboBox
                             key={index}
@@ -134,7 +134,7 @@ export const RecordPlaylist = memo(({ data, onItemRemoveClick }: RecordPlaylistP
                             onBlur={() => handleBlurComboBox(item)}
                         />
                     ))}
-                </>}
+                </div>}
                 contentHeader={
                     <div className={cx('record-playlist__status')}>
                         <div className={cx('status__quantity')}>

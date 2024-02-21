@@ -9,7 +9,8 @@ import { useNavigate } from "react-router";
 import { Record } from "~/api/recordAPI";
 import { AudioDialog } from "~/components/AudioDialog";
 import { BoxItem, BoxItemType } from "~/components/BoxItem";
-import { ComboBox, ComboData } from "~/components/ComboBox";
+import { ComboData } from "~/components/ComboBox";
+import Wrapper from "~/components/FilterBox/Wrapper";
 import { Grid } from "~/components/Grid";
 import { Table } from "~/components/Table";
 import { formatDateMDY, getCurrentDate } from "~/context";
@@ -95,44 +96,12 @@ function RecordPage() {
     const [recordData, setRecordData] = useState<Array<Record>>([] as Array<Record>);
     const [currentItems, setCurrentItems] = useState<Array<any>>([]);
     const [itemsPerPage, setItemsPerPage] = useState<string>('8');
-    const [comboBoxData, setComboBoxData] = useState([
+    const [comboBoxData, setComboBoxData] = useState<ComboData[]>([
         {
-            title: 'Thể loại',
-            data: [
-                { title: 'Tất cả' },
-                { title: 'Pop' },
-                { title: 'EDM' },
-                { title: 'Ballad' }
-            ],
+            title: '',
+            data: [],
             visible: false,
-            activeData: 'Tất cả'
-        }, {
-            title: 'Định dạng',
-            data: [
-                { title: 'Tất cả' },
-                { title: 'Audio' },
-                { title: 'Video' }
-            ],
-            visible: false,
-            activeData: 'Tất cả'
-        }, {
-            title: 'Thời hạn sử dụng',
-            data: [
-                { title: 'Tất cả' },
-                { title: 'Còn thời hạn' },
-                { title: 'Hết thời hạn' }
-            ],
-            visible: false,
-            activeData: 'Tất cả'
-        }, {
-            title: 'Trạng thái',
-            data: [
-                { title: 'Tất cả' },
-                { title: 'Duyệt bởi người dùng' },
-                { title: 'Duyệt tự động' }
-            ],
-            visible: false,
-            activeData: 'Tất cả'
+            activeData: ''
         }
     ]);
 
@@ -151,6 +120,47 @@ function RecordPage() {
     useEffect(() => {
         setMenuActive(1);
         document.title = 'Kho bản ghi';
+
+        setComboBoxData([
+            {
+                title: 'Thể loại',
+                data: [
+                    { title: 'Tất cả' },
+                    { title: 'Pop' },
+                    { title: 'EDM' },
+                    { title: 'Ballad' }
+                ],
+                visible: false,
+                activeData: 'Tất cả'
+            }, {
+                title: 'Định dạng',
+                data: [
+                    { title: 'Tất cả' },
+                    { title: 'Audio' },
+                    { title: 'Video' }
+                ],
+                visible: false,
+                activeData: 'Tất cả'
+            }, {
+                title: 'Thời hạn sử dụng',
+                data: [
+                    { title: 'Tất cả' },
+                    { title: 'Còn thời hạn' },
+                    { title: 'Hết thời hạn' }
+                ],
+                visible: false,
+                activeData: 'Tất cả'
+            }, {
+                title: 'Trạng thái',
+                data: [
+                    { title: 'Tất cả' },
+                    { title: 'Duyệt bởi người dùng' },
+                    { title: 'Duyệt tự động' }
+                ],
+                visible: false,
+                activeData: 'Tất cả'
+            }
+        ]);
     }, []);
 
     useEffect(() => {
@@ -165,7 +175,6 @@ function RecordPage() {
         let category = comboBoxData[0].activeData;
         let format = comboBoxData[1].activeData;
         let contractTerm = comboBoxData[2].activeData;
-        let status = comboBoxData[3].activeData;
 
         if (searchValue.trim() === '')
             setRecordData(record.recordList);
@@ -228,6 +237,8 @@ function RecordPage() {
     }, [category.categoryList, approval.approvalList]);
 
     const handleSetCategory = useCallback((item: ComboData, id: string) => {
+        console.log(item, id);
+
         setComboBoxData(prev =>
             prev.map(data =>
                 data.title === id ? { ...data, activeData: item.title } : data
@@ -247,13 +258,13 @@ function RecordPage() {
         );
     }, []);
 
-    const handleBlurComboBox = useCallback((item: any) => {
-        setComboBoxData(prev =>
-            prev.map(data =>
-                data.title === item.title ? { ...data, visible: false } : data
-            )
-        );
-    }, []);
+    // const handleBlurComboBox = useCallback((item: any) => {
+    //     setComboBoxData(prev =>
+    //         prev.map(data =>
+    //             data.title === item.title ? { ...data, visible: false } : data
+    //         )
+    //     );
+    // }, []);
 
     const handleUpdateClick = useCallback((item: Record) => {
         let expirationDateRecord = new Date(formatDateMDY(item.expirationDate));
@@ -281,28 +292,40 @@ function RecordPage() {
                 searchValue: searchValue,
                 setSearchValue: (e: any) => setSearchValue(e.target.value)
             }}
-            // actionFilter={<>
-            //     {comboBoxData?.length && comboBoxData.map((item, index) => (
-            //         <ComboBox
-            //             key={index}
-            //             title={item.title}
-            //             active={item.activeData}
-            //             visible={item.visible}
-            //             data={item.data}
-            //             className={cx('combo-data')}
-            //             onClick={() => handleComboBoxClick(item)}
-            //             onItemClick={handleSetCategory}
-            //             onBlur={() => handleBlurComboBox(item)}
-            //         />
-            //     ))}
-            // </>}
-            // actionType={
-            //     <div className={cx('action__type-load', typeLoad === 'table' ? 'table-visible' : 'grid-visible')}>
-            //         <Icon icon={listTabListIcon} onClick={() => setTypeLoad('table')} />
-            //         <Icon icon={listTabGridIcon} onClick={() => setTypeLoad('grid')} />
+            actionFilter={<Wrapper
+                data={comboBoxData}
+                onClick={handleComboBoxClick}
+                onItemClick={handleSetCategory}
+            />}
+            // actionFilter={filterBoxActive
+            //     ? <FilterBox
+            //         data={comboBoxData}
+            //         onItemClick={handleSetCategory}
+            //         className={cx('filter-box')}
+            //     />
+            //     : <div className={cx('filter-combobox')}>
+            //         {comboBoxData?.length && comboBoxData.map((item, index) => (
+            //             <ComboBox
+            //                 key={index}
+            //                 title={item.title}
+            //                 active={item.activeData}
+            //                 visible={item.visible}
+            //                 data={item.data}
+            //                 className={cx('combo-data')}
+            //                 onClick={() => handleComboBoxClick(item)}
+            //                 onItemClick={handleSetCategory}
+            //             // onBlur={() => handleBlurComboBox(item)}
+            //             />
+            //         ))}
             //     </div>
             // }
-            // actionData={actionData}
+            actionType={
+                <div className={cx('action__type-load', typeLoad === 'table' ? 'table-visible' : 'grid-visible')}>
+                    <Icon icon={listTabListIcon} onClick={() => setTypeLoad('table')} />
+                    <Icon icon={listTabGridIcon} onClick={() => setTypeLoad('grid')} />
+                </div>
+            }
+        // actionData={actionData}
         >
             <div className={cx('container-table-data')}>
                 {typeLoad === 'grid'

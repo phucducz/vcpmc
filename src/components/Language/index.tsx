@@ -19,9 +19,10 @@ export type LanguageProps = {
 type LanguagesProps = {
     languages: Array<LanguageProps>;
     placement: Exclude<`${VerticalPosition}-${HorizontalPosition}`, 'center-center'> | 'center';
+    className?: string;
 };
 
-export const Language = ({ languages, placement }: LanguagesProps) => {
+export const Language = ({ languages, placement, className }: LanguagesProps) => {
     const { language, setLanguage } = useLanguage();
 
     const [activeDropDow, setActiveDropDown] = useState<boolean>(false);
@@ -32,7 +33,7 @@ export const Language = ({ languages, placement }: LanguagesProps) => {
     }
 
     return (
-        <div className={cx('language-container', placement)}>
+        <div className={cx('language-container', placement, className)}>
             <div className={cx('language-item', `active-dropdown-${activeDropDow}`)}>
                 <Item
                     title={language.title}

@@ -30,7 +30,7 @@ type TableProps = {
 
 export const Table = memo(({ tableRef, paginate, paginateClass, headerChildren, children,
     thead, loading = false, itemsPerPage: per = '1', setItemsPerPage, className, border,
-    cellPadding, cellSpacing, ...passProp }: TableProps
+    cellPadding, cellSpacing }: TableProps
 ) => {
     const [itemOffset, setItemOffset] = useState(0);
     const [pageCount, setPageCount] = useState<number>(0);
@@ -60,12 +60,11 @@ export const Table = memo(({ tableRef, paginate, paginateClass, headerChildren, 
 
     useEffect(() => {
         const handleWindowResize = () => {
-            if(!window.matchMedia('(max-width: 1600px)').matches)  {
+            if (!window.matchMedia('(max-width: 1600px)').matches) {
                 setScreenWidth(0);
                 return;
             }
-            
-            console.log('match');
+
             setScreenWidth(window.screen.width);
         }
         window.addEventListener('resize', handleWindowResize);
@@ -86,7 +85,8 @@ export const Table = memo(({ tableRef, paginate, paginateClass, headerChildren, 
     return (
         <div
             className={cx('table-responsive')}
-            style={{ width: `${screenWidth === 0 ? '1541px' : `${screenWidth * 90 / 100}px`}` }}
+            style={{ width: window.matchMedia('(max-width: 1600px)').matches ? '85vw' : '1541px' }}
+        // style={{ width: `${screenWidth === 0 ? '1541px' : `${screenWidth * 90 / 100}px`}` }}
         >
             <table
                 className={cx('table-container', className)}

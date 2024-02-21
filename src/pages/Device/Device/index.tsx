@@ -274,7 +274,7 @@ function DeviceManagementPage() {
                 searchValue: searchValue,
                 setSearchValue: (e: any) => setSearchValue(e.target.value)
             }}
-            actionFilter={<>
+            actionFilter={<div>
                 {comboBoxData?.length && comboBoxData.map((item, index) => (
                     <ComboBox
                         key={index}
@@ -287,7 +287,7 @@ function DeviceManagementPage() {
                         onItemClick={handleComboBoxItemClick}
                     />
                 ))}
-            </>}
+            </div>}
             actionData={actionData}
         >
             <Table

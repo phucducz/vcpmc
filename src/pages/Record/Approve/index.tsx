@@ -264,7 +264,7 @@ function ApprovePage() {
                 searchValue: searchValue,
                 setSearchValue: (e: any) => setSearchValue(e.target.value)
             }}
-            actionFilter={<>
+            actionFilter={<div>
                 {comboBoxData?.length && comboBoxData.map((item, index) => (
                     <ComboBox
                         key={index}
@@ -278,7 +278,7 @@ function ApprovePage() {
                     />
                 ))}
                 {typeLoad === 'grid' && <CheckBox title="Chọn tất cả" checked={approveAll} onChange={() => setApproveAll(!approveAll)} />}
-            </>}
+            </div>}
             actionType={
                 <div className={cx('action__type-load', typeLoad === 'table' ? 'table-visible' : 'grid-visible')}>
                     <Icon icon={listTabListIcon} onClick={() => setTypeLoad('table')} />

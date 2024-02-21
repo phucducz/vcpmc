@@ -26,9 +26,7 @@ export const Sidebar = memo(() => {
         window.addEventListener('resize', handleWindowResize);
         
         return () => window.removeEventListener('resize', handleWindowResize);
-    }, [window.screenY]);
-    
-    console.log(type);
+    }, []);
     
     useEffect(() => {
         const handleClick = (e: any) => {
@@ -50,16 +48,6 @@ export const Sidebar = memo(() => {
             <div className={cx('sidebar-container__icon-disable')} style={{ display: active ? 'none' : 'flex' }}>
                 <FontAwesomeIcon icon={faChevronRight} />
             </div>
-            {/* {active ? <>
-                <nav className={cx('sidebar-container')}>
-                    <Image src='https://res.cloudinary.com/dvlzvsyxs/image/upload/v1701141410/logo_ul3efy.png' alt='logo-vcpmc' width={96} height={96} />
-                    <Menu data={data} active={menuActive} />
-                </nav>
-            </>
-                : <div className={cx('sidebar-container__icon-disable')}>
-                    <FontAwesomeIcon icon={faChevronRight} />
-                </div>
-            } */}
         </div>
     );
 });

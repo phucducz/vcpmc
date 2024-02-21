@@ -1,0 +1,43 @@
+.wrapper-filter {
+    &>.filter-box {
+        display: none;
+    }
+
+    &>.filter-combobox {
+        display: flex;
+        align-items: center;
+
+        &>div {
+            display: flex;
+            align-items: center;
+
+            &>li {
+                padding-top: 0 !important;
+                margin-left: 16px;
+                cursor: pointer;
+                margin-top: 0;
+
+                &>ul {
+                    min-width: 111px !important;
+                    z-index: 1 !important;
+                }
+
+                &>div {
+                    z-index: 2;
+                }
+            }
+        }
+    }
+}
+
+@media screen and (max-width: '1500px') {
+    .wrapper-filter {
+        .filter-box {
+            display: block;
+        }
+
+        .filter-combobox {
+            display: none;
+        }
+    }
+}
