@@ -4,7 +4,8 @@
     gap: 24px;
 
     &>.table-data {
-        width: 1392px;
+        max-width: calc(1541px - 271px);
+        width: 100%;
         margin-top: 0;
     }
 
@@ -161,5 +162,11 @@
             font-style: italic;
             padding: 0;
         }
+    }
+}
+
+@media screen and (max-width: '470px') {
+    .playlist-form>div {
+        flex-direction: column;
     }
 }

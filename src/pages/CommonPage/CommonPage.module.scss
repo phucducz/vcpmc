@@ -1,8 +1,14 @@
 .common-page {
     position: relative;
 
-    &>header>h3 {
+    & header {
         width: max-content;
+
+        &>h3 {
+            max-width: calc(100vw - 8rem);
+            white-space: wrap;
+            text-align: start;
+        }
     }
 
     &>.content-container {
@@ -17,7 +23,6 @@
 
 .content {
     width: 100%;
-    // 
     position: relative;
 
     &>.content__table-data {

@@ -51,7 +51,7 @@
 .small {
     &>span {
         width: 12rem;
-        font-size: 1.6rem!important;
+        font-size: 1.6rem !important;
         font-weight: 600;
     }
 }
@@ -174,4 +174,10 @@
 
 a.button {
     text-decoration: none;
+}
+
+@media screen and (max-width: '535px') {
+    .button {
+        width: calc(50% - 3rem) !important;
+    }
 }
