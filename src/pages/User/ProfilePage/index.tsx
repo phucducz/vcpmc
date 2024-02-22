@@ -6,7 +6,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router";
 
-import { Action, ActionDataType } from "~/components/Action";
+import { Action } from "~/components/Action";
 import { Button } from "~/components/Button";
 import { Form } from "~/components/Form";
 import Image from "~/components/Image";

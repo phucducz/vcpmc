@@ -16,18 +16,21 @@ export const Sidebar = memo(() => {
 
     useEffect(() => {
         const handleWindowResize = () => {
-            setType('dynamic');
-            if (window.matchMedia('(max-width: 1900px)').matches)
+            if (window.matchMedia('(max-width: 1900px)').matches) {
                 setActive(false);
-            else
-                setActive(true);
+                setType('dynamic');
+                return;
+            }
+            
+            setActive(true);
+            setType('normal');
         }
         handleWindowResize();
         window.addEventListener('resize', handleWindowResize);
-        
+
         return () => window.removeEventListener('resize', handleWindowResize);
     }, []);
-    
+
     useEffect(() => {
         const handleClick = (e: any) => {
             if (type === 'normal' || !sidebarContainerRef.current) return;

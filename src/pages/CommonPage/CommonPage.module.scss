@@ -17,6 +17,7 @@
 
 .content {
     width: 100%;
+    // 
     position: relative;
 
     &>.content__table-data {
@@ -31,6 +32,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+    position: relative;
 
     &>.action__type-load {
         &>svg {
@@ -116,6 +118,6 @@
 
 @media screen and (max-width: '1700px') and (min-width: '900px') {
     .content__action {
-        width: calc(100vw - 19rem);
+        width: calc(100vw - 21rem);
     }
 }

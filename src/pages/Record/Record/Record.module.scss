@@ -221,9 +221,5 @@ div:has(>input[name='search']) {
         &>input[name='search'] {
             width: 100% !important;
         }
-
-        &>div {
-            display: none;
-        }
     }
 }

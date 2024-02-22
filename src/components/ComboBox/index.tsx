@@ -1,11 +1,11 @@
-import classNames from "classnames/bind";
-import { memo, useEffect, useMemo, useRef, useState } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronDown } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import classNames from "classnames/bind";
+import { useEffect, useMemo, useRef, useState } from "react";
 
-import style from './ComboBox.module.scss';
 import { DropDown } from "../DropDown";
 import { Input } from "../Input";
+import style from './ComboBox.module.scss';
 
 const cx = classNames.bind(style);
 
@@ -55,6 +55,8 @@ export const ComboBox = ({ width: widthOut, comboBoxRef, title, data, className,
         return () => window.removeEventListener('mousedown', handleMouseDown);
     }, []);
 
+    console.log(ownRef.current?.offsetWidth);
+
     return (
         <div className={cx('combo-box-container', className)}>
             <div className={cx('combo-box__title')}>
@@ -70,9 +72,9 @@ export const ComboBox = ({ width: widthOut, comboBoxRef, title, data, className,
                         value={active}
                         name='comboBoxValue'
                         onChange={() => { }}
-                        style={{ width: widthOut || `calc(${width}px - 40px)`, style }}
+                        style={{ width: `calc(${width}px - 40px)`, style }}
                     />
-                    < FontAwesomeIcon icon={faChevronDown} />
+                    <FontAwesomeIcon icon={faChevronDown} />
                 </div>
                 <DropDown
                     dropDownRef={ownRef}
@@ -81,7 +83,7 @@ export const ComboBox = ({ width: widthOut, comboBoxRef, title, data, className,
                     placement="bottom-left"
                     visible={activeBox}
                     onItemClick={onItemClick}
-                    style={{ width: widthOut || `${width}px` }}
+                    style={{ width: `${width}px` }}
                 />
             </li>
         </div>

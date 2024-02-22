@@ -1,5 +1,4 @@
 import classNames from "classnames/bind";
-import { memo, useEffect, useState } from "react";
 
 import { ComboBox, ComboData } from "~/components/ComboBox";
 import { FilterBox } from "../Filter";

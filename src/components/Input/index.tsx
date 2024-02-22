@@ -122,5 +122,3 @@ export const Input = memo(<E extends React.ElementType>({
         </div>
     );
 })
-
-// export default memo(Input);
