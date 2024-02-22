@@ -33,10 +33,10 @@
     width: 0;
     background-color: var(--color-orange);
     position: fixed;
-    bottom: 6%;
-    right: 6%;
+    bottom: 5%;
+    right: 5%;
     border-radius: 16px;
-    transition: width .2s linear, height .2s linear;
+    transition: width .1s linear, height .1s linear;
     overflow: hidden;
     z-index: 1;
 
@@ -46,6 +46,7 @@
         &>a {
             text-decoration: none;
             padding: 1rem;
+            white-space: nowrap;
         }
 
         &+li {
@@ -60,13 +61,14 @@
 }
 
 .action-box__icon {
-    width: 32px;
-    height: 32px;
+    width: 25px;
+    height: 25px;
     position: fixed;
     right: 3%;
     bottom: 3%;
     background-color: var(--color-orange);
     padding: 1rem;
     border-radius: 50%;
-    z-index: 2;
+    z-index: 1;
+    cursor: pointer;
 }

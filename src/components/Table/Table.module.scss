@@ -189,7 +189,13 @@ table {
     }
 }
 
-@media screen and (max-width: '1600px') {
+@media screen and (max-width: '1700px') and (min-width: '900px') {
+    .table-responsive {
+        width: calc(100vw - 19rem);
+    }
+}
+
+@media screen and (max-width: '900px') {
     .table-responsive {
         width: calc(100vw - 8rem);
     }

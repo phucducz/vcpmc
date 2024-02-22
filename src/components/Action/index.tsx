@@ -39,7 +39,7 @@ export const Action = memo(<E extends React.ElementType<any>>({ data, className,
 
     useEffect(() => {
         const handleWindowResize = () => {
-            if (window.matchMedia('(max-width: 1690px)').matches)
+            if (window.matchMedia('(max-width: 900px)').matches)
                 setMobileMode(true);
             else setMobileMode(false);
         }
@@ -60,8 +60,6 @@ export const Action = memo(<E extends React.ElementType<any>>({ data, className,
         return () => window.removeEventListener('mousedown', handleMouseDown);
     }, []);
 
-    console.log(data);
-    
     return (
         <>{mobileMode
             ? <div ref={actionRef} className={cx('action-box')}>
@@ -71,7 +69,7 @@ export const Action = memo(<E extends React.ElementType<any>>({ data, className,
                     style={{ height: activeActionBox ? `${data.length * 44 + 20}px` : 0 }}
                 >
                     {data.map((item, index) =>
-                        <li className={cx('item')} key={index}>
+                        <li className={cx('item')} key={index} onClick={() => item.onClick()}>
                             <Link to=''>{item.title}</Link>
                         </li>
                     )}
