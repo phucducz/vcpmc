@@ -6,7 +6,6 @@ import { useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router";
 
 import { Record } from "~/api/recordAPI";
-import { ActionDataType } from "~/components/Action";
 import Loading from "~/components/Loading";
 import { PagingItemType } from "~/components/Paging";
 import { Table } from "~/components/Table";
@@ -64,7 +63,7 @@ function PlaylistDetailPage() {
 
     useEffect(() => {
         document.title = 'Chi tiết Playlist';
-        
+
         setActive(false);
         setType('dynamic');
 
@@ -151,6 +150,7 @@ function PlaylistDetailPage() {
                     dataForPaginate: playlistDetail.records,
                     setCurrentItems: handleSetCurrentItems
                 }}
+                className={cx('playlist-detail-container')}
                 itemsPerPage={itemsPerPage}
                 setItemsPerPage={handleChange}
                 thead={['STT', 'Tên bản ghi', 'Ca sĩ', 'Tác giả', '', '']}
@@ -158,13 +158,13 @@ function PlaylistDetailPage() {
                 {currentItems.length > 0
                     && currentItems.map((item: Record, index) => {
                         return (
-                            <tr key={index} style={{ height: '47px' }} className={cx('content')}>
+                            <tr key={index} style={{ height: '47px' }} className='content'>
                                 <td><p>{index + 1}</p></td>
                                 <td><p>{item.nameRecord}</p></td>
                                 <td><p>{item.singer}</p></td>
                                 <td><p>{item.author}</p></td>
-                                <td><p className={cx('action')} onClick={() => handleListenAudioClick(item)}>Nghe</p></td>
-                                <td><p className={cx('action')} onClick={() => handleRemoveRecord(item.id)}>Gỡ</p></td>
+                                <td><p className='action' onClick={() => handleListenAudioClick(item)}>Nghe</p></td>
+                                <td><p className='action' onClick={() => handleRemoveRecord(item.id)}>Gỡ</p></td>
                             </tr>
                         );
                     })}

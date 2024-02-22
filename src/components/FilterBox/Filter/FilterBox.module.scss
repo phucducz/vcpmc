@@ -85,14 +85,14 @@
 @media screen and (max-width: '600px') {
     .filter-box {
         &>.filter-box__filter {
-            width: 80vw;
+            width: calc(80vw - 2rem);
         }
 
         & .filter__item {
-            width: calc(80vw - 2rem);
+            width: calc(80vw - 4rem);
 
             & .item__content>div {
-                width: calc((80vw - 2rem) / 2 - 2.5px);
+                width: calc((80vw - 4rem) / 2 - 2.5px);
             }
         }
     }

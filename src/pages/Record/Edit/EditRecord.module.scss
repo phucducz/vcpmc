@@ -156,6 +156,7 @@
 
         &>ul {
             z-index: 1 !important;
+            width: 100% !important;
         }
     }
 }
@@ -222,10 +223,10 @@
     }
 }
 
-@media screen and (max-width: '535px') {
-    .edit-record>.edit-record-form>.form__action {
-        &>button {
-            width: calc(50% - 3rem);
-        }
-    }
-}
+// @media screen and (max-width: '535px') {
+//     .edit-record>.edit-record-form>.form__action {
+//         &>button {
+//             width: calc(50% - 3rem);
+//         }
+//     }
+// }

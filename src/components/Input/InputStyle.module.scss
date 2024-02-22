@@ -1,4 +1,5 @@
 .form-group {
+    width: max-content;
     display: flex;
     flex-direction: column;
     width: max-content;
@@ -109,18 +110,3 @@ input[type='date'] {
         cursor: pointer;
     }
 }
-
-// @media screen and (max-width: 500px) {
-//     .form-group {
-//         width: 90%;
-//         margin: 0 auto;
-
-//         & p {
-//             max-width: 90%;
-//         }
-
-//         & input {
-//             width: 100% !important;
-//         }
-//     }
-// }

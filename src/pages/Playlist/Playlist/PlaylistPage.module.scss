@@ -194,3 +194,15 @@
         }
     }
 }
+
+@media screen and (max-width: '1750px') and (min-width: '900px') {
+    .common-page-container>div>div>div {
+        width: calc(100vw - 21rem);
+    }
+}
+
+@media screen and (max-width: '900px') {
+    .common-page-container>div>div>div {
+        width: calc(100vw - 8rem);
+    }
+}

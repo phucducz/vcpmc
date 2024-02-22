@@ -223,7 +223,7 @@ function ManagementList() {
                 setSearchValue: (e: any) => setSearchValue(e.target.value)
             }}
             className={cx(entrustmentActive ? 'management-entrustment-contract' : 'management-authorized-contract')}
-            actionFilter={<div>
+            actionFilter={<>
                 {!entrustmentActive && comboBoxData.length ? comboBoxData.map((item, index) => (
                     <ComboBox
                         key={index}
@@ -236,7 +236,7 @@ function ManagementList() {
                         onItemClick={handleComboBoxItemClick}
                     />
                 )) : <></>}
-            </div>}
+            </>}
         >
             <div className={cx('entrustment-contract__table-data')}>
                 <Table

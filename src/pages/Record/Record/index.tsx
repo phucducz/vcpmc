@@ -108,10 +108,6 @@ function RecordPage() {
             icon: <FontAwesomeIcon icon={faEdit} />,
             title: 'Quản lý phê duyệt',
             onClick: handleClickItemAction
-        }, {
-            icon: <FontAwesomeIcon icon={faEdit} />,
-            title: 'Quản lý phê duyệt',
-            onClick: handleClickItemAction
         }
     ]);
 
@@ -290,7 +286,10 @@ function RecordPage() {
                 onItemClick={handleSetCategory}
             />}
             actionType={
-                <div className={cx('action__type-load', typeLoad === 'table' ? 'table-visible' : 'grid-visible')}>
+                <div
+                    className={cx('action__type-load', typeLoad === 'table' ? 'table-visible' : 'grid-visible')}
+                    style={{ display: 'flex' }}
+                >
                     <Icon icon={listTabListIcon} onClick={() => setTypeLoad('table')} />
                     <Icon icon={listTabGridIcon} onClick={() => setTypeLoad('grid')} />
                 </div>

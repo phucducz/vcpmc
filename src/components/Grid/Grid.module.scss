@@ -63,13 +63,17 @@
     }
 }
 
+@media screen and (max-width: '900px') {
+    .grid-container {
+        width: calc(100vw - 8rem);
+    }
+}
+
 @media screen and (max-width: '1600px') {
     .grid-container {
-        // width: calc(100vw - 8rem);
-
         & .grid-container__option {
             position: absolute;
-            bottom: -62px;
+            bottom: calc(0px - (3.2rem + 2rem));
         }
     }
 }
