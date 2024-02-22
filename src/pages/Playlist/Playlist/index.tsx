@@ -1,5 +1,5 @@
 import classNames from "classnames/bind";
-import { ReactNode, memo, useCallback, useEffect, useState } from "react";
+import { memo, useCallback, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router";
 import { Icon, circleExclaminationIcon, listTabGridIcon, listTabListIcon, playlistAddIcon } from "~/icons";
@@ -21,12 +21,6 @@ import { getPlaylistsRecordsList } from "~/thunk/playlistsRecordsThunk";
 import style from './PlaylistPage.module.scss';
 
 const cx = classNames.bind(style);
-
-type ActionDataType = {
-    icon: ReactNode;
-    title: string;
-    onClick: () => void;
-}
 
 const CategoryBoxItem = memo(({ title }: { title?: string }) => {
     return (

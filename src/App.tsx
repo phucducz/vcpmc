@@ -1,10 +1,11 @@
-import './App.css';
 import { Route, Routes } from 'react-router';
 import { BrowserRouter } from 'react-router-dom';
+import './App.css';
 
-import { publicRoutes } from './routes';
-import { DefaultLayout } from './layouts/DefaultLayout';
 import { LanguageProvider } from './context/Language/LanguageProvider';
+import { DefaultLayout } from './layouts/DefaultLayout';
+import { publicRoutes } from './routes';
+import { MenuProvider } from './context/Menu/MenuProvider';
 
 function App() {
   return (
@@ -23,11 +24,13 @@ function App() {
                 key={index}
                 path={path}
                 element={
-                  <LanguageProvider>
-                    <Layout>
-                      <Page />
-                    </Layout>
-                  </LanguageProvider>
+                  <MenuProvider>
+                    <LanguageProvider>
+                      <Layout>
+                        <Page />
+                      </Layout>
+                    </LanguageProvider>
+                  </MenuProvider>
                 }
               />
             )

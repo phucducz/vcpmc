@@ -2,14 +2,15 @@ import { faEdit, faPlay } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import classNames from "classnames/bind";
 import { ReactNode, memo, useCallback, useEffect, useState } from "react";
-import { RootState, useAppDispatch } from "~/store";
-
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router";
+import { RootState, useAppDispatch } from "~/store";
+
 import { Record } from "~/api/recordAPI";
 import { AudioDialog } from "~/components/AudioDialog";
 import { BoxItem, BoxItemType } from "~/components/BoxItem";
-import { ComboBox, ComboData } from "~/components/ComboBox";
+import { ComboData } from "~/components/ComboBox";
+import Wrapper from "~/components/FilterBox/Wrapper";
 import { Grid } from "~/components/Grid";
 import { Table } from "~/components/Table";
 import { formatDateMDY, getCurrentDate } from "~/context";
@@ -18,6 +19,7 @@ import { Icon, listTabGridIcon, listTabListIcon } from "~/icons";
 import { CommonPage } from "~/pages/CommonPage";
 import { getRecords } from "~/thunk/recordThunks";
 import style from './Record.module.scss';
+import { ActionDataType } from "~/components/Action";
 
 const cx = classNames.bind(style);
 
@@ -95,46 +97,7 @@ function RecordPage() {
     const [recordData, setRecordData] = useState<Array<Record>>([] as Array<Record>);
     const [currentItems, setCurrentItems] = useState<Array<any>>([]);
     const [itemsPerPage, setItemsPerPage] = useState<string>('8');
-    const [comboBoxData, setComboBoxData] = useState([
-        {
-            title: 'Thể loại',
-            data: [
-                { title: 'Tất cả' },
-                { title: 'Pop' },
-                { title: 'EDM' },
-                { title: 'Ballad' }
-            ],
-            visible: false,
-            activeData: 'Tất cả'
-        }, {
-            title: 'Định dạng',
-            data: [
-                { title: 'Tất cả' },
-                { title: 'Audio' },
-                { title: 'Video' }
-            ],
-            visible: false,
-            activeData: 'Tất cả'
-        }, {
-            title: 'Thời hạn sử dụng',
-            data: [
-                { title: 'Tất cả' },
-                { title: 'Còn thời hạn' },
-                { title: 'Hết thời hạn' }
-            ],
-            visible: false,
-            activeData: 'Tất cả'
-        }, {
-            title: 'Trạng thái',
-            data: [
-                { title: 'Tất cả' },
-                { title: 'Duyệt bởi người dùng' },
-                { title: 'Duyệt tự động' }
-            ],
-            visible: false,
-            activeData: 'Tất cả'
-        }
-    ]);
+    const [comboBoxData, setComboBoxData] = useState<ComboData[]>([]);
 
     const handleClickItemAction = useCallback(() => {
         navigate('/approve-record');
@@ -145,27 +108,73 @@ function RecordPage() {
             icon: <FontAwesomeIcon icon={faEdit} />,
             title: 'Quản lý phê duyệt',
             onClick: handleClickItemAction
+        }, {
+            icon: <FontAwesomeIcon icon={faEdit} />,
+            title: 'Quản lý phê duyệt',
+            onClick: handleClickItemAction
         }
     ]);
 
     useEffect(() => {
         setMenuActive(1);
         document.title = 'Kho bản ghi';
+
+        setComboBoxData([
+            {
+                title: 'Thể loại',
+                data: [
+                    { title: 'Tất cả' },
+                    { title: 'Pop' },
+                    { title: 'EDM' },
+                    { title: 'Ballad' }
+                ],
+                visible: false,
+                activeData: 'Tất cả'
+            }, {
+                title: 'Định dạng',
+                data: [
+                    { title: 'Tất cả' },
+                    { title: 'Audio' },
+                    { title: 'Video' }
+                ],
+                visible: false,
+                activeData: 'Tất cả'
+            }, {
+                title: 'Thời hạn sử dụng',
+                data: [
+                    { title: 'Tất cả' },
+                    { title: 'Còn thời hạn' },
+                    { title: 'Hết thời hạn' }
+                ],
+                visible: false,
+                activeData: 'Tất cả'
+            }, {
+                title: 'Trạng thái',
+                data: [
+                    { title: 'Tất cả' },
+                    { title: 'Duyệt bởi người dùng' },
+                    { title: 'Duyệt tự động' }
+                ],
+                visible: false,
+                activeData: 'Tất cả'
+            }
+        ]);
     }, []);
 
     useEffect(() => {
-        setRecordData(record.recordList.filter(record => record.approvalDate !== '' && record.status !== 'Bị từ chối' && record.status !== ''));
+        setRecordData(record.recordList.filter(record =>
+            record.approvalDate !== '' && record.status !== 'Bị từ chối' && record.status !== ''
+        ));
     }, [record.recordList]);
 
     useEffect(() => {
-        if (!record.recordList.length) return;
+        if (!record.recordList.length || !comboBoxData.length) return;
 
         let search = searchValue.trim().toLowerCase();
 
         let category = comboBoxData[0].activeData;
         let format = comboBoxData[1].activeData;
         let contractTerm = comboBoxData[2].activeData;
-        let status = comboBoxData[3].activeData;
 
         if (searchValue.trim() === '')
             setRecordData(record.recordList);
@@ -236,6 +245,8 @@ function RecordPage() {
     }, []);
 
     const handleChange = (value: string) => {
+        if (value === '' || value === '0')
+            return;
         setItemsPerPage(value);
     }
 
@@ -243,14 +254,6 @@ function RecordPage() {
         setComboBoxData(prev =>
             prev.map(data =>
                 data.title === item.title ? { ...data, visible: !item.visible } : data
-            )
-        );
-    }, []);
-
-    const handleBlurComboBox = useCallback((item: any) => {
-        setComboBoxData(prev =>
-            prev.map(data =>
-                data.title === item.title ? { ...data, visible: false } : data
             )
         );
     }, []);
@@ -281,21 +284,11 @@ function RecordPage() {
                 searchValue: searchValue,
                 setSearchValue: (e: any) => setSearchValue(e.target.value)
             }}
-            actionFilter={<>
-                {comboBoxData?.length && comboBoxData.map((item, index) => (
-                    <ComboBox
-                        key={index}
-                        title={item.title}
-                        active={item.activeData}
-                        visible={item.visible}
-                        data={item.data}
-                        className={cx('combo-data')}
-                        onClick={() => handleComboBoxClick(item)}
-                        onItemClick={handleSetCategory}
-                        onBlur={() => handleBlurComboBox(item)}
-                    />
-                ))}
-            </>}
+            actionFilter={<Wrapper
+                data={comboBoxData}
+                onClick={handleComboBoxClick}
+                onItemClick={handleSetCategory}
+            />}
             actionType={
                 <div className={cx('action__type-load', typeLoad === 'table' ? 'table-visible' : 'grid-visible')}>
                     <Icon icon={listTabListIcon} onClick={() => setTypeLoad('table')} />

@@ -12,6 +12,10 @@
 
     &>.recover-form__container__input {
         margin-top: 3.2rem;
+
+        &>div {
+            margin: 0 auto;
+        }
     }
 
     &.active {
@@ -39,10 +43,8 @@
     }
 }
 
-.recover-form__back-login {
-    color: var(--color-orange);
-    position: absolute;
-    bottom: 5%;
-    left: 50%;
-    transform: translateX(-50%);
+@media screen and (max-width: 620px) and (min-width: 520px) {
+    input[name='emailAddress'] {
+        width: 500px !important;
+    }
 }

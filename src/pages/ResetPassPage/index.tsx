@@ -1,10 +1,10 @@
 import { faEye } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import classNames from "classnames/bind";
 import { useFormik } from "formik";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import { getUserById } from "~/api/userAPI";
 import { Button } from "~/components/Button";
@@ -59,7 +59,7 @@ function ResetPassPage() {
             }));
         }
     });
-    
+
     useEffect(() => {
         document.title = 'Khôi phục mật khẩu';
     }, []);
@@ -121,6 +121,7 @@ function ResetPassPage() {
                         key={index}
                         medium
                         {...input}
+                        type='text'
                     />
                 ))}
                 <Button

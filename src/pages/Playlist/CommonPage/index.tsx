@@ -3,18 +3,15 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import classNames from "classnames/bind";
 import { ReactNode, memo, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { useNavigate } from "react-router";
 
 import { Record } from "~/api/recordAPI";
 import { User } from "~/api/userAPI";
-import { ActionDataType } from "~/components/Action";
 import { AudioDialog } from "~/components/AudioDialog";
 import Image from "~/components/Image";
 import { Input } from "~/components/Input";
 import { PagingItemType } from "~/components/Paging";
 import { Switch } from "~/components/Switch";
 import { Upload } from "~/components/Upload";
-import { useMenu } from "~/context/hooks";
 import { CommonPage } from "~/pages/CommonPage";
 import { RootState } from "~/store";
 import style from './CommonPage.module.scss';
@@ -64,9 +61,6 @@ const CategoryBoxItem = memo(({ title, onClick }: { title?: string, onClick: () 
 });
 
 export const CommonPlaylistPage = memo(({ titlePage, type, paging, actionData, playlistDetail, audio, children }: PlaylistProps) => {
-    const { setActive, setType } = useMenu();
-    const navigate = useNavigate();
-
     const category = useSelector((state: RootState) => state.category);
     const [title, setTitle] = useState<string>('');
 

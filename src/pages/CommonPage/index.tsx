@@ -1,12 +1,12 @@
 import classNames from "classnames/bind";
 import { ReactNode, memo } from "react";
 
-import style from './CommonPage.module.scss';
-import { Input } from "~/components/Input";
-import { Icon, searchIcon } from "~/icons";
 import { Action } from "~/components/Action";
+import { Input } from "~/components/Input";
 import { Paging, PagingItemType } from "~/components/Paging";
 import { Tab, TabItemProps } from "~/components/Tab";
+import { Icon, searchIcon } from "~/icons";
+import style from './CommonPage.module.scss';
 
 const cx = classNames.bind(style);
 
@@ -46,10 +46,11 @@ export const CommonPage = memo(({ contentHeader, title, actionFilter, pagingData
                             placeholder={search.placeHolder}
                             rightIcon={<Icon icon={searchIcon} style={{ color: 'var(--white)' }} />}
                         />}
-                        {(actionFilter || actionType) && <div className={cx('content__action')}>
-                            {actionFilter && <div>{actionFilter}</div>}
-                            {actionType && <div className={cx('action-type-container')}>{actionType}</div>}
-                        </div>}
+                        {(actionFilter || actionType) &&
+                            <div className={cx('content__action')}>
+                                {actionFilter && actionFilter}
+                                {actionType && <div className={cx('action-type-container')}>{actionType}</div>}
+                            </div>}
                     </div>
                 </div>
                 <div className={cx('content')}>

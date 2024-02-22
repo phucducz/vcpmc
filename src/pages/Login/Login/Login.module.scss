@@ -20,11 +20,10 @@
 
 .login-form__recovery-password,
 .recover-form__back-login {
+    display: flex;
+    justify-content: center;
+    margin-top: 2rem;
     color: var(--color-orange);
-    position: absolute;
-    bottom: 5%;
-    left: 50%;
-    transform: translateX(-50%);
 }
 
 .error-message {
@@ -33,28 +32,36 @@
     width: max-content;
 }
 
-// .recover-form__container {
-//     display: none;
+@media only screen and (max-width: 380px) {
+    .login-container {
+        button[type='submit'] {
+            padding: 1rem 2rem;
+        }
 
-//     &>.recover-form__container__input {
-//         margin-top: 3.2rem;
-//     }
+        &>form {
+            &>h3 {
+                padding: 2rem;
+            }
+        }
+    }
+}
 
-//     &.active {
-//         display: block;
-//     }
-// }
+@media screen and (max-width: 620px) {
+    form {
+        &>div {
+            &>p {
+                width: 90% !important;
+                margin: 2rem auto !important;
+            }
 
-// .recover-form__message {
-//     display: none;
+            &>div:has(input[type='checkbox']) {
+                width: 90%;
+                margin: 0 auto;
+            }
+        }
 
-//     &.active {
-//         display: flex;
-//         flex-direction: column;
-//         align-items: flex-start;
-
-//         &>p+p {
-//             margin-top: 4px;
-//         }
-//     }
-// }
+        button {
+            max-width: 90% !important;
+        }
+    }
+}

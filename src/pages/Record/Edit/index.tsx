@@ -20,7 +20,6 @@ import { Icon, musicIcon } from "~/icons";
 import { RootState, useAppDispatch } from "~/store";
 import { saveRecord } from "~/thunk/recordThunks";
 import style from './EditRecord.module.scss';
-import { useMenu } from "~/context/hooks";
 
 const cx = classNames.bind(style);
 
@@ -96,7 +95,7 @@ function EditRecord() {
                 status: 'Đã phê duyệt'
             }));
 
-            navigate('/record-management');
+            navigate(routes.RecordPage);
         }
     });
 
@@ -305,7 +304,7 @@ function EditRecord() {
                     </div>
                 </div>
                 <div className={cx('form__action')}>
-                    <Button type='button' outline onClick={() => navigate('/record-management')}>Hủy</Button>
+                    <Button type='button' outline onClick={() => navigate(routes.RecordPage)}>Hủy</Button>
                     <Button as='button' type='submit'>Lưu</Button>
                 </div>
             </form>

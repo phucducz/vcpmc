@@ -44,7 +44,6 @@ function Image({ isBG, src, alt, width, height, className, type = 'img', edit = 
                         accept='image/*'
                         style={{ display: 'none' }}
                         onChange={() => { }}
-                    // onChange={e => handleUploadClick(e.target.files[0])}
                     />
                 </label>
             </div>}

@@ -140,7 +140,7 @@ export const RecordPlaylistWareHouse = memo(({ data, loading = false, onItemAddC
                     searchValue: searchValue,
                     setSearchValue: (e: any) => setSearchValue(e.target.value)
                 }}
-                actionFilter={<>
+                actionFilter={<div>
                     {comboBoxData?.length && comboBoxData.map((item, index) => (
                         <ComboBox
                             key={index}
@@ -154,7 +154,7 @@ export const RecordPlaylistWareHouse = memo(({ data, loading = false, onItemAddC
                             onBlur={() => handleBlurComboBox(item)}
                         />
                     ))}
-                </>}
+                </div>}
             >
                 <Table
                     paginate={{

@@ -202,14 +202,18 @@ function ETMContractDetailPage() {
 
         return `${dateArray[2]}-${dateArray[1]}-${dateArray[0]}`;
     }
-
+    
+    // console.log(contractFormik.values);
+    
     useEffect(() => {
         if (Object.keys(etmContract.etmContract).length <= 0) return;
 
         const getUser = async () => {
             const { usersId } = etmContract.etmContract;
             const user = await getUserById(usersId, role.roleList);
-
+            console.log(user);
+            console.log(etmContract.etmContract);
+            
             contractFormik.setValues({
                 ...user,
                 ...etmContract.etmContract,
@@ -253,7 +257,7 @@ function ETMContractDetailPage() {
             }
         ]);
     }, [status]);
-
+    
     return (
         <div className={cx('entrustment-detail-container')}>
             <CommonPageContractEdit

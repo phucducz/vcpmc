@@ -26,8 +26,6 @@ type DropDownProps = {
 export const DropDown = ({ dropDownRef, title, data, onItemClick, className, placement, visible, style }: DropDownProps) => {
     const [dataOwn, setDataOwn] = useState<any[]>([] as any[]);
 
-    const divRef = useRef<HTMLUListElement>(null);
-
     if (!className)
         className = '';
     if (!placement)
@@ -69,14 +67,15 @@ export const DropDown = ({ dropDownRef, title, data, onItemClick, className, pla
     }
 
     useEffect(() => {
-        if (typeof visible === 'undefined') return;
+        if (typeof visible === 'undefined' ||
+            typeof dropDownRef === 'undefined') return;
 
         if (visible) {
-            handleShowDropDown(dropDownRef || divRef);
+            handleShowDropDown(dropDownRef);
             return;
         }
 
-        handleHideDropDown(dropDownRef || divRef);
+        handleHideDropDown(dropDownRef);
     }, [visible]);
 
     const handleClick = (item?: any, ...passParams: any) => {
@@ -86,7 +85,7 @@ export const DropDown = ({ dropDownRef, title, data, onItemClick, className, pla
     }
 
     return (
-        <ul ref={dropDownRef || divRef} className={classes} style={style}>
+        <ul ref={dropDownRef} className={classes} style={style}>
             {data.map(item => {
                 return <Item
                     key={item.title}
