@@ -2,10 +2,10 @@ import { faEdit, faPlay } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import classNames from "classnames/bind";
 import { ReactNode, memo, useCallback, useEffect, useState } from "react";
-import { RootState, useAppDispatch } from "~/store";
-
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router";
+import { RootState, useAppDispatch } from "~/store";
+
 import { Record } from "~/api/recordAPI";
 import { AudioDialog } from "~/components/AudioDialog";
 import { BoxItem, BoxItemType } from "~/components/BoxItem";
@@ -19,6 +19,7 @@ import { Icon, listTabGridIcon, listTabListIcon } from "~/icons";
 import { CommonPage } from "~/pages/CommonPage";
 import { getRecords } from "~/thunk/recordThunks";
 import style from './Record.module.scss';
+import { ActionDataType } from "~/components/Action";
 
 const cx = classNames.bind(style);
 
@@ -96,14 +97,7 @@ function RecordPage() {
     const [recordData, setRecordData] = useState<Array<Record>>([] as Array<Record>);
     const [currentItems, setCurrentItems] = useState<Array<any>>([]);
     const [itemsPerPage, setItemsPerPage] = useState<string>('8');
-    const [comboBoxData, setComboBoxData] = useState<ComboData[]>([
-        {
-            title: '',
-            data: [],
-            visible: false,
-            activeData: ''
-        }
-    ]);
+    const [comboBoxData, setComboBoxData] = useState<ComboData[]>([]);
 
     const handleClickItemAction = useCallback(() => {
         navigate('/approve-record');
@@ -111,6 +105,10 @@ function RecordPage() {
 
     const [actionData, setActionData] = useState([
         {
+            icon: <FontAwesomeIcon icon={faEdit} />,
+            title: 'Quản lý phê duyệt',
+            onClick: handleClickItemAction
+        }, {
             icon: <FontAwesomeIcon icon={faEdit} />,
             title: 'Quản lý phê duyệt',
             onClick: handleClickItemAction
@@ -164,11 +162,13 @@ function RecordPage() {
     }, []);
 
     useEffect(() => {
-        setRecordData(record.recordList.filter(record => record.approvalDate !== '' && record.status !== 'Bị từ chối' && record.status !== ''));
+        setRecordData(record.recordList.filter(record =>
+            record.approvalDate !== '' && record.status !== 'Bị từ chối' && record.status !== ''
+        ));
     }, [record.recordList]);
 
     useEffect(() => {
-        if (!record.recordList.length) return;
+        if (!record.recordList.length || !comboBoxData.length) return;
 
         let search = searchValue.trim().toLowerCase();
 
@@ -237,8 +237,6 @@ function RecordPage() {
     }, [category.categoryList, approval.approvalList]);
 
     const handleSetCategory = useCallback((item: ComboData, id: string) => {
-        console.log(item, id);
-
         setComboBoxData(prev =>
             prev.map(data =>
                 data.title === id ? { ...data, activeData: item.title } : data
@@ -247,6 +245,8 @@ function RecordPage() {
     }, []);
 
     const handleChange = (value: string) => {
+        if (value === '' || value === '0')
+            return;
         setItemsPerPage(value);
     }
 
@@ -257,14 +257,6 @@ function RecordPage() {
             )
         );
     }, []);
-
-    // const handleBlurComboBox = useCallback((item: any) => {
-    //     setComboBoxData(prev =>
-    //         prev.map(data =>
-    //             data.title === item.title ? { ...data, visible: false } : data
-    //         )
-    //     );
-    // }, []);
 
     const handleUpdateClick = useCallback((item: Record) => {
         let expirationDateRecord = new Date(formatDateMDY(item.expirationDate));
@@ -297,35 +289,13 @@ function RecordPage() {
                 onClick={handleComboBoxClick}
                 onItemClick={handleSetCategory}
             />}
-            // actionFilter={filterBoxActive
-            //     ? <FilterBox
-            //         data={comboBoxData}
-            //         onItemClick={handleSetCategory}
-            //         className={cx('filter-box')}
-            //     />
-            //     : <div className={cx('filter-combobox')}>
-            //         {comboBoxData?.length && comboBoxData.map((item, index) => (
-            //             <ComboBox
-            //                 key={index}
-            //                 title={item.title}
-            //                 active={item.activeData}
-            //                 visible={item.visible}
-            //                 data={item.data}
-            //                 className={cx('combo-data')}
-            //                 onClick={() => handleComboBoxClick(item)}
-            //                 onItemClick={handleSetCategory}
-            //             // onBlur={() => handleBlurComboBox(item)}
-            //             />
-            //         ))}
-            //     </div>
-            // }
             actionType={
                 <div className={cx('action__type-load', typeLoad === 'table' ? 'table-visible' : 'grid-visible')}>
                     <Icon icon={listTabListIcon} onClick={() => setTypeLoad('table')} />
                     <Icon icon={listTabGridIcon} onClick={() => setTypeLoad('grid')} />
                 </div>
             }
-        // actionData={actionData}
+            actionData={actionData}
         >
             <div className={cx('container-table-data')}>
                 {typeLoad === 'grid'

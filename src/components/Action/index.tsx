@@ -1,5 +1,8 @@
+import { faAdd } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import classNames from "classnames/bind";
-import { ReactNode, memo, useState } from "react";
+import { ReactNode, memo, useEffect, useRef, useState } from "react";
+import { Link } from "react-router-dom";
 
 import style from './Action.module.scss';
 import { Item } from "./Item";
@@ -30,29 +33,73 @@ type ActionProps<E extends React.ElementType<any>> = {
 export const Action = memo(<E extends React.ElementType<any>>({ data, className, placement = 'center', visible, onClick }: ActionProps<E>) => {
     if (!className) className = '';
 
-    return (
-        <div
-            className={cx('action-container', visible && 'active', {
-                [className]: className,
-                [placement]: placement
-            })}
-            onClick={onClick}
-        >
-            {data.map((item, index: number) => {
-                const { icon, title, onClick } = item;
+    const [mobileMode, setMobileMode] = useState<boolean>(false);
+    const [activeActionBox, setActiveActionBox] = useState<boolean>(false);
+    const actionRef = useRef<HTMLDivElement>(null);
 
-                return (
-                    <Item
-                        key={index}
-                        icon={icon}
-                        title={title}
-                        onClick={onClick}
-                        as={item.as || 'div'}
-                        href={item.href}
-                        className={cx(item.disable && 'disable')}
-                    />
-                )
-            })}
-        </div>
+    useEffect(() => {
+        const handleWindowResize = () => {
+            if (window.matchMedia('(max-width: 1690px)').matches)
+                setMobileMode(true);
+            else setMobileMode(false);
+        }
+        handleWindowResize();
+        window.addEventListener('resize', handleWindowResize);
+
+        return () => window.removeEventListener('resize', handleWindowResize);
+    }, []);
+
+    useEffect(() => {
+        const handleMouseDown = (e: any) => {
+            if (actionRef.current?.contains(e.target))
+                setActiveActionBox(true);
+            else setActiveActionBox(false);
+        }
+        window.addEventListener('mousedown', handleMouseDown);
+
+        return () => window.removeEventListener('mousedown', handleMouseDown);
+    }, []);
+
+    console.log(data);
+    
+    return (
+        <>{mobileMode
+            ? <div ref={actionRef} className={cx('action-box')}>
+                <FontAwesomeIcon icon={faAdd} className={cx('action-box__icon')} />
+                <ul
+                    className={cx('action-box__container-content', activeActionBox && 'active')}
+                    style={{ height: activeActionBox ? `${data.length * 44 + 20}px` : 0 }}
+                >
+                    {data.map((item, index) =>
+                        <li className={cx('item')} key={index}>
+                            <Link to=''>{item.title}</Link>
+                        </li>
+                    )}
+                </ul>
+            </div>
+            : <div
+                className={cx('action-container', visible && 'active', {
+                    [className]: className,
+                    [placement]: placement
+                })}
+                onClick={onClick}
+            >
+                {data.map((item, index: number) => {
+                    const { icon, title, onClick } = item;
+
+                    return (
+                        <Item
+                            key={index}
+                            icon={icon}
+                            title={title}
+                            onClick={onClick}
+                            as={item.as || 'div'}
+                            href={item.href}
+                            className={cx(item.disable && 'disable')}
+                        />
+                    )
+                })}
+            </div>
+        }</>
     );
 });

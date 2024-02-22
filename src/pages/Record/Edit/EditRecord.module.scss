@@ -3,11 +3,11 @@
     height: 100%;
 
     &>header>h3 {
-        width: max-content;
         font-size: 36px;
         font-weight: 700;
         line-height: 48px;
         letter-spacing: -0.072px;
+        margin-bottom: 2rem;
     }
 }
 
@@ -30,25 +30,18 @@
 
         &>.record__detail,
         &>.record__authorization-info {
+            max-width: 570px;
             background-color: var(--bg-lighter);
             border-radius: 8px;
             padding: 32px 22px 16px 24px;
-        }
-
-        &>.record__detail {
-            width: 570px;
-            height: 476px;
-        }
-
-        &>.record__authorization-info {
-            width: 570px;
-            height: 258px;
+            height: auto;
         }
     }
 
     &>.record-container__right {
         &>.edit-record-info {
-            width: 743px;
+            width: max-content;
+            max-width: 743px;
             height: 757px;
             background-color: var(--bg-lighter);
             border-radius: 8px;
@@ -64,10 +57,7 @@
     font-size: 24px;
     font-weight: 700;
     letter-spacing: -0.048px;
-}
-
-.authorization-info__title {
-    padding-bottom: 33px;
+    margin-bottom: 2rem;
 }
 
 .record__detail__image {
@@ -123,6 +113,16 @@
 }
 
 .group-input {
+    width: 100%;
+
+    &>div {
+        width: 100%;
+
+        &>li {
+            width: 100% !important;
+        }
+    }
+
     &>div>p {
         padding: 0 0 8px 0;
     }
@@ -163,4 +163,69 @@
 .form__action>button {
     width: 208px;
     height: 56px;
+}
+
+@media screen and (max-width: '1420px') {
+    .edit-record {
+        width: calc(100vw - 8rem);
+
+        &>.edit-record-form {
+            width: 100%;
+            overflow-y: overlay;
+            height: calc(100vh - 186px);
+            margin: 0 auto;
+
+            &>.edit-record-container {
+                flex-direction: column;
+
+                &>.record-container__right {
+                    width: max-content;
+
+                    &>.edit-record-info {
+                        &>p {
+                            width: max-content;
+                            margin: 0 auto 2rem auto;
+                        }
+
+                        & .group-input>div {
+                            &>li>div {
+                                width: 100% !important;
+                            }
+
+                            &>input {
+                                width: 100%;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    .edit-record-form::-webkit-scrollbar {
+        display: none;
+    }
+
+    .edit-record>.edit-record-form {
+
+        .edit-record-info,
+        .record__detail,
+        .record__authorization-info {
+            width: calc(100vw - 8rem);
+        }
+    }
+
+    .record__detail__content {
+        &>.content {
+            text-align: start;
+        }
+    }
+}
+
+@media screen and (max-width: '535px') {
+    .edit-record>.edit-record-form>.form__action {
+        &>button {
+            width: calc(50% - 3rem);
+        }
+    }
 }

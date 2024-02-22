@@ -25,7 +25,8 @@
 }
 
 .content__action {
-    width: 1541px;
+    width: 100%;
+    max-width: 1541px;
     height: auto;
     display: flex;
     align-items: center;
@@ -102,12 +103,6 @@
 
 .content-container__filter-box {
     width: 100%;
-}
-
-@media screen and (max-width: '1600px') {
-    .content__action {
-        width: max-content;
-    }
 }
 
 @media screen and (max-width: '900px') {

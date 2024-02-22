@@ -1,56 +1,14 @@
+import { faChevronLeft, faChevronRight } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import classNames from "classnames/bind";
-import { ChangeEvent, ReactNode, memo, useState, useEffect } from "react";
+import { ChangeEvent, ReactNode, memo, useEffect, useState } from "react";
 import ReactPaginate from "react-paginate";
 
-import style from './Grid.module.scss';
 import { Input } from "../Input";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faChevronLeft, faChevronRight } from "@fortawesome/free-solid-svg-icons";
 import Loading from "../Loading";
+import style from './Grid.module.scss';
 
 const cx = classNames.bind(style);
-
-// type ItemProps = {
-//     data: any;
-// }
-
-// const Item = memo(({ data }: ItemProps) => {
-//     return (
-//         <div className={cx('grid-container__item')}>
-//             <div className={cx('item__image')}>
-//                 <img src={logo} alt='record' />
-//             </div>
-//             <div className={cx('item__content')}>
-//                 <div className={cx('item__content__right')}>
-//                     <div>
-//                         <p className={cx('content__right__title')}>{data.nameRecord}</p>
-//                         <div className={cx('singer')}>
-//                             <span className={cx('title')}>Ca sĩ:</span>
-//                             <span className={cx('content')}>{data.singer}</span>
-//                         </div>
-//                         <div className={cx('author')}>
-//                             <span className={cx('title')}>Sáng tác:</span>
-//                             <span className={cx('content')}>{data.autho}</span>
-//                         </div>
-//                         <div className={cx('contract')}>
-//                             <span className={cx('title')}>Số hợp đồng:</span>
-//                             <span className={cx('content')}>{data.ISRCCode}</span>
-//                         </div>
-//                     </div>
-//                     <div className={cx('content__right__box')}>
-//                         <div className={cx('box__item')}>
-//                             <p className={cx('box__item__title')}>Thể loại</p>
-//                             <p className={cx('box__item__content')}>Pop</p>
-//                         </div>
-//                     </div>
-//                 </div>
-//                 <div className={cx('item__content__left')}>
-//                     <FontAwesomeIcon icon={faEdit} className={cx('content__left__icon')} />
-//                 </div>
-//             </div>
-//         </div>
-//     );
-// })
 
 type GridProps = {
     paginate: {
@@ -84,6 +42,22 @@ export const Grid = memo(({ paginate, loading, className, children, itemsPerPage
         setItemOffset(newOffset);
     };
 
+    useEffect(() => {
+        const handleWindowResize = () => {
+            if (window.matchMedia('(max-width: 1450px) and (min-width: 1105px)').matches)
+                setItemsPerPage('6');
+            else if (window.matchMedia('(max-width: 1105px) and (min-width: 765px)').matches)
+                setItemsPerPage('4');
+            else if (window.matchMedia('(max-width: 765px)').matches)
+                setItemsPerPage('2');
+            else setItemsPerPage('8');
+        }
+        handleWindowResize();
+        window.addEventListener('resize', handleWindowResize);
+
+        return () => window.removeEventListener('resize', handleWindowResize);
+    }, []);
+    
     return (
         <div className={cx('grid-container', className)}>
             <div className={cx('grid-container__content')}>{children}</div>
@@ -102,7 +76,7 @@ export const Grid = memo(({ paginate, loading, className, children, itemsPerPage
                     breakLabel="..."
                     nextLabel={<FontAwesomeIcon icon={faChevronRight} />}
                     onPageChange={handlePageClick}
-                    pageRangeDisplayed={3}
+                    pageRangeDisplayed={1}
                     pageCount={pageCount}
                     previousLabel={<FontAwesomeIcon icon={faChevronLeft} />}
                     renderOnZeroPageCount={null}

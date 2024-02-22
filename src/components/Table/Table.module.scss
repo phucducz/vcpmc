@@ -1,6 +1,7 @@
 .table-responsive {
     overflow-x: overlay;
     max-width: 1541px;
+    width: 100%;
 }
 
 table {
@@ -185,5 +186,11 @@ table {
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%) rotate(360deg);
+    }
+}
+
+@media screen and (max-width: '1600px') {
+    .table-responsive {
+        width: calc(100vw - 8rem);
     }
 }

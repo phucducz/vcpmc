@@ -20,7 +20,6 @@ import { Icon, musicIcon } from "~/icons";
 import { RootState, useAppDispatch } from "~/store";
 import { saveRecord } from "~/thunk/recordThunks";
 import style from './EditRecord.module.scss';
-import { useMenu } from "~/context/hooks";
 
 const cx = classNames.bind(style);
 

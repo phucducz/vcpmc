@@ -21,7 +21,7 @@ export const LoginLayout = ({ children }: LoginLayoutProps) => {
     }, []);
 
     return (
-        <div className={cx('container-layout')}>
+        <div className={cx('container-layout__login')}>
             <div className={cx('header')}>
                 <Language languages={LANGUAGE_ITEMS} placement='top-right' />
             </div>

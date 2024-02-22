@@ -44,7 +44,7 @@
     }
 
     &>.container-layout__body {
-        margin-left: 5.9rem;
+        margin-left: 4rem;
         margin-top: 86px;
     }
 }
@@ -56,5 +56,11 @@
         &>.header__language {
             display: none;
         }
+    }
+}
+
+@media screen and (max-width: '1600px') {
+    .container-layout__body>div {
+        margin: 0 2rem;
     }
 }

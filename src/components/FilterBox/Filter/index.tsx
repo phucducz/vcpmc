@@ -59,8 +59,7 @@ export const FilterBox = memo(({ data, className, onItemClick }: FilterBox) => {
         <div ref={filterRef} className={cx('filter-box', className)}>
             <FontAwesomeIcon
                 icon={faFilter}
-                className={cx('filter-box__icon')}
-                // onClick={() => setActive(!active)}
+                className={cx('filter-box__icon', active && 'active')}
             />
             <div className={cx('filter-box__filter', active && 'active')}>
                 {data.map((item, index) =>

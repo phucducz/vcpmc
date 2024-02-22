@@ -43,7 +43,8 @@
 
         &>div {
             width: 20rem;
-            height: 5rem;
+            min-height: 5rem;
+            height: 100%;
             cursor: pointer;
             background-color: #3e3e5b;
             padding: 2rem;
@@ -59,7 +60,7 @@
             }
 
             &>p {
-                white-space: nowrap;
+                white-space: wrap;
             }
 
             &:hover {
@@ -72,8 +73,13 @@
 .filter-box__icon {
     width: 32px;
     height: 32px;
-    color: var(--color-orange);
+    color: white;
     cursor: pointer;
+    transition: color .2s linear;
+
+    &.active {
+        color: var(--color-orange);
+    }
 }
 
 @media screen and (max-width: '600px') {

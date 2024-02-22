@@ -1,5 +1,5 @@
 import classNames from "classnames/bind";
-import { ReactNode, memo, useEffect, useState } from "react";
+import { ReactNode, memo } from "react";
 
 import { Action } from "~/components/Action";
 import { Input } from "~/components/Input";
@@ -29,19 +29,6 @@ type CommonPageProps = {
 }
 
 export const CommonPage = memo(({ contentHeader, title, actionFilter, pagingData, actionType, actionData = [], search, children, tab = [] as Array<TabItemProps>, className = '' }: CommonPageProps) => {
-    // useEffect(() => {
-    //     const handleWindowResize = () => {
-    //         if (!window.matchMedia('(max-width: 1600px)').matches) {
-    //             return;
-    //         }
-    //         setScreenWidth(window.screen.width);
-    //     }
-    //     handleWindowResize();
-    //     window.addEventListener('resize', handleWindowResize);
-
-    //     return () => window.removeEventListener('resize', handleWindowResize);
-    // }, []);
-
     return (
         <div className={cx('common-page', className)}>
             {pagingData && <Paging data={pagingData} />}
@@ -60,10 +47,7 @@ export const CommonPage = memo(({ contentHeader, title, actionFilter, pagingData
                             rightIcon={<Icon icon={searchIcon} style={{ color: 'var(--white)' }} />}
                         />}
                         {(actionFilter || actionType) &&
-                            <div
-                                className={cx('content__action')}
-                                style={{ width: window.matchMedia('(max-width: 1600px)').matches ? '90vw' : '1541px' }}
-                            >
+                            <div className={cx('content__action')}>
                                 {actionFilter && actionFilter}
                                 {actionType && <div className={cx('action-type-container')}>{actionType}</div>}
                             </div>}
