@@ -49,6 +49,12 @@
     }
 }
 
+@media screen and (max-width: '1900px') {
+    .container-layout__body>div {
+        margin: 0 0 0 4rem;
+    }
+}
+
 @media screen and (max-width: '750px') {
     .header {
         justify-content: flex-end;
