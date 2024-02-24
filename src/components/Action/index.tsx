@@ -68,18 +68,14 @@ export const Action = memo(<E extends React.ElementType<any>>({ data, className,
                     className={cx('action-box__container-content', activeActionBox && 'active')}
                     style={{ height: activeActionBox ? `${data.length * 44 + 20}px` : 0 }}
                 >
-                    {data.map((item, index) => {
-                        console.log(item);
-                        
-                        return (
-                            <li className={cx('item')} key={index} onClick={() => item.onClick()}>
-                                {item.as
-                                    ? <a href={item.href}>{item.title}</a>
-                                    : <Link to='#'>{item.title}</Link>
-                                }
-                            </li>
-                        );
-                    })}
+                    {data.map((item, index) => (
+                        <li className={cx('item')} key={index} onClick={() => item.onClick()}>
+                            {item.as
+                                ? <a href={item.href}>{item.title}</a>
+                                : <Link to='#'>{item.title}</Link>
+                            }
+                        </li>
+                    ))}
                 </ul>
             </div>
             : <div

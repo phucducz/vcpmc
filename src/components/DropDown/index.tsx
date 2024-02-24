@@ -23,8 +23,10 @@ type DropDownProps = {
     dropDownRef?: any;
 }
 
-export const DropDown = ({ dropDownRef, title, data, onItemClick, className, placement, visible, style }: DropDownProps) => {
+export const DropDown = ({ dropDownRef, title, data, onItemClick,
+    className, placement, visible, style }: DropDownProps) => {
     const [dataOwn, setDataOwn] = useState<any[]>([] as any[]);
+    const dropDownOwnRef = useRef<HTMLUListElement>(null);
 
     if (!className)
         className = '';
@@ -41,41 +43,36 @@ export const DropDown = ({ dropDownRef, title, data, onItemClick, className, pla
     }, [data]);
 
     const handleShowDropDown = (ref: any) => {
-        if (ref.current) {
-            const idTimeoutActive = setTimeout(() => {
-                if (ref.current) {
-                    ref.current.style.height = `calc(4.4rem * ${dataOwn.length})`;
-                    ref.current.style.border = '1px solid transparent';
-                }
-            }, 150);
+        const idTimeoutActive = setTimeout(() => {
+            if (ref.current) {
+                ref.current.style.height = `calc(4.4rem * ${dataOwn.length})`;
+                ref.current.style.border = '1px solid transparent';
+            }
+        }, 150);
 
-            return () => clearTimeout(idTimeoutActive);
-        }
+        return () => clearTimeout(idTimeoutActive);
     }
 
     const handleHideDropDown = (ref: any) => {
-        if (ref.current) {
-            ref.current.style.height = '0';
-            const idTimeoutDisable = setTimeout(() => {
-                if (!visible && ref.current) {
-                    ref.current.style.border = '1px solid transparent';
-                }
-            }, 300);
+        const idTimeoutDisable = setTimeout(() => {
+            if (!visible && ref.current) {
+                ref.current.style.height = `0`;
+                ref.current.style.border = '1px solid transparent';
+            }
+        }, 300);
 
-            return () => clearTimeout(idTimeoutDisable);
-        }
+        return () => clearTimeout(idTimeoutDisable);
     }
 
     useEffect(() => {
-        if (typeof visible === 'undefined' ||
-            typeof dropDownRef === 'undefined') return;
+        if (typeof visible === 'undefined') return;
 
         if (visible) {
-            handleShowDropDown(dropDownRef);
+            handleShowDropDown(dropDownRef || dropDownOwnRef);
             return;
         }
 
-        handleHideDropDown(dropDownRef);
+        handleHideDropDown(dropDownRef || dropDownOwnRef);
     }, [visible]);
 
     const handleClick = (item?: any, ...passParams: any) => {
@@ -85,7 +82,7 @@ export const DropDown = ({ dropDownRef, title, data, onItemClick, className, pla
     }
 
     return (
-        <ul ref={dropDownRef} className={classes} style={style}>
+        <ul ref={dropDownRef || dropDownOwnRef} className={classes} style={style}>
             {data.map(item => {
                 return <Item
                     key={item.title}

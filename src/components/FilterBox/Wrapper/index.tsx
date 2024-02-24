@@ -24,6 +24,7 @@ const Wrapper = ({ data, onItemClick, onClick }: WrapperProps) => {
                 {data.map((item, index) => (
                     <ComboBox
                         key={index}
+                        size={item.size}
                         title={item.title}
                         active={item.activeData}
                         visible={item.visible}

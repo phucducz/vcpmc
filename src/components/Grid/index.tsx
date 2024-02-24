@@ -44,9 +44,9 @@ export const Grid = memo(({ paginate, loading, className, children, itemsPerPage
 
     useEffect(() => {
         const handleWindowResize = () => {
-            if (window.matchMedia('(max-width: 1550px) and (min-width: 1105px)').matches)
+            if (window.matchMedia('(max-width: 1550px) and (min-width: 1250px)').matches)
                 setItemsPerPage('6');
-            else if (window.matchMedia('(max-width: 1105px) and (min-width: 765px)').matches)
+            else if (window.matchMedia('(max-width: 1250px) and (min-width: 765px)').matches)
                 setItemsPerPage('4');
             else if (window.matchMedia('(max-width: 765px)').matches)
                 setItemsPerPage('2');

@@ -22,14 +22,14 @@ table {
 
     &>thead>tr>th {
         white-space: nowrap;
-        
+
         &>p {
             color: var(--color-orange-3);
             height: 48px;
             padding: 8px 30px 8px 8px;
         }
     }
-    
+
 
     &>tbody>tr>td>p {
         padding: 8px 30px 8px 8px;
@@ -191,12 +191,12 @@ table {
 
 @media screen and (max-width: '1760px') and (min-width: '900px') {
     .table-responsive {
-        width: calc(100vw - 21rem);
+        width: calc(100vw - 21rem) !important;
     }
 }
 
 @media screen and (max-width: '900px') {
     .table-responsive {
-        width: calc(100vw - 8rem);
+        width: calc(100vw - 8rem) !important;
     }
 }

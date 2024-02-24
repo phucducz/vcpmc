@@ -2,6 +2,7 @@
     width: max-content;
     height: auto;
     display: flex;
+    flex-wrap: wrap;
     padding: 2px;
     align-items: center;
     gap: 4px;
@@ -15,5 +16,11 @@
     &>span>svg {
         width: 24px;
         color: var(--color-orange-3);
+    }
+}
+
+@media screen and (max-width: 600px) {
+    .paging-container {
+        width: calc(100vw - 8rem);
     }
 }

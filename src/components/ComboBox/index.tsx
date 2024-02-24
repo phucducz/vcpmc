@@ -13,7 +13,8 @@ export type ComboData = {
     title: string;
     data: Array<Pick<ComboData, 'title'>>;
     visible: boolean;
-    activeData: string
+    activeData: string;
+    size?: 's' | 'l' | 'xl';
 }
 
 type ComboBoxProps = {
@@ -28,20 +29,14 @@ type ComboBoxProps = {
     onBlur?(item: any): void;
     onClick: () => void;
     style?: any;
+    size?: 's' | 'l' | 'xl'
 }
 
-export const ComboBox = ({ width: widthOut, comboBoxRef, title, data, className, active, visible, onClick, onBlur, onItemClick, style }: ComboBoxProps) => {
+export const ComboBox = ({ size = 's', title, data, className, active, onClick, onItemClick, style }: ComboBoxProps) => {
     const ownRef = useRef<HTMLUListElement>(null);
     const contentRef = useRef<HTMLDivElement>(null);
 
     const [activeBox, setActiveBox] = useState<boolean>(false);
-
-    const width = useMemo(() => {
-        if (comboBoxRef && comboBoxRef.current)
-            return comboBoxRef.current.offsetWidth + 20;
-        if (ownRef.current)
-            return ownRef.current.offsetWidth + 20;
-    }, [ownRef.current]);
 
     useEffect(() => {
         const handleMouseDown = (e: any) => {
@@ -55,15 +50,13 @@ export const ComboBox = ({ width: widthOut, comboBoxRef, title, data, className,
         return () => window.removeEventListener('mousedown', handleMouseDown);
     }, []);
 
-    console.log(ownRef.current?.offsetWidth);
-
     return (
         <div className={cx('combo-box-container', className)}>
             <div className={cx('combo-box__title')}>
                 {title && <p>{title}</p>}
             </div>
             <li
-                className={cx('combo-box__content', activeBox && 'active')}
+                className={cx('combo-box__content', activeBox && 'active', size)}
                 onClick={onClick}
             >
                 <div ref={contentRef} className={cx('content__active')}>
@@ -71,8 +64,7 @@ export const ComboBox = ({ width: widthOut, comboBoxRef, title, data, className,
                         spellCheck={false}
                         value={active}
                         name='comboBoxValue'
-                        onChange={() => { }}
-                        style={{ width: `calc(${width}px - 40px)`, style }}
+                        style={style}
                     />
                     <FontAwesomeIcon icon={faChevronDown} />
                 </div>
@@ -83,7 +75,6 @@ export const ComboBox = ({ width: widthOut, comboBoxRef, title, data, className,
                     placement="bottom-left"
                     visible={activeBox}
                     onItemClick={onItemClick}
-                    style={{ width: `${width}px` }}
                 />
             </li>
         </div>

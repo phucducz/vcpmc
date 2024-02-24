@@ -178,6 +178,6 @@ a.button {
 
 @media screen and (max-width: '535px') {
     .button {
-        width: calc(50% - 3rem) !important;
+        width: calc(50vw - 3rem - 6rem) !important;
     }
 }

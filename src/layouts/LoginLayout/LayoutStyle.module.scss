@@ -31,6 +31,7 @@
 
         button {
             max-width: 90% !important;
+            width: max-content;
         }
 
         form div:has(>input) {
