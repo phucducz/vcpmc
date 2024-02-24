@@ -72,92 +72,94 @@ export const Table = memo(({ data, onRemoveItem, saveChange }: TableProps) => {
     }
 
     return (
-        <div className={cx('table')}>
-            <div className={cx('table__head')}>
-                <div></div>
-                {DAYS.map((day, index) => {
-                    let dayIndex = currentDay - 1;
-                    if (dayIndex === -1) dayIndex = 6;
-
-                    return <div
-                        key={day}
-                        className={cx(index === dayIndex && 'active')}
-                    >
-                        <p>{day} {index === dayIndex
-                            && <span>
-                                <span></span>
-                                <span>Hôm nay</span>
-                            </span>
-                        }</p>
-                        {daysActive.map((day, index) => typeof DAYSNUM.find(dayNum => dayNum === day.day) !== 'undefined'
-                            && <div
-                                key={index}
-                                className={cx('schedule-active')}
-                                style={{ left: `calc((166.5px) * ${day.index + 1} + 24px)` }}>
-                            </div>
+        <div className={cx('playlist-table-responsive')}>
+            <div className={cx('table')}>
+                <div className={cx('table__head')}>
+                    <div></div>
+                    {DAYS.map((day, index) => {
+                        let dayIndex = currentDay - 1;
+                        if (dayIndex === -1) dayIndex = 6;
+    
+                        return <div
+                            key={day}
+                            className={cx(index === dayIndex && 'active')}
+                        >
+                            <p>{day} {index === dayIndex
+                                && <span>
+                                    <span></span>
+                                    <span>Hôm nay</span>
+                                </span>
+                            }</p>
+                            {daysActive.map((day, index) => typeof DAYSNUM.find(dayNum => dayNum === day.day) !== 'undefined'
+                                && <div
+                                    key={index}
+                                    className={cx('schedule-active')}
+                                    style={{ left: `calc((166.5px) * ${day.index + 1} + 24px)` }}>
+                                </div>
+                            )}
+                        </div>
+                    })}
+                </div>
+                <div className={cx('table__body')}>
+                    <div className={cx('table__body__hour')}><p></p></div>
+                    {hours.map(hour =>
+                        <div key={hour} className={cx('table__body__hour')}><p>{hour}</p></div>
+                    )}
+                    <div className={cx('table__body__schedule')}>
+                        {itemActive.length && itemActive.map(item =>
+                            item.playbackCycle.map((playback, playbackCycleIndex) => {
+                                let day = playback.day;
+                                let leftIndex = DAYSNUM.indexOf(day);
+    
+                                if (typeof daysActive.find(dayActive => dayActive.day === day) === 'undefined')
+                                    setDaysActive([...daysActive, { day: day, index: leftIndex }]);
+    
+                                return playback.time.map((time, index) => {
+                                    let timeArray = time.split('-');
+                                    let timeArrayStart = timeArray[0].split(':');
+                                    let topIndex = hours.indexOf(`${timeArrayStart[0]}:${timeArrayStart[1]}`);
+                                    let timeArrayEnd = timeArray[1].split(':');
+                                    let widthIndex = hours.indexOf(`${timeArrayEnd[0].trim()}:${timeArrayEnd[1].trim()}`) - topIndex;
+    
+                                    return <div key={index}>
+                                        <PlaylistItem
+                                            style={{
+                                                top: `calc((47px * ${topIndex + 1}) + 10px)`,
+                                                left: `calc(166.88px * ${leftIndex + 1})`,
+                                                height: `calc(47px * ${widthIndex})`
+                                            }}
+                                            className={cx('table__body__schedule__playlist', `${time}, ${leftIndex}, ${topIndex}, ${widthIndex}`)}
+                                            data={item.playlist}
+                                            closeActionClick={() => handleRemoveSchedule({
+                                                day: day,
+                                                time: time,
+                                                playlistsId: item.playlist.playlistId,
+                                                playbackCycleIndex: playbackCycleIndex
+                                            })}
+                                        />
+                                    </div>
+                                })
+                            })
                         )}
                     </div>
-                })}
-            </div>
-            <div className={cx('table__body')}>
-                <div className={cx('table__body__hour')}><p></p></div>
-                {hours.map(hour =>
-                    <div key={hour} className={cx('table__body__hour')}><p>{hour}</p></div>
-                )}
-                <div className={cx('table__body__schedule')}>
-                    {itemActive.length && itemActive.map(item =>
-                        item.playbackCycle.map((playback, playbackCycleIndex) => {
-                            let day = playback.day;
-                            let leftIndex = DAYSNUM.indexOf(day);
-
-                            if (typeof daysActive.find(dayActive => dayActive.day === day) === 'undefined')
-                                setDaysActive([...daysActive, { day: day, index: leftIndex }]);
-
-                            return playback.time.map((time, index) => {
-                                let timeArray = time.split('-');
-                                let timeArrayStart = timeArray[0].split(':');
-                                let topIndex = hours.indexOf(`${timeArrayStart[0]}:${timeArrayStart[1]}`);
-                                let timeArrayEnd = timeArray[1].split(':');
-                                let widthIndex = hours.indexOf(`${timeArrayEnd[0].trim()}:${timeArrayEnd[1].trim()}`) - topIndex;
-
-                                return <div key={index}>
-                                    <PlaylistItem
-                                        style={{
-                                            top: `calc((47px * ${topIndex + 1}) + 10px)`,
-                                            left: `calc(166.88px * ${leftIndex + 1})`,
-                                            height: `calc(47px * ${widthIndex})`
-                                        }}
-                                        className={cx('table__body__schedule__playlist', `${time}, ${leftIndex}, ${topIndex}, ${widthIndex}`)}
-                                        data={item.playlist}
-                                        closeActionClick={() => handleRemoveSchedule({
-                                            day: day,
-                                            time: time,
-                                            playlistsId: item.playlist.playlistId,
-                                            playbackCycleIndex: playbackCycleIndex
-                                        })}
-                                    />
-                                </div>
-                            })
-                        })
-                    )}
+                    <DialogConfirm
+                        className={cx('table__body__dialog')}
+                        active={active}
+                        onClose={() => setActive(false)}
+                        onSubmit={handleSaveChange}
+                    >
+                        <p>Xóa lịch phát</p>
+                        <p>Xóa tất cả lịch phát trong ngày </p>
+                        <CheckBox
+                            className={cx('table__body__dialog__checkbox')}
+                            title={dayActive.title}
+                            checked={dayActive.checked}
+                            onChange={handleChangeDay}
+                        />
+                    </DialogConfirm>
                 </div>
-                <DialogConfirm
-                    className={cx('table__body__dialog')}
-                    active={active}
-                    onClose={() => setActive(false)}
-                    onSubmit={handleSaveChange}
-                >
-                    <p>Xóa lịch phát</p>
-                    <p>Xóa tất cả lịch phát trong ngày </p>
-                    <CheckBox
-                        className={cx('table__body__dialog__checkbox')}
-                        title={dayActive.title}
-                        checked={dayActive.checked}
-                        onChange={handleChangeDay}
-                    />
-                </DialogConfirm>
+                <Loading visible={scheduleDevice.loading} />
             </div>
-            <Loading visible={scheduleDevice.loading} />
         </div>
     );
 });

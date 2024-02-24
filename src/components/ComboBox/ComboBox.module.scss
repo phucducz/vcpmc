@@ -18,8 +18,7 @@
 
         &>ul {
             margin-top: -5px !important;
-            width: max-content;
-            min-width: max-content;
+            width: 100%;
             background-color: var(--bg-lightest);
             margin: 0;
             z-index: 0;
@@ -29,6 +28,18 @@
             position: absolute;
             top: 0;
             left: 0;
+        }
+
+        &.s {
+            width: calc(80px + 24px + 16px + 5px);
+        }
+
+        &.l {
+            width: calc(100px + 24px + 16px + 5px);
+        }
+
+        &.xl {
+            width: calc(200px + 24px + 16px + 5px);
         }
     }
 }
@@ -45,6 +56,7 @@
     z-index: 1;
 
     &>div>input {
+        width: 100%;
         height: 40px;
         border: none;
         background-color: transparent;

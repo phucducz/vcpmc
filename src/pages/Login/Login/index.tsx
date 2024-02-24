@@ -9,15 +9,14 @@ import { Link, useNavigate } from "react-router-dom";
 import { Button } from "~/components/Button";
 import { CheckBox } from "~/components/CheckBox";
 import { Form } from "~/components/Form";
-import Image from "~/components/Image";
 import { Input, InputProps } from "~/components/Input";
 import Loading from "~/components/Loading";
+import { Logo } from "~/components/Logo";
 import { routes } from "~/config/routes";
 import { Yup } from "~/constants";
 import { RootState, useAppDispatch } from "~/store";
 import { login } from "~/thunk/userThunk";
 import style from './Login.module.scss';
-import { Logo } from "~/components/Logo";
 
 const cx = classNames.bind(style);
 
@@ -124,8 +123,7 @@ function LoginPage() {
 
     return (
         <div className={cx('login-container')}>
-            <Logo className={cx('login-container__logo')} width={240} />
-            {/* <Image className={cx('login-container__logo')} src='https://res.cloudinary.com/dvlzvsyxs/image/upload/v1701141410/logo_ul3efy.png' alt='logo' width={240} /> */}
+            <Logo className={cx('login-container__logo')} />
             <Form
                 visible={toggleLogin}
                 title='Đăng nhập'

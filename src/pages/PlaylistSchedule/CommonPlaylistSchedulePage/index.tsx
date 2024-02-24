@@ -7,7 +7,6 @@ import { useNavigate, useParams } from "react-router";
 
 import { PlaybackCycle } from "~/api/playlistScheduleAPI";
 import { PlaylistRecordDetail } from "~/api/playlistsRecords";
-import { ActionDataType } from "~/components/Action";
 import { Button } from "~/components/Button";
 import { CheckBox } from "~/components/CheckBox";
 import { Input } from "~/components/Input";
@@ -94,17 +93,21 @@ const TimeBox = memo(({ day, start, index, end, onTimeChange }: TimeBoxProps) =>
         <div className={cx('time-box-container')}>
             <p>{day}</p>
             <div className={cx('time-box-item__time')}>
-                <Input className={cx('time')} value={startTime.hour || '00'} onChange={(e: any) => setStartTime({ ...startTime, hour: e.target.value })} />
-                <span>:</span>
-                <Input className={cx('time')} value={startTime.minute || '00'} onChange={(e: any) => setStartTime({ ...startTime, minute: e.target.value })} />
-                <span>:</span>
-                <Input className={cx('time')} value={startTime.second || '00'} onChange={(e: any) => setStartTime({ ...startTime, second: e.target.value })} />
+                <div>
+                    <Input className={cx('time')} value={startTime.hour || '00'} onChange={(e: any) => setStartTime({ ...startTime, hour: e.target.value })} />
+                    <span>:</span>
+                    <Input className={cx('time')} value={startTime.minute || '00'} onChange={(e: any) => setStartTime({ ...startTime, minute: e.target.value })} />
+                    <span>:</span>
+                    <Input className={cx('time')} value={startTime.second || '00'} onChange={(e: any) => setStartTime({ ...startTime, second: e.target.value })} />
+                </div>
                 <span> - </span>
-                <Input className={cx('time')} value={endTime.hour || '00'} onChange={(e: any) => setEndTime({ ...endTime, hour: e.target.value })} />
-                <span>:</span>
-                <Input className={cx('time')} value={endTime.minute || '00'} onChange={(e: any) => setEndTime({ ...endTime, hour: e.target.value })} />
-                <span>:</span>
-                <Input className={cx('time')} value={endTime.second || '00'} onChange={(e: any) => setEndTime({ ...endTime, hour: e.target.value })} />
+                <div>
+                    <Input className={cx('time')} value={endTime.hour || '00'} onChange={(e: any) => setEndTime({ ...endTime, hour: e.target.value })} />
+                    <span>:</span>
+                    <Input className={cx('time')} value={endTime.minute || '00'} onChange={(e: any) => setEndTime({ ...endTime, hour: e.target.value })} />
+                    <span>:</span>
+                    <Input className={cx('time')} value={endTime.second || '00'} onChange={(e: any) => setEndTime({ ...endTime, hour: e.target.value })} />
+                </div>
             </div>
         </div>
     )
@@ -155,7 +158,7 @@ type CommonPlaylistSchedulePageProps = {
 export const CommonPlaylistSchedulePage = ({ title, data, setData, formik, action, paging, newPlaylist }: CommonPlaylistSchedulePageProps) => {
     const { id } = useParams();
     const navigate = useNavigate();
-    
+
     const playlistSchedule = useSelector((state: RootState) => state.playlistSchedule);
 
     const [scheduleInput, setScheduleInput] = useState<Array<InputProps>>([] as Array<InputProps>);

@@ -19,7 +19,6 @@ import { Icon, listTabGridIcon, listTabListIcon } from "~/icons";
 import { CommonPage } from "~/pages/CommonPage";
 import { getRecords } from "~/thunk/recordThunks";
 import style from './Record.module.scss';
-import { ActionDataType } from "~/components/Action";
 
 const cx = classNames.bind(style);
 
@@ -135,22 +134,26 @@ function RecordPage() {
                 ],
                 visible: false,
                 activeData: 'Tất cả'
-            }, {
+            },
+            {
                 title: 'Thời hạn sử dụng',
                 data: [
                     { title: 'Tất cả' },
                     { title: 'Còn thời hạn' },
                     { title: 'Hết thời hạn' }
                 ],
+                size: 'l',
                 visible: false,
                 activeData: 'Tất cả'
-            }, {
+            },
+            {
                 title: 'Trạng thái',
                 data: [
                     { title: 'Tất cả' },
                     { title: 'Duyệt bởi người dùng' },
                     { title: 'Duyệt tự động' }
                 ],
+                size: 'xl',
                 visible: false,
                 activeData: 'Tất cả'
             }

@@ -16,9 +16,9 @@
                 margin-left: 16px;
                 cursor: pointer;
                 margin-top: 0;
+                position: relative;
 
                 &>ul {
-                    min-width: 111px !important;
                     z-index: 1 !important;
                 }
 

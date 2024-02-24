@@ -123,3 +123,26 @@
     }
 }
 
+.playlist-table-responsive {
+    overflow-x: overlay;
+    max-width: 1393px;
+    width: 100%;
+}
+
+@media screen and (max-width: '1760px') and (min-width: '900px') {
+    .playlist-table-responsive {
+        width: calc(100vw - 52rem);
+    }
+}
+
+@media screen and (max-width: '900px') and (min-width: '700px') {
+    .playlist-table-responsive {
+        width: calc(100vw - 38rem);
+    }
+}
+
+@media screen and (max-width: '700px') {
+    .playlist-table-responsive {
+        width: calc(100vw - 8rem);
+    }
+}

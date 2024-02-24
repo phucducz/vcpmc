@@ -1,5 +1,5 @@
 import classNames from "classnames/bind";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import style from './Language.module.scss';
 import { Item } from "./Item";
@@ -25,24 +25,38 @@ type LanguagesProps = {
 export const Language = ({ languages, placement, className }: LanguagesProps) => {
     const { language, setLanguage } = useLanguage();
 
-    const [activeDropDow, setActiveDropDown] = useState<boolean>(false);
+    // const [activeDropDow, setActiveDropDown] = useState<boolean>(false);
+    const contentRef = useRef<HTMLDivElement>(null);
+    const [activeBox, setActiveBox] = useState<boolean>(false);
 
     let handleSetLang: (item: LanguageProps) => void = function (item: LanguageProps) {
         setLanguage(item);
-        setActiveDropDown(!activeDropDow);
+        // setActiveBox(!activeBox);
     }
+
+    useEffect(() => {
+        const handleMouseDown = (e: any) => {
+            if (contentRef.current?.contains(e.target))
+                setActiveBox(true);
+            else
+                setActiveBox(false);
+        }
+        window.addEventListener('mousedown', handleMouseDown);
+
+        return () => window.removeEventListener('mousedown', handleMouseDown);
+    }, []);
 
     return (
         <div className={cx('language-container', placement, className)}>
-            <div className={cx('language-item', `active-dropdown-${activeDropDow}`)}>
+            <div className={cx('language-item', `active-dropdown-${activeBox}`)}>
                 <Item
+                    elementRef={contentRef}
                     title={language.title}
                     icon={language.icon}
-                    onClick={() => setActiveDropDown(!activeDropDow)}
                 />
                 <DropDown
                     className={cx('language-item__drop-down')}
-                    visible={activeDropDow}
+                    visible={activeBox}
                     data={languages.filter(lang => lang.title !== language.title)}
                     onItemClick={handleSetLang}
                 />

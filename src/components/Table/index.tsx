@@ -34,7 +34,6 @@ export const Table = memo(({ tableRef, paginate, paginateClass, headerChildren, 
 ) => {
     const [itemOffset, setItemOffset] = useState(0);
     const [pageCount, setPageCount] = useState<number>(0);
-    const [screenWidth, setScreenWidth] = useState<number>(window.screen.width);
 
     const itemsPerPage = parseInt(per);
 
@@ -57,20 +56,6 @@ export const Table = memo(({ tableRef, paginate, paginateClass, headerChildren, 
 
         setCurrentItems && setCurrentItems(paginate.dataForPaginate.slice(0, itemsPerPage));
     }, [itemsPerPage]);
-
-    useEffect(() => {
-        const handleWindowResize = () => {
-            if (!window.matchMedia('(max-width: 1600px)').matches) {
-                setScreenWidth(0);
-                return;
-            }
-
-            setScreenWidth(window.screen.width);
-        }
-        window.addEventListener('resize', handleWindowResize);
-
-        return () => window.removeEventListener('resize', handleWindowResize);
-    }, []);
 
     const handlePageClick = (event: { selected: number }) => {
         if (typeof paginate === 'undefined')
