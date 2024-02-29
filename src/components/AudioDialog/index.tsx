@@ -1,11 +1,11 @@
-import classNames from "classnames/bind";
-import { memo, useRef, useState, useEffect } from "react";
+import { faClose, faMaximize, faPause, faPlay, faVolumeLow, faVolumeXmark } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faMaximize, faPause, faPlay, faVolumeLow, faVolumeXmark } from "@fortawesome/free-solid-svg-icons";
+import classNames from "classnames/bind";
+import { memo, useEffect, useRef, useState } from "react";
 
-import style from './AudioDialog.module.scss';
 import { formatTime } from "~/context";
 import { Input } from "../Input";
+import style from './AudioDialog.module.scss';
 
 const cx = classNames.bind(style);
 
@@ -68,7 +68,12 @@ export const AudioDialog = memo(({ src, visible, setVisible }: AudioDialogProps)
 
     return (
         <div className={cx('audio-dialog-container', visible && 'active')}>
-            {visible && <div ref={audioDialogRef} className={cx('audio-dialog')}>
+            <div ref={audioDialogRef} className={cx('audio-dialog')}>
+                <FontAwesomeIcon
+                    icon={faClose}
+                    onClick={() => setVisible(false)}
+                    className={cx('box__close-modal')}
+                />
                 <div
                     className={cx('audio-dialog__box')}
                     style={{
@@ -77,9 +82,9 @@ export const AudioDialog = memo(({ src, visible, setVisible }: AudioDialogProps)
                         backgroundSize: 'cover'
                     }}
                 >
-                    <audio muted={muted} ref={audioRef} autoPlay onTimeUpdate={() => setCurrentTime(audioRef.current?.currentTime || 0)}>
+                    {visible && <audio muted={muted} ref={audioRef} autoPlay onTimeUpdate={() => setCurrentTime(audioRef.current?.currentTime || 0)}>
                         <source src={src} type="audio/mpeg" />
-                    </audio>
+                    </audio>}
                     <div className={cx('box__control')}>
                         <div className={cx('box__control__progress-bar')}>
                             <Input
@@ -114,7 +119,7 @@ export const AudioDialog = memo(({ src, visible, setVisible }: AudioDialogProps)
                         </div>
                     </div>
                 </div>
-            </div>}
+            </div>
         </div>
     )
 });
