@@ -61,6 +61,8 @@
     .login-container {
         form {
             &>div {
+                width: 100%;
+                
                 &>p {
                     width: 90% !important;
                     margin: 2rem auto !important;
