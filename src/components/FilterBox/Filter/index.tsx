@@ -1,10 +1,11 @@
-import { memo, useEffect, useRef, useState } from "react";
 import classNames from "classnames/bind";
+import { memo, useEffect, useRef, useState } from "react";
 
+import { ComboData } from "../../ComboBox";
 import style from './FilterBox.module.scss';
+import filterIcon from '~/images/filter.png';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFilter } from "@fortawesome/free-solid-svg-icons";
-import { ComboData } from "../../ComboBox";
 
 const cx = classNames.bind(style);
 
@@ -24,7 +25,7 @@ type FilterBoxItem = {
 const FilterBoxItem = memo(({ title, data, activeData, onItemClick }: FilterBoxItem) => {
     return (
         <div className={cx('filter__item')}>
-            <p>{title}</p>
+            <p>{title}:</p>
             <div className={cx('item__content')}>
                 {data.map((item, index) => (
                     <div
@@ -62,6 +63,7 @@ export const FilterBox = memo(({ data, className, onItemClick }: FilterBox) => {
                 className={cx('filter-box__icon', active && 'active')}
             />
             <div className={cx('filter-box__filter', active && 'active')}>
+                <p>Lọc theo</p>
                 {data.map((item, index) =>
                     <FilterBoxItem
                         key={index}
