@@ -359,21 +359,23 @@ function ProfilePage() {
                             {...input}
                         />
                     ))}
-                    <Button
-                        small
-                        outline
-                        type="button"
-                        onClick={handleCancelEditPassword}
-                    >
-                        Hủy
-                    </Button>
-                    <Button
-                        small
-                        type="submit"
-                        onClick={() => { }}
-                    >
-                        Lưu
-                    </Button>
+                    <div className={cx('form_edit-password__form-button')}>
+                        <Button
+                            small
+                            outline
+                            type="button"
+                            onClick={handleCancelEditPassword}
+                        >
+                            Hủy
+                        </Button>
+                        <Button
+                            small
+                            type="submit"
+                            onClick={() => { }}
+                        >
+                            Lưu
+                        </Button>
+                    </div>
                 </Form>
                 <Action visible={actionActive} placement="top-right" data={actionData} />
             </div>

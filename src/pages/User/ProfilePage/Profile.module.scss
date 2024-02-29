@@ -3,9 +3,7 @@
         margin-bottom: 48px;
 
         &>h3 {
-            width: max-content;
-            word-wrap: break-word;
-            text-align: center;
+            text-align: start;
         }
     }
 
@@ -53,17 +51,124 @@
     &.active input {
         pointer-events: all;
     }
+
+    & form {
+        width: 571px;
+    }
 }
 
 .form__button {
     &>button {
         padding: 1.2rem 2.4rem;
-        margin: 12rem 0 0 0;
     }
 }
 
 .form_edit-password {
-    &>h3 {
-        padding: 0 3rem 3rem 3rem;
+    width: 552px;
+
+    & div:has(>input) {
+        width: 100%;
+
+        &>input {
+            width: 100% !important;
+        }
+    }
+
+    .form_edit-password__form-button {
+        display: flex;
+        gap: 1rem;
+        justify-content: space-between;
+        margin-top: 5rem;
+
+        &>button {
+            margin: 0;
+        }
+    }
+}
+
+@media screen and (max-width: 900px) {
+    .profile__info {
+        & form {
+            width: 70vw;
+        }
+    }
+
+    .form_edit-password {
+        width: 70vw;
+    }
+}
+
+@media screen and (max-width: 610px) {
+    .form_edit-password {
+        padding: 2rem !important;
+
+        .form_edit-password__form-button {
+            &>button {
+                width: calc(50% - .5rem) !important;
+            }
+        }
+    }
+}
+
+@media screen and (max-width: 560px) {
+    .profile-container {
+        .profile__info>form {
+            & .form__input-small {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            & div:has(>input) {
+                width: 100%;
+
+                &>input {
+                    width: 100%;
+                }
+            }
+        }
+    }
+}
+
+@media screen and (max-width: 390px) {
+    .profile__avatar {
+        & img {
+            width: 70vw !important;
+            height: 70vw !important;
+        }
+    }
+}
+
+@media screen and (max-width: 1250px) and (min-width: 561px) {
+    .profile-container {
+        &>.profile {
+            .profile__info>form {
+                & div:has(>input) {
+                    width: calc(50% - 1rem);
+
+                    &>input {
+                        width: 100%;
+                    }
+
+                    &:has(>input[name='email']),
+                    &:has(>input[name='userName']) {
+                        width: 100%;
+                    }
+                }
+            }
+        }
+    }
+}
+
+@media screen and (max-width: 1250px) {
+    .profile-container {
+        &>.profile {
+            flex-direction: column;
+
+            &>div:first-child,
+            &>div:nth-child(2) {
+                width: max-content;
+                margin: 0 auto;
+            }
+        }
     }
 }
