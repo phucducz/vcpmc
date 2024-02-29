@@ -298,6 +298,7 @@ function RecordPage() {
                 </div>
             }
             actionData={actionData}
+            className={cx('common-page-record')}
         >
             <div className={cx('container-table-data')}>
                 {typeLoad === 'grid'

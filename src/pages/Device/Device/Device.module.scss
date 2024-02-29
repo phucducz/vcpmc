@@ -1,14 +1,26 @@
 .device-management-container {
     &>div>div:first-child {
-        width: 1541px;
-        display: flex;
-        align-items: center;
-        flex-direction: row-reverse;
-        justify-content: space-between;
+        width: 100%;
+        max-width: 1541px;
         margin-bottom: 24px;
 
         &>div:nth-child(2)>div {
             margin-top: 0;
+        }
+
+        &>div {
+            display: flex;
+            flex-direction: row-reverse;
+            align-items: center;
+            justify-content: space-between;
+
+            &>div {
+                width: max-content;
+
+                &>div {
+                    margin-top: 0;
+                }
+            }
         }
     }
 }
@@ -22,7 +34,7 @@
                 position: relative;
                 white-space: nowrap;
 
-                &::after {  
+                &::after {
                     content: '';
                     display: block;
                     width: 8px;
@@ -77,5 +89,13 @@ table {
 
     & button {
         margin-top: 0;
+    }
+}
+
+@media screen and (max-width: '1755px') and (min-width: '900px') {
+    .device-management-container {
+        &>div>div:first-child {
+            width: calc(100vw - 21rem);
+        }
     }
 }

@@ -25,6 +25,7 @@ import { approveRecordList, getApprovalList } from "~/thunk/approvalThunk";
 import { getRecords } from "~/thunk/recordThunks";
 import { GridItem } from "../Record";
 import style from './ApprovePage.module.scss';
+import Wrapper from "~/components/FilterBox/Wrapper";
 
 const cx = classNames.bind(style);
 
@@ -135,7 +136,7 @@ function ApprovePage() {
 
             record.recordList.forEach(record => {
                 console.log(record.id, record.approvalDate);
-                
+
                 contract.forEach(contract => {
                     if (record.contractId === contract.id && record.approvalDate === '')
                         newRecord.push({ ...record, contract });
@@ -264,21 +265,26 @@ function ApprovePage() {
                 searchValue: searchValue,
                 setSearchValue: (e: any) => setSearchValue(e.target.value)
             }}
-            actionFilter={<div>
-                {comboBoxData?.length && comboBoxData.map((item, index) => (
-                    <ComboBox
-                        key={index}
-                        title={item.title}
-                        active={item.activeData}
-                        visible={item.visible}
-                        data={item.data}
-                        className={cx('combo-data')}
-                        onClick={() => handleComboBoxClick(item)}
-                        onItemClick={handleSetCategory}
-                    />
-                ))}
-                {typeLoad === 'grid' && <CheckBox title="Chọn tất cả" checked={approveAll} onChange={() => setApproveAll(!approveAll)} />}
-            </div>}
+            actionFilter={<Wrapper
+                data={comboBoxData}
+                onClick={handleComboBoxClick}
+                onItemClick={handleSetCategory}
+            />}
+            // actionFilter={<div className={cx('filter-box')}>
+            //     {comboBoxData?.length && comboBoxData.map((item, index) => (
+            //         <ComboBox
+            //             key={index}
+            //             title={item.title}
+            //             active={item.activeData}
+            //             visible={item.visible}
+            //             data={item.data}
+            //             className={cx('combo-data')}
+            //             onClick={() => handleComboBoxClick(item)}
+            //             onItemClick={handleSetCategory}
+            //         />
+            //     ))}
+            //     {typeLoad === 'grid' && <CheckBox title="Chọn tất cả" checked={approveAll} onChange={() => setApproveAll(!approveAll)} />}
+            // </div>}
             actionType={
                 <div className={cx('action__type-load', typeLoad === 'table' ? 'table-visible' : 'grid-visible')}>
                     <Icon icon={listTabListIcon} onClick={() => setTypeLoad('table')} />
@@ -286,6 +292,7 @@ function ApprovePage() {
                 </div>
             }
             actionData={actionData}
+            className={cx('approval-container')}
         >
             <div className={cx('container-table-data', 'approve-container-table-data')}>
                 {typeLoad === 'grid'

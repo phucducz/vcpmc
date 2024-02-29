@@ -21,7 +21,7 @@
 
 .form__title {
     font-weight: 700;
-    padding: 3rem;
+    padding: 2rem 0;
     user-select: none;
 }
 
@@ -34,5 +34,11 @@
 @media screen and (max-width: 620px) {
     .form {
         width: 100%;
+    }
+}
+
+@media screen and (max-width: 900px) {
+    .form {
+        width: 70vw;
     }
 }

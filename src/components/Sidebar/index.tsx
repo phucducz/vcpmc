@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import classNames from "classnames/bind";
 import { memo, useEffect, useRef } from "react";
 
-import { useMenu } from "~/context/hooks";
+import { useMenu, useWindowsResize } from "~/context/hooks";
 import Image from "../Image";
 import { Menu } from "../Menu";
 import style from './Sidebar.module.scss';
@@ -14,22 +14,15 @@ export const Sidebar = memo(() => {
     const { data, menuActive, active, setActive, type, setType } = useMenu();
     const sidebarContainerRef = useRef<HTMLDivElement>(null);
 
-    useEffect(() => {
-        const handleWindowResize = () => {
-            if (window.matchMedia('(max-width: 1900px)').matches) {
-                setActive(false);
-                setType('dynamic');
-                return;
-            }
-            
-            setActive(true);
-            setType('normal');
+    useWindowsResize(() => {
+        if (window.matchMedia('(max-width: 1900px)').matches) {
+            setActive(false);
+            setType('dynamic');
+            return;
         }
-        handleWindowResize();
-        window.addEventListener('resize', handleWindowResize);
-
-        return () => window.removeEventListener('resize', handleWindowResize);
-    }, []);
+        setActive(true);
+        setType('normal');
+    });
 
     useEffect(() => {
         const handleClick = (e: any) => {

@@ -1,6 +1,6 @@
 .renvenue-report-detail {
     &>div:last-child>div:first-child>div {
-        width: 1690px;
+        max-width: 1541px;
         display: flex;
         align-items: center;
         justify-content: space-between;
@@ -8,6 +8,7 @@
 
         &>div:last-child>div {
             margin-top: 0;
+            gap: 32px;
         }
     }
 }
@@ -30,6 +31,7 @@
 
         &>li {
             margin-top: 0 !important;
+            width: max-content !important;
 
             &>div {
                 border-radius: 8px;
@@ -40,22 +42,21 @@
             }
 
             &>ul {
-                width: 264px !important;
-                z-index: 1 !important;
+                z-index: 3 !important;
             }
-        }
-
-        &+div {
-            margin-left: 32px;
         }
     }
 }
 
-.renvenue-report-detail__table {
-    width: 1690px;
+div:has(>.renvenue-report-detail__table) {
+    max-width: 1690px;
 
-    & tbody>tr>td>p {
-        white-space: nowrap;
+    &>.renvenue-report-detail__table {
+        width: 1690px;
+    
+        & tbody>tr>td>p {
+            white-space: nowrap;
+        }
     }
 }
 
@@ -71,12 +72,94 @@
 
     & .form__content {
         &>p {
-            width: 549px;
+            width: 100%;
             font-size: 16px;
             font-weight: 400;
             line-height: 24px;
             letter-spacing: -0.032px;
             text-align: start;
+        }
+    }
+}
+
+@media screen and (max-width: 1760px) and (min-width: 900px) {
+    .renvenue-report-detail {
+        &>div:last-child>div:first-child>div {
+            width: calc(100vw - 21rem);
+        }
+    }
+}
+
+@media screen and (max-width: '1400px') {
+    .renvenue-report-detail {
+        &>div:last-child>div:first-child>div {
+            flex-direction: column-reverse;
+            gap: 2rem;
+            align-items: flex-start;
+
+            & div:has(>input[name='search']) {
+                width: max-content;
+            }
+        }
+    }
+}
+
+@media screen and (max-width: '680px') {
+    .renvenue-report-detail {
+        &>div:last-child>div:first-child>div {
+            &>div:last-child>div {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 32px;
+            }
+
+            & input[name='search'] {
+                width: calc(100vw - 8rem);
+            }
+        }
+    }
+}
+
+@media screen and (max-width: '330px') {
+    .renvenue-report-detail__filter {
+        &>div>li>div {
+            width: calc(100vw - 8rem);
+        }
+    }
+}
+
+@media screen and (max-width: 685px) and (min-width: 374px) {
+    .renvenue-report-detail {
+        & .renvenue-report-detail__form {
+            padding: 20px;
+
+            & button {
+                width: calc(50% - .5rem) !important;
+
+                &+button {
+                    margin-left: 1rem;
+                }
+            }
+        }
+    }
+}
+
+@media screen and (max-width: 375px) {
+    .renvenue-report-detail {
+        & .renvenue-report-detail__form {
+            padding: 20px;
+
+            &>div>div:last-child {
+                display: flex;
+                flex-direction: column;
+                gap: 2rem;
+                align-items: center;
+
+                & button {
+                    width: calc(100% - 4rem) !important;
+                    margin: 0;
+                }
+            }
         }
     }
 }

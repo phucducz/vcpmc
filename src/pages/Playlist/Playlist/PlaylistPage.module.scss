@@ -206,3 +206,11 @@
         width: calc(100vw - 8rem);
     }
 }
+
+@media screen and (max-width: '750px') {
+    .common-page-container>div>div>div {
+        flex-direction: column;
+        gap: 2rem;
+        align-items: flex-end !important;
+    }
+}

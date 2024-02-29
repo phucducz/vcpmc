@@ -6,7 +6,8 @@
     &>.filter-combobox {
         display: flex;
         align-items: center;
-
+        gap: 30px;
+        
         &>div {
             display: flex;
             align-items: center;
@@ -16,7 +17,6 @@
                 margin-left: 16px;
                 cursor: pointer;
                 margin-top: 0;
-                position: relative;
 
                 &>ul {
                     z-index: 1 !important;
@@ -30,7 +30,7 @@
     }
 }
 
-@media screen and (max-width: '1580px') {
+@media screen and (max-width: '1500px') {
     .wrapper-filter {
         .filter-box {
             display: block;

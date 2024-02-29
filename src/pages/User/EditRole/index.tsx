@@ -1,22 +1,22 @@
 import classNames from "classnames/bind";
 import { useFormik } from "formik";
 import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router";
 import { useSelector } from "react-redux";
+import { useNavigate, useParams } from "react-router";
 
 import { Functional } from "~/api/functional";
 import { Button } from "~/components/Button";
 import { CheckBox } from "~/components/CheckBox";
 import { Form } from "~/components/Form";
 import { Input } from "~/components/Input";
+import Loading from "~/components/Loading";
 import { PagingItemType } from "~/components/Paging";
 import { routes } from "~/config/routes";
 import { Yup } from "~/constants";
 import { CommonPage } from "~/pages/CommonPage";
 import { RootState, useAppDispatch } from "~/store";
-import style from './EditRole.module.scss';
 import { updateRole } from "~/thunk/roleThunk";
-import Loading from "~/components/Loading";
+import style from './EditRole.module.scss';
 
 const cx = classNames.bind(style);
 
@@ -168,34 +168,36 @@ function EditRolePage() {
                     <div className={cx('form__body__right')}>
                         <div className={cx('edit__right-container')}>
                             <p>Phân quyền chức năng:</p>
-                            <div className={cx('functionals-container')}>
-                                <div className={cx('functionals-container__header')}>
-                                    <p className={cx('title')}>Tên nhóm chức năng</p>
-                                    <CheckBox checked={chooseAll} onChange={() => handleChooseAll(chooseAll)} />
-                                    <p className={cx('name')}>Chức năng</p>
-                                    <p className={cx('code')}>Mã chức năng</p>
-                                </div>
-                                <div className={cx('functionals-container__body')}>
-                                    {functionalsDetail.map(functionalDetail => (
-                                        <div key={functionalDetail.id} className={cx('functional-detail-item')}>
-                                            <p className={cx('item__type-name')}>{functionalDetail.name}</p>
-                                            <div className={cx('item__functional-container')}>
-                                                {functionalDetail.functionals.map(item => {
-                                                    let checked = typeof roleFormik.values.functionals.find(funcitonal => funcitonal.id === item.id) !== 'undefined';
-
-                                                    return (
-                                                        <div key={item.id} className={cx('item')} onClick={() => handleChosenFunctional(checked, item)}>
-                                                            <div className={cx('item-name')}>
-                                                                <CheckBox checked={checked} onChange={() => handleChosenFunctional(checked, item)} />
-                                                                <p>{item.name}</p>
+                            <div className={cx('functionals-responsive')}>
+                                <div className={cx('functionals-container')}>
+                                    <div className={cx('functionals-container__header')}>
+                                        <p className={cx('title')}>Tên nhóm chức năng</p>
+                                        <CheckBox checked={chooseAll} onChange={() => handleChooseAll(chooseAll)} />
+                                        <p className={cx('name')}>Chức năng</p>
+                                        <p className={cx('code')}>Mã chức năng</p>
+                                    </div>
+                                    <div className={cx('functionals-container__body')}>
+                                        {functionalsDetail.map(functionalDetail => (
+                                            <div key={functionalDetail.id} className={cx('functional-detail-item')}>
+                                                <p className={cx('item__type-name')}>{functionalDetail.name}</p>
+                                                <div className={cx('item__functional-container')}>
+                                                    {functionalDetail.functionals.map(item => {
+                                                        let checked = typeof roleFormik.values.functionals.find(funcitonal => funcitonal.id === item.id) !== 'undefined';
+    
+                                                        return (
+                                                            <div key={item.id} className={cx('item')} onClick={() => handleChosenFunctional(checked, item)}>
+                                                                <div className={cx('item-name')}>
+                                                                    <CheckBox checked={checked} onChange={() => handleChosenFunctional(checked, item)} />
+                                                                    <p>{item.name}</p>
+                                                                </div>
+                                                                <p>{item.code}</p>
                                                             </div>
-                                                            <p>{item.code}</p>
-                                                        </div>
-                                                    )
-                                                })}
+                                                        )
+                                                    })}
+                                                </div>
                                             </div>
-                                        </div>
-                                    ))}
+                                        ))}
+                                    </div>
                                 </div>
                             </div>
                         </div>

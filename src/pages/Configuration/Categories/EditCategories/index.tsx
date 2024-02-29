@@ -1,5 +1,3 @@
-import { faPlus } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import classNames from "classnames/bind";
 import { useFormik } from "formik";
 import { useCallback, useEffect, useState } from "react";
@@ -7,18 +5,17 @@ import { useSelector } from "react-redux";
 import { useNavigate } from "react-router";
 
 import { Category } from "~/api/categoryAPI";
-import { ActionDataType } from "~/components/Action";
 import { Button } from "~/components/Button";
 import { Form } from "~/components/Form";
 import { Input } from "~/components/Input";
 import { PagingItemType } from "~/components/Paging";
 import { Table } from "~/components/Table";
 import { routes } from "~/config/routes";
+import { Icon, editAltIcon } from "~/icons";
 import { CommonPage } from "~/pages/CommonPage";
 import { RootState, useAppDispatch } from "~/store";
 import { addCategory, getCategories, updateCategories } from "~/thunk/categoryThunk";
 import style from './EditCategories.module.scss';
-import { Icon, editAltIcon } from "~/icons";
 
 const cx = classNames.bind(style);
 
@@ -37,6 +34,7 @@ function EditCategoriesPage() {
     });
     const [itemsPerPage, setItemsPerPage] = useState<string>('10');
     const [actionData, setActionData] = useState<any[]>([] as any[]);
+    const [pageNum, setPageNum] = useState(1);
 
     const categoryFormik = useFormik({
         initialValues: {
@@ -66,6 +64,7 @@ function EditCategoriesPage() {
         categoryFormik.setValues({ categories: [...categories, newCategory], type: 'add' });
         setItemActive(newCategory);
         setActionData([]);
+        setPageNum(1);
     }, []);
 
     useEffect(() => {
@@ -165,8 +164,11 @@ function EditCategoriesPage() {
                                         onChange={(e: any) => setItemActive({ ...itemActive, name: e.target.value })}
                                     /></td>
                                     <td><Input
+                                        as='textarea'
+                                        cols={120}
                                         value={itemActive.description}
                                         onChange={(e: any) => setItemActive({ ...itemActive, description: e.target.value })}
+                                        className={cx('category-description')}
                                     /></td>
                                 </tr>
                         )

@@ -1,7 +1,8 @@
+import { stringOrNumber } from "@cloudinary/url-gen/types/types";
 import { faChevronDown } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import classNames from "classnames/bind";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import { DropDown } from "../DropDown";
 import { Input } from "../Input";
@@ -10,6 +11,7 @@ import style from './ComboBox.module.scss';
 const cx = classNames.bind(style);
 
 export type ComboData = {
+    id?: stringOrNumber;
     title: string;
     data: Array<Pick<ComboData, 'title'>>;
     visible: boolean;

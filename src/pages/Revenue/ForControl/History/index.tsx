@@ -107,7 +107,7 @@ function HistoryForControlPage() {
             title='Lịch sử đối soát doanh thu'
             pagingData={paging}
             actionData={actionData}
-            actionFilter={<div>
+            actionFilter={<div className={cx('filter-box')}>
                 <p style={{ marginRight: '16px' }}>Thời gian thực hiện:</p>
                 <Input type='date' value={date} onChange={(e: any) => setDate(e.target.value)} />
             </div>}

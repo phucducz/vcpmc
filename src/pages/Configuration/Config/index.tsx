@@ -1,4 +1,4 @@
-import { faCheck, faCheckCircle, faChevronLeft, faChevronRight } from "@fortawesome/free-solid-svg-icons";
+import { faCheck, faChevronLeft, faChevronRight } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import classNames from "classnames/bind";
 import { useEffect, useReducer, useState } from "react";
@@ -6,45 +6,50 @@ import { useEffect, useReducer, useState } from "react";
 import { ComboBox } from "~/components/ComboBox";
 import Image from "~/components/Image";
 import { PagingItemType } from "~/components/Paging";
+import { Toast } from "~/components/Toast";
 import { routes } from "~/config/routes";
-import { LANGUAGE_ITEMS } from "~/constants";
+import { LanguageType } from "~/context/Language/LanguageContext";
 import { ThemeType } from "~/context/Theme/ThemeContext";
-import { useLanguage, useTheme } from "~/context/hooks";
+import { useLanguage, useTheme, useWindowsResize } from "~/context/hooks";
 import { CommonPage } from "~/pages/CommonPage";
 import style from './Config.module.scss';
-import { LanguageType } from "~/context/Language/LanguageContext";
-import { Toast } from "~/components/Toast";
 
 type ScrollType = {
     count: number;
+    items: number;
 }
 
 type ActionType = {
-    type: 'UP' | 'DOWN';
-    payload: { totalItem: number; }
+    type: 'UP' | 'DOWN' | 'SET_ITEMS';
+    payload: {
+        totalItem: number;
+        items: number
+    }
 }
 
 const initialState: ScrollType = {
-    count: 0
+    count: 0,
+    items: 3
 }
 
 const scrollReducer = (state: ScrollType, action: ActionType) => {
     switch (action.type) {
+        case 'SET_ITEMS':
+            console.log(action);
+
+            return { ...state, items: action.payload.items }
         case 'UP':
             let countUp = state.count + 1;
 
-            console.log(state.count);
-            console.log(action.payload.totalItem);
-            console.log(action.payload.totalItem - 3 === state.count);
+            if (action.payload.totalItem - state.items === state.count)
+                countUp = state.count;
 
-            if (action.payload.totalItem - 3 === state.count) countUp = state.count;
-
-            return { count: countUp };
+            return { ...state, count: countUp };
         case 'DOWN':
             let countDown = state.count - 1;
             if (state.count === 0) countDown = state.count;
 
-            return { count: countDown };
+            return { ...state, count: countDown };
         default:
             throw new Error('Invalid action type!');
     }
@@ -87,6 +92,15 @@ function ConfigPage() {
         setLanguages(languageData.filter(item => item.title !== language.title));
     }, [language]);
 
+    useWindowsResize(() => {
+        if (window.matchMedia('(max-width: 1920px) and (min-width: 1700px)').matches)
+            dispatch({ type: 'SET_ITEMS', payload: { totalItem: themes.length, items: 3 } })
+        else if (window.matchMedia('(max-width: 1700px) and (min-width: 1431px)').matches)
+            dispatch({ type: 'SET_ITEMS', payload: { totalItem: themes.length, items: 2 } })
+        else if (window.matchMedia('(max-width: 1430px)').matches)
+            dispatch({ type: 'SET_ITEMS', payload: { totalItem: themes.length, items: 1 } })
+    });
+
     const handleSetLanguage = (theme: ThemeType) => {
         setTheme(theme);
 
@@ -113,8 +127,11 @@ function ConfigPage() {
                     <p>{theme.name}</p>
                 </div>
                 <div className={cx('theme__items')}>
-                    <FontAwesomeIcon icon={faChevronLeft} onClick={() => dispatch({ type: 'DOWN', payload: { totalItem: themes.length } })} />
-                    <div className={cx('items__container')}>
+                    <FontAwesomeIcon icon={faChevronLeft} onClick={() => dispatch({ type: 'DOWN', payload: { totalItem: themes.length, items: scroll.items } })} />
+                    <div
+                        className={cx('items__container')}
+                        style={{ width: `calc(((246px + 23px) * ${scroll.items}) - 23px)` }}
+                    >
                         {themes.map((theme, index) =>
                             <div
                                 key={index}
@@ -133,7 +150,7 @@ function ConfigPage() {
                             </div>
                         )}
                     </div>
-                    <FontAwesomeIcon icon={faChevronRight} onClick={() => dispatch({ type: 'UP', payload: { totalItem: themes.length } })} />
+                    <FontAwesomeIcon icon={faChevronRight} onClick={() => dispatch({ type: 'UP', payload: { totalItem: themes.length, items: scroll.items } })} />
                 </div>
             </div>
             <div className={cx('config-container__language')}>
@@ -145,6 +162,7 @@ function ConfigPage() {
                     onClick={() => setActiveComboBox(!activeComboBox)}
                     onItemClick={handeSetLanguage}
                     className={cx('language__combo-box')}
+                    size='l'
                 />
             </div>
             <Toast

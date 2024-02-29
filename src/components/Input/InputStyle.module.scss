@@ -1,8 +1,5 @@
 .form-group {
     width: max-content;
-    display: flex;
-    flex-direction: column;
-    width: max-content;
     height: auto;
     position: relative;
 
@@ -53,6 +50,13 @@
         border: none;
         user-select: none;
     }
+
+    &::placeholder {
+        width: calc(100% - (24px + 16px + 10px));
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
+    }
 }
 
 .form-group svg {
@@ -98,6 +102,12 @@
 
 input[type='textarea'] {
     resize: none;
+
+    &::placeholder {
+        width: calc(100% - (24px + 16px + 10px));
+        text-overflow: ellipsis;
+        overflow: hidden;
+    }
 }
 
 input[type='date'] {
@@ -108,5 +118,11 @@ input[type='date'] {
         height: 20px;
         border-width: thin;
         cursor: pointer;
+    }
+}
+
+@media screen and (max-width: '750px') {
+    div:has(>input[name='search']) {
+        width: 100%;
     }
 }

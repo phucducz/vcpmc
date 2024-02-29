@@ -1,7 +1,7 @@
 .history-for-control {
     &>div:last-child {
         &>div:first-child {
-            width: 1541px;
+            width: max-content;
             display: flex;
             flex-direction: row-reverse;
             align-items: center;
@@ -28,6 +28,7 @@
 
 .history-for-control__table {
     width: 1541px;
+    table-layout: fixed;
 }
 
 .history-for-control {
@@ -43,6 +44,60 @@
 
             &>div {
                 margin-top: 0;
+            }
+        }
+    }
+}
+
+.filter-box {
+    display: flex;
+    align-items: center;
+}
+
+@media screen and (max-width: '1760px') and (min-width: '779px') {
+    .history-for-control {
+        &>div:last-child>div:first-child>div {
+            width: calc(100vw - 21rem);
+        }
+    }
+}
+
+@media screen and (max-width: '1355px') {
+    .history-for-control {
+        &>div:last-child>div:first-child>div {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+            align-items: flex-start;
+        }
+    }
+}
+
+@media screen and (max-width: '780px') {
+    .history-for-control {
+        &>div:last-child>div:first-child>div {
+            width: calc(100vw - 8rem);
+
+            &>div {
+                width: 100%;
+
+                & input {
+                    width: 100%;
+                }
+            }
+        }
+    }
+}
+
+@media screen and (max-width: '450px') {
+    .history-for-control {
+        &>div:last-child>div:first-child>div {
+            &>div:last-child {
+                &>div {
+                    display: flex;
+                    flex-direction: column;
+                    gap: 1rem;
+                }
             }
         }
     }

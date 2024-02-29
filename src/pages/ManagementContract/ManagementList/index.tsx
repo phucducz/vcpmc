@@ -22,6 +22,7 @@ import { RootState, useAppDispatch } from "~/store";
 import { getAuthorizedContracts } from "~/thunk/authorizedContractThunk";
 import { getEtmContractList } from "~/thunk/etmContractThunk";
 import style from './ManagementList.module.scss';
+import Wrapper from "~/components/FilterBox/Wrapper";
 
 const cx = classNames.bind(style);
 
@@ -99,6 +100,7 @@ function ManagementList() {
                     { title: 'Nhà sản xuất' },
                     { title: 'Tất cả' }
                 ],
+                size: 'l',
                 visible: false,
                 activeData: 'Tất cả'
             }, {
@@ -223,20 +225,11 @@ function ManagementList() {
                 setSearchValue: (e: any) => setSearchValue(e.target.value)
             }}
             className={cx(entrustmentActive ? 'management-entrustment-contract' : 'management-authorized-contract')}
-            actionFilter={<>
-                {!entrustmentActive && comboBoxData.length ? comboBoxData.map((item, index) => (
-                    <ComboBox
-                        key={index}
-                        title={item.title}
-                        active={item.activeData}
-                        visible={item.visible}
-                        data={item.data}
-                        className={cx('combo-data')}
-                        onClick={() => handleComboBoxClick(item)}
-                        onItemClick={handleComboBoxItemClick}
-                    />
-                )) : <></>}
-            </>}
+            actionFilter={<Wrapper
+                data={comboBoxData}
+                onClick={handleComboBoxClick}
+                onItemClick={handleComboBoxItemClick}
+            />}
         >
             <div className={cx('entrustment-contract__table-data')}>
                 <Table
@@ -334,7 +327,8 @@ function ManagementList() {
                     className={cx('reason-cancel-contract-form')}
                 >
                     <div className={cx("form__body")}>
-                        <Input value={contractCancelled.reason} />
+                        {/* <Input value={contractCancelled.reason} /> */}
+                        <Input as='textarea' value={contractCancelled.reason} rows={2} />
                     </div>
                     <div className={cx("form__action")}>
                         <Button small type="button" onClick={() => setReasonCancelContractActive(false)}>

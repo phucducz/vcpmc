@@ -2,21 +2,37 @@
     & table {
         margin-top: 24px;
         width: 1611px;
-    
+
         &>tbody>tr.table__row__paginate {
-            position: relative !important;
+            // position: relative !important;
         }
-    
+
         & p {
             white-space: nowrap;
         }
-    
+
         & .action {
             width: max-content;
             color: var(--color-orange-4);
             padding: 5px 16px;
             text-decoration: underline;
             cursor: pointer;
+        }
+    }
+}
+
+@media screen and (max-width: 1760px) and (min-width: 900px) {
+    .authorized-contract-container {
+        & div:has(.authorized__table) {
+            width: calc(100vw - 12rem) !important;
+        }
+    }
+}
+
+@media screen and (max-width: 750px) {
+    .authorized-contract-container {
+        & input[name='search'] {
+            width: 100%;
         }
     }
 }

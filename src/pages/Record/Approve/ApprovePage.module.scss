@@ -50,7 +50,7 @@
     }
 
     & .not-exs-content {
-        cursor: auto!important;
+        cursor: auto !important;
 
         &:hover {
             opacity: 1;
@@ -77,8 +77,29 @@
     }
 
     & input {
-        width: 639px!important;
-        height: 208px!important;
+        width: 639px !important;
+        height: 208px !important;
         padding: 12px 24px 12px 16px;
+    }
+}
+
+@media screen and (max-width: '1500px') and (min-width: '620px') {
+    .approval-container {
+        &>div>div>div>div:last-child {
+            &>div:first-child {
+                &>div:first-child {
+                    display: none;
+                }
+
+                &>div:last-child {
+                    display: flex;
+
+                    & svg {
+                        width: 16px !important;
+                        height: 16px !important;
+                    }
+                }
+            }
+        }
     }
 }

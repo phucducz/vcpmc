@@ -29,7 +29,7 @@ function AuthorizedContract() {
 
     useEffect(() => {
         document.title = 'Danh sách đối tác ủy quyền';
-        
+
         setPaging([
             {
                 title: 'Quản lý',
@@ -77,12 +77,13 @@ function AuthorizedContract() {
                 itemsPerPage={itemsPerPage}
                 setItemsPerPage={handleChange}
                 thead={['STT', 'Họ tên', 'Tên đăng nhập', 'Email', 'Ngày hết hạn', 'Số điện thoại', 'Trạng thái', '']}
+                className={cx('authorized__table')}
             >
                 {currentItems.map((item, index) => {
                     let isExpirationDate = item.expirationDate > getCurrentDate();
 
                     return (
-                        <tr>
+                        <tr style={{ height: '47px' }}>
                             <td><p>{index + 1}</p></td>
                             <td><p>{item.authorizedPerson.firstName} {item.authorizedPerson.lastName}</p></td>
                             <td><p>{item.authorizedPerson.userName}</p></td>

@@ -11,17 +11,17 @@
 
     &>.combo-box__content {
         list-style: none;
-        margin-top: 16px;
         width: max-content;
         height: 40px;
         transition: all .6s linear;
+        position: relative;
 
         &>ul {
             margin-top: -5px !important;
             width: 100%;
             background-color: var(--bg-lightest);
             margin: 0;
-            z-index: 0;
+            z-index: 1;
         }
 
         &>input {
@@ -53,7 +53,7 @@
     padding: 0 12px;
     background: var(--background-bg, #1E1E2E);
     position: relative;
-    z-index: 1;
+    z-index: 2;
 
     &>div>input {
         width: 100%;

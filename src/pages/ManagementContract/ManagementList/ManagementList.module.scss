@@ -1,11 +1,5 @@
 .management-entrustment-contract {
-    input[name='search'] {
-        width: 418px;
-    }
-
     &>div:last-child>div:first-child {
-        width: 1541px;
-
         &>div:nth-child(2) {
             margin-top: 24px;
 
@@ -61,10 +55,6 @@
 }
 
 .management-authorized-contract {
-    input[name='search'] {
-        width: 501px;
-    }
-
     &>div:last-child>div:first-child {
         width: 1541px;
 
@@ -74,12 +64,18 @@
             justify-content: space-between;
             align-items: center;
             margin: 24px 0;
+            max-width: 1541px;
+            width: 100%;
 
             &>div:last-child {
                 width: max-content;
+                gap: 5rem;
 
                 &>div {
                     margin-top: 0;
+                    display: flex;
+                    align-items: center;
+                    gap: 2rem;
                 }
 
                 &>div>div>li {
@@ -99,19 +95,92 @@
 }
 
 .reason-cancel-contract-form {
-    width: 720px;
-
     & h3 {
         padding: 0;
         margin: 0 auto 40px auto;
     }
 
-    & input {
+    & textarea {
         width: 640px;
         height: 208px;
+        resize: none;
     }
 }
 
-@media screen and (max-width: '') {
-    
+@media screen and (max-width: '1760px') and (min-width: '889px') {
+    .management-authorized-contract {
+        &>div:last-child>div:first-child {
+            width: calc(100vw - 21rem);
+        }
+    }
+}
+
+@media screen and (max-width: '900px') {
+    .management-authorized-contract {
+        &>div:last-child>div:first-child {
+            width: calc(100vw - 8rem);
+        }
+
+        & .reason-cancel-contract-form {
+            &>div>div>div {
+                width: 100%;
+
+                &>textarea {
+                    width: 100%;
+                    height: auto;
+
+                    &::-webkit-scrollbar {
+                        display: none;
+                    }
+                }
+            }
+
+            & h3 {
+                font-size: 2rem;
+                margin: 0 auto 15px auto;
+            }
+
+            & button {
+                margin-top: 0;
+            }
+        }
+    }
+}
+
+@media screen and (max-width: '750px') {
+    .management-authorized-contract {
+        div:has(> input[name=search])>input[name=search] {
+            width: 100% !important;
+        }
+    }
+}
+
+@media screen and (max-width: '1430px') {
+    .management-authorized-contract {
+        &>div:last-child>div:first-child {
+            &>div:last-child {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 2rem;
+            }
+        }
+    }
+}
+
+@media screen and (max-width: '1430px') and (min-width: '700px') {
+    .management-authorized-contract {
+        &>div:last-child>div:first-child {
+            &>div:last-child {
+                &>div:last-child>div {
+                    &>div:first-child {
+                        display: none;
+                    }
+
+                    &>div:last-child {
+                        display: flex;
+                    }
+                }
+            }
+        }
+    }
 }

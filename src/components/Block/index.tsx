@@ -1,7 +1,8 @@
 import classNames from "classnames/bind";
-import { memo } from 'react';
+import { memo, useState } from 'react';
 
 import style from './Block.module.scss';
+import { useWindowsResize } from "~/context/hooks";
 
 const cx = classNames.bind(style);
 
@@ -11,15 +12,30 @@ export type BlockInfoItemProps = {
 }
 
 const BlockInfoItem = memo(({ data }: { data: Array<BlockInfoItemProps> }) => {
+    const [mobileMode, setMobileMode] = useState(false);
+
+    useWindowsResize(() => {
+        if (window.matchMedia('(max-width: 650px').matches) {
+            setMobileMode(true);
+            return;
+        }
+        setMobileMode(false);
+    });
+
     return (
         <div className={cx('block-info__item')}>
             <div className={cx('item__content__left')}>
                 {data.map((item: BlockInfoItemProps) => (
-                    <p key={item.title}>{item.title}</p>
+                    mobileMode
+                        ? <>
+                            <p key={item.title}>{item.title}</p>
+                            <p key={item.title}>{item.content}</p>
+                        </>
+                        : <p key={item.title}>{item.title}</p>
                 ))}
             </div>
             <div className={cx('item__content__right')}>
-                {data.map((item: BlockInfoItemProps) => (
+                {!mobileMode && data.map((item: BlockInfoItemProps) => (
                     <p key={item.title}>{item.content}</p>
                 ))}
             </div>
@@ -43,6 +59,16 @@ export const BlockInfo = memo(({ data, className }: BlockInfoProps) => {
 });
 
 const BlockInputItem = memo(({ data, className }: BlockInputProps) => {
+    const [mobileMode, setMobileMode] = useState(false);
+
+    useWindowsResize(() => {
+        if (window.matchMedia('(max-width: 650px').matches) {
+            setMobileMode(true);
+            return;
+        }
+        setMobileMode(false);
+    });
+
     return (
         <div className={cx('block-input__item', className)}>
             <div className={cx('item__left')}>
@@ -52,11 +78,12 @@ const BlockInputItem = memo(({ data, className }: BlockInputProps) => {
                             {input.fieldName}
                             {input.isRequired && <span>*</span>}
                         </span>
+                        {mobileMode && <div key={input.fieldName}>{input.input}</div>}
                     </div>)}
             </div>
-            <div className={cx('item__right')}>
+            {!mobileMode && <div className={cx('item__right')}>
                 {data.map(input => <div key={input.fieldName}>{input.input}</div>)}
-            </div>
+            </div>}
         </div>
     );
 });

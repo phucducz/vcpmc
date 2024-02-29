@@ -3,6 +3,10 @@
     display: flex;
     justify-content: space-between;
     align-items: start;
+
+    & li {
+        width: 100% !important;
+    }
 }
 
 .edit__form-container__right {
@@ -25,7 +29,7 @@
         padding-top: 0 !important;
 
         &>div {
-            width: 256px;
+            width: max-content;
             height: 48px;
             background-color: var(--bg-input);
             outline: none;
@@ -40,5 +44,73 @@
 
     & input {
         width: calc(256px - 16px - 24px);
+    }
+}
+
+@media screen and (max-width: '1300px') {
+    .authorized-contract-edit {
+        & .edit__form-container {
+            &>div {
+                width: max-content;
+                flex-direction: column;
+                margin: 0 auto;
+
+                &>div {
+                    width: 100%;
+
+                    &>div {
+                        justify-content: space-between;
+                    }
+                }
+            }
+        }
+    }
+}
+
+@media screen and (max-width: '1540px') {
+    .authorized-contract-edit {
+        & .edit__form-container {
+            width: calc(100vw - 8rem);
+        }
+    }
+}
+
+@media screen and (max-width: '650px') {
+    .authorized-contract-edit {
+        & .edit__form-container {
+            & input {
+                width: calc(100vw - 8rem) !important;
+
+                &[name='comboBoxValue'] {
+                    width: calc(100vw - 8rem - 24px) !important;
+                }
+
+                &[type='radio'] {
+                    width: 2rem !important;
+                }
+            }
+
+            & .edit__form-container__right {
+                &>div {
+                    flex-direction: column;
+                    align-items: flex-start;
+                    gap: 1.5rem;
+                }
+            }
+        }
+    }
+}
+
+@media screen and (max-width: '450px') {
+    .authorized-contract-edit {
+        & .edit__form-container {
+            & .edit__form-container__right {
+                &>div>div {
+                    flex-direction: column;
+                    align-items: flex-start;
+                    gap: 1.5rem;
+                }
+            }
+        }
     }
 }

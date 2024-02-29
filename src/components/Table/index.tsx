@@ -26,6 +26,7 @@ type TableProps = {
     border?: number;
     cellPadding?: string;
     cellSpacing?: string;
+    pageNumber?: number;
 }
 
 export const Table = memo(({ tableRef, paginate, paginateClass, headerChildren, children,
@@ -63,7 +64,7 @@ export const Table = memo(({ tableRef, paginate, paginateClass, headerChildren, 
 
         const { dataForPaginate } = paginate;
         const newOffset = (event.selected * itemsPerPage) % dataForPaginate.length;
-
+        
         setItemOffset(newOffset);
     };
 

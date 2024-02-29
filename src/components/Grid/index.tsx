@@ -7,6 +7,7 @@ import ReactPaginate from "react-paginate";
 import { Input } from "../Input";
 import Loading from "../Loading";
 import style from './Grid.module.scss';
+import { useWindowsResize } from "~/context/hooks";
 
 const cx = classNames.bind(style);
 
@@ -42,22 +43,32 @@ export const Grid = memo(({ paginate, loading, className, children, itemsPerPage
         setItemOffset(newOffset);
     };
 
-    useEffect(() => {
-        const handleWindowResize = () => {
-            if (window.matchMedia('(max-width: 1550px) and (min-width: 1250px)').matches)
-                setItemsPerPage('6');
-            else if (window.matchMedia('(max-width: 1250px) and (min-width: 765px)').matches)
-                setItemsPerPage('4');
-            else if (window.matchMedia('(max-width: 765px)').matches)
-                setItemsPerPage('2');
-            else setItemsPerPage('8');
-        }
-        handleWindowResize();
-        window.addEventListener('resize', handleWindowResize);
+    useWindowsResize(() => {
+        if (window.matchMedia('(max-width: 1550px) and (min-width: 1250px)').matches)
+            setItemsPerPage('6');
+        else if (window.matchMedia('(max-width: 1250px) and (min-width: 765px)').matches)
+            setItemsPerPage('4');
+        else if (window.matchMedia('(max-width: 765px)').matches)
+            setItemsPerPage('2');
+        else setItemsPerPage('8');
+    });
 
-        return () => window.removeEventListener('resize', handleWindowResize);
-    }, []);
-    
+    // useEffect(() => {
+        // const handleWindowResize = () => {
+        //     if (window.matchMedia('(max-width: 1550px) and (min-width: 1250px)').matches)
+        //         setItemsPerPage('6');
+        //     else if (window.matchMedia('(max-width: 1250px) and (min-width: 765px)').matches)
+        //         setItemsPerPage('4');
+        //     else if (window.matchMedia('(max-width: 765px)').matches)
+        //         setItemsPerPage('2');
+        //     else setItemsPerPage('8');
+        // }
+        // handleWindowResize();
+        // window.addEventListener('resize', handleWindowResize);
+
+        // return () => window.removeEventListener('resize', handleWindowResize);
+    // }, []);
+
     return (
         <div className={cx('grid-container', className)}>
             <div className={cx('grid-container__content')}>{children}</div>
@@ -70,7 +81,7 @@ export const Grid = memo(({ paginate, loading, className, children, itemsPerPage
                         name='number'
                         onChange={(e: ChangeEvent<HTMLInputElement>) => setItemsPerPage(e.target.value)}
                     />
-                    <p>hàng trong mỗi trang</p>
+                    <p>trong mỗi trang</p>
                 </span>
                 <ReactPaginate
                     breakLabel="..."
