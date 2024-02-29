@@ -6,13 +6,17 @@
     align-items: center;
     background-color: var(--bg-page);
 
-    // &>div {
-    //     width: 100%;
+    &>div {
+        width: 100%;
 
-    //     &>img {
-    //         width: calc(5% + 100px);
-    //     }
-    // }
+        &>img {
+            width: calc(5% + 100px);
+        }
+    }
+
+    & form {
+        // width: ;
+    }
 }
 
 .content__image {
@@ -42,10 +46,6 @@
 
 @media only screen and (max-width: 380px) {
     .login-container {
-        button[type='submit'] {
-            padding: 1rem 2rem;
-        }
-
         &>form {
             &>h3 {
                 padding: 2rem;

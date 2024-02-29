@@ -1,11 +1,11 @@
+import { faEye } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import classNames from "classnames/bind";
 import { useFormik } from "formik";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router";
 
-import { faEye } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Role } from "~/api/roleAPI";
 import { User } from "~/api/userAPI";
 import { Button } from "~/components/Button";
@@ -25,6 +25,7 @@ import { RootState, useAppDispatch } from "~/store";
 import { getRoles } from "~/thunk/roleThunk";
 import { addUser, deleteUser } from "~/thunk/userThunk";
 import style from '../EditUser/Edit.module.scss';
+import { useWindowsResize } from "~/context/hooks";
 
 const cx = classNames.bind(style);
 
@@ -39,6 +40,7 @@ function AddUserPage() {
     const [actionData, setActionData] = useState<any[]>([] as any[]);
     const [visibleComboBox, setVisibleComboBox] = useState<boolean>(false);
     const [type, setType] = useState<string>('password');
+    const [mobileMode, setMobileMode] = useState(false);
 
     const userFormik = useFormik({
         initialValues: {
@@ -135,6 +137,14 @@ function AddUserPage() {
         ]);
     }, [userFormik.values]);
 
+    useWindowsResize(() => {
+        if (window.matchMedia('(max-width: 1140px)').matches) {
+            setMobileMode(true);
+            return
+        }
+        setMobileMode(false);
+    });
+
     const INPUTS = [
         {
             fieldName: 'Tên người dùng:',
@@ -228,24 +238,27 @@ function AddUserPage() {
             >
                 <div className={cx('form__body')}>
                     <div className={cx('form__left')}>
-                        {INPUTS.slice(0, 3).map(input => <Input key={input.fieldName} {...input} isRequired />)}
-                        <div className={cx('form__left__role')}>
-                            <p>Vai trò: <span>*</span></p>
-                            <ComboBox
-                                data={role.roleList.map(role => ({
-                                    id: role.id,
-                                    title: role.name
-                                }))}
-                                active={userFormik.values.role.name || 'Chọn vai trò'}
-                                visible={visibleComboBox}
-                                onClick={() => setVisibleComboBox(!visibleComboBox)}
-                                onItemClick={handleItemClick}
-                                className={cx('form__left__role__form-group')}
-                            />
-                        </div>
+                        {mobileMode
+                            ? INPUTS.slice(0, INPUTS.length).map(input => <Input key={input.fieldName} {...input} isRequired />)
+                            : <>{INPUTS.slice(0, 3).map(input => <Input key={input.fieldName} {...input} isRequired />)}
+                                <div className={cx('form__left__role')}>
+                                    <p>Vai trò: <span>*</span></p>
+                                    <ComboBox
+                                        data={role.roleList.map(role => ({
+                                            id: role.id,
+                                            title: role.name
+                                        }))}
+                                        active={userFormik.values.role.name || 'Chọn vai trò'}
+                                        visible={visibleComboBox}
+                                        onClick={() => setVisibleComboBox(!visibleComboBox)}
+                                        onItemClick={handleItemClick}
+                                        className={cx('form__left__role__form-group')}
+                                    />
+                                </div></>
+                        }
                     </div>
                     <div className={cx('form__right')}>
-                        {INPUTS.slice(3, 6).slice(0, 3).map(input => <Input key={input.fieldName} {...input} isRequired />)}
+                        {!mobileMode && INPUTS.slice(3, 6).slice(0, 3).map(input => <Input key={input.fieldName} {...input} isRequired />)}
                     </div>
                 </div>
                 <div className={cx('form__footer')}>

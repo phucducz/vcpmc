@@ -33,10 +33,12 @@ function AppySchedulePage() {
     const [checkedAll, setCheckedAll] = useState<boolean>(false);
     const [actionData, setActionData] = useState<any[]>([] as any[]);
     const [loading, setLoading] = useState<boolean>(false);
-
+    const [itemsPerPage, setItemsPerPage] = useState<string>('8');
+    const [currentItems, setCurrentItems] = useState<Array<any>>([]);
+    
     const handleAppyDevice = useCallback((deviceList: Array<Device>, scheduleDevice: ScheduleDeviceInitialStateType) => {
         console.log(scheduleDevice);
-        
+
         dispatch(saveScheduleDevice({
             data: {
                 id: scheduleDevice.scheduleDevices.find(scheduleDeviceItem => scheduleDeviceItem.schedulesId === id)?.id || '',
@@ -46,13 +48,9 @@ function AppySchedulePage() {
         }));
     }, []);
 
-    const handleCancelApply = useCallback(() => {
-        console.log(deviceList);
-    }, []);
-
     useEffect(() => {
         document.title = 'Áp lịch phát cho thiết bị';
-        
+
         setPaging([
             {
                 title: 'Lập lịch phát',
@@ -112,6 +110,16 @@ function AppySchedulePage() {
         checkedAll === true ? setDeviceList(devices) : setDeviceList([]);
     }, [checkedAll]);
 
+    const handleSetCurrentItems = (items: Array<any>) => {
+        setCurrentItems(items);
+    }
+
+    const handleChange = (value: string) => {
+        if (value === '' || value === '0')
+            return;
+        setItemsPerPage(value);
+    }
+
     return (
         <div className={cx('apply-schedule-container')}>
             <CommonPage
@@ -120,7 +128,13 @@ function AppySchedulePage() {
                 actionData={actionData}
             >
                 <Table
+                    paginate={{
+                        dataForPaginate: devices,
+                        setCurrentItems: handleSetCurrentItems
+                    }}
                     loading={loading}
+                    itemsPerPage={itemsPerPage}
+                    setItemsPerPage={handleChange}
                     headerChildren={<th className={cx('table-checkbox')}><CheckBox checked={checkedAll} onChange={() => setCheckedAll(!checkedAll)} /></th>}
                     thead={['STT', 'Tên thiết bị', 'MAC Address', 'SKU/ID', 'Đơn vị sử dụng', 'Tên đăng nhập', 'Địa điểm hoạt động']}
                 >

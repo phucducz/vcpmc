@@ -70,10 +70,9 @@
     & table {
         width: 1095px;
     }
-}
 
-.history-for-control__container-right {
     &>p {
+        width: max-content;
         color: #E5E5E5;
         font-size: 24px;
         font-weight: 700;
@@ -82,6 +81,8 @@
     }
 
     &>.filter-box {
+        max-width: 1095px;
+        width: 100%;
         display: flex;
         align-items: center;
         justify-content: space-between;
@@ -99,6 +100,14 @@
 
         &>div:last-child {
             margin-top: 0;
+        }
+    }
+}
+
+@media screen and (max-width: '1850px') {
+    .history-for-control__container-right {
+        &>div:last-child {
+            width: calc(100vw - 571px - 24px - 11rem - 17rem - 8rem);
         }
     }
 }

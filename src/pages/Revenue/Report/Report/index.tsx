@@ -239,7 +239,7 @@ function RevenueReportPage() {
 
     useEffect(() => {
         document.title = 'Báo cáo doanh thu';
-        
+
         setPaging([
             {
                 title: 'Doanh thu',
@@ -394,10 +394,12 @@ function RevenueReportPage() {
             }
             className={cx('revenue-report')}
         >
-            <div className={cx('revenue-report__box')}>
-                {Object.entries(revenueInfo).map((item, index) => (
-                    <RevenueInfoBoxItem key={index} data={{ key: REVENUE_INFO_KEYS[index], value: item[1] }} />
-                ))}
+            <div className={cx('revenue-report-responsive')}>
+                <div className={cx('revenue-report__box')}>
+                    {Object.entries(revenueInfo).map((item, index) => (
+                        <RevenueInfoBoxItem key={index} data={{ key: REVENUE_INFO_KEYS[index], value: item[1] }} />
+                    ))}
+                </div>
             </div>
             <div className={cx('revenue-report-chart')}>
                 <p>Biểu đồ theo dõi lượt phát - {

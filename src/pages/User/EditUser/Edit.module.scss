@@ -1,4 +1,5 @@
 .form__body {
+
     & input[type='text'],
     & input[type='date'],
     & input[type='password'] {
@@ -29,7 +30,7 @@
 }
 
 .form__left__role,
-.form__right>div {
+.status {
     &>p {
         width: max-content;
 
@@ -49,20 +50,62 @@
     }
 }
 
-.form__right {
-    &>div:last-child {
-        margin-top: 15px;
+.status {
+    margin-top: 15px;
 
-        &>p {
-            width: max-content;
-            padding: 1rem 0;
+    &>p {
+        width: max-content;
+        padding: 1rem 0;
+    }
+
+    &>.form__right__group-checkbox {
+        display: flex;
+        align-items: center;
+        gap: 81px;
+        height: 48px;
+    }
+}
+
+.user-edit-container__form {
+    width: max-content;
+}
+
+@media screen and (max-width: 1140px) {
+    .user-edit-container__form {
+        margin: 0 auto;
+
+        &>div {
+            &>div:first-child {
+                gap: 0;
+                width: max-content;
+            }
+
+            &>div:last-child {
+                &>button {
+                    width: calc(50% - 1.5rem);
+                }
+            }
         }
 
-        &>.form__right__group-checkbox {
-            display: flex;
-            align-items: center;
-            gap: 81px;
-            height: 48px;
+        .status {
+            &>.form__right__group-checkbox {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 2rem;
+            }
+        }
+    }
+}
+
+@media screen and (max-width: 530px) {
+    .user-edit-container__form {
+        .form__body {
+
+            & input[type='text'],
+            & input[type='date'],
+            & input[type='password'] {
+                width: calc(100vw - 8rem);
+            }
         }
     }
 }

@@ -1,0 +1,21 @@
+@media screen and (max-width: '1750px') and (min-width: '900px') {
+    .form__body {
+        width: calc(100vw - 19rem);
+    }
+}
+
+@media screen and (max-width: '900px') {
+    .form__body {
+        width: max-content;
+        margin: 0 auto;
+    }
+}
+
+@media screen and (max-width: '1110px') {
+    .form__body {
+        &>div {
+            flex-direction: column;
+            row-gap: 1.5rem;
+        }
+    }
+}

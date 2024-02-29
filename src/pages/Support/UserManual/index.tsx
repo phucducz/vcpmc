@@ -1,6 +1,6 @@
 import classNames from "classnames/bind";
-
 import { useEffect, useState } from "react";
+
 import { PagingItemType } from "~/components/Paging";
 import { CommonPage } from "~/pages/CommonPage";
 import style from './UserManual.module.scss';

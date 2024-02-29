@@ -4,7 +4,7 @@
 
     & .form__body {
         display: flex;
-        justify-content: space-between;
+        gap: 4rem;
         align-items: flex-start;
 
         &>.form__body__left {
@@ -25,17 +25,21 @@
     &>p {
         text-align: start;
     }
+}
 
-    &>.functionals-container {
-        width: 1063px;
-        height: 558px;
-        padding: 16px 24px;
-        border-radius: 16px;
-        background-color: rgba(47, 47, 65, 0.70);
-    }
+.functionals-responsive {
+    max-width: 1070px;
+    width: max-content;
+    overflow-x: overlay;
 }
 
 .functionals-container {
+    width: 1063px;
+    height: 558px;
+    padding: 16px 24px;
+    border-radius: 16px;
+    background-color: rgba(47, 47, 65, 0.70);
+
     &>.functionals-container__header {
         display: flex;
         margin-bottom: 16px;
@@ -105,6 +109,52 @@
 
         &>div+div {
             border-top: 1px solid rgba(245, 245, 255, .5);
+        }
+    }
+}
+
+@media screen and (max-width: 1780px) {
+    .user-role-edit {
+        .functionals-responsive {
+            width: calc(100vw - 55.7rem - 16rem);
+        }
+    }
+}
+
+@media screen and (max-width: 1200px) {
+    .user-role-edit {
+        & .form__body {
+            flex-direction: column;
+            width: max-content;
+        }
+    }
+}
+
+@media screen and (max-width: 1200px) and (min-width: 900px) {
+    .user-role-edit {
+        & .functionals-responsive {
+            width: calc(100vw - 12rem);
+        }
+    }
+}
+
+@media screen and (max-width: 900px) {
+    .user-role-edit {
+        & .functionals-responsive {
+            width: calc(100vw - 8rem);
+        }
+    }
+}
+
+@media screen and (max-width: 640px) {
+    .user-role-edit {
+        & .form__body {
+            &>.form__body__left {
+                & textarea,
+                & input[type='text'] {
+                    width: calc(100vw - 8rem);
+                }
+            }
         }
     }
 }

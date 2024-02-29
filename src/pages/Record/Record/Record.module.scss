@@ -200,26 +200,47 @@ $topPlayIcon: (
     font-weight: 600;
 }
 
-//box css
-
 .content__right__box {
     display: flex;
     justify-content: space-between;
     gap: 8px;
 }
 
-div:has(>input[name='search']) {
-    width: 100%;
-    max-width: 571px;
+@media screen and (max-width: '750px') {
+    .common-page-record {
+        & div:has(>input[name='search']) {
+            width: 100%;
+
+            &>input[name='search'] {
+                width: 100% !important;
+            }
+        }
+    }
 }
 
-@media screen and (max-width: '750px') {
-    div:has(>input[name='search']) {
-        width: 75%;
-        max-width: 571px;
+@media screen and (max-width: '1500px') and (min-width: '1400px') {
+    .common-page-record {
+        &>div>div>div>div:last-child {
+            flex-direction: column;
 
-        &>input[name='search'] {
-            width: 100% !important;
+            &>div:first-child {
+                &>div:first-child {
+                    display: none;
+                }
+
+                &>div:last-child {
+                    display: flex;
+                }
+            }
+
+            &>div:last-child {
+                width: 100%;
+
+                &>div {
+                    width: 100%;
+                    justify-content: flex-end;
+                }
+            }
         }
     }
 }

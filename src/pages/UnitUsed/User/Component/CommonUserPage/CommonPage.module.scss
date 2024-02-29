@@ -45,3 +45,19 @@
         opacity: .5;
     }
 }
+
+@media screen and (max-width: '650px') {
+    .form__body {
+        & input {
+            width: calc(100vw - 8rem) !important;
+
+            &[name='comboBoxValue'] {
+                width: calc(100vw - 8rem - 24px) !important;
+            }
+
+            &[type='radio'] {
+                width: 2rem !important;
+            }
+        }
+    }
+}

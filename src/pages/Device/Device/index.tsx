@@ -19,6 +19,7 @@ import { CommonPage } from "~/pages/CommonPage";
 import { RootState, useAppDispatch } from "~/store";
 import { changeStatusDevice, deleteDevices, getDeviceList } from "~/thunk/deviceThunk";
 import style from './Device.module.scss';
+import Wrapper from "~/components/FilterBox/Wrapper";
 
 const cx = classNames.bind(style);
 
@@ -163,18 +164,22 @@ function DeviceManagementPage() {
 
         setComboBoxData([
             {
-                title: 'Chọn nhóm tài khoản',
+                id: 0,
+                title: '',
                 data: [{ title: 'Tất cả' }, ...device.devices.map((deviceItem, index) => {
                     if (device.devices.slice(0, index + 1).filter(item => deviceItem.unitsUsed === item.unitsUsed).length === 1)
                         return { title: deviceItem.unitsUsed }
                     return { title: '' }
                 })],
                 visible: false,
-                activeData: 'Tất cả'
+                size: 'xl',
+                activeData: 'Chọn nhóm tài khoản'
             }, {
-                title: 'Ẩn hiện cột',
+                id: 1,
+                title: '',
                 data: [{ title: 'Tất cả' }, ...headerColumn.map(col => ({ title: col }))],
                 visible: false,
+                size: 'xl',
                 activeData: 'Ẩn hiện cột'
             }
         ]);
@@ -210,7 +215,7 @@ function DeviceManagementPage() {
 
     const handleComboBoxItemClick = useCallback((item: ComboData, id: string) => {
         setComboBoxData(prev => prev.map(prevItem =>
-            prevItem.title === id
+            (prevItem.title === id)
                 ? { ...prevItem, activeData: item.title }
                 : prevItem
         ));
@@ -274,20 +279,25 @@ function DeviceManagementPage() {
                 searchValue: searchValue,
                 setSearchValue: (e: any) => setSearchValue(e.target.value)
             }}
-            actionFilter={<div>
-                {comboBoxData?.length && comboBoxData.map((item, index) => (
-                    <ComboBox
-                        key={index}
-                        title={item.title}
-                        active={item.activeData}
-                        visible={item.visible}
-                        data={item.data}
-                        className={cx('combo-data')}
-                        onClick={() => handleComboBoxClick(item)}
-                        onItemClick={handleComboBoxItemClick}
-                    />
-                ))}
-            </div>}
+            actionFilter={<Wrapper
+                data={comboBoxData}
+                onClick={handleComboBoxClick}
+                onItemClick={handleComboBoxItemClick}
+            />}
+            // actionFilter={<div>
+            //     {comboBoxData?.length && comboBoxData.map((item, index) => (
+            //         <ComboBox
+            //             key={index}
+            //             title={item.title}
+            //             active={item.activeData}
+            //             visible={item.visible}
+            //             data={item.data}
+            //             className={cx('combo-data')}
+            //             onClick={() => handleComboBoxClick(item)}
+            //             onItemClick={handleComboBoxItemClick}
+            //         />
+            //     ))}
+            // </div>}
             actionData={actionData}
         >
             <Table

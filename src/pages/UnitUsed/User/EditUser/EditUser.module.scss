@@ -16,8 +16,8 @@
         }
 
         &>ul {
-            width: 256px!important;
-            z-index: 1!important;
+            width: 256px !important;
+            z-index: 1 !important;
         }
     }
 }
@@ -28,4 +28,12 @@
     display: flex;
     align-items: center;
     gap: 16px;
+}
+
+@media screen and (max-width: '450px') {
+    .form-group-checkbox {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1.5rem;
+    }
 }

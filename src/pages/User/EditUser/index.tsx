@@ -26,6 +26,7 @@ import { RootState, useAppDispatch } from "~/store";
 import { getRoles } from "~/thunk/roleThunk";
 import { deleteUser, saveUser } from "~/thunk/userThunk";
 import style from './Edit.module.scss';
+import { useWindowsResize } from "~/context/hooks";
 
 const cx = classNames.bind(style);
 
@@ -41,6 +42,7 @@ function EditUserPage() {
     const [actionData, setActionData] = useState<any[]>([] as any[]);
     const [visibleComboBox, setVisibleComboBox] = useState<boolean>(false);
     const [type, setType] = useState<string>('password');
+    const [mobileMode, setMobileMode] = useState(false);
 
     const userFormik = useFormik({
         initialValues: {
@@ -149,6 +151,14 @@ function EditUserPage() {
         ]);
     }, [userFormik.values]);
 
+    useWindowsResize(() => {
+        if (window.matchMedia('(max-width: 1140px').matches) {
+            setMobileMode(true);
+            return;
+        }
+        setMobileMode(false);
+    });
+
     const USER_INPUTS = [
         {
             fieldName: 'Tên người dùng:',
@@ -242,31 +252,49 @@ function EditUserPage() {
             >
                 <div className={cx('form__body')}>
                     <div className={cx('form__left')}>
-                        {USER_INPUTS.slice(0, 3).map(input => <Input key={input.fieldName} {...input} isRequired />)}
-                        <div className={cx('form__left__role')}>
-                            <p>Vai trò: <span>*</span></p>
-                            <ComboBox
-                                data={role.roleList.map(role => ({
-                                    id: role.id,
-                                    title: role.name
-                                }))}
-                                active={userFormik.values.role.name}
-                                visible={visibleComboBox}
-                                onClick={() => setVisibleComboBox(!visibleComboBox)}
-                                onItemClick={handleItemClick}
-                                className={cx('form__left__role__form-group')}
-                            />
-                        </div>
+                        {mobileMode
+                            ? <>
+                                {USER_INPUTS.slice(0, USER_INPUTS.length).map(input => <Input key={input.fieldName} {...input} isRequired />)}
+                                <div className={cx('status')}>
+                                    <p>Trạng thái <span>*</span></p>
+                                    <div className={cx('form__right__group-checkbox')}>
+                                        <RadioButton title='Đang hoạt động' checked={userFormik.values.status === 'active'} onChange={() => userFormik.setFieldValue('status', userFormik.values.status === 'active' ? 'deactive' : 'active')} />
+                                        <RadioButton title='Ngừng hoạt động' checked={userFormik.values.status !== 'active'} onChange={() => userFormik.setFieldValue('status', userFormik.values.status === 'active' ? 'deactive' : 'active')} />
+                                    </div>
+                                </div>
+                            </>
+                            : <>
+                                {USER_INPUTS.slice(0, 3).map(input => <Input key={input.fieldName} {...input} isRequired />)}
+                                <div className={cx('form__left__role')}>
+                                    <p>Vai trò: <span>*</span></p>
+                                    <ComboBox
+                                        data={role.roleList.map(role => ({
+                                            id: role.id,
+                                            title: role.name
+                                        }))}
+                                        active={userFormik.values.role.name}
+                                        visible={visibleComboBox}
+                                        onClick={() => setVisibleComboBox(!visibleComboBox)}
+                                        onItemClick={handleItemClick}
+                                        className={cx('form__left__role__form-group')}
+                                    />
+                                </div>
+                            </>
+                        }
                     </div>
                     <div className={cx('form__right')}>
-                        {USER_INPUTS.slice(3, 6).map(input => <Input key={input.fieldName} {...input} isRequired />)}
-                        <div>
-                            <p>Trạng thái <span>*</span></p>
-                            <div className={cx('form__right__group-checkbox')}>
-                                <RadioButton title='Đang hoạt động' checked={userFormik.values.status === 'active'} onChange={() => userFormik.setFieldValue('status', userFormik.values.status === 'active' ? 'deactive' : 'active')} />
-                                <RadioButton title='Ngừng hoạt động' checked={userFormik.values.status !== 'active'} onChange={() => userFormik.setFieldValue('status', userFormik.values.status === 'active' ? 'deactive' : 'active')} />
-                            </div>
-                        </div>
+                        {!mobileMode
+                            &&
+                            <>{USER_INPUTS.slice(3, 6).map(input => <Input key={input.fieldName} {...input} isRequired />)}
+                                <div className={cx('status')}>
+                                    <p>Trạng thái <span>*</span></p>
+                                    <div className={cx('form__right__group-checkbox')}>
+                                        <RadioButton title='Đang hoạt động' checked={userFormik.values.status === 'active'} onChange={() => userFormik.setFieldValue('status', userFormik.values.status === 'active' ? 'deactive' : 'active')} />
+                                        <RadioButton title='Ngừng hoạt động' checked={userFormik.values.status !== 'active'} onChange={() => userFormik.setFieldValue('status', userFormik.values.status === 'active' ? 'deactive' : 'active')} />
+                                    </div>
+                                </div>
+                            </>
+                        }
                     </div>
                 </div>
                 <div className={cx('form__footer')}>
@@ -275,7 +303,7 @@ function EditUserPage() {
                 </div>
             </Form>
             <Loading visible={user.loading} />
-        </CommonPage>
+        </CommonPage >
     );
 }
 

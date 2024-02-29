@@ -1,22 +1,23 @@
+import { faEye } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import classNames from "classnames/bind";
 import { useFormik } from "formik";
 import { useCallback, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router";
-import { faEye } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import { Role } from "~/api/roleAPI";
 import { UserInfo } from "~/api/userAPI";
 import { ComboBox } from "~/components/ComboBox";
 import { Input } from "~/components/Input";
 import { PagingItemType } from "~/components/Paging";
+import { RadioButton } from "~/components/RadioButton";
 import { routes } from "~/config/routes";
 import { Yup } from "~/constants";
+import { useWindowsResize } from "~/context/hooks";
 import { RootState, useAppDispatch } from "~/store";
-import { CommonUserPage } from "../Component/CommonUserPage";
-import { RadioButton } from "~/components/RadioButton";
 import { updateEmployee } from "~/thunk/etmContractThunk";
+import { CommonUserPage } from "../Component/CommonUserPage";
 import style from './EditUser.module.scss';
 
 const cx = classNames.bind(style);

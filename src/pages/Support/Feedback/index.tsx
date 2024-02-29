@@ -14,10 +14,10 @@ import { PagingItemType } from "~/components/Paging";
 import { Table } from "~/components/Table";
 import { Toast } from "~/components/Toast";
 import { Yup } from "~/constants";
+import emailCampaign from '~/images/email-campaign-pana.svg';
 import { CommonPage } from "~/pages/CommonPage";
 import { RootState, useAppDispatch } from "~/store";
 import { getFeedbacks, sendFeedback } from "~/thunk/feedbackThunk";
-import emailCampaign from '~/images/email-campaign-pana.svg';
 import style from './Feedback.module.scss';
 
 const cx = classNames.bind(style);
@@ -61,7 +61,7 @@ function SupportFeedbackPage() {
     const [activeDropDown, setActiveDropDown] = useState<boolean>(false);
     const [activeToast, setActiveToast] = useState<boolean>(false);
     const [feedbacks, setFeedbacks] = useState<Array<Feedback>>([] as Array<Feedback>);
-    const [itemsPerPage, setItemsPerPage] = useState<string>('7');
+    const [itemsPerPage, setItemsPerPage] = useState<string>('6');
     const [currentItems, setCurrentItems] = useState<Array<Feedback>>([] as Array<Feedback>);
     const [feedbackActive, setFeedbackActive] = useState<Feedback>({} as Feedback);
 
@@ -69,11 +69,7 @@ function SupportFeedbackPage() {
         initialValues: {
             userName: '',
             typeProblem: '',
-            content: `Lorem ipsum dolor sit amet, consectetur adipiscing elit. Euismod iaculis metus, nisl risus urna morbi risus. Blandit tempor, ac eu ut volutpat adipiscing aliquam. Habitasse a semper cras non. Laoreet nibh et, erat sit curabitur sapien, commodo.
-            Accumsan eget ut blandit sed. Tortor ultrices id amet non sit facilisis auctor phasellus nisl. Bibendum et ultrices consequat luctus interdum elementum. Leo pellentesque nulla lectus adipiscing risus, bibendum. Iaculis porttitor ornare sit nisl. Tellus lectus amet mattis sed at. Nisi augue congue ac faucibus nunc. Sed maecenas mus at urna at. Aliquet sagittis, enim egestas tincidunt leo eu. Libero nunc montes, facilisis ullamcorper scelerisque turpis.
-            Pulvinar in amet donec sed. Neque hac eget mi est eleifend arcu ut sodales in. Turpis augue ut sodales scelerisque nunc. Amet, odio eu sed eleifend lorem nulla varius lorem mattis. Mi facilisi duis rutrum arcu sed aliquam cursus. Viverra sit ut congue dictum. Feugiat et, vitae nulla amet. Velit purus velit convallis non duis nunc cursus quam pulvinar.
-            Vitae libero quisque tortor at amet facilisis enim et, ut. Aliquet ullamcorper risus vitae sapien morbi. Nascetur dui pulvinar urna convallis mi suspendisse cursus elementum ornare. Amet eget maecenas nunc duis. Arcu sollicitudin eget sollicitudin lectus turpis. Molestie ullamcorper amet felis et sed massa rhoncus.
-            Orci ipsum est, viverra ultricies porttitor sed volutpat eu. Sit vulputate ut at suspendisse elementum non ullamcorper. Lorem condimentum id diam auctor. At ut augue in amet, cursus at quis odio tellus. Pulvinar in commodo mattis facilisis lacus nunc blandit mattis sit. A porttitor velit tempor, pharetra sem non amet. Purus porta habitant tempor etiam rhoncus vitae amet, vulputate. Sed nisl sodales ullamcorper suspendisse id massa. `
+            content: ''
         },
         validationSchema: Yup.object({
             userName: Yup.string().required(),
@@ -156,7 +152,6 @@ function SupportFeedbackPage() {
             fieldName: '',
             input: <Input
                 as='textarea'
-                cols={80}
                 rows={11}
                 placeholder='Nhập nội dung'
                 fieldName={'Nội dung'}
@@ -181,7 +176,7 @@ function SupportFeedbackPage() {
             pagingData={paging}
             className={cx('support-feedback')}
         >
-            {user.currentUser.role && user.currentUser.role.name === 'User'
+            {user.currentUser.role && user.currentUser.role.name.toLowerCase() === 'user'
                 ? <>
                     <Form visible={true} onSubmit={feedbackFormik.handleSubmit} className={cx('support-feedback__form')}>
                         <div className={cx('form__body')}>

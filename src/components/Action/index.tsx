@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 
 import style from './Action.module.scss';
 import { Item } from "./Item";
+import { useWindowsResize } from "~/context/hooks";
 
 const cx = classNames.bind(style);
 
@@ -37,17 +38,23 @@ export const Action = memo(<E extends React.ElementType<any>>({ data, className,
     const [activeActionBox, setActiveActionBox] = useState<boolean>(false);
     const actionRef = useRef<HTMLDivElement>(null);
 
-    useEffect(() => {
-        const handleWindowResize = () => {
-            if (window.matchMedia('(max-width: 900px)').matches)
-                setMobileMode(true);
-            else setMobileMode(false);
-        }
-        handleWindowResize();
-        window.addEventListener('resize', handleWindowResize);
+    useWindowsResize(() => {
+        if (window.matchMedia('(max-width: 900px)').matches)
+            setMobileMode(true);
+        else setMobileMode(false);
+    });
+    
+    // useEffect(() => {
+    //     const handleWindowResize = () => {
+    //         if (window.matchMedia('(max-width: 900px)').matches)
+    //             setMobileMode(true);
+    //         else setMobileMode(false);
+    //     }
+    //     handleWindowResize();
+    //     window.addEventListener('resize', handleWindowResize);
 
-        return () => window.removeEventListener('resize', handleWindowResize);
-    }, []);
+    //     return () => window.removeEventListener('resize', handleWindowResize);
+    // }, []);
 
     useEffect(() => {
         const handleMouseDown = (e: any) => {

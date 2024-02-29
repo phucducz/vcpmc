@@ -1,10 +1,10 @@
+import { faEye } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import classNames from "classnames/bind";
+import { useFormik } from "formik";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router";
-import { faEye } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useFormik } from "formik";
 
 import { UserInfo } from "~/api/userAPI";
 import { BlockInput } from "~/components/Block";
@@ -16,6 +16,7 @@ import { PagingItemType } from "~/components/Paging";
 import { RadioButton } from "~/components/RadioButton";
 import { routes } from "~/config/routes";
 import { Yup } from "~/constants";
+import { useWindowsResize } from "~/context/hooks";
 import { CommonPage } from "~/pages/CommonPage";
 import { RootState, useAppDispatch } from "~/store";
 import { changePasswordStatusUser } from "~/thunk/userThunk";
@@ -38,6 +39,7 @@ function EditAuthorizedContract() {
         password: 'password',
         confirmPassword: 'password'
     });
+    const [mobileMode, setMobileMode] = useState(false);
 
     const userFormik = useFormik({
         initialValues: {
@@ -68,7 +70,15 @@ function EditAuthorizedContract() {
 
             dispatch(changePasswordStatusUser({ id: id, password: password, status: status, navigate: () => navigate(routes.AuthorizedContract) }));
         }
-    })
+    });
+
+    useWindowsResize(() => {
+        if (window.matchMedia('(max-width: 1300px)').matches) {
+            setMobileMode(true);
+            return;
+        }
+        setMobileMode(false);
+    });
 
     useEffect(() => {
         setPaging([
@@ -218,10 +228,13 @@ function EditAuthorizedContract() {
                 <form className={cx('edit__form-container')} onSubmit={userFormik.handleSubmit}>
                     <div className={cx('edit__form-container__body')}>
                         <div className={cx('edit__form-container__left')}>
-                            <BlockInput data={userInputs.slice(0, 4)} />
+                            {mobileMode
+                                ? <BlockInput data={userInputs.slice(0, 7)} />
+                                : <BlockInput data={userInputs.slice(0, 4)} />
+                            }
                         </div>
                         <div className={cx('edit__form-container__right')}>
-                            <BlockInput data={userInputs.slice(4, 7)} />
+                            {!mobileMode && <BlockInput data={userInputs.slice(4, 7)} />}
                             <div>
                                 <p>Trạng thái</p>
                                 <div className={cx('form-group-checkbox')}>

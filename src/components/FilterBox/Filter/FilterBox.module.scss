@@ -76,6 +76,9 @@
     color: white;
     cursor: pointer;
     transition: color .2s linear;
+    background-color: var(--bg-lightest);
+    border-radius: 50px;
+    padding: 1rem;
 
     &.active {
         color: var(--color-orange);

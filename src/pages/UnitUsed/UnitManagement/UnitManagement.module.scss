@@ -20,3 +20,11 @@
         min-width: auto;
     }
 }
+
+@media screen and (max-width: 750px) {
+    .unit-management-container {
+        & input[name='search'] {
+            width: 100%;
+        }
+    }
+}

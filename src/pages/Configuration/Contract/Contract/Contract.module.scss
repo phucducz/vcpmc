@@ -36,3 +36,42 @@
     width: 868px;
     height: 132px;
 }
+
+.config-contract-container {
+    &>div:first-child {
+        width: max-content !important;
+    }
+}
+
+@media screen and (max-width: 1670px) {
+    .config-contract-container {
+        width: calc(100vw - 21rem);
+        flex-direction: column-reverse;
+        align-items: center;
+    }
+}
+
+@media screen and (max-width: 1160px) and (min-width: 901px) {
+    .config-contract-container {
+        &>div:first-child {
+            width: calc(100vw - 21rem) !important;
+        }
+    }
+}
+
+@media screen and (max-width: 900px) {
+    .config-contract-container {
+        width: calc(100vw - 8rem) !important;
+
+        &>div:first-child,
+        &>div:last-child {
+            width: 100% !important;
+        }
+
+        &>div:last-child {
+            & p {
+                text-align: start;
+            }
+        }
+    }
+}

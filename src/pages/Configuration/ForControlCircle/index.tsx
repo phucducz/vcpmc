@@ -160,9 +160,6 @@ function ForControlCirclePage() {
                                         }}
                                     />
                                 </div>
-                                <div className={cx('monthly__input__end')}>
-
-                                </div>
                             </div>
                         </div>
                     </div>

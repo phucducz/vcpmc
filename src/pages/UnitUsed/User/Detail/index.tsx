@@ -9,6 +9,7 @@ import { User } from "~/api/userAPI";
 import { BlockInfo } from "~/components/Block";
 import { PagingItemType } from "~/components/Paging";
 import { routes } from "~/config/routes";
+import { useWindowsResize } from "~/context/hooks";
 import { CommonPage } from "~/pages/CommonPage";
 import { RootState, useAppDispatch } from "~/store";
 import { getUsers } from "~/thunk/userThunk";

@@ -11,26 +11,39 @@
     &>.category-form__table {
         width: 1541px;
 
-        &>tbody>tr.table__row__edit {
-            &>td:nth-child(2) {
-                width: 329px;
-
-                & input {
-                    width: 155px;
-                }
-            }
-
-            &>td:last-child {
-                width: 100%;
-
-                &>div {
-                    width: 100%;
+        &>tbody {
+            &>tr.table__row__edit {
+                &>td:nth-child(2) {
+                    width: 329px;
 
                     & input {
+                        width: 155px;
+                    }
+                }
+
+                &>td:last-child {
+                    width: 100%;
+
+                    &>div {
                         width: 100%;
+
+                        & input {
+                            width: 100%;
+                        }
                     }
                 }
             }
         }
+    }
+}
+
+.category-form__table {
+    & p {
+        white-space: wrap;
+    }
+
+    .category-description {
+        height: 8.8rem !important;
+        resize: none;
     }
 }

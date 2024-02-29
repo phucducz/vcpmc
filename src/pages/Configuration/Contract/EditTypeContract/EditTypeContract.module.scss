@@ -1,3 +1,7 @@
+.type-contract__form {
+    width: max-content;
+}
+
 .form__table {
     width: 1143px;
 
@@ -20,11 +24,4 @@
             }
         }
     }
-}
-
-.form__footer {
-    position: fixed;
-    bottom: 5%;
-    left: 50%;
-    transform: translateX(-50%);
 }

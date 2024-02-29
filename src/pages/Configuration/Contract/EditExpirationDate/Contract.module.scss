@@ -1,4 +1,5 @@
 .config-edit-contract__form {
+    width: max-content;
 
     & input {
         width: 117px;
@@ -6,7 +7,7 @@
 }
 
 .form__body {
-    width: 649px;
+    width: 100%;
     height: 444px;
     border-radius: 16px;
     background: var(--middle-bg);
@@ -32,13 +33,24 @@
             font-weight: 700;
             line-height: 24px;
             letter-spacing: -0.032px;
+            text-align: start;
         }
     }
 }
 
-.form__footer {
-    position: fixed;
-    bottom: 5%;
-    left: 50%;
-    transform: translateX(-50%);
+@media screen and (max-width: 740px) {
+    .config-edit-contract {
+        .config-edit-contract__form {
+            width: calc(100vw - 8rem);
+        }
+    }
+}
+
+@media screen and (max-width: 550px) {
+    .form__body {
+        .form__body__input {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+    }
 }

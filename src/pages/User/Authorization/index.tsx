@@ -47,7 +47,7 @@ function UserAuthorizationPage() {
 
     useEffect(() => {
         document.title = 'Phân quyền người dùng';
-        
+
         setPaging([
             {
                 title: 'Cài đặt',
@@ -174,13 +174,13 @@ function UserAuthorizationPage() {
                 thead={['STT', 'Họ tên', 'Tên đăng nhập', 'Vai trò', 'Trạng thái', 'Email', 'Số điện thoại', 'Ngày hết hạn', '']}
             >
                 {currentItems.map((item, index) => (
-                    <tr key={index}>
+                    <tr key={index} style={{ height: '47px' }}>
                         <td><p>{index + 1}</p></td>
-                        <td style={{minWidth: '14.7rem'}}><p>{item.firstName} {item.lastName}</p></td>
-                        <td style={{minWidth: '22.3rem'}}><p>{item.userName}</p></td>
-                        <td style={{minWidth: '14.2rem'}}><p>{item.role.name}</p></td>
+                        <td style={{ minWidth: '14.7rem' }}><p>{item.firstName} {item.lastName}</p></td>
+                        <td style={{ minWidth: '22.3rem' }}><p>{item.userName}</p></td>
+                        <td style={{ minWidth: '14.2rem' }}><p>{item.role.name}</p></td>
                         <td><Switch status={item.status === 'active'} title='Đang kích hoạt' /></td>
-                        <td style={{minWidth: '34.2rem'}}><p>{item.email}</p></td>
+                        <td style={{ minWidth: '34.2rem' }}><p>{item.email}</p></td>
                         <td><p>{item.phoneNumber}</p></td>
                         <td><p>{item.expirationDate}</p></td>
                         <td><p
@@ -205,7 +205,7 @@ function UserAuthorizationPage() {
                 thead={['STT', 'Tên nhóm người dùng', 'Số lượng người dùng', 'Vai trò', 'Mô tả', '', '']}
             >
                 {currentRoleItems.map((item, index) => (
-                    <tr key={index}>
+                    <tr key={index} style={{ height: '47px' }}>
                         <td><p>{index + 1}</p></td>
                         <td><p>{item.name}</p></td>
                         <td><p>{user.users.filter(user => user.rolesId === item.id).length}</p></td>

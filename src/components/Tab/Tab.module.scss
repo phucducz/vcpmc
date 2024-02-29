@@ -23,3 +23,9 @@
         background-color: var(--color-orange-5);
     }
 }
+
+@media screen and (max-width: '500px'){
+    .tab-container {
+        flex-direction: column;
+    }
+}

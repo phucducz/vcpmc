@@ -10,10 +10,7 @@
     display: flex;
     align-items: center;
     margin-top: -24px;
-    
-    &>p {
-        margin-right: 12px;
-    }
+    gap: 32px;
 
     &>div {
         height: 48px;
@@ -25,6 +22,7 @@
 
         &>li {
             margin-top: 0 !important;
+            width: max-content !important;
 
             &>div {
                 border-radius: 8px;
@@ -35,15 +33,15 @@
             }
 
             &>ul {
-                width: 264px !important;
-                z-index: 1 !important;
+                z-index: 3 !important;
             }
         }
-
-        &+div {
-            margin-left: 32px;
-        }
     }
+}
+
+.revenue-report-responsive {
+    width: max-content;
+    overflow-x: overlay;
 }
 
 .revenue-report__box {
@@ -90,6 +88,7 @@
 
 .revenue-report-chart {
     position: relative;
+    overflow-x: overlay;
 
     &>p {
         color: #FFF9F4;
@@ -106,5 +105,36 @@
         background: rgba(47, 47, 65, 0.70);
         width: 1541px;
         padding: 26px;
+    }
+}
+
+@media screen and (max-width: '680px') {
+    .renvenue-report__filter {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}
+
+@media screen and (max-width: '1770px') and (min-width: '900px') {
+
+    .revenue-report-responsive,
+    .revenue-report-chart {
+        width: calc(100vw - 21rem);
+    }
+}
+
+@media screen and (max-width: '900px') {
+
+    .revenue-report-responsive,
+    .revenue-report-chart {
+        width: calc(100vw - 8rem);
+    }
+}
+
+@media screen and (max-width: '330px') {
+    .renvenue-report__filter {
+        &>div>li>div {
+            width: calc(100vw - 8rem);
+        }
     }
 }
