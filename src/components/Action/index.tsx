@@ -43,18 +43,6 @@ export const Action = memo(<E extends React.ElementType<any>>({ data, className,
             setMobileMode(true);
         else setMobileMode(false);
     });
-    
-    // useEffect(() => {
-    //     const handleWindowResize = () => {
-    //         if (window.matchMedia('(max-width: 900px)').matches)
-    //             setMobileMode(true);
-    //         else setMobileMode(false);
-    //     }
-    //     handleWindowResize();
-    //     window.addEventListener('resize', handleWindowResize);
-
-    //     return () => window.removeEventListener('resize', handleWindowResize);
-    // }, []);
 
     useEffect(() => {
         const handleMouseDown = (e: any) => {
@@ -76,7 +64,14 @@ export const Action = memo(<E extends React.ElementType<any>>({ data, className,
                     style={{ height: activeActionBox ? `${data.length * 44 + 20}px` : 0 }}
                 >
                     {data.map((item, index) => (
-                        <li className={cx('item')} key={index} onClick={() => item.onClick()}>
+                        <li
+                            className={cx('item')}
+                            key={index}
+                            onClick={() => {
+                                item.onClick();
+                                setActiveActionBox(false);
+                            }}
+                        >
                             {item.as
                                 ? <a href={item.href}>{item.title}</a>
                                 : <Link to='#'>{item.title}</Link>
