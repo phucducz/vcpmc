@@ -367,7 +367,13 @@ function RecordPage() {
                                         <p>{isExpiry ? 'Hết thời hạn' : 'Còn thời hạn'}</p>
                                         <p>{item.expirationDate}</p>
                                     </td>
-                                    <td><p className={cx('action')} onClick={() => handleUpdateClick(item)}>Cập nhật</p></td>
+                                    <td>
+                                        <p
+                                            className={cx('action')}
+                                            onClick={() => handleUpdateClick(item)}
+                                            style={{ pointerEvents: isExpiry ? 'none' : 'all', }}
+                                        >Cập nhật</p>
+                                    </td>
                                     <td><p className={cx('action')} onClick={() => handleListenAudioClick(item)}>Nghe</p></td>
                                 </tr>
                             )
