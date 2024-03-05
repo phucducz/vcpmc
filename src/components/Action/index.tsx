@@ -1,12 +1,13 @@
-import { faAdd } from "@fortawesome/free-solid-svg-icons";
+import { faAdd, faXmark } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import classNames from "classnames/bind";
 import { ReactNode, memo, useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 
+import { useWindowsResize } from "~/context/hooks";
 import style from './Action.module.scss';
 import { Item } from "./Item";
-import { useWindowsResize } from "~/context/hooks";
+import { Icon } from "~/icons";
 
 const cx = classNames.bind(style);
 
@@ -55,13 +56,15 @@ export const Action = memo(<E extends React.ElementType<any>>({ data, className,
         return () => window.removeEventListener('mousedown', handleMouseDown);
     }, []);
 
+    console.log(data.length);
+
     return (
         <>{mobileMode
             ? <div ref={actionRef} className={cx('action-box')}>
-                <FontAwesomeIcon icon={faAdd} className={cx('action-box__icon')} />
+                <FontAwesomeIcon icon={activeActionBox ? faXmark : faAdd} className={cx('action-box__icon')} />
                 <ul
                     className={cx('action-box__container-content', activeActionBox && 'active')}
-                    style={{ height: activeActionBox ? `${data.length * 44 + 20}px` : 0 }}
+                    style={{ height: activeActionBox ? `${data.length * 44 + ((data.length - 1) * 20) + 10}px` : 0 }}
                 >
                     {data.map((item, index) => (
                         <li
@@ -73,8 +76,14 @@ export const Action = memo(<E extends React.ElementType<any>>({ data, className,
                             }}
                         >
                             {item.as
-                                ? <a href={item.href}>{item.title}</a>
-                                : <Link to='#'>{item.title}</Link>
+                                ? <a href={item.href}>
+                                    <p>{item.title}</p>
+                                    {item.icon}
+                                </a>
+                                : <Link to='#'>
+                                    <p>{item.title}</p>
+                                    {item.icon}
+                                </Link>
                             }
                         </li>
                     ))}
