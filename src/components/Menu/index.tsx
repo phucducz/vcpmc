@@ -6,6 +6,7 @@ import { faEllipsisV } from "@fortawesome/free-solid-svg-icons";
 import style from './Menu.module.scss';
 import { DropDown } from "../DropDown";
 import { Icon } from "~/icons";
+import { useMenu } from "~/context/hooks";
 
 const cx = classNames.bind(style);
 
