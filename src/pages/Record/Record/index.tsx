@@ -165,7 +165,9 @@ function RecordPage() {
             record.approvalDate !== '' && record.status !== 'Bị từ chối' && record.status !== ''
         ));
     }, [record.recordList]);
-
+        
+    console.log(record);
+    
     useEffect(() => {
         if (!record.recordList.length || !comboBoxData.length) return;
 
