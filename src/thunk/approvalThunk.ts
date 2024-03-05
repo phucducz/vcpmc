@@ -23,6 +23,8 @@ export const getApprovalList = createAsyncThunk(
 export const approveRecordList = createAsyncThunk(
     'record/approveRecordList',
     async (approvals: Array<Approval>) => {
+        console.log(approvals);
+        
         await approveRecords(approvals);
     }
 );

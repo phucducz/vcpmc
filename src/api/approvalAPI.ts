@@ -20,7 +20,12 @@ export const approveRecords = async (approvals: Array<Approval>) => {
     const batch = writeBatch(firestoreDatabase);
 
     approvals.forEach(approval => {
-        batch.set(doc(firestoreDatabase, "approvals", approval.id), approval);
+        let id = approval.id;
+
+        if (id === '')
+            id = Date.now().toString(36) + Math.random().toString(36).substr(2);
+
+        batch.set(doc(firestoreDatabase, "approvals", id), approval);
     });
 
     await batch.commit();
