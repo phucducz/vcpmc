@@ -7,6 +7,7 @@ import { Link } from "react-router-dom";
 import { useWindowsResize } from "~/context/hooks";
 import style from './Action.module.scss';
 import { Item } from "./Item";
+import { Icon } from "~/icons";
 
 const cx = classNames.bind(style);
 
