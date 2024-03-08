@@ -67,7 +67,7 @@
             position: relative;
             padding: 1rem;
         }
-
+      
         &>svg {
             width: 25px;
             height: 25px;
@@ -83,16 +83,6 @@
         &>li>a>p {
             opacity: 1;
         }
-    }
-}
-
-@keyframes showContentActionBox {
-    from {
-        width: 0;
-    }
-
-    to {
-        width: 100%;
     }
 }
 

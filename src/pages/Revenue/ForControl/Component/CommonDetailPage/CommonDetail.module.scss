@@ -11,12 +11,14 @@
     gap: 24px;
 }
 
-.container-left__contract-info {
-    height: 432px;
-}
+.contract-info-block,
+.for-control-block-info {
+    width: 100%;
 
-.container-left__for-control-info {
-    height: 386px;
+    &>div {
+        flex: unset;
+        justify-content: space-between;
+    }
 }
 
 .container-left__contract-info,
@@ -87,11 +89,12 @@
         align-items: center;
         justify-content: space-between;
         margin: 24px 0;
+        gap: 3rem;
 
         &>div:first-child {
             display: flex;
-            flex-direction: row;
             gap: 13px;
+            align-items: center;
 
             &>p {
                 font-weight: 700;
@@ -104,10 +107,62 @@
     }
 }
 
-@media screen and (max-width: '1850px') {
+@media screen and (max-width: 1850px) and (min-width: 1400px) {
     .history-for-control__container-right {
         &>div:last-child {
-            width: calc(100vw - 571px - 24px - 11rem - 17rem - 8rem);
+            width: calc(100vw - 571px - 3rem - 12rem - 110px) !important;
+        }
+    }
+
+    .history-for-control__container-right {
+        &>.filter-box {
+            flex-wrap: wrap;
+            gap: 3rem;
+            width: calc(100vw - 571px - 3rem - 12rem - 110px) !important;
+        }
+    }
+}
+
+@media screen and (max-width: '1780px') {
+    .history-for-control__container-right>.filter-box {
+        &>div:has(>input) {
+            width: 100%;
+
+            &>input {
+                width: 100%;
+            }
+        }
+    }
+}
+
+@media screen and (max-width: '1400px') {
+    .history-for-control {
+        &>div:last-child>div:last-child {
+            flex-direction: column;
+            align-items: center;
+        }
+    }
+}
+
+@media screen and (max-width: 651px) {
+    .history-for-control__container-right {
+        &>.filter-box {
+            flex-direction: column;
+        }
+    }
+
+    .container-left__contract-info,
+    .container-left__for-control-info {
+        width: calc(100vw - 8rem);
+    }
+}
+
+@media screen and (max-width: 453px) {
+    .history-for-control__container-right {
+        &>.filter-box {
+            &>div:first-child {
+                flex-direction: column;
+            }
         }
     }
 }

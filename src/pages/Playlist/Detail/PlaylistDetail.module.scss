@@ -4,7 +4,7 @@
     }
 }
 
-@media screen and (max-width: '900px') and (min-width: '470px') {
+@media screen and (max-width: '900px') and (min-width: '800px') {
     div:has(>table.playlist-detail-container) {
         width: calc(100vw - (8rem + 29.8rem)) !important;
     }

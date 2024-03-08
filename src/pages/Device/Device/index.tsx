@@ -27,7 +27,7 @@ function DeviceManagementPage() {
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
 
-    const { setActive } = useMenu();
+    const { setActive, setType } = useMenu();
 
     const device = useSelector((state: RootState) => state.device);
 
@@ -56,6 +56,7 @@ function DeviceManagementPage() {
 
     useEffect(() => {
         document.title = 'Quản lý thiết bị';
+        setType('dynamic');
 
         setHeaderColumn(['STT', 'Tên thiết bị', 'Trạng thái', 'Địa điểm', 'Hạn hợp đồng', 'MAC Addresss', 'Memory']);
 
@@ -170,17 +171,17 @@ function DeviceManagementPage() {
                     if (device.devices.slice(0, index + 1).filter(item => deviceItem.unitsUsed === item.unitsUsed).length === 1)
                         return { title: deviceItem.unitsUsed }
                     return { title: '' }
-                })],
+                })].filter(item => item.title !== ''),
                 visible: false,
                 size: 'xl',
-                activeData: 'Chọn nhóm tài khoản'
+                activeData: 'Tất cả'
             }, {
                 id: 1,
                 title: '',
                 data: [{ title: 'Tất cả' }, ...headerColumn.map(col => ({ title: col }))],
                 visible: false,
                 size: 'xl',
-                activeData: 'Ẩn hiện cột'
+                activeData: 'Tất cả'
             }
         ]);
     }, [device.devices, headerColumn]);
@@ -189,7 +190,7 @@ function DeviceManagementPage() {
         let value = searchValue.trim().toLowerCase();
         let result = device.devices;
         const groupAccount = comboBoxData.length && comboBoxData[0].activeData;
-
+        
         if (value === '')
             setSearchResult(device.devices);
 
@@ -284,20 +285,6 @@ function DeviceManagementPage() {
                 onClick={handleComboBoxClick}
                 onItemClick={handleComboBoxItemClick}
             />}
-            // actionFilter={<div>
-            //     {comboBoxData?.length && comboBoxData.map((item, index) => (
-            //         <ComboBox
-            //             key={index}
-            //             title={item.title}
-            //             active={item.activeData}
-            //             visible={item.visible}
-            //             data={item.data}
-            //             className={cx('combo-data')}
-            //             onClick={() => handleComboBoxClick(item)}
-            //             onItemClick={handleComboBoxItemClick}
-            //         />
-            //     ))}
-            // </div>}
             actionData={actionData}
         >
             <Table
