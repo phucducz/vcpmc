@@ -182,10 +182,6 @@ export const CommonPlaylistPage = memo(({ titlePage, type, paging, actionData, p
                         </div>
                         <div className={cx('container-table-data', 'table-data')}>
                             {children}
-                            {/* {type !== 'read' && <>
-                                <Button outline type='button' onClick={() => navigate(`/playlist-detail/${playlistDetail.playlistRecordId}`)}>Hủy</Button>
-                                <Button type='submit'>Lưu</Button>
-                            </>} */}
                         </div>
                     </div>
                     <div className={cx('playlist-form__action')}>

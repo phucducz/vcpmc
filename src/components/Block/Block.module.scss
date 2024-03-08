@@ -90,3 +90,13 @@
 input[type='datetime-local'] {
     width: 265px;
 }
+
+@media screen and (max-width: 650px) {
+    .block-info-container {
+        justify-content: center;
+
+        &>.block-info__item {
+            width: 100%;
+        }
+    }
+}

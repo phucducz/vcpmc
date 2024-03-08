@@ -34,11 +34,11 @@ const BlockInfoItem = memo(({ data }: { data: Array<BlockInfoItemProps> }) => {
                         : <p key={item.title}>{item.title}</p>
                 ))}
             </div>
-            <div className={cx('item__content__right')}>
-                {!mobileMode && data.map((item: BlockInfoItemProps) => (
+            {!mobileMode && <div className={cx('item__content__right')}>
+                {data.map((item: BlockInfoItemProps) => (
                     <p key={item.title}>{item.content}</p>
                 ))}
-            </div>
+            </div>}
         </div >
     );
 });

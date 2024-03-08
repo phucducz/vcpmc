@@ -165,8 +165,56 @@
     }
 }
 
-@media screen and (max-width: '470px') {
+@media screen and (max-width: 1760px) and (min-width: 900px) {
+    .common-page-container {
+        & div:has(>table) {
+            width: calc(100vw - 274px - 11rem - 12rem) !important;
+        }
+    }
+}
+
+@media screen and (max-width: 900px) and (min-width: 800px) {
+    .common-page-container {
+        & div:has(>table) {
+            width: calc(100vw - 274px - 12rem) !important;
+        }
+    }
+}
+
+@media screen and (max-width: 800px) {
     .playlist-form>div {
         flex-direction: column;
+    }
+
+    .container__playlist-info {
+        width: 100%;
+
+        & img {
+            width: 100%;
+        }
+    }
+
+    .info__header {
+        & div:has(>input[name='title']) {
+            width: 100%;
+
+            &>input {
+                width: 100% !important;
+            }
+        }
+    }
+
+    .container__playlist-info {
+        &>.info__description {
+            width: 100%;
+
+            & div:has(>textarea) {
+                width: 100%;
+
+                &>textarea {
+                    width: 100% !important;
+                }
+            }
+        }
     }
 }

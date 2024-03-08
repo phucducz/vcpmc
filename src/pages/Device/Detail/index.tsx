@@ -21,6 +21,7 @@ import { CommonPage } from "~/pages/CommonPage";
 import { RootState, useAppDispatch } from "~/store";
 import { changePasswordDevice, restoreMemory, updateDevice } from "~/thunk/deviceThunk";
 import style from './Detail.module.scss';
+import { BlockInfo } from "~/components/Block";
 
 const cx = classNames.bind(style);
 
@@ -295,20 +296,55 @@ function DeviceDetailPage() {
             title={`Thông tin thiết bị - ${title}`}
             actionData={actionData}
             pagingData={paging}
+            className={cx('device-container')}
         >
             <div className={cx('device-detail-container')}>
                 <div className={cx('device-detail__info-left')}>
                     <p className={cx('info-title')}>Thông tin thiết bị</p>
                     <Image src={deviceFormik.values.imageURL} alt='device-photo' width={340} height={160} />
                     <p className={cx('info-left__status', deviceFormik.values.status)}>{deviceFormik.values.statusDevice}</p>
-                    <div className={cx('info-left__note')}>
-                        <p>Ghi chú:</p>
-                        <p>{deviceFormik.values.note}</p>
-                    </div>
+                    <BlockInfo data={[{
+                        children: [
+                            {
+                                title: 'Ghi chú:',
+                                content: deviceFormik.values.note
+                            }
+                        ]
+                    }]}
+                        className={cx('block-info-content')}
+                    />
                 </div>
                 <div className={cx('device-detail__info-middle')}>
                     <p className={cx('info-title')}>{deviceFormik.values.name}</p>
-                    <div className={cx('info-content')}>
+                    <BlockInfo data={[{
+                        children: [
+                            {
+                                title: 'SKU/ID:',
+                                content: deviceFormik.values.SKUID
+                            }, {
+                                title: 'Địa chỉ Mac:',
+                                content: deviceFormik.values.macAddress
+                            }, {
+                                title: 'Tên đăng nhập:',
+                                content: deviceFormik.values.userName
+                            }, {
+                                title: 'Định dạng:',
+                                content: deviceFormik.values.format
+                            }, {
+                                title: 'Vị trí:',
+                                content: deviceFormik.values.operatingLocation
+                            }, {
+                                title: 'Thời hạn bảo hành:',
+                                content: deviceFormik.values.SKUID
+                            }, {
+                                title: 'Trạng thái thiết bị:',
+                                content: deviceFormik.values.status
+                            }
+                        ]
+                    }]}
+                        className={cx('block-info-content')}
+                    />
+                    {/* <div className={cx('info-content')}>
                         <div className={cx('info-content__left')}>
                             <p>SKU/ID:</p>
                             <p>Địa chỉ Mac:</p>
@@ -327,7 +363,7 @@ function DeviceDetailPage() {
                             <p>{deviceFormik.values.SKUID}</p>
                             <p>{deviceFormik.values.status}</p>
                         </div>
-                    </div>
+                    </div> */}
                 </div>
                 <div className={cx('device-detail__info-right')}>
                     <div className={cx('info-right__version')}>
@@ -343,7 +379,20 @@ function DeviceDetailPage() {
                     </div>
                     <div className={cx('info-right__memory')}>
                         <p className={cx('info-title')}>Dung lượng bộ nhớ</p>
-                        <div className={cx('memory__content')}>
+                        <BlockInfo data={[{
+                            children: [
+                                {
+                                    title: 'Dung lượng:',
+                                    content: deviceFormik.values.memory !== '' && deviceFormik.values.memory.split('/')[1]
+                                }, {
+                                    title: 'Còn trống:',
+                                    content: deviceFormik.values.memory !== '' && (parseFloat(deviceFormik.values.memory.split('/')[1]) - parseFloat(deviceFormik.values.memory.split('/')[0].split('.')[0]))
+                                }
+                            ]
+                        }]}
+                            className={cx('block-info-content')}
+                        />
+                        {/* <div className={cx('memory__content')}>
                             <div className={cx('memory__content__left')}>
                                 <p>Dung lượng</p>
                                 <p>Còn trống</p>
@@ -352,7 +401,7 @@ function DeviceDetailPage() {
                                 <p>{deviceFormik.values.memory !== '' && deviceFormik.values.memory.split('/')[1]}</p>
                                 <p>{deviceFormik.values.memory !== '' && (parseFloat(deviceFormik.values.memory.split('/')[1]) - parseFloat(deviceFormik.values.memory.split('/')[0].split('.')[0]))}GB</p>
                             </div>
-                        </div>
+                        </div> */}
                     </div>
                 </div>
             </div>

@@ -9,17 +9,14 @@
         }
 
         &>div {
+            width: 100%;
             display: flex;
             flex-direction: row-reverse;
             align-items: center;
             justify-content: space-between;
 
-            &>div {
-                width: max-content;
-
-                &>div {
-                    margin-top: 0;
-                }
+            &>div>div {
+                margin-top: 0;
             }
         }
     }
@@ -96,6 +93,14 @@ table {
     .device-management-container {
         &>div>div:first-child {
             width: calc(100vw - 21rem);
+        }
+    }
+}
+
+@media screen and (max-width: '725px') {
+    .device-management-container {
+        & input[name='search'] {
+            width: 100%;
         }
     }
 }

@@ -11,6 +11,7 @@ import { formatDateYMD, formatMoney } from "~/context";
 import { CommonPage } from "~/pages/CommonPage";
 import { RootState } from "~/store";
 import style from './CommonDetail.module.scss';
+import { BlockInfo } from "~/components/Block";
 
 const cx = classNames.bind(style);
 
@@ -82,7 +83,36 @@ export const CommonDetailPage = memo(({ title, pagingData, actionData }: CommonD
                     <div className={cx('container-left__contract-info')}>
                         <p>Thông tin hợp đồng</p>
                         <div>
-                            <div className={cx('contract-info__left')}>
+                            <BlockInfo
+                                data={[{
+                                    children: [
+                                        {
+                                            title: 'Số hợp đồng:',
+                                            content: entrustmentContract.code
+                                        }, {
+                                            title: 'Đơn vị khai thác:',
+                                            content: entrustmentContract.companyName
+                                        }, {
+                                            title: 'Loại hợp đồng:',
+                                            content: entrustmentContract.type
+                                        }, {
+                                            title: 'Hiệu lực từ:',
+                                            content: entrustmentContract.effectiveDate
+                                        }, {
+                                            title: 'Ngày hết hạn:',
+                                            content: entrustmentContract.expirationDate
+                                        }, {
+                                            title: 'Giá trị hợp đồng:',
+                                            content: `${entrustmentContract.CPM ? formatMoney(entrustmentContract.totalPlay * (entrustmentContract.CPM / 1000)).split('₫')[0] : 0} VNĐ}`
+                                        }, {
+                                            title: 'Giá trị phân phối theo ngày:',
+                                            content: `${entrustmentContract.CPM ? formatMoney(entrustmentContract.totalPlay * (entrustmentContract.CPM / 1000)).split('₫')[0] : 0} VNĐ}`
+                                        }
+                                    ]
+                                }]}
+                                className={cx('contract-info-block')}
+                            />
+                            {/* <div className={cx('contract-info__left')}>
                                 <p>Số hợp đồng:</p>
                                 <p>Đơn vị khai thác:</p>
                                 <p>Loại hợp đồng:</p>
@@ -99,18 +129,44 @@ export const CommonDetailPage = memo(({ title, pagingData, actionData }: CommonD
                                 <p>{entrustmentContract.expirationDate}</p>
                                 <p>{entrustmentContract.CPM ? formatMoney(entrustmentContract.totalPlay * (entrustmentContract.CPM / 1000)).split('₫')[0] : 0} VNĐ</p>
                                 <p>{entrustmentContract.CPM ? formatMoney(entrustmentContract.totalPlay * (entrustmentContract.CPM / 1000)).split('₫')[0] : 0} VNĐ</p>
-                            </div>
+                            </div> */}
                         </div>
                     </div>
                     <div className={cx('container-left__for-control-info')}>
                         <p>Thông tin đối soát</p>
                         <div>
-                            <div className={cx('contract-info__left')}>
+                            <BlockInfo
+                                data={[{
+                                    children: [
+                                        {
+                                            title: 'Ký đối soát:',
+                                            content: entrustmentContract.checkpointDate
+                                        }, {
+                                            title: 'Số bài hát:',
+                                            content: entrustmentContract.records.length
+                                        }, {
+                                            title: 'Tổng số lượt phát:',
+                                            content: entrustmentContract.totalPlay
+                                        }, {
+                                            title: 'Tổng doanh thu:',
+                                            content: `${entrustmentContract.CPM ? formatMoney(entrustmentContract.totalPlay * (entrustmentContract.CPM / 1000)).split('₫')[0] : 0} VNĐ}`
+                                        }, {
+                                            title: 'Doanh thu chưa phân phối:',
+                                            content: `${entrustmentContract.CPM ? formatMoney(entrustmentContract.totalPlay * (entrustmentContract.CPM / 1000)).split('₫')[0] : 0} VNĐ}`
+                                        }, {
+                                            title: 'Trạng thái đối soát:',
+                                            content: entrustmentContract.statusForControl
+                                        }
+                                    ]
+                                }]}
+                                className={cx('for-control-block-info')}
+                            />
+                            {/* <div className={cx('contract-info__left')}>
                                 <p>Ký đối soát:</p>
                                 <p>Số bài hát:</p>
                                 <p>Tổng số lượt phát:</p>
                                 <p>Tổng doanh thu:</p>
-                                <p>Doanh thu chưa phân phối::</p>
+                                <p>Doanh thu chưa phân phối:</p>
                                 <p>Trạng thái đối soát:</p>
                             </div>
                             <div className={cx('contract-info__right')}>
@@ -120,7 +176,7 @@ export const CommonDetailPage = memo(({ title, pagingData, actionData }: CommonD
                                 <p>{entrustmentContract.CPM ? formatMoney(entrustmentContract.totalPlay * (entrustmentContract.CPM / 1000)).split('₫')[0] : 0} VNĐ</p>
                                 <p>{entrustmentContract.CPM ? formatMoney(entrustmentContract.totalPlay * (entrustmentContract.CPM / 1000)).split('₫')[0] : 0} VNĐ</p>
                                 <p>{entrustmentContract.statusForControl}</p>
-                            </div>
+                            </div> */}
                         </div>
                     </div>
                 </div>
