@@ -25,7 +25,7 @@ function ConfigCategoriesPage() {
     const [paging, setPaging] = useState<Array<PagingItemType>>([] as Array<PagingItemType>);
     const [currentItems, setCurrentItems] = useState<Array<Category>>([] as Array<Category>);
     const [searchResult, setSearchResult] = useState<Array<Category>>([] as Array<Category>);
-    const [itemsPerPage, setItemsPerPage] = useState<string>('10');
+    const [itemsPerPage, setItemsPerPage] = useState<string>('8');
     const [actionData, setActionData] = useState<any[]>([] as any[]);
 
     useEffect(() => {

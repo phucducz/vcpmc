@@ -79,7 +79,8 @@ function RevenueManagementPage() {
         if (parseInt(dateList[0]) < 10) month = `0${dateList[0]}`;
         if (parseInt(dateList[1]) < 10) date = `0${dateList[1]}`;
 
-        setDate(`${dateList[dateList.length - 1]}-${month}-${date}`);
+        setDate(`2023-11-${date}`);
+        // setDate(`${dateList[dateList.length - 1]}-${month}-${date}`);
     }, []);
 
     useEffect(() => {
@@ -115,13 +116,12 @@ function RevenueManagementPage() {
 
     useEffect(() => {
         let value = searchValue.trim().toLowerCase();
-
         
         if (date === '') {
             setSearchResult(contractDetailList);
             return;
         }
-        
+
         let searchFilterDate = contractDetailList.filter(prev =>
             prev.records.some(record =>
                 record.recordPlays.some(recordPlay =>

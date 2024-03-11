@@ -46,6 +46,12 @@
     &>.container-layout__body {
         margin-left: 4rem;
         margin-top: 86px;
+        height: 100vh;
+        overflow: overlay;
+
+        &::-webkit-scrollbar {
+            display: none;
+        }
     }
 }
 

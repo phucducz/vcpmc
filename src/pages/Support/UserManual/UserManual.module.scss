@@ -104,10 +104,21 @@
 @media screen and (max-width: 960px) {
     .container {
         &>div:last-child>div {
-            width: max-content;
-            flex-direction: column;
-            align-items: flex-start;
-            margin: 0 auto;
+            &:first-child {
+                display: none;
+            }
+            
+            &:last-child {
+                width: max-content;
+                flex-direction: column;
+                align-items: flex-start;
+                margin: 0 auto;
+    
+                &>div {
+                    height: 50vh;
+                    overflow-y: overlay;
+                }
+            }
         }
 
         & .container__user-manual-detail {
