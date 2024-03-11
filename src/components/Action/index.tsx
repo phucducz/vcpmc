@@ -56,8 +56,6 @@ export const Action = memo(<E extends React.ElementType<any>>({ data, className,
         return () => window.removeEventListener('mousedown', handleMouseDown);
     }, []);
 
-    console.log(data.length);
-
     return (
         <>{mobileMode
             ? <div ref={actionRef} className={cx('action-box')}>
