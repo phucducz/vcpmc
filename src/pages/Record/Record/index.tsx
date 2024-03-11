@@ -166,8 +166,6 @@ function RecordPage() {
         ));
     }, [record.recordList]);
         
-    console.log(record);
-    
     useEffect(() => {
         if (!record.recordList.length || !comboBoxData.length) return;
 
