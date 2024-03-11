@@ -268,7 +268,8 @@ function RevenueReportPage() {
             ...filter,
             data: months,
             type: 'Theo tháng',
-            dataActive: `Tháng ${currentDate.getMonth() + 1}/${currentDate.getFullYear() - 1}`
+            dataActive: 'Tháng 11/2023'
+            // dataActive: `Tháng ${currentDate.getMonth() + 1}/${currentDate.getFullYear() - 1}`
         });
 
         setCurrentDate(currentDate);

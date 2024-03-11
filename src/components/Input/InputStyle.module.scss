@@ -124,5 +124,9 @@ input[type='date'] {
 @media screen and (max-width: '750px') {
     div:has(>input[name='search']) {
         width: 100%;
+
+        &>input {
+            width: 100% !important;
+        }
     }
 }

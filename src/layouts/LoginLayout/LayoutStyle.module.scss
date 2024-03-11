@@ -35,8 +35,7 @@
         }
 
         form div:has(>input) {
-            width: 90% !important;
-            margin: 0 auto;
+            width: 100% !important;
 
             & p {
                 max-width: 90%;

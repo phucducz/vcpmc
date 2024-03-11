@@ -142,6 +142,7 @@
 
     & div:has(>.container__feedbacks) {
         width: 571px !important;
+        height: 50vh;
     }
 
     & .container__feedbacks {
@@ -252,6 +253,7 @@
         .container__feedbacks-detail {
             width: calc(100vw - 8rem) !important;
             overflow-y: overlay;
+            height: 50vh;
         }
     }
 }

@@ -46,37 +46,6 @@
     }
 }
 
-// .filter-box__filter__arrow {
-//     width: 1rem;
-//     height: 1rem;
-//     position: absolute;
-//     top: 0;
-//     left: 38%;
-//     border-top: 1.3rem solid #2f2f41;
-//     border-left: 1.3rem solid transparent;
-//     transform: rotate(135deg);
-// }
-
-.filter-box__filter {
-    &::-webkit-scrollbar {
-        width: 0.7rem;
-    }
-
-    &::-webkit-scrollbar-track {
-        background: #3e3e5b;
-        border-radius: 1.6rem;
-    }
-
-    &::-webkit-scrollbar-thumb {
-        background: #727288;
-        border-radius: 1.6rem;
-    }
-
-    &::-webkit-scrollbar-thumb:hover {
-        background: #555;
-    }
-}
-
 .filter__item {
     &>p {
         font-size: 2rem;

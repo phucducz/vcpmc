@@ -41,20 +41,28 @@
     .form__input {
         &>div:has(>button) {
             &>button {
-                width: calc(50% - 3rem);
+                width: calc(50% - 3rem) !important;
             }
         }
     }
 }
 
-@media screen and (max-width: 620px) {
-    .form {
-        width: 100%;
+@media screen and (max-width: 543px) {
+    .form__input {
+        &>div:has(>button)>button {
+            padding: 1.6rem 0;
+        }
     }
 }
 
-@media screen and (max-width: 900px) {
-    .form {
-        width: 70vw;
-    }
-}
+// @media screen and (max-width: 620px) {
+//     .form {
+//         width: 100%;
+//     }
+// }
+
+// @media screen and (max-width: 900px) {
+//     .form {
+//         width: 70vw;
+//     }
+// }

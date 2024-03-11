@@ -33,6 +33,7 @@
 }
 
 @media screen and (max-width: 1760px) and (min-width: 900px) {
+
     .authorization-user-container,
     .user-role-container {
         &>div:last-child {
@@ -44,6 +45,7 @@
 }
 
 @media screen and (max-width: 900px) {
+
     .authorization-user-container,
     .user-role-container {
         &>div:last-child {
@@ -55,6 +57,7 @@
 }
 
 @media screen and (max-width: 1240px) {
+
     .authorization-user-container,
     .user-role-container {
         &>div:last-child {
@@ -62,12 +65,17 @@
                 flex-direction: column;
                 align-items: flex-start;
                 gap: 2rem;
+
+                &>div:last-child {
+                    width: 100%;
+                }
             }
         }
     }
 }
 
 @media screen and (max-width: 660px) {
+
     .authorization-user-container,
     .user-role-container {
         &>div:last-child {

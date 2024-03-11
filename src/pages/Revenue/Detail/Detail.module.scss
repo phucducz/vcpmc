@@ -15,6 +15,7 @@
     display: flex;
     align-items: flex-start;
     gap: 24px;
+    max-width: calc(100vw - 23rem);
 
     &>.revenue-detail__table-record {
         width: 1017px;
@@ -22,8 +23,8 @@
     }
 
     &>.table-right {
-        margin-top: -47px;
-        
+        margin-top: -50px;
+
         &>.table__record-plays {
             width: 645px;
             height: 723px;
@@ -52,6 +53,30 @@
             &+p {
                 margin-top: 5px;
             }
+        }
+    }
+}
+
+.revenue-detail__table {
+    & div:first-child {
+        margin-top: 2rem;
+    }
+}
+
+@media screen and (max-width: 1760px) and (min-width: 1320px) {
+    .revenue-detail__table {
+        & div:has(>table) {
+            width: max-content !important;
+        }
+    }
+}
+
+@media screen and (max-width: 1320px) {
+    .revenue-detail__table {
+        flex-direction: column;
+
+        &>.table-right {
+            margin-top: 0;
         }
     }
 }

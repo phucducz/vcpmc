@@ -32,7 +32,7 @@ function EditCategoriesPage() {
         name: '',
         description: ''
     });
-    const [itemsPerPage, setItemsPerPage] = useState<string>('10');
+    const [itemsPerPage, setItemsPerPage] = useState<string>('8');
     const [actionData, setActionData] = useState<any[]>([] as any[]);
     const [pageNum, setPageNum] = useState(1);
 
